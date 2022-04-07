@@ -1,4 +1,4 @@
-uuid: d0e6483c-984d-4773-ba73-2626ef75391a
+uuid: f0b8d72d-5e7f-419d-be9b-7cd561e08aff
 langcode: en
 status: true
 dependencies:
@@ -32,6 +32,7 @@ settings:
         -
           name: Tools
           items:
+            - language_selector
             - Source
   plugins:
     drupallink:

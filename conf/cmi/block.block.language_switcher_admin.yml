@@ -1,4 +1,4 @@
-uuid: b67a4df1-44b3-459f-a248-8d3b933bbcce
+uuid: 328ba31d-4e69-404c-a632-993e56486fc3
 langcode: en
 status: true
 dependencies:
@@ -8,7 +8,7 @@ dependencies:
   theme:
     - hdbt_admin
 _core:
-  default_config_hash: EgdQi5I38A9g1z8A-zNybRrIkjKM_M0sYfkG53hDJwc
+  default_config_hash: elfSz6Q1pJYMKZmEjWAjS3st0_XKf-XYD5RHEsZjhYM
 id: language_switcher_admin
 theme: hdbt_admin
 region: header
@@ -23,5 +23,5 @@ settings:
 visibility:
   request_path:
     id: request_path
-    pages: "/node/*\r\n/admin/content/integrations/tpr-unit/*/edit\r\n/admin/content/integrations/tpr-service/*/edit"
+    pages: "/node/*\r\n/admin/content/integrations/tpr-unit/*/edit\r\n/admin/content/integrations/tpr-service/*/edit\r\n/group/*/content/create/*"
     negate: true

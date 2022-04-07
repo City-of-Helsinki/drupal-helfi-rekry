@@ -15,12 +15,17 @@ jobs:
 
     services:
       db:
-        image: druidfi/db:mysql5.7-drupal
+        image: mariadb:10.7
+        env:
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
+          MYSQL_DATABASE: drupal
+          MYSQL_ROOT_PASSWORD: drupal
         ports:
           - 3306:3306
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
 
@@ -35,14 +40,14 @@ jobs:
           composer install
           $(drush sql:connect) < latest.sql
           drush cr && drush cim -y
-          composer update drupal/helfi_platform_config drupal/helfi_drupal_tools
+          composer update drupal/helfi_* drupal/hdbt* -W
           drush updb -y
           drush cex -y
           # Update platform
           drush helfi:tools:update-platform
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           committer: GitHub <noreply@github.com>
           author: actions-bot <actions-bot@users.noreply.github.com>
