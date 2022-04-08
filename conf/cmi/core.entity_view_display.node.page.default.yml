@@ -1,4 +1,4 @@
-uuid: 17517164-2fcb-4f1e-8950-f1f5fa648976
+uuid: 943f9cf3-e2aa-40f3-9833-7d3ec162e920
 langcode: en
 status: true
 dependencies:
@@ -14,10 +14,11 @@ dependencies:
     - node.type.page
   module:
     - entity_reference_revisions
+    - helfi_content
     - metatag
     - user
 _core:
-  default_config_hash: sNOG6x1EvyaK2gQbe76faZgElkaHmamOzji8jvk_Ce4
+  default_config_hash: Ak9FQqRfsa6VZqgDqCS6aTUhciwdWBpCSKMVqgmkd2Q
 id: node.page.default
 targetEntityType: node
 bundle: page
@@ -33,7 +34,7 @@ content:
     weight: 3
     region: content
   field_lead_in:
-    type: basic_string
+    type: text_span
     label: hidden
     settings: {  }
     third_party_settings: {  }

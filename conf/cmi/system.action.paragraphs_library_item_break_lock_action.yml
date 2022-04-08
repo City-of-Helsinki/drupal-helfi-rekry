@@ -1,0 +1,13 @@
+uuid: 56d238f0-2596-4f5e-8fa5-f874b3ab0f42
+langcode: en
+status: true
+dependencies:
+  module:
+    - content_lock
+_core:
+  default_config_hash: sJ3KkrUPxt8PPZPSN87SG7Dj-YBkkWl-ztAmgWl78d8
+id: paragraphs_library_item_break_lock_action
+label: 'Break lock paragraphs_library_item'
+type: paragraphs_library_item
+plugin: 'entity:break_lock:paragraphs_library_item'
+configuration: {  }

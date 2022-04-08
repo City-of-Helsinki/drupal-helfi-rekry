@@ -1,4 +1,4 @@
-uuid: f2faa1f9-d5dd-4bed-98b4-554c0b7fd75b
+uuid: 4b7debe2-45ad-4498-a34b-d22e17eba3cb
 langcode: en
 status: true
 dependencies:
@@ -6,15 +6,17 @@ dependencies:
     - field.field.paragraph.gallery_slide.field_gallery_slide_caption
     - field.field.paragraph.gallery_slide.field_gallery_slide_media
     - paragraphs.paragraphs_type.gallery_slide
+  module:
+    - helfi_content
 _core:
-  default_config_hash: 1gOPocP4wZc4p4xU8WlYTuVsVgW5JzjrNGdSPAB7PTw
+  default_config_hash: lCNtV97a_4R-HmVPIV6QDL0SNFFIGLB1st2uM8edGEk
 id: paragraph.gallery_slide.default
 targetEntityType: paragraph
 bundle: gallery_slide
 mode: default
 content:
   field_gallery_slide_caption:
-    type: basic_string
+    type: text_span
     label: inline
     settings: {  }
     third_party_settings: {  }

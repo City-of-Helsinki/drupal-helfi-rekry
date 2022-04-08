@@ -1,4 +1,4 @@
-uuid: 9e02d19c-4b75-449c-870c-89bf51cd6820
+uuid: d1fe6f3c-f915-49fc-b1e0-6971e477b06e
 langcode: en
 status: true
 dependencies:
@@ -16,7 +16,4 @@ permissions:
   - 'access content'
   - 'display eu cookie compliance popup'
   - 'view media'
-  - 'view media'
-  - 'access content'
   - 'view remote entities'
-  - 'display eu cookie compliance popup'
