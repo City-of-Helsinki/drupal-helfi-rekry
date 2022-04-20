@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_external_id
+    - taxonomy.vocabulary.organization
+id: taxonomy_term.organization.field_external_id
+field_name: field_external_id
+entity_type: taxonomy_term
+bundle: organization
+label: 'External ID'
+description: 'Helbit ID for the organization.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

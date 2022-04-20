@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Contains install functions for HELfi Rekry Content module
+ */
+
+use Drupal\helfi_platform_config\ConfigHelper;
+
+/**
+ * Implements hook_install().
+ */
+function helfi_rekry_content_install($is_syncing) {
+  // Do not perform following steps if the module is being installed as part
+  // of a configuration import.
+  if (!$is_syncing && Drupal::moduleHandler()->moduleExists('update_helper')) {
+    helfi_rekry_content_update_9001();
+  }
+}
+
+/**
+ * HELfi Rekry Content initial configurations
+ */
+function helfi_rekry_content_update_9001() {
+  // Install config translations
+  $configTranslationLocation = dirname(__FILE__) . '/config/language/';
+
+  $configurations = [
+    'field.field.taxonomy_term.organization.field_default_image',
+    'field.field.taxonomy_term.organization.field_external_id',
+    'taxonomy.vocabulary.organization'
+  ];
+
+  foreach($configurations as $configuration) {
+    ConfigHelper::installNewConfigTranslation($configTranslationLocation, $configuration);
+  }
+}
