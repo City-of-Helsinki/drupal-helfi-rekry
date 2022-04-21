@@ -1,0 +1,21 @@
+uuid: 6b6f2a39-f5be-43e2-9b88-bbd6788cefad
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_recruitment_id
+field_name: field_recruitment_id
+entity_type: node
+type: string
+settings:
+  max_length: 40
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

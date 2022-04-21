@@ -1,0 +1,19 @@
+uuid: b0a842b5-291e-45c6-a086-3610227eacd7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_address
+    - node.type.job_listing
+id: node.job_listing.field_address
+field_name: field_address
+entity_type: node
+bundle: job_listing
+label: Address
+description: 'Address where the job takes place.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
