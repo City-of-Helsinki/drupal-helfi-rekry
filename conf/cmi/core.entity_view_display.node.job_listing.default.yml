@@ -1,0 +1,189 @@
+uuid: 47d3fe9b-0aff-4834-9a65-d2d2bfec5255
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.job_listing.body
+    - field.field.node.job_listing.field_address
+    - field.field.node.job_listing.field_anonymous
+    - field.field.node.job_listing.field_contacts
+    - field.field.node.job_listing.field_image
+    - field.field.node.job_listing.field_job_duration
+    - field.field.node.job_listing.field_jobs
+    - field.field.node.job_listing.field_last_changed_remote
+    - field.field.node.job_listing.field_link_to_application
+    - field.field.node.job_listing.field_link_to_presentation
+    - field.field.node.job_listing.field_organization
+    - field.field.node.job_listing.field_organization_description
+    - field.field.node.job_listing.field_postal_area
+    - field.field.node.job_listing.field_recruitment_id
+    - field.field.node.job_listing.field_salary
+    - field.field.node.job_listing.field_salary_class
+    - field.field.node.job_listing.field_video
+    - node.type.job_listing
+  module:
+    - datetime
+    - image
+    - link
+    - text
+    - user
+id: node.job_listing.default
+targetEntityType: node
+bundle: job_listing
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_address:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_anonymous:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_contacts:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_job_duration:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_jobs:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_last_changed_remote:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_link_to_application:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_link_to_presentation:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_organization:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_organization_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_postal_area:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 115
+    region: content
+  field_recruitment_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_salary:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_salary_class:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_video:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 117
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true
+  toc_enabled: true

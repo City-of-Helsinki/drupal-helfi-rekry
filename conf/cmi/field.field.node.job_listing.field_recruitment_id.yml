@@ -1,0 +1,19 @@
+uuid: b5800c26-9ca2-4b1d-872f-91d901a46dfe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_recruitment_id
+    - node.type.job_listing
+id: node.job_listing.field_recruitment_id
+field_name: field_recruitment_id
+entity_type: node
+bundle: job_listing
+label: 'Recruitment ID'
+description: 'Unique recruitment ID for the listing.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

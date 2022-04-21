@@ -1,0 +1,21 @@
+uuid: 32e844af-2f7e-408a-8596-40715492bd7b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_last_changed_remote
+    - node.type.job_listing
+  module:
+    - datetime
+id: node.job_listing.field_last_changed_remote
+field_name: field_last_changed_remote
+entity_type: node
+bundle: job_listing
+label: 'Last changed (remote)'
+description: 'Time of latest change in remote system (Helbit).'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

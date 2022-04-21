@@ -1,0 +1,19 @@
+uuid: ed01a9ae-fcfd-4846-a1b1-5043890f8ee9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_salary_class
+    - node.type.job_listing
+id: node.job_listing.field_salary_class
+field_name: field_salary_class
+entity_type: node
+bundle: job_listing
+label: 'Salary class'
+description: 'Salary class for the job.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
