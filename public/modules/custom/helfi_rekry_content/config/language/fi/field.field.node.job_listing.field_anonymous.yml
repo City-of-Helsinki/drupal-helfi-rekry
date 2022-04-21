@@ -1,0 +1,5 @@
+label: Anonyymihaku
+description: 'Merkitsee haun anonyymihauksi.'
+settings:
+  on_label: Päällä
+  off_label: 'Pois päältä'

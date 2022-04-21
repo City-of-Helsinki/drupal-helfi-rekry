@@ -1,0 +1,19 @@
+uuid: 323e0d4a-131a-4b78-ba1d-9165978e5e5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_postal_code
+    - node.type.job_listing
+id: node.job_listing.field_postal_code
+field_name: field_postal_code
+entity_type: node
+bundle: job_listing
+label: 'Postal code'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

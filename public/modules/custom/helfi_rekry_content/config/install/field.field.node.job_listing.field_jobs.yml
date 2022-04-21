@@ -1,0 +1,25 @@
+uuid: da66779e-5b29-406f-84af-644974e58b4c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_jobs
+    - node.type.job_listing
+id: node.job_listing.field_jobs
+field_name: field_jobs
+entity_type: node
+bundle: job_listing
+label: Jobs
+description: 'Number of vacancies for the position.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
