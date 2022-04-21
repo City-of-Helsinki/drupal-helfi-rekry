@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
     - field.field.node.job_listing.field_postal_area
+    - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_recruitment_id
     - field.field.node.job_listing.field_salary
     - field.field.node.job_listing.field_salary_class
@@ -23,7 +24,6 @@ dependencies:
     - node.type.job_listing
   module:
     - datetime
-    - image
     - link
     - text
     - user
@@ -65,13 +65,13 @@ content:
     weight: 113
     region: content
   field_image:
-    type: image
+    type: entity_reference_entity_view
     label: above
     settings:
-      image_link: ''
-      image_style: ''
+      view_mode: default
+      link: false
     third_party_settings: {  }
-    weight: 104
+    weight: 119
     region: content
   field_job_duration:
     type: string
@@ -145,6 +145,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 115
+    region: content
+  field_postal_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 118
     region: content
   field_recruitment_id:
     type: string

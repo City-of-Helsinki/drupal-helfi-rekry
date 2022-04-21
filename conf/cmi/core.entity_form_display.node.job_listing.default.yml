@@ -16,16 +16,15 @@ dependencies:
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
     - field.field.node.job_listing.field_postal_area
+    - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_recruitment_id
     - field.field.node.job_listing.field_salary
     - field.field.node.job_listing.field_salary_class
     - field.field.node.job_listing.field_video
-    - image.style.thumbnail
     - node.type.job_listing
   module:
     - datetime
     - hdbt_admin_editorial
-    - image
     - link
     - media_library
     - path
@@ -76,12 +75,11 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_image:
-    type: image_image
-    weight: 124
+    type: media_library_widget
+    weight: 139
     region: content
     settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
+      media_types: {  }
     third_party_settings: {  }
   field_job_duration:
     type: string_textfield
@@ -141,6 +139,14 @@ content:
   field_postal_area:
     type: string_textfield
     weight: 135
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_postal_code:
+    type: string_textfield
+    weight: 138
     region: content
     settings:
       size: 60

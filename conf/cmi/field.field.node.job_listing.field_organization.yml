@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_organization
     - node.type.job_listing
-    - taxonomy.vocabulary.organization
 id: node.job_listing.field_organization
 field_name: field_organization
 entity_type: node
@@ -19,8 +18,7 @@ default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'
   handler_settings:
-    target_bundles:
-      organization: organization
+    target_bundles: {  }
     sort:
       field: name
       direction: asc

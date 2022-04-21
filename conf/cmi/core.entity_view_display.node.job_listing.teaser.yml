@@ -17,6 +17,7 @@ dependencies:
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
     - field.field.node.job_listing.field_postal_area
+    - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_recruitment_id
     - field.field.node.job_listing.field_salary
     - field.field.node.job_listing.field_salary_class
@@ -56,6 +57,7 @@ hidden:
   field_organization: true
   field_organization_description: true
   field_postal_area: true
+  field_postal_code: true
   field_recruitment_id: true
   field_salary: true
   field_salary_class: true
