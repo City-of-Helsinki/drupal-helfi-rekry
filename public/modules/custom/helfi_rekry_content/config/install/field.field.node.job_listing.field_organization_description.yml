@@ -1,0 +1,25 @@
+uuid: c5e81b98-ad26-4b2a-bc10-69b699b0a6a7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_organization_description
+    - node.type.job_listing
+  module:
+    - allowed_formats
+    - text
+third_party_settings:
+  allowed_formats:
+    allowed_formats: {  }
+id: node.job_listing.field_organization_description
+field_name: field_organization_description
+entity_type: node
+bundle: job_listing
+label: 'Organization description'
+description: 'Concise description of the  listing''s organization. If empty, use fallback from the organization taxonomy.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
