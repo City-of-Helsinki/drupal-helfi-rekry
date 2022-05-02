@@ -1,0 +1,16 @@
+uuid: 43e4ae54-bfa4-40da-ac22-06e98ab75906
+langcode: fi
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.employment_type
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.employment_type
+target_entity_type_id: taxonomy_term
+target_bundle: employment_type
+default_langcode: site_default
+language_alterable: false

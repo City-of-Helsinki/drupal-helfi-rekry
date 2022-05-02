@@ -1,0 +1,5 @@
+services:
+  Drupal\helfi_rekry_content\EventSubscriber\ImageImportSubscriber:
+    arguments: ['@file_system']
+    tags:
+      - { name: 'event_subscriber' }

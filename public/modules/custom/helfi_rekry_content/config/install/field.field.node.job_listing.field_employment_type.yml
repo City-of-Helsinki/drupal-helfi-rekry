@@ -1,0 +1,29 @@
+uuid: 2311d9d3-a95a-4b34-8500-b4061bc58f8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_employment_type
+    - node.type.job_listing
+    - taxonomy.vocabulary.employment_type
+id: node.job_listing.field_employment_type
+field_name: field_employment_type
+entity_type: node
+bundle: job_listing
+label: 'Employment type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      employment_type: employment_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

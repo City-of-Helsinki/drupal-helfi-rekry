@@ -1,0 +1,13 @@
+uuid: 677c411d-05ef-40f9-99d1-1e9a232ac745
+langcode: fi
+status: true
+dependencies: {  }
+id: job_listing_image
+label: 'Job listing image'
+description: ''
+source: image
+queue_thumbnail_downloads: false
+new_revision: false
+source_configuration:
+  source_field: field_media_image
+field_map: {  }

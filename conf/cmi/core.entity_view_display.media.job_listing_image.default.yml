@@ -1,0 +1,30 @@
+uuid: c40d8b2f-1639-4315-be9d-268835d75007
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.field.media.job_listing_image.field_media_image
+    - image.style.large
+    - media.type.job_listing_image
+  module:
+    - image
+id: media.job_listing_image.default
+targetEntityType: media
+bundle: job_listing_image
+mode: default
+content:
+  field_media_image:
+    type: image
+    label: visually_hidden
+    settings:
+      image_link: ''
+      image_style: large
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  created: true
+  langcode: true
+  name: true
+  thumbnail: true
+  uid: true

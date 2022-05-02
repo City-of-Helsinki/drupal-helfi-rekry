@@ -1,0 +1,38 @@
+uuid: 364361bc-b3fc-4c6f-8b49-b47416ed8a09
+langcode: fi
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.media.media_library
+    - field.field.media.job_listing_image.field_media_image
+    - image.style.thumbnail
+    - media.type.job_listing_image
+  module:
+    - image
+id: media.job_listing_image.media_library
+targetEntityType: media
+bundle: job_listing_image
+mode: media_library
+content:
+  field_media_image:
+    type: image_image
+    weight: 5
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  langcode: true
+  path: true
+  status: true
+  uid: true

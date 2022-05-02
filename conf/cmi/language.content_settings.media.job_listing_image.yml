@@ -1,0 +1,11 @@
+uuid: 02f33bf4-179e-49f0-a7c9-4253f6722f0a
+langcode: fi
+status: true
+dependencies:
+  config:
+    - media.type.job_listing_image
+id: media.job_listing_image
+target_entity_type_id: media
+target_bundle: job_listing_image
+default_langcode: site_default
+language_alterable: false

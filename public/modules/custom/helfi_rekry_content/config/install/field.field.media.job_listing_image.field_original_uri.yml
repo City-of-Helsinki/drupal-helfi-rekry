@@ -1,0 +1,19 @@
+uuid: 7b52c3b8-7e61-4d60-8104-01c66fb3e3af
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_original_uri
+    - media.type.job_listing_image
+id: media.job_listing_image.field_original_uri
+field_name: field_original_uri
+entity_type: media
+bundle: job_listing_image
+label: 'Original URI'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.job_listing.field_link_to_presentation
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
+    - field.field.node.job_listing.field_organization_name
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_recruitment_id
@@ -126,6 +127,14 @@ content:
     region: content
     settings:
       rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_organization_name:
+    type: string_textfield
+    weight: 142
+    region: content
+    settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_postal_area:
@@ -281,4 +290,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_employment: true
+  field_employment_type: true
