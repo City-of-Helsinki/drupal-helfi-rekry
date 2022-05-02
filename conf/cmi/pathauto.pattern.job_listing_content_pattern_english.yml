@@ -1,0 +1,33 @@
+uuid: ed6c02c3-df81-488f-81ae-595bc21c6750
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: job_listing_content_pattern_english
+label: 'Job listing content pattern - English'
+type: 'canonical_entities:node'
+pattern: '[node:menu-link:parents:join-path]/open-jobs/[node:field_recruitment_id]'
+selection_criteria:
+  bd59eaac-7f76-4e22-b6df-af29b44d3d61:
+    id: node_type
+    negate: false
+    uuid: bd59eaac-7f76-4e22-b6df-af29b44d3d61
+    context_mapping:
+      node: node
+    bundles:
+      job_listing: job_listing
+  2518b3d8-cc28-47e1-bbc0-acdbabfaa01d:
+    id: language
+    negate: false
+    uuid: 2518b3d8-cc28-47e1-bbc0-acdbabfaa01d
+    context_mapping:
+      language: 'node:langcode:language'
+    langcodes:
+      en: en
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language
