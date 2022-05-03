@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.job_listing.body
+    - field.field.node.job_listing.job_description
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
@@ -31,7 +31,7 @@ targetEntityType: node
 bundle: job_listing
 mode: teaser
 content:
-  body:
+  job_description:
     type: text_summary_or_trimmed
     label: hidden
     settings:

@@ -3,15 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.body
+    - field.storage.node.job_description
     - node.type.job_listing
   module:
     - text
-id: node.job_listing.body
-field_name: body
+id: node.job_listing.job_description
+field_name: job_description
 entity_type: node
 bundle: job_listing
-label: Body
+label: Job description
 description: ''
 required: false
 translatable: true

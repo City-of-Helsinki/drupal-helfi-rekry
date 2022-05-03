@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.job_listing.body
+    - field.field.node.job_listing.job_description
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
@@ -35,7 +35,7 @@ targetEntityType: node
 bundle: job_listing
 mode: default
 content:
-  body:
+  job_description:
     type: text_textarea_with_summary
     weight: 121
     region: content
