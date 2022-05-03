@@ -1,0 +1,16 @@
+uuid: 4ef99514-6b8e-46f0-8132-e439329bb28a
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.job_listing
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.job_listing
+target_entity_type_id: node
+target_bundle: job_listing
+default_langcode: site_default
+language_alterable: false

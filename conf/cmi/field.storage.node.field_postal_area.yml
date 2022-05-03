@@ -1,12 +1,12 @@
-uuid: a49925e6-5bf2-4523-9488-6087e21c77a9
+uuid: 5f39d5a1-5f8b-4091-b56e-2341f80225ae
 langcode: en
 status: true
 dependencies:
   module:
-    - taxonomy
-id: taxonomy_term.field_external_id
-field_name: field_external_id
-entity_type: taxonomy_term
+    - node
+id: node.field_postal_area
+field_name: field_postal_area
+entity_type: node
 type: string
 settings:
   max_length: 255

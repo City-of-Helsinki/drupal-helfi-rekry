@@ -1,12 +1,12 @@
-uuid: a49925e6-5bf2-4523-9488-6087e21c77a9
+uuid: 2fcc2cc4-d79c-4d5d-8827-edc5d877baf9
 langcode: en
 status: true
 dependencies:
   module:
-    - taxonomy
-id: taxonomy_term.field_external_id
-field_name: field_external_id
-entity_type: taxonomy_term
+    - node
+id: node.field_job_duration
+field_name: field_job_duration
+entity_type: node
 type: string
 settings:
   max_length: 255

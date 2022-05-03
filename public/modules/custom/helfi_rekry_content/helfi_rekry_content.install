@@ -15,6 +15,7 @@ function helfi_rekry_content_install($is_syncing) {
   // of a configuration import.
   if (!$is_syncing && Drupal::moduleHandler()->moduleExists('update_helper')) {
     helfi_rekry_content_update_9001();
+    helfi_rekry_content_update_9002();
   }
 }
 
@@ -29,6 +30,44 @@ function helfi_rekry_content_update_9001() {
     'field.field.taxonomy_term.organization.field_default_image',
     'field.field.taxonomy_term.organization.field_external_id',
     'taxonomy.vocabulary.organization'
+  ];
+
+  foreach($configurations as $configuration) {
+    ConfigHelper::installNewConfigTranslation($configTranslationLocation, $configuration);
+  }
+}
+
+
+/**
+ * HELfi Rekry content update 9002.
+ */
+function helfi_rekry_content_update_9002() {
+  // Install config translations
+  $configTranslationLocation = dirname(__FILE__) . '/config/language/';
+
+  $configurations = [
+    'field.field.node.job_listing.field_address.yml',
+    'field.field.node.job_listing.field_anonymous.yml',
+    'field.field.node.job_listing.field_contacts.yml',
+    'field.field.node.job_listing.field_image.yml',
+    'field.field.node.job_listing.field_job_duration.yml',
+    'field.field.node.job_listing.field_jobs.yml',
+    'field.field.node.job_listing.field_last_changed_remote.yml',
+    'field.field.node.job_listing.field_link_to_application.yml',
+    'field.field.node.job_listing.field_link_to_presentation.yml',
+    'field.field.node.job_listing.field_organization.yml',
+    'field.field.node.job_listing.field_organization_description.yml',
+    'field.field.node.job_listing.field_postal_area.yml',
+    'field.field.node.job_listing.field_postal_code.yml',
+    'field.field.node.job_listing.field_recruitment_id.yml',
+    'field.field.node.job_listing.field_recruitment_type.yml',
+    'field.field.node.job_listing.field_salary.yml',
+    'field.field.node.job_listing.field_salary_class.yml',
+    'field.field.node.job_listing.field_task_area.yml',
+    'field.field.node.job_listing.field_video.yml',
+    'field.field.node.job_listing.job_description.yml',
+    'node.type.job_listing.yml',
+    'taxonomy.vocabulary.task_area.yml',
   ];
 
   foreach($configurations as $configuration) {
