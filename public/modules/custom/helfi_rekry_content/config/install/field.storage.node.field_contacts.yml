@@ -1,19 +1,19 @@
-uuid: 07d176c9-474d-4f84-93f5-33dff19af6e9
+uuid: 88ba170e-9f39-4bb6-b17e-68cec6f08d4a
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - text
-id: node.job_description
-field_name: job_description
+id: node.field_contacts
+field_name: field_contacts
 entity_type: node
-type: text_with_summary
+type: text_long
 settings: {  }
 module: text
 locked: false
 cardinality: 1
 translatable: true
 indexes: {  }
-persist_with_no_fields: true
+persist_with_no_fields: false
 custom_storage: false

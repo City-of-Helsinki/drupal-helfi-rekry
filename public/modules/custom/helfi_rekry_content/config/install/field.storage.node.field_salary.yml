@@ -1,12 +1,12 @@
-uuid: a49925e6-5bf2-4523-9488-6087e21c77a9
+uuid: 0715fe56-d7d9-40b4-abd2-7141ea2df679
 langcode: en
 status: true
 dependencies:
   module:
-    - taxonomy
-id: taxonomy_term.field_external_id
-field_name: field_external_id
-entity_type: taxonomy_term
+    - node
+id: node.field_salary
+field_name: field_salary
+entity_type: node
 type: string
 settings:
   max_length: 255

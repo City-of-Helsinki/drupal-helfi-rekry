@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.job_listing.job_description
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
@@ -18,9 +17,12 @@ dependencies:
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_recruitment_id
+    - field.field.node.job_listing.field_recruitment_type
     - field.field.node.job_listing.field_salary
     - field.field.node.job_listing.field_salary_class
+    - field.field.node.job_listing.field_task_area
     - field.field.node.job_listing.field_video
+    - field.field.node.job_listing.job_description
     - node.type.job_listing
   module:
     - datetime
@@ -35,16 +37,6 @@ targetEntityType: node
 bundle: job_listing
 mode: default
 content:
-  job_description:
-    type: text_textarea_with_summary
-    weight: 121
-    region: content
-    settings:
-      rows: 9
-      summary_rows: 3
-      placeholder: ''
-      show_summary: false
-    third_party_settings: {  }
   created:
     type: datetime_timestamp
     weight: 10
@@ -160,6 +152,13 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_recruitment_type:
+    type: number
+    weight: 141
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
   field_salary:
     type: string_textfield
     weight: 129
@@ -176,12 +175,32 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_task_area:
+    type: entity_reference_autocomplete
+    weight: 140
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_video:
     type: media_library_widget
     weight: 137
     region: content
     settings:
       media_types: {  }
+    third_party_settings: {  }
+  job_description:
+    type: text_textarea_with_summary
+    weight: 121
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
     third_party_settings: {  }
   langcode:
     type: language_select

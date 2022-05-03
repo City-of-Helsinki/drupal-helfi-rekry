@@ -1,19 +1,17 @@
-uuid: fb9d6d91-9af0-4575-9589-ef2dc9294c52
+uuid: 77f5c0af-7517-4d83-a843-e15d977a62a2
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_organization
+    - field.storage.node.field_task_area
     - node.type.job_listing
-    - taxonomy.vocabulary.organization
-_core:
-  default_config_hash: goBeY3-MCYNCQBkrGRk0h-IY94mibPcxHadivo_yXww
-id: node.job_listing.field_organization
-field_name: field_organization
+    - taxonomy.vocabulary.task_area
+id: node.job_listing.field_task_area
+field_name: field_task_area
 entity_type: node
 bundle: job_listing
-label: Organization
-description: 'Job listing''s publishing organization.'
+label: 'Task area'
+description: 'Associated task area for the job.'
 required: false
 translatable: false
 default_value: {  }
@@ -22,7 +20,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      organization: organization
+      task_area: task_area
     sort:
       field: name
       direction: asc

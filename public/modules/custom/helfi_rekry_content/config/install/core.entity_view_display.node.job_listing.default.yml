@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.job_listing.job_description
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
@@ -18,9 +17,12 @@ dependencies:
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_recruitment_id
+    - field.field.node.job_listing.field_recruitment_type
     - field.field.node.job_listing.field_salary
     - field.field.node.job_listing.field_salary_class
+    - field.field.node.job_listing.field_task_area
     - field.field.node.job_listing.field_video
+    - field.field.node.job_listing.job_description
     - node.type.job_listing
   module:
     - datetime
@@ -32,13 +34,6 @@ targetEntityType: node
 bundle: job_listing
 mode: default
 content:
-  job_description:
-    type: text_default
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 101
-    region: content
   field_address:
     type: string
     label: above
@@ -162,6 +157,15 @@ content:
     third_party_settings: {  }
     weight: 106
     region: content
+  field_recruitment_type:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 121
+    region: content
   field_salary:
     type: string
     label: above
@@ -178,6 +182,14 @@ content:
     third_party_settings: {  }
     weight: 110
     region: content
+  field_task_area:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 120
+    region: content
   field_video:
     type: entity_reference_entity_view
     label: above
@@ -186,6 +198,13 @@ content:
       link: false
     third_party_settings: {  }
     weight: 117
+    region: content
+  job_description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
     region: content
   links:
     settings: {  }

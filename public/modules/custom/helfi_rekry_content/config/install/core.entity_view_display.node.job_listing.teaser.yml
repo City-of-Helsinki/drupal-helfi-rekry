@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.job_listing.job_description
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
@@ -19,9 +18,12 @@ dependencies:
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_recruitment_id
+    - field.field.node.job_listing.field_recruitment_type
     - field.field.node.job_listing.field_salary
     - field.field.node.job_listing.field_salary_class
+    - field.field.node.job_listing.field_task_area
     - field.field.node.job_listing.field_video
+    - field.field.node.job_listing.job_description
     - node.type.job_listing
   module:
     - text
@@ -59,8 +61,10 @@ hidden:
   field_postal_area: true
   field_postal_code: true
   field_recruitment_id: true
+  field_recruitment_type: true
   field_salary: true
   field_salary_class: true
+  field_task_area: true
   field_video: true
   langcode: true
   toc_enabled: true
