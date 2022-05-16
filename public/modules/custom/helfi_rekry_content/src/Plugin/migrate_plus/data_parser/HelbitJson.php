@@ -44,7 +44,7 @@ class HelbitJson extends Json {
       return [];
     }
 
-    \Drupal::logger(t('Failed retrieving data from Helbit. Request failed with code: @status_code'), [
+    \Drupal::logger('helfi_rekry_content')->error(t('Failed retrieving data from Helbit. Request failed with code: @status_code'), [
       '@status_code' => $source_data['status'],
     ]);
 
