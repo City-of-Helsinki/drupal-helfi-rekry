@@ -36,10 +36,15 @@ function _helfi_rekry_content_get_media_image(string|null $fid = NULL): ?string 
   }
 
   $entityQuery = \Drupal::entityQuery('media')
-  ->condition('bundle', 'job_listing_image')
-  ->condition('field_media_image.target_id', $fid);
+    ->condition('bundle', 'job_listing_image')
+    ->condition('field_media_image.target_id', $fid);
+  $ids = $entityQuery->execute();
 
-  return reset($entityQuery->execute());
+  if(!empty($ids)) {
+    return reset($ids);
+  }
+
+  return NULL;
 }
 
 /**
