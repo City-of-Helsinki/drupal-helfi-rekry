@@ -1,0 +1,7 @@
+services:
+  Drupal\helfi_rekry_content\EventSubscriber\ImageImportSubscriber:
+    arguments: ['@file_system', '@config.factory']
+    tags:
+      - { name: 'event_subscriber' }
+  Drupal\helfi_rekry_content\Plugin\Deriver:
+    arguments: ['@config.factory']
