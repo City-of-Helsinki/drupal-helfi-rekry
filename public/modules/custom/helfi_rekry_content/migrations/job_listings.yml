@@ -159,6 +159,14 @@ process:
       plugin: callback
       callable: _helfi_rekry_add_schema
       source: link_to_presentation
+  field_organization/target_id:
+    plugin: entity_lookup
+    entity_type: taxonomy_term
+    value_key: field_external_id
+    source: organization
+    bundle_key: vid
+    bundle: organization
+    ignore_case: true
   field_organization_description: organization_description
   field_organization_name: organization_name
   field_postal_area: postal_area

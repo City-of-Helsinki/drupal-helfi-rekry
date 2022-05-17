@@ -30,11 +30,11 @@ source:
     id:
       type: string
 process:
-  tid: id
   name: name
   langcode: 
     plugin: default_value
     default_value: fi
+  field_external_id: id
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: organization
