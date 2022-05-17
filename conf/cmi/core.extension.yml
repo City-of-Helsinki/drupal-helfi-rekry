@@ -39,6 +39,7 @@ module:
   hdbt_component_library: 0
   hdbt_content: 0
   helfi_api_base: 0
+  helfi_azure_fs: 0
   helfi_base_config: 0
   helfi_charts: 0
   helfi_contact_cards: 0
