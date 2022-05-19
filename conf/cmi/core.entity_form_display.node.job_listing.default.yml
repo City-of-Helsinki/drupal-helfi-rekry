@@ -293,3 +293,4 @@ content:
 hidden:
   field_employment: true
   field_employment_type: true
+  hide_sidebar_navigation: true
