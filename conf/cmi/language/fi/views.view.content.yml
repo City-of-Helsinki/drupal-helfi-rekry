@@ -1,6 +1,8 @@
 label: Sisältö
+description: 'Etsi ja ylläpidä sisältöä.'
 display:
   default:
+    display_title: Oletus
     display_options:
       title: Sisältö
       fields:
@@ -8,6 +10,7 @@ display:
           label: Otsikko
         type:
           label: Sisältötyyppi
+          separator: ', '
         name:
           label: Kirjoittaja
         status:
@@ -15,11 +18,27 @@ display:
           settings:
             format_custom_false: Julkaisematon
             format_custom_true: Julkaistu
+        changed:
+          label: Päivitetty
         operations:
           label: Toimenpiteet
+      pager:
+        options:
+          tags:
+            next: 'Seuraava ›'
+            previous: '‹ Edellinen'
+            first: '« Ensimmäinen'
+            last: 'Viimeinen »'
       exposed_form:
         options:
           submit_button: Suodata
+          reset_button_label: Palauta
+          exposed_sorts_label: Lajittele
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      empty:
+        area_text_custom:
+          content: 'Ei sisältöä.'
       filters:
         title:
           expose:
@@ -41,6 +60,7 @@ display:
           expose:
             label: Kieli
   page_1:
+    display_title: Sivu
     display_options:
       menu:
         title: Sisältö
