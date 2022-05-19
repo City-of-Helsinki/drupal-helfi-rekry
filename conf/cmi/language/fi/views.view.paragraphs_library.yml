@@ -1,3 +1,4 @@
+label: 'Uudelleenkäytettävät lohkot'
 display:
   default:
     display_title: Oletus
@@ -5,10 +6,49 @@ display:
       exposed_form:
         options:
           submit_button: Suodata
+          reset_button_label: Palauta
+          exposed_sorts_label: Lajittele
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          tags:
+            previous: ‹‹
+            next: ››
+          expose:
+            items_per_page_label: 'Merkintöjä sivua kohti'
+            items_per_page_options_all_label: '- Kaikki -'
+            offset_label: Offset
       fields:
+        label:
+          label: Tunnus
+          separator: ', '
+        type:
+          label: Tyyppi
+          separator: ', '
+        paragraphs__target_id:
+          label: Lohkot
+          separator: ', '
         langcode:
           label: Kieli
+          separator: ', '
+        id:
+          label: ID
+          separator: ', '
         changed:
           label: Muuttunut
+          separator: ', '
         operations:
           label: Toimenpiteet
+      filters:
+        label:
+          expose:
+            label: Tunnus
+          group_info:
+            label: Tunnus
+        type:
+          expose:
+            label: Tyyppi
+      title: 'Uudelleenkäytettävät lohkot'
+  page_1:
+    display_title: Sivu
