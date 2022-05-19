@@ -11,7 +11,7 @@ type: 'canonical_entities:node'
 pattern: '[node:menu-link:parents:join-path]/open-jobs/[node:field_recruitment_id]'
 selection_criteria:
   bd59eaac-7f76-4e22-b6df-af29b44d3d61:
-    id: node_type
+    id: 'entity_bundle:node'
     negate: false
     uuid: bd59eaac-7f76-4e22-b6df-af29b44d3d61
     context_mapping:
