@@ -6,6 +6,8 @@ dependencies:
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
+    - field.field.node.job_listing.field_employment
+    - field.field.node.job_listing.field_employment_type
     - field.field.node.job_listing.field_image
     - field.field.node.job_listing.field_job_duration
     - field.field.node.job_listing.field_jobs
@@ -41,33 +43,39 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 114
-    region: content
-  field_anonymous:
-    type: boolean
-    label: above
-    settings:
-      format: default
-      format_custom_false: ''
-      format_custom_true: ''
-    third_party_settings: {  }
-    weight: 105
+    weight: 4
     region: content
   field_contacts:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 113
+    weight: 12
+    region: content
+  field_employment:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_employment_type:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 0
     region: content
   field_image:
     type: entity_reference_entity_view
-    label: above
+    label: hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 119
+    weight: 15
     region: content
   field_job_duration:
     type: string
@@ -75,7 +83,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 111
+    weight: 10
     region: content
   field_jobs:
     type: number_integer
@@ -84,7 +92,7 @@ content:
       thousand_separator: ''
       prefix_suffix: true
     third_party_settings: {  }
-    weight: 107
+    weight: 13
     region: content
   field_last_changed_remote:
     type: datetime_default
@@ -93,19 +101,19 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 102
+    weight: 9
     region: content
   field_link_to_application:
     type: link
-    label: above
+    label: hidden
     settings:
       trim_length: 80
       url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
+      url_plain: true
+      rel: '0'
+      target: '0'
     third_party_settings: {  }
-    weight: 116
+    weight: 3
     region: content
   field_link_to_presentation:
     type: link
@@ -117,7 +125,7 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 112
+    weight: 18
     region: content
   field_organization:
     type: entity_reference_label
@@ -125,14 +133,14 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 103
+    weight: 19
     region: content
   field_organization_description:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 108
+    weight: 17
     region: content
   field_organization_name:
     type: string
@@ -140,40 +148,23 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 122
+    weight: 16
     region: content
   field_postal_area:
     type: string
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 115
+    weight: 5
     region: content
   field_postal_code:
     type: string
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 118
-    region: content
-  field_recruitment_id:
-    type: string
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 106
-    region: content
-  field_recruitment_type:
-    type: number_integer
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    weight: 121
+    weight: 6
     region: content
   field_salary:
     type: string
@@ -181,7 +172,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 7
     region: content
   field_salary_class:
     type: string
@@ -189,39 +180,36 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 110
+    weight: 8
     region: content
   field_task_area:
     type: entity_reference_label
-    label: above
+    label: hidden
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
-    weight: 120
+    weight: 2
     region: content
   field_video:
     type: entity_reference_entity_view
-    label: above
+    label: hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 117
+    weight: 14
     region: content
   job_description:
     type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 101
-    region: content
-  links:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 100
+    weight: 11
     region: content
 hidden:
-  field_employment: true
-  field_employment_type: true
+  field_anonymous: true
+  field_recruitment_id: true
+  field_recruitment_type: true
   langcode: true
+  links: true
   toc_enabled: true

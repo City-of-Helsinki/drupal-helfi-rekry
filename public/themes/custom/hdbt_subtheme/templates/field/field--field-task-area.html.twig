@@ -1,0 +1,23 @@
+{%
+  set title_classes = [
+  'label',
+  label_display == 'visually_hidden' ? 'visually-hidden',
+]
+%}
+
+<div class="job-listing__task-area">
+  {% if label_hidden %}
+    {% for item in items %}
+      <span class="task-area">
+        {{ item.content }}
+      </span>
+    {% endfor %}
+  {% else %}
+    <div{{ title_attributes.addClass(title_classes) }}>{{ label }}: </div>
+    {% for item in items %}
+      <span class="task-area">
+        {{ item.content }}
+      </span>
+    {% endfor %}
+  {% endif %}
+</div>

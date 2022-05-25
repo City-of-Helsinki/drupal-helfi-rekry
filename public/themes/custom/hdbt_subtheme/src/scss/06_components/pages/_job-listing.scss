@@ -1,0 +1,19 @@
+.job-listing__employment_type {
+  margin-top: $spacing-and-half;
+}
+
+.employment-type {
+  @include font(small);
+  background-color: $color-black-10;
+  margin-right: $spacing-half;
+  padding: $spacing-quarter $spacing-half;
+}
+
+.job-listing__task-area {
+  @include font(body);
+  margin-top: $spacing-half;
+}
+
+.job-listing__link {
+  margin-top: $spacing;
+}

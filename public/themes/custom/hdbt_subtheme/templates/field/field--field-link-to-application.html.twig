@@ -1,0 +1,16 @@
+{% for item in items %}
+  {% set link_title %}
+    <span class="hds-button__label">
+      {{ 'Apply for the position'|t }}
+    </span>
+  {% endset %}
+  {% set link_attributes = {
+    'class': [
+      'job-listing__link',
+      'hds-button',
+      'hds-button--link',
+      'hds-button--primary',
+    ],
+  } %}
+  {{ link(link_title, item.content['#url'].uri, link_attributes) }}
+{% endfor %}
