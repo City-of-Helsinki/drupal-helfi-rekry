@@ -99,14 +99,88 @@
     {% embed "@hdbt/misc/component.twig" with
       {
         component_classes: [
+          'container',
           'component--job-listing',
         ],
         component_content_class: 'job-listing'
       }
     %}
       {% block component_content %}
-        {{ content.field_employment_type }}
-        {{ content.field_task_area }}
+        {% if content.field_employment_type|render or content.field_employment|render %}
+          <div class="job-listing__employment_and_type">
+            {{ content.field_employment_type }}
+            {{ content.field_employment }}
+          </div>
+        {% endif %}
+        {{ content.field_organization }}
+        {{ content.field_link_to_application }}
+        <section class="job-listing__metadata-wrapper">
+          <div class="job-listing__metadata job-listing__metadata--application-ends">
+            <span class="job-listing__metadata__label">{{ 'Application ends'|t }}</span>
+            <span class="job-listing__metadata__content">
+              {% if content.field_publication_ends|render %}
+                {{ content.field_publication_ends }}
+              {% else %}
+                -
+              {% endif %}
+            </span>
+          </div>
+          {% if content.field_salary|render %}
+            <div class="job-listing__metadata job-listing__metadata--salary">
+              <span class="job-listing__metadata__label">{{ 'Salary'|t }}</span>
+              <span class="job-listing__metadata__content">
+                  {{ content.field_salary }}
+              </span>
+            </div>
+          {% endif %}
+          <div class="job-listing__metadata job-listing__metadata--job-duration">
+            <span class="job-listing__metadata__label">{{ 'Employment contract'|t }}</span>
+            <span class="job-listing__metadata__content">
+              {% if content.field_job_duration|render %}
+                {{ content.field_job_duration }}
+              {% else %}
+                -
+              {% endif %}
+            </span>
+          </div>
+          <div class="job-listing__metadata job-listing__metadata--address">
+            <span class="job-listing__metadata__label">{{ 'Address'|t }}</span>
+            <span class="job-listing__metadata__content">
+              {% if content.field_address|render %}
+                {{ content.field_address }}, {{ content.field_postal_code }} {{ content.field_postal_area }}
+              {% else %}
+                -
+              {% endif %}
+            </span>
+          </div>
+          <div class="job-listing__metadata job-listing__metadata--published">
+            <span class="job-listing__metadata__label">{{ 'Published'|t }}</span>
+            <span class="job-listing__metadata__content">
+              {{ content.field_publication_starts }}
+            </span>
+          </div>
+          <div class="job-listing__metadata job-listing__metadata--job-code">
+            <span class="job-listing__metadata__label">{{ 'Job code'|t }}</span>
+            <span class="job-listing__metadata__content">
+              {% if content.field_recruitment_id|render %}
+                {{ content.field_recruitment_id }}
+              {% else %}
+                -
+              {% endif %}
+            </span>
+          </div>
+        </section>
+        {{ content.job_description }}
+        {{ content.field_salary_class }}
+        {% if content.field_contacts|render or content.field_internet_link %}
+          <div class="job-listing__additional-information">
+            <h2 class="job-listing__additional-information__title">{{ 'Additional information'|t }}</h2>
+            <div class="job-listing__additional-information__content">
+              {{ content.field_contacts }}
+              {{ content.field_internet_link }}
+            </div>
+          </div>
+        {% endif %}
         {{ content.field_link_to_application }}
       {% endblock component_content %}
     {% endembed %}
