@@ -1,0 +1,9 @@
+helfi_rekry_content.settings:
+  path: '/admin/config/services/rekry-content'
+  defaults:
+    _form: '\Drupal\helfi_rekry_content\Form\SettingsForm'
+    _title: 'Rekry content settings'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE

@@ -5,3 +5,8 @@ services:
       - { name: 'event_subscriber' }
   Drupal\helfi_rekry_content\Plugin\Deriver:
     arguments: ['@config.factory']
+  helfi_rekry_content.job_listing_redirect_subscriber:
+    class: Drupal\helfi_rekry_content\EventSubscriber\JobListingRedirectSubscriber
+    arguments: ['@config.factory', '@current_user']
+    tags:
+      - { name: event_subscriber }
