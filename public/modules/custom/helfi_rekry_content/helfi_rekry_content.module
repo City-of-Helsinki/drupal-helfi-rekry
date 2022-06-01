@@ -7,6 +7,24 @@
 
 declare(strict_types = 1);
 
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_scheduler_allow_publishing().
+ */
+function helfi_rekry_content_scheduler_allow_publishing(NodeInterface $node): bool {
+  if (
+    $node instanceof NodeInterface &&
+    $node->bundle() === 'job_listing' &&
+    $node->hasField('field_prevent_publishing') &&
+    $node->get('field_prevent_publishing')->getString() === '1'
+  ) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
 /**
  * Format filename from source uri.
  *

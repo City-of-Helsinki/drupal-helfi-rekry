@@ -7,6 +7,8 @@ dependencies:
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
+    - field.field.node.job_listing.field_employment
+    - field.field.node.job_listing.field_employment_type
     - field.field.node.job_listing.field_image
     - field.field.node.job_listing.field_job_duration
     - field.field.node.job_listing.field_jobs
@@ -18,6 +20,7 @@ dependencies:
     - field.field.node.job_listing.field_organization_name
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
+    - field.field.node.job_listing.field_prevent_publishing
     - field.field.node.job_listing.field_recruitment_id
     - field.field.node.job_listing.field_recruitment_type
     - field.field.node.job_listing.field_salary
@@ -64,6 +67,7 @@ hidden:
   field_organization_name: true
   field_postal_area: true
   field_postal_code: true
+  field_prevent_publishing: true
   field_recruitment_id: true
   field_recruitment_type: true
   field_salary: true
