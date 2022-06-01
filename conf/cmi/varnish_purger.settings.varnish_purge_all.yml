@@ -1,6 +1,7 @@
+uuid: 70918257-8145-4b97-9c5f-afdf4f3f0289
 langcode: en
 status: true
-dependencies: { }
+dependencies: {  }
 id: varnish_purge_all
 name: 'Purge all'
 invalidationtype: everything

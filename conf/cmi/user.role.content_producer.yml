@@ -6,6 +6,7 @@ dependencies:
     - filter.format.full_html
     - filter.format.minimal
     - media.type.file
+    - media.type.helfi_chart
     - media.type.image
     - media.type.remote_video
     - media.type.soundcloud
@@ -14,6 +15,7 @@ dependencies:
     - taxonomy.vocabulary.keywords
   module:
     - content_translation
+    - editoria11y
     - file
     - filter
     - helfi_api_base
@@ -26,6 +28,7 @@ dependencies:
     - system
     - taxonomy
     - toolbar
+    - view_unpublished
 _core:
   default_config_hash: viSgvM0-88JonuEOigzOLS-5SZVM7AkhvD2CfKpIgFM
 id: content_producer
@@ -46,6 +49,7 @@ permissions:
   - 'cancel account'
   - 'change own username'
   - 'create file media'
+  - 'create helfi_chart media'
   - 'create image media'
   - 'create landing_page content'
   - 'create media'
@@ -57,18 +61,21 @@ permissions:
   - 'create url aliases'
   - 'delete media'
   - 'delete own file media'
+  - 'delete own helfi_chart media'
   - 'delete own image media'
   - 'delete own landing_page content'
   - 'delete own page content'
   - 'delete own remote_video media'
   - 'delete own soundcloud media'
   - 'edit any file media'
+  - 'edit any helfi_chart media'
   - 'edit any image media'
   - 'edit any landing_page content'
   - 'edit any page content'
   - 'edit any remote_video media'
   - 'edit any soundcloud media'
   - 'edit own file media'
+  - 'edit own helfi_chart media'
   - 'edit own image media'
   - 'edit own landing_page content'
   - 'edit own page content'
@@ -88,6 +95,7 @@ permissions:
   - 'view all media revisions'
   - 'view all revisions'
   - 'view any unpublished content'
+  - 'view editoria11y checker'
   - 'view landing_page revisions'
   - 'view own unpublished content'
   - 'view own unpublished media'
@@ -96,7 +104,3 @@ permissions:
   - 'view scheduled content'
   - 'view the administration theme'
   - 'view unpublished paragraphs'
-  - 'create helfi_chart media'
-  - 'delete own helfi_chart media'
-  - 'edit any helfi_chart media'
-  - 'edit own helfi_chart media'

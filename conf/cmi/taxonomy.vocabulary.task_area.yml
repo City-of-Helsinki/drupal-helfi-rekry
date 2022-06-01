@@ -1,0 +1,8 @@
+uuid: 24d8118a-8df0-42de-805f-a37599890227
+langcode: en
+status: true
+dependencies: {  }
+name: 'Task area'
+vid: task_area
+description: 'List of task areas used in job listings'
+weight: 0

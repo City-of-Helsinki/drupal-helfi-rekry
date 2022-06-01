@@ -1,0 +1,98 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.organization.field_default_image
+    - field.field.taxonomy_term.organization.field_external_id
+    - image.style.thumbnail
+    - taxonomy.vocabulary.organization
+  module:
+    - field_group
+    - image
+    - path
+    - readonly_field_widget
+    - text
+third_party_settings:
+  field_group:
+    group_default_description:
+      children:
+        - description
+        - field_default_image
+      label: 'Default description'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: 'Default values for the description section. To be used as a fallback, if these values aren''t provided by the migration.'
+        required_fields: true
+id: taxonomy_term.organization.default
+targetEntityType: taxonomy_term
+bundle: organization
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_default_image:
+    type: image_image
+    weight: 4
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_external_id:
+    type: readonly_field_widget
+    weight: 3
+    region: content
+    settings:
+      label: above
+      formatter_type: text_span
+      show_description: '1'
+      formatter_settings:
+        string:
+          link_to_entity: 0
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 0
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 7
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  translation:
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

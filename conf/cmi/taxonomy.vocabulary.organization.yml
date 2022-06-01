@@ -1,0 +1,10 @@
+uuid: 5e21a2e9-ef52-4981-b451-1097ba45d3a4
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: imbiffxfITceifli0OieLN3Mo7E3kqXCKKbQKjzqG1Q
+name: Organization
+vid: organization
+description: 'List or organizations. Migrated from Helbit.'
+weight: 0

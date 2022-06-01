@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: Organization
+vid: organization
+description: 'List or organizations. Migrated from Helbit.'
+weight: 0

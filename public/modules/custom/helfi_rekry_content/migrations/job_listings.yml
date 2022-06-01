@@ -1,0 +1,209 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - helfi_rekry_content
+id: helfi_rekry_jobs
+deriver: Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver
+migration_tags:
+  - helfi_rekry_content
+  - helfi_rekry_jobs
+migration_group: helfi_rekry_content
+label: 'HELfi Rekry - Job listings'
+source:
+  constants:
+    HELBIT_BASE_URL: 'https://helbit.fi'
+  ids:
+    id:
+      type: string
+  plugin: url
+  url: https://helbit.fi/portal-api/recruitment/v2.3/open-jobs
+  track_changes: true
+  data_fetcher_plugin: http
+  data_parser_plugin: helbit_json
+  item_selector: 'jobAdvertisements'
+  fields:
+    -
+      name: id
+      label: Id
+      selector: jobAdvertisement/id
+    -
+      name: title
+      label: Title
+      selector: jobAdvertisement/title
+    -
+      name: job_description
+      label: 'Job description'
+      selector: jobAdvertisement/jobDesc
+    -
+      name: address
+      label: Address
+      selector: jobAdvertisement/address
+    -
+      name: anonymous
+      label: Anonymous
+      selector: jobAdvertisement/anonymous
+    -
+      name: contacts
+      label: Contacts
+      selector: jobAdvertisement/contacts
+    -
+      name: logo
+      label: Logo
+      selector: jobAdvertisement/logo
+    -
+      name: job_duration
+      label: 'Job duration'
+      selector: jobAdvertisement/jobDuration
+    -
+      name: number_of_vacancies
+      label: 'Number of vacancies'
+      selector: jobAdvertisement/numberOfVacancy
+    -
+      name: last_changed_remote
+      label: 'Last changed (remote)'
+      selector: jobAdvertisement/changetime
+    -
+      name: link_to_application
+      label: 'Link to application'
+      selector: link/url
+    -
+      name: link_to_presentation
+      label: 'Link to presentation'
+      selector: jobAdvertisement/internetLink
+    -
+      name: organization
+      label: 'Organization'
+      selector: jobAdvertisement/publishingOrganization
+    -
+      name: organization_description
+      label: 'Organization descrption'
+      selector: jobAdvertisement/organizationDesc
+    -
+      name: organization_name
+      label: 'Organization name'
+      selector: jobAdvertisement/organization
+    -
+      name: postal_area
+      label: 'Postal area'
+      selector: jobAdvertisement/postalArea
+    -
+      name: postal_code
+      label: 'Postal code'
+      selector: jobAdvertisement/postalCode
+    -
+      name: recruitment_id
+      label: 'Recruitment id'
+      selector: jobAdvertisement/id
+    -
+      name: salary
+      label: Salary
+      selector: jobAdvertisement/salary
+    -
+      name: task_area
+      label: 'Task area'
+      selector: jobAdvertisement/taskArea
+    -
+      name: salary_class
+      label: 'Salary class'
+      selector: jobAdvertisement/salaryClass
+    -
+      name: recruitment_type
+      label: 'Recruitment type'
+      selector: 'jobAdvertisement/type'
+    -
+      name: employment
+      label: Employment
+      selector: 'jobAdvertisement/employment'
+    -
+      name: employment_type
+      label: 'Employment type'
+      selector: 'jobAdvertisement/employmentType'
+process:
+  id: id
+  nid:
+    plugin: callback
+    callable: _helfi_rekry_content_lookup_job_nid
+    source: id
+  title: title
+  langcode:
+    plugin: default_value
+    default_value: fi
+  job_description/value: job_description
+  field_address: address
+  field_anonymous: anonymous
+  field_contacts: contacts
+  field_image/target_id:
+    -
+      plugin: migration_lookup
+      migration: helfi_rekry_images
+      source: id
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_get_media_image
+  field_job_duration: job_duration
+  field_jobs: number_of_vacancies
+  field_last_changed_remote: last_changed_remote
+  field_link_to_application:
+    plugin: concat
+    source:
+      - constants/HELBIT_BASE_URL
+      - link_to_application
+  field_link_to_presentation:
+    - 
+      plugin: skip_on_empty
+      method: process
+      source: link_to_presentation
+    -
+      plugin: callback
+      callable: _helfi_rekry_add_schema
+      source: link_to_presentation
+  field_organization/target_id:
+    plugin: entity_lookup
+    entity_type: taxonomy_term
+    value_key: field_external_id
+    source: organization
+    bundle_key: vid
+    bundle: organization
+    ignore_case: true
+  field_organization_description: organization_description
+  field_organization_name: organization_name
+  field_postal_area: postal_area
+  field_postal_code: postal_code
+  field_recruitment_id: recruitment_id
+  field_salary: salary
+  field_salary_class: salary_class
+  field_task_area/target_id: 
+    plugin: entity_lookup
+    entity_type: taxonomy_term
+    value_key: name
+    source: task_area
+    bundle_key: vid
+    bundle: task_area
+    ignore_case: true
+  field_recruitment_type:
+    plugin: callback
+    callable: intval
+    source: recruitment_type
+  field_employment_type:
+    plugin: entity_lookup
+    entity_type: taxonomy_term
+    value_key: name
+    source: employment_type
+    bundle_key: vid
+    bundle: employment_type
+    ignore_case: true
+  field_employment/target_id:
+    plugin: entity_lookup
+    entity_type: taxonomy_term
+    value_key: name
+    source: employment
+    bundle_key: vid
+    bundle: employment
+    ignore_case: true
+  type:
+    plugin: default_value
+    default_value: job_listing
+destination:
+  plugin: 'entity:node'

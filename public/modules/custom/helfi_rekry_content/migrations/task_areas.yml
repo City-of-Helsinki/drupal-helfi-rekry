@@ -1,0 +1,40 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - helfi_rekry_content
+id: helfi_rekry_task_areas
+deriver: Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver
+migration_tags:
+  - helfi_rekry_content
+  - helfi_rekry_taxonomies
+label: 'HELfi Rekry - Task areas'
+source:
+  plugin: url
+  url: https://helbit.fi/portal-api/recruitment/v2.3/params/hierarchy/tasks
+  track_changes: true
+  data_fetcher_plugin: file
+  data_parser_plugin: json
+  item_selector: 'tasks/0/childs/'
+  fields:
+    -
+      name: id
+      label: Id
+      selector: id
+    -
+      name: name
+      label: Name
+      selector: name
+  ids:
+    id:
+      type: string
+process:
+  langcode: 
+    plugin: default_value
+    default_value: fi
+  name: name
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: task_area
+migration_dependencies: { }

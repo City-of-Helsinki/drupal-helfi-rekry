@@ -1,0 +1,33 @@
+uuid: 5e5eaa74-35b7-4a08-8836-914cd7d64b49
+langcode: en
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: job_listing_content_pattern_finnish
+label: 'Job listing content pattern - Finnish'
+type: 'canonical_entities:node'
+pattern: '[node:menu-link:parents:join-path]/avoimet-tyopaikat/[node:field_recruitment_id]'
+selection_criteria:
+  cde1330d-3305-41ef-90cb-6b53cbb71fa4:
+    id: node_type
+    negate: false
+    uuid: cde1330d-3305-41ef-90cb-6b53cbb71fa4
+    context_mapping:
+      node: node
+    bundles:
+      job_listing: job_listing
+  40db6691-1cbc-488e-aa4d-9f52a4575e15:
+    id: language
+    negate: false
+    uuid: 40db6691-1cbc-488e-aa4d-9f52a4575e15
+    context_mapping:
+      language: 'node:langcode:language'
+    langcodes:
+      fi: fi
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Language

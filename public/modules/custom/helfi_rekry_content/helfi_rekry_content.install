@@ -1,0 +1,164 @@
+<?php
+
+/**
+ * @file
+ * Contains install functions for HELfi Rekry Content module
+ */
+
+use Drupal\helfi_platform_config\ConfigHelper;
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_install().
+ */
+function helfi_rekry_content_install($is_syncing) {
+  // Do not perform following steps if the module is being installed as part
+  // of a configuration import.
+  if (!$is_syncing && Drupal::moduleHandler()->moduleExists('update_helper')) {
+    helfi_rekry_content_update_9001();
+    helfi_rekry_content_update_9002();
+    helfi_rekry_content_update_9003();
+  }
+}
+
+/**
+ * HELfi Rekry Content initial configurations
+ */
+function helfi_rekry_content_update_9001() {
+  // Install config translations
+  $configTranslationLocation = dirname(__FILE__) . '/config/language/';
+
+  $configurations = [
+    'field.field.taxonomy_term.organization.field_default_image',
+    'field.field.taxonomy_term.organization.field_external_id',
+    'taxonomy.vocabulary.organization'
+  ];
+
+  foreach($configurations as $configuration) {
+    ConfigHelper::installNewConfigTranslation($configTranslationLocation, $configuration);
+  }
+}
+
+
+/**
+ * HELfi Rekry content update 9002.
+ */
+function helfi_rekry_content_update_9002() {
+  // Install config translations
+  $configTranslationLocation = dirname(__FILE__) . '/config/language/';
+
+  $configurations = [
+    'field.field.node.job_listing.field_address.yml',
+    'field.field.node.job_listing.field_anonymous.yml',
+    'field.field.node.job_listing.field_contacts.yml',
+    'field.field.node.job_listing.field_image.yml',
+    'field.field.node.job_listing.field_job_duration.yml',
+    'field.field.node.job_listing.field_jobs.yml',
+    'field.field.node.job_listing.field_last_changed_remote.yml',
+    'field.field.node.job_listing.field_link_to_application.yml',
+    'field.field.node.job_listing.field_link_to_presentation.yml',
+    'field.field.node.job_listing.field_organization.yml',
+    'field.field.node.job_listing.field_organization_description.yml',
+    'field.field.node.job_listing.field_postal_area.yml',
+    'field.field.node.job_listing.field_postal_code.yml',
+    'field.field.node.job_listing.field_recruitment_id.yml',
+    'field.field.node.job_listing.field_recruitment_type.yml',
+    'field.field.node.job_listing.field_salary.yml',
+    'field.field.node.job_listing.field_salary_class.yml',
+    'field.field.node.job_listing.field_task_area.yml',
+    'field.field.node.job_listing.field_video.yml',
+    'field.field.node.job_listing.job_description.yml',
+    'node.type.job_listing.yml',
+    'taxonomy.vocabulary.task_area.yml',
+  ];
+
+  foreach($configurations as $configuration) {
+    ConfigHelper::installNewConfigTranslation($configTranslationLocation, $configuration);
+  }
+}
+
+/**
+ * HELfi rekry content update 9003.
+ */
+function helfi_rekry_content_update_9003() {
+  
+  $employmentTypeItems = [
+    [
+      'en' => 'Permanent contractual employment',
+      'fi' => 'Vakinainen työsuhde',
+      'sv' => 'Fast anställning'
+    ],
+    [
+      'en' => 'Permanent public service employment',
+      'fi' => 'Vakinainen virkasuhde',
+      'sv' => 'Fast tjänst'
+    ],
+    [
+      'en' => 'Fixed-term contractual employment',
+      'fi' => 'Määräaikainen työsuhde',
+      'sv' => 'Tidsbundet arbetsförhållande'
+    ],
+    [
+      'en' => 'Fixed-term public service employment',
+      'fi' => 'Määräaikainen virkasuhde',
+      'sv' => 'Tjänsteförhållande på viss tid'
+    ],
+    [
+      'en' => 'Part-time employment',
+      'fi' => 'Osa-aikainen ',
+      'sv' => 'Deltidsarbete'
+    ],
+  ];
+
+  foreach($employmentTypeItems as $item) {
+    $term = Term::create([
+      'parent' => [],
+      'name' => $item['en'],
+      'vid' => 'employment_type'
+    ])->addTranslation('fi', [
+      'name' => $item['fi']
+    ])->addTranslation('sv', [
+      'name' => $item['sv']
+    ])->save();
+  }
+
+  $employmentItems = [
+    [
+      'en' => 'Temporary position',
+      'fi' => 'Sijaisuus',
+      'sv' => 'Vikariat'
+    ],
+    [
+      'en' => 'Job alternation leave substitute',
+      'fi' => 'Vuorotteluvapaan sijaisuus',
+      'sv' => 'Vikariat under alterneringsledighet'
+    ],
+    [
+      'en' => 'Project-type job',
+      'fi' => 'Projektiluonteinen työ',
+      'sv' => 'Projekt'
+    ],
+    [
+      'en' => 'Apprenticeship contract',
+      'fi' => 'Oppisopimus',
+      'sv' => 'Läroavtal'
+    ],
+    [
+      'en' => 'Practical training',
+      'fi' => 'Harjoittelu',
+      'sv' => 'Praktik'
+    ]
+  ];
+
+  foreach($employmentItems as $item) {
+    $term = Term::create([
+      'parent' => [],
+      'name' => $item['en'],
+      'vid' => 'employment'
+    ])->addTranslation('fi', [
+      'name' => $item['fi']
+    ])->addTranslation('sv', [
+      'name' => $item['sv']
+    ])->save();
+  }
+}
