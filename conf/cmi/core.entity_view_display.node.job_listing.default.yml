@@ -28,7 +28,6 @@ dependencies:
     - field.field.node.job_listing.job_description
     - node.type.job_listing
   module:
-    - datetime
     - link
     - text
     - user
@@ -75,7 +74,7 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 17
+    weight: 13
     region: content
   field_job_duration:
     type: string
@@ -84,24 +83,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 5
-    region: content
-  field_jobs:
-    type: number_integer
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    weight: 15
-    region: content
-  field_last_changed_remote:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 14
     region: content
   field_link_to_application:
     type: link
@@ -115,18 +96,6 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-  field_link_to_presentation:
-    type: link
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    weight: 20
-    region: content
   field_organization:
     type: entity_reference_label
     label: hidden
@@ -137,18 +106,18 @@ content:
     region: content
   field_organization_description:
     type: text_default
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 19
+    weight: 15
     region: content
   field_organization_name:
     type: string
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 18
+    weight: 14
     region: content
   field_postal_area:
     type: string
@@ -190,23 +159,6 @@ content:
     third_party_settings: {  }
     weight: 11
     region: content
-  field_task_area:
-    type: entity_reference_label
-    label: hidden
-    settings:
-      link: false
-    third_party_settings: {  }
-    weight: 13
-    region: content
-  field_video:
-    type: entity_reference_entity_view
-    label: hidden
-    settings:
-      view_mode: default
-      link: false
-    third_party_settings: {  }
-    weight: 16
-    region: content
   job_description:
     type: text_default
     label: hidden
@@ -216,7 +168,12 @@ content:
     region: content
 hidden:
   field_anonymous: true
+  field_jobs: true
+  field_last_changed_remote: true
+  field_link_to_presentation: true
   field_recruitment_type: true
+  field_task_area: true
+  field_video: true
   langcode: true
   links: true
   toc_enabled: true
