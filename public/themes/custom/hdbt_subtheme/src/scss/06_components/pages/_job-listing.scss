@@ -156,10 +156,27 @@
   background-color: var(--hdbt-color-palette--secondary);
 }
 
-.job-listing__image {
+.job-listing__organization-information {
+  padding: $spacing-and-half;
+}
 
-  img {
-    height: auto;
-    width: 100%;
+.job-listing__image img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.job-listing__organization-name {
+  @include font(h6);
+  margin-top: 0;
+}
+
+.job-listing__organization-description {
+  @include font(small);
+  margin-top: $spacing-half;
+
+  p:first-child {
+    margin-top: 0;
   }
 }

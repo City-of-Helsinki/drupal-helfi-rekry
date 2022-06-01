@@ -125,7 +125,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 7
+    weight: 8
     region: content
   field_postal_code:
     type: string
@@ -133,7 +133,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 8
+    weight: 7
     region: content
   field_recruitment_id:
     type: string
