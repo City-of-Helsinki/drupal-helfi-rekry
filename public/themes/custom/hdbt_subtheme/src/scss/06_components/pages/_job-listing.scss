@@ -77,11 +77,10 @@
 }
 
 .job-listing__metadata {
-  margin-top: $spacing-half;
+  margin-top: $spacing;
   width: 100%;
 
   @include breakpoint($breakpoint-m) {
-    margin-top: $spacing;
     width: 50%;
   }
 
