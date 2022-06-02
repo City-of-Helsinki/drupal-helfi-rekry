@@ -9,9 +9,9 @@
 
 .employment,
 .employment-type {
-  @include font(small);
+  @include font('special.helper_text');
   background-color: $color-black-10;
-  border-radius: 28px;
+  border-radius: 27px; // height of the pill divided by 2.
   display: inline-block;
   margin-right: $spacing-half;
   padding: $spacing $spacing-and-half;
