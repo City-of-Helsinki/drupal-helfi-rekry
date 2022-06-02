@@ -33,6 +33,8 @@ module:
   file: 0
   filelog: 0
   filter: 0
+  flysystem: 0
+  flysystem_azure: 0
   focal_point: 0
   gin_toolbar: 0
   hdbt_admin_editorial: 0
@@ -45,6 +47,7 @@ module:
   helfi_charts: 0
   helfi_contact_cards: 0
   helfi_content: 0
+  helfi_events: 0
   helfi_gdpr_compliance: 0
   helfi_languages: 0
   helfi_media: 0
@@ -125,4 +128,5 @@ theme:
   hdbt: 0
   gin: 0
   hdbt_admin: 0
+  hdbt_subtheme: 0
 profile: minimal

@@ -7,6 +7,7 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Render\Element;
 use Drupal\node\NodeInterface;
 
 /**
@@ -107,4 +108,33 @@ function _helfi_rekry_add_schema($url = NULL): ?string {
   }
 
   return $url;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function helfi_rekry_content_theme() {
+  return [
+    'organization_information_block' => [
+      'render element' => 'elements',
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for organization_information_block template.
+ *
+ * Default template: organization-information-block.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An array of elements to display in view mode.
+ */
+function template_preprocess_organization_information_block(array &$variables) : void {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+
+  // Helpful $content variable for templates.
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
 }
