@@ -54,7 +54,7 @@ class OrganizationInformation extends BlockBase {
     // Add the organization information to render array.
     if (
       $entity instanceof Node &&
-      $entity->hasField('field_organization_name') &&
+      $entity->hasField('field_organization') &&
       $entity->hasField('field_organization_description')
     ) {
       $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');

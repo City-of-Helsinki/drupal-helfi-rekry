@@ -135,7 +135,7 @@ content:
     third_party_settings: {  }
   field_organization:
     type: entity_reference_autocomplete
-    weight: 17
+    weight: 29
     region: content
     settings:
       match_operator: CONTAINS
@@ -153,7 +153,7 @@ content:
     third_party_settings: {  }
   field_organization_name:
     type: string_textfield
-    weight: 29
+    weight: 17
     region: content
     settings:
       size: 60

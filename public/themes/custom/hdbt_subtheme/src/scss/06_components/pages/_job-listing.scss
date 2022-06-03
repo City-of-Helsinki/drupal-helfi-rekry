@@ -17,7 +17,7 @@
   padding: $spacing $spacing-and-half;
 }
 
-.job-listing__organization   {
+.job-listing__organization-name {
   @include font(body);
   display: flex;
   margin-top: $spacing;
@@ -166,7 +166,7 @@
   overflow: hidden;
 }
 
-.job-listing__organization-name {
+.job-listing__organization {
   @include font(h6);
   margin-top: 0;
 }
