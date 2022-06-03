@@ -6,10 +6,10 @@
       {% include '@hdbt/media/image--card.html.twig' with {content: '' } %}
     {% endif %}
   </div>
-  {% if content.content.field_organization_name|render or content.field_organization_description|render %}
+  {% if content.content.field_organization|render or content.field_organization_description|render %}
     <div class="job-listing__organization-information">
-      <h2 class="job-listing__organization-name">
-        {{ content.field_organization_name }}
+      <h2 class="job-listing__organization">
+        {{ content.field_organization }}
       </h2>
       <div class="job-listing__organization-description">
         {{ content.field_organization_description }}
