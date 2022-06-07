@@ -1,0 +1,81 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - helfi_rekry_content
+id: helfi_rekry_videos
+deriver: Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver
+migration_tags:
+  - helfi_rekry_content
+  - helfi_rekry_jobs
+migration_group: helfi_rekry_content
+label: 'HELfi Rekry - Job listings'
+source:
+  ids:
+    id:
+      type: string
+    video:
+      type: string
+  plugin: url
+  track_changes: true
+  data_fetcher_plugin: http
+  data_parser_plugin: helbit_json
+  item_selector: 'jobAdvertisements'
+  url: https://helbit.fi/portal-api/recruitment/v2.3/open-jobs
+  fields:
+    -
+      name: id
+      label: Id
+      selector: jobAdvertisement/id
+    -
+      name: video
+      label: Video
+      selector: jobAdvertisement/embedLink
+    -
+      name: title
+      label: Title
+      selector: jobAdvertisement/title
+  constants:
+    DRUPAL_FILE_DIRECTORY: 'public://job_listing_videos/'
+    HELBIT_BASE_URL: 'https://helbit.fi'
+process:
+  destination_filename:
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_filename 
+      source: video
+    -
+      plugin: skip_on_empty
+      method: row
+      message: 'Cannot import empty image filename.'
+  destination_path:
+    -
+      plugin: concat
+      source:
+        - constants/DRUPAL_FILE_DIRECTORY
+        - '@destination_filename'
+  source_uri:
+    -
+      plugin: concat
+      source:
+        - constants/HELBIT_BASE_URL
+        - video
+  uri:
+    -
+      plugin: concat
+      source:
+        - constants/DRUPAL_FILE_DIRECTORY
+        - '@destination_path'
+    -
+      plugin: file_copy
+      source:
+        - '@source_uri'
+        - '@destination_path'
+      file_exists: rename
+      move: false
+  langcode:
+    plugin: default_value
+    default_value: fi
+destination:
+  plugin: 'entity:file'

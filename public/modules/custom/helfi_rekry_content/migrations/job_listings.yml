@@ -85,6 +85,10 @@ source:
       label: 'Organization name'
       selector: jobAdvertisement/organization
     -
+      name: video
+      label:  'Video'
+      selector: jobAdvertisement/embedLink
+    -
       name: postal_area
       label: 'Postal area'
       selector: jobAdvertisement/postalArea
