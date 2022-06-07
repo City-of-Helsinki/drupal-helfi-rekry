@@ -1,0 +1,8 @@
+# Schema for the configuration files of the helfi_rekry_content module.
+helfi_rekry_content.job_listings:
+  type: config_object
+  label: 'Job listings'
+  mapping:
+    redirect_403:
+      type: path
+      label: 'Redirect 403 path'

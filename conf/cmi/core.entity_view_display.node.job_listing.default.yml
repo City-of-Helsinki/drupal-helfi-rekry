@@ -171,6 +171,7 @@ hidden:
   field_jobs: true
   field_last_changed_remote: true
   field_link_to_presentation: true
+  field_prevent_publishing: true
   field_recruitment_type: true
   field_task_area: true
   field_video: true
