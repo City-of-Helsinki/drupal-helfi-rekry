@@ -37,45 +37,30 @@ source:
       label: Title
       selector: jobAdvertisement/title
   constants:
-    DRUPAL_FILE_DIRECTORY: 'public://job_listing_videos/'
+    DRUPAL_FILE_DIRECTORY: 'public://remote_video/'
     HELBIT_BASE_URL: 'https://helbit.fi'
 process:
-  destination_filename:
-    -
-      plugin: callback
-      callable: _helfi_rekry_content_filename 
-      source: video
-    -
+  name: title
+  field_media_oembed_video:
+    - 
       plugin: skip_on_empty
       method: row
-      message: 'Cannot import empty image filename.'
-  destination_path:
+      source: video
     -
-      plugin: concat
-      source:
-        - constants/DRUPAL_FILE_DIRECTORY
-        - '@destination_filename'
-  source_uri:
+      plugin: callback
+      callable: _helfi_rekry_check_video_existance
+      source: video
     -
-      plugin: concat
-      source:
-        - constants/HELBIT_BASE_URL
-        - video
-  uri:
-    -
-      plugin: concat
-      source:
-        - constants/DRUPAL_FILE_DIRECTORY
-        - '@destination_path'
-    -
-      plugin: file_copy
-      source:
-        - '@source_uri'
-        - '@destination_path'
-      file_exists: rename
-      move: false
+      plugin: callback
+      callable: _helfi_rekry_check_video_url
+      source: video
   langcode:
     plugin: default_value
     default_value: fi
+  type:
+    plugin: default_value
+    default_value: remote_video
 destination:
-  plugin: 'entity:file'
+  plugin: 'entity:media'
+  default_bundle: remote_video
+migration_dependencies: { }

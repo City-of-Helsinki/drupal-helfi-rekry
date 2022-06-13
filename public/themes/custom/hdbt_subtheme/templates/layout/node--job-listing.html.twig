@@ -180,6 +180,11 @@
             </div>
           </div>
         {% endif %}
+        {% if content.field_video|render %}
+          {% include '@hdbt/component/remote-video.twig' with {
+            video: content.field_video,
+          }%}
+        {% endif %}
         {{ content.field_link_to_application }}
         {{ drupal_block('hdbt_content_social_sharing_block') }}
       {% endblock component_content %}
