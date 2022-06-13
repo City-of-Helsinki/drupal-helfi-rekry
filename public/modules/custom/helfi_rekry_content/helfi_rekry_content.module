@@ -10,7 +10,6 @@ declare(strict_types = 1);
 use Drupal\Core\Render\Element;
 use Drupal\node\NodeInterface;
 use Drupal\migrate\MigrateSkipRowException;
-use \Drupal\media\OEmbed\UrlResolverInterface;
 
 /**
  * Implements hook_scheduler_allow_publishing().
@@ -74,19 +73,19 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
 /**
  * Get media entity by file id.
  *
- * @param string|null $video
+ * @param string|null $url
  *   The video url
  *
  * @return string|null
  *   Valid video url or null
  */
-function _helfi_rekry_check_video_url(string|NULL $video = NULL): ?string {
-  if (!$video) {
+function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
+  if (!$url) {
     return NULL;
   }
 
-  if (str_contains($video, 'youtube') || str_contains($video, 'helsinkikanava')) {
-    return $video;
+  if (str_contains($url, 'youtube') || str_contains($url, 'youtu.be') || str_contains($url, 'helsinkikanava')) {
+    return $url;
   }
 
   return NULL;
