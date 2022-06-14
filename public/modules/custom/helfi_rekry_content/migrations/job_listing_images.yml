@@ -10,7 +10,7 @@ migration_tags:
   - helfi_rekry_content
   - helfi_rekry_jobs
 migration_group: helfi_rekry_content
-label: 'HELfi Rekry - Job listings'
+label: 'HELfi Rekry - Job listing images'
 source:
   ids:
     id:

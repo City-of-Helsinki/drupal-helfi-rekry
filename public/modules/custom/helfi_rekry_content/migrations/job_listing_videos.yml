@@ -10,7 +10,7 @@ migration_tags:
   - helfi_rekry_content
   - helfi_rekry_jobs
 migration_group: helfi_rekry_content
-label: 'HELfi Rekry - Job listings'
+label: 'HELfi Rekry - Job listing videos'
 source:
   ids:
     id:
@@ -36,9 +36,6 @@ source:
       name: title
       label: Title
       selector: jobAdvertisement/title
-  constants:
-    DRUPAL_FILE_DIRECTORY: 'public://remote_video/'
-    HELBIT_BASE_URL: 'https://helbit.fi'
 process:
   name: title
   field_media_oembed_video:

@@ -74,7 +74,7 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
  * Get media entity by file id.
  *
  * @param string|null $url
- *   The video url
+ *   The video url.
  *
  * @return string|null
  *   Valid video url or null
@@ -84,8 +84,14 @@ function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
     return NULL;
   }
 
-  if (str_contains($url, 'youtube') || str_contains($url, 'youtu.be') || str_contains($url, 'helsinkikanava')) {
+  try {
+    $resolver = \Drupal::service('media.oembed.url_resolver');
+    $validate = $resolver->getProviderByUrl($url);
     return $url;
+  }
+  catch (\throwable $e) {
+    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '"failed validation with message: ' . $e->getMessage());
+    return NULL;
   }
 
   return NULL;
@@ -95,16 +101,16 @@ function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
  * Get media entity by file id.
  *
  * @param string|null $url
- *   The video url
+ *   The video url.
  *
  * @return string|null
  *   Valid video url or null
  */
 function _helfi_rekry_check_video_existance(string|NULL $url = NULL) {
-  if(_helfi_rekry_content_lookup_video_mid($url)) {
+  if (_helfi_rekry_content_lookup_video_mid($url)) {
     throw new MigrateSkipRowException();
   }
-  
+
 }
 
 /**
