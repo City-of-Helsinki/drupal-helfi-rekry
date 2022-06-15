@@ -85,6 +85,10 @@ source:
       label: 'Organization name'
       selector: jobAdvertisement/organization
     -
+      name: video
+      label:  'Video'
+      selector: jobAdvertisement/embedLink
+    -
       name: postal_area
       label: 'Postal area'
       selector: jobAdvertisement/postalArea
@@ -176,6 +180,10 @@ process:
     bundle: organization
     ignore_case: true
   field_organization_description: organization_description
+  field_video/target_id:
+    plugin: callback
+    callable: _helfi_rekry_content_lookup_video_mid
+    source: video
   field_organization_name: organization_name
   field_postal_area: postal_area
   field_postal_code: postal_code

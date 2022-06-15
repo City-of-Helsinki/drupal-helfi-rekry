@@ -179,3 +179,11 @@
     margin-top: 0;
   }
 }
+
+.node--type-job-listing .component--remote-video {
+  margin-top: $spacing-double;
+
+  @include breakpoint($breakpoint-m) {
+    margin-top: $spacing-triple;
+  }
+}

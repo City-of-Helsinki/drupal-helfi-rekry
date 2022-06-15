@@ -9,6 +9,7 @@ declare(strict_types = 1);
 
 use Drupal\Core\Render\Element;
 use Drupal\node\NodeInterface;
+use Drupal\migrate\MigrateSkipRowException;
 
 /**
  * Implements hook_scheduler_allow_publishing().
@@ -60,6 +61,73 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
   $entityQuery = \Drupal::entityQuery('media')
     ->condition('bundle', 'job_listing_image')
     ->condition('field_media_image.target_id', $fid);
+  $ids = $entityQuery->execute();
+
+  if (!empty($ids)) {
+    return reset($ids);
+  }
+
+  return NULL;
+}
+
+/**
+ * Get media entity by file id.
+ *
+ * @param string|null $url
+ *   The video url.
+ *
+ * @return string|null
+ *   Valid video url or null
+ */
+function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
+  if (!$url) {
+    return NULL;
+  }
+
+  try {
+    $resolver = \Drupal::service('media.oembed.url_resolver');
+    $validate = $resolver->getProviderByUrl($url);
+    return $url;
+  }
+  catch (\throwable $e) {
+    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '"failed validation with message: ' . $e->getMessage());
+    return NULL;
+  }
+
+  return NULL;
+}
+
+/**
+ * Get media entity by file id.
+ *
+ * @param string|null $url
+ *   The video url.
+ *
+ * @return string|null
+ *   Valid video url or null
+ */
+function _helfi_rekry_check_video_existance(string|NULL $url = NULL) {
+  if (_helfi_rekry_content_lookup_video_mid($url)) {
+    throw new MigrateSkipRowException();
+  }
+
+}
+
+/**
+ * Get video mid by video url.
+ *
+ * @param string $url
+ *   The video url.
+ *
+ * @return string|null
+ *   The mid or null
+ */
+function _helfi_rekry_content_lookup_video_mid($url): ?string {
+  $entityQuery = \Drupal::entityQuery('media')
+    ->condition('bundle', 'remote_video')
+    ->condition('field_media_oembed_video', $url)
+    ->range(0, 1)
+    ->latestRevision();
   $ids = $entityQuery->execute();
 
   if (!empty($ids)) {
