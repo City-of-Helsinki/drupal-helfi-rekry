@@ -85,6 +85,10 @@ source:
       label: 'Organization name'
       selector: jobAdvertisement/organization
     -
+      name: video
+      label:  'Video'
+      selector: jobAdvertisement/embedLink
+    -
       name: postal_area
       label: 'Postal area'
       selector: jobAdvertisement/postalArea
@@ -120,6 +124,14 @@ source:
       name: employment_type
       label: 'Employment type'
       selector: 'jobAdvertisement/employmentType'
+    -
+      name: publication_starts
+      label: 'Publication starts'
+      selector: jobAdvertisement/publicationStarts
+    -
+      name: publication_ends
+      label: 'Publication ends'
+      selector: jobAdvertisement/publicationEnds
 process:
   id: id
   nid:
@@ -151,7 +163,7 @@ process:
       - constants/HELBIT_BASE_URL
       - link_to_application
   field_link_to_presentation:
-    - 
+    -
       plugin: skip_on_empty
       method: process
       source: link_to_presentation
@@ -168,13 +180,17 @@ process:
     bundle: organization
     ignore_case: true
   field_organization_description: organization_description
+  field_video/target_id:
+    plugin: callback
+    callable: _helfi_rekry_content_lookup_video_mid
+    source: video
   field_organization_name: organization_name
   field_postal_area: postal_area
   field_postal_code: postal_code
   field_recruitment_id: recruitment_id
   field_salary: salary
   field_salary_class: salary_class
-  field_task_area/target_id: 
+  field_task_area/target_id:
     plugin: entity_lookup
     entity_type: taxonomy_term
     value_key: name
@@ -205,5 +221,13 @@ process:
   type:
     plugin: default_value
     default_value: job_listing
+  publish_on:
+    plugin: callback
+    callable: strtotime
+    source: publication_starts
+  unpublish_on:
+    plugin: callback
+    callable: strtotime
+    source: publication_ends
 destination:
   plugin: 'entity:node'

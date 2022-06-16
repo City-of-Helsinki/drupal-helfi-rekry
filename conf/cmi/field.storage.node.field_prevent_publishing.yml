@@ -1,0 +1,18 @@
+uuid: 9b95b227-60cc-4c5b-8098-468459ab256d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_prevent_publishing
+field_name: field_prevent_publishing
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

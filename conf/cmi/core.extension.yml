@@ -74,6 +74,7 @@ module:
   metatag_twitter_cards: 0
   migrate: 0
   migrate_plus: 0
+  mysql: 0
   node: 0
   oembed_providers: 0
   openid_connect: 0
@@ -128,4 +129,5 @@ theme:
   hdbt: 0
   gin: 0
   hdbt_admin: 0
+  hdbt_subtheme: 0
 profile: minimal

@@ -1,0 +1,63 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - helfi_rekry_content
+id: helfi_rekry_videos
+deriver: Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver
+migration_tags:
+  - helfi_rekry_content
+  - helfi_rekry_jobs
+migration_group: helfi_rekry_content
+label: 'HELfi Rekry - Job listing videos'
+source:
+  ids:
+    id:
+      type: string
+    video:
+      type: string
+  plugin: url
+  track_changes: true
+  data_fetcher_plugin: http
+  data_parser_plugin: helbit_json
+  item_selector: 'jobAdvertisements'
+  url: https://helbit.fi/portal-api/recruitment/v2.3/open-jobs
+  fields:
+    -
+      name: id
+      label: Id
+      selector: jobAdvertisement/id
+    -
+      name: video
+      label: Video
+      selector: jobAdvertisement/embedLink
+    -
+      name: title
+      label: Title
+      selector: jobAdvertisement/title
+process:
+  name: title
+  field_media_oembed_video:
+    - 
+      plugin: skip_on_empty
+      method: row
+      source: video
+    -
+      plugin: callback
+      callable: _helfi_rekry_check_video_existance
+      source: video
+    -
+      plugin: callback
+      callable: _helfi_rekry_check_video_url
+      source: video
+  langcode:
+    plugin: default_value
+    default_value: fi
+  type:
+    plugin: default_value
+    default_value: remote_video
+destination:
+  plugin: 'entity:media'
+  default_bundle: remote_video
+migration_dependencies: { }

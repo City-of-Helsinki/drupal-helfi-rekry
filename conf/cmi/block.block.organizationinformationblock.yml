@@ -1,0 +1,28 @@
+uuid: ba6d5951-36a1-417f-b66a-be885a64d031
+langcode: en
+status: true
+dependencies:
+  module:
+    - helfi_rekry_content
+    - node
+  theme:
+    - hdbt_subtheme
+id: organizationinformationblock
+theme: hdbt_subtheme
+region: sidebar_second
+weight: 0
+provider: null
+plugin: organization_information_block
+settings:
+  id: organization_information_block
+  label: 'Organization information block'
+  label_display: '0'
+  provider: helfi_rekry_content
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      job_listing: job_listing
