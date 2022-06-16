@@ -29,7 +29,6 @@ services:
       DRUPAL_VARNISH_HOST: "${COMPOSE_PROJECT_NAME}-varnish"
       DRUPAL_VARNISH_PORT: 6081
       REDIS_HOST: redis
-      HELBIT_CLIENT_ID: "${HELBIT_CLIENT_ID}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "${DRUPAL_HOSTNAME}:host-gateway"
