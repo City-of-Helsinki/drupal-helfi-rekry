@@ -7,8 +7,22 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Disables title field for HR role when editing job listing node.
+ */
+function helfi_rekry_content_form_node_job_listing_edit_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $userRoles = \Drupal::currentUser()->getRoles();
+
+  if (in_array('hr', $userRoles)) {
+    $form['title']['#disabled'] = TRUE;
+  }
+}
 
 /**
  * Implements hook_scheduler_allow_publishing().
