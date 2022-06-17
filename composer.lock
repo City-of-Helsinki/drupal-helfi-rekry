@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "346c17f7f0841298495d2bc5b2e40638",
+    "content-hash": "2f0b719c019937787d064551a5063c3f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2789,6 +2789,71 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/diff",
                 "issues": "https://www.drupal.org/project/issues/diff"
+            }
+        },
+        {
+            "name": "drupal/disable_field",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/disable_field.git",
+                "reference": "3.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/disable_field-3.0.0.zip",
+                "reference": "3.0.0",
+                "shasum": "bb0af8a005bd0f953d79ecaa969212040aa35bd7"
+            },
+            "require": {
+                "drupal/core": "^9"
+            },
+            "require-dev": {
+                "drupal/base_field_override_ui": "^1.0@beta",
+                "drupal/paragraphs": "^1.10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.0.0",
+                    "datestamp": "1639126125",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "A AjayKumar Reddy (ajaykumarreddy1392)",
+                    "homepage": "https://www.drupal.org/u/ajay_reddy",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Viraj Rajankar (virajrajankar)",
+                    "homepage": "https://www.drupal.org/u/virajrajankar",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Eugene Ilyin (eugene.ilyin)",
+                    "homepage": "https://www.drupal.org/u/eugeneilyin",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Jeroen Tubex (JeroenT)",
+                    "homepage": "https://www.drupal.org/u/jeroent",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Allows to disable field of entities on the forms.",
+            "homepage": "https://drupal.org/project/disable_field",
+            "support": {
+                "source": "https://git.drupalcode.org/project/disable_field",
+                "issues": "https://www.drupal.org/project/issues/disable_field"
             }
         },
         {

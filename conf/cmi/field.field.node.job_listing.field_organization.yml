@@ -6,6 +6,14 @@ dependencies:
     - field.storage.node.field_organization
     - node.type.job_listing
     - taxonomy.vocabulary.organization
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
 _core:
   default_config_hash: goBeY3-MCYNCQBkrGRk0h-IY94mibPcxHadivo_yXww
 id: node.job_listing.field_organization
