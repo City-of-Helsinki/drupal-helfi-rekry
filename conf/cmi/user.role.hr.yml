@@ -23,6 +23,7 @@ permissions:
   - 'cancel account'
   - 'change own username'
   - 'edit any job_listing content'
+  - 'schedule publishing of nodes'
   - 'use text format full_html'
   - 'use text format minimal'
   - 'view any unpublished job_listing content'
