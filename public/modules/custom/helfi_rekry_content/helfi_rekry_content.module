@@ -86,7 +86,7 @@ function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
     return $url;
   }
   catch (\throwable $e) {
-    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '"failed validation with message: ' . $e->getMessage());
+    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
     throw new MigrateSkipRowException();
   }
 }
