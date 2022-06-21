@@ -80,21 +80,15 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
  *   Valid video url or null
  */
 function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
-  if (!$url) {
-    return NULL;
-  }
-
   try {
     $resolver = \Drupal::service('media.oembed.url_resolver');
     $validate = $resolver->getProviderByUrl($url);
     return $url;
   }
   catch (\throwable $e) {
-    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '"failed validation with message: ' . $e->getMessage());
-    return NULL;
+    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
+    throw new MigrateSkipRowException();
   }
-
-  return NULL;
 }
 
 /**
