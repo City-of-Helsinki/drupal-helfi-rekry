@@ -7,6 +7,13 @@ dependencies:
     - node.type.job_listing
   module:
     - datetime
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
 id: node.job_listing.field_last_changed_remote
 field_name: field_last_changed_remote
 entity_type: node

@@ -6,6 +6,14 @@ dependencies:
     - field.storage.node.field_employment_type
     - node.type.job_listing
     - taxonomy.vocabulary.employment_type
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
 id: node.job_listing.field_employment_type
 field_name: field_employment_type
 entity_type: node

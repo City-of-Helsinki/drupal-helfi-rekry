@@ -6,7 +6,14 @@ dependencies:
     - field.storage.node.field_link_to_application
     - node.type.job_listing
   module:
+    - disable_field
     - link
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
 id: node.job_listing.field_link_to_application
 field_name: field_link_to_application
 entity_type: node

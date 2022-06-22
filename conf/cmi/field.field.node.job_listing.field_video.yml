@@ -6,6 +6,14 @@ dependencies:
     - field.storage.node.field_video
     - media.type.remote_video
     - node.type.job_listing
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
 id: node.job_listing.field_video
 field_name: field_video
 entity_type: node

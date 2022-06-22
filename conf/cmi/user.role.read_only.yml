@@ -5,14 +5,16 @@ dependencies:
   module:
     - paragraphs
     - toolbar
+    - view_unpublished
 _core:
   default_config_hash: syTv0h1MUcZ35TjmApRsR9znnDRN-fk-wxfZjABkkbw
 id: read_only
 label: 'Read only'
-weight: 2
+weight: -8
 is_admin: null
 permissions:
   - 'access toolbar'
+  - 'view any unpublished job_listing content'
   - 'view any unpublished landing_page content'
   - 'view any unpublished page content'
   - 'view unpublished paragraphs'

@@ -5,6 +5,14 @@ dependencies:
   config:
     - field.storage.node.field_recruitment_id
     - node.type.job_listing
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
 id: node.job_listing.field_recruitment_id
 field_name: field_recruitment_id
 entity_type: node
