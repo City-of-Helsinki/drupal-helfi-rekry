@@ -1,0 +1,16 @@
+.block--of-interest {
+  background-color: $color-black-10;
+  padding-top: $spacing-sextuple;
+  padding-bottom: $spacing-sextuple;
+
+  .views--of-interest,
+  h2 {
+    @include components-container-max-width();
+    @include component-side-padding();
+    margin: auto;
+  }
+
+  h2 {
+    margin-bottom: $spacing-triple;
+  }
+}

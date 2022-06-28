@@ -168,3 +168,29 @@
     margin-top: $spacing-triple;
   }
 }
+
+.node--view-mode-teaser {
+  position: relative;
+  padding: $spacing-double;
+  background-color: $color-white;
+  margin-bottom: $spacing-and-half;
+  display: flex;
+
+  .job-listing__container-left {
+    width: 70%;
+  }
+
+  .job-listing__container-right {
+    width: 30%;
+  }
+
+  .job-listing__metadata {
+    width: 100%;
+  }
+
+  .job-listing__title {
+    @include font('h4');
+
+    margin-top: 0;
+  }
+}
