@@ -169,6 +169,10 @@
   }
 }
 
+.node--view-mode-full .content-tags {
+  margin-top: $spacing-and-half;
+}
+
 .node--view-mode-teaser {
   position: relative;
   padding: $spacing-double;
@@ -192,5 +196,14 @@
     @include font('h4');
 
     margin-top: 0;
+  }
+
+  .job-listing__job-description,
+  .content-tags {
+    margin-top: $spacing;
+  }
+
+  .job-listing__metadata--application-ends {
+    margin-bottom: $spacing-and-half;
   }
 }

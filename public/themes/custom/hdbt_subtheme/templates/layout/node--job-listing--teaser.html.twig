@@ -87,7 +87,22 @@
       } %}
       {{ link(label, node_url, link_attributes) }}
     </h3>
-    {{ content.field_employment_type }}
+    {% if content.field_employment_type|render or content.field_employment|render %}
+      {% embed '@hdbt/misc/tag-list.twig' with { type: 'static' }%}
+        {% block content %}
+          {% if content.field_employment_type|render %}
+              {% include '@hdbt/misc/tag.twig' with {
+                tag: content.field_employment_type,
+              }%}
+          {% endif %}
+          {% if content.field_employment|render %}
+            {% include '@hdbt/misc/tag.twig' with {
+              tag: content.field_employment,
+            }%}
+          {% endif %}
+        {% endblock content %}
+      {% endembed %}
+    {% endif %}
     {{ content.job_description}}
   </div>
   <div class="job-listing__container-right">
