@@ -1,22 +1,3 @@
-.job-listing__employment_and_type {
-  display: flex;
-  margin-top: $spacing;
-
-  @include breakpoint($breakpoint-m) {
-    margin-top: $spacing-and-half;
-  }
-}
-
-.employment,
-.employment-type {
-  @include font('special.helper_text');
-  background-color: $color-black-10;
-  border-radius: 27px; // height of the pill divided by 2.
-  display: inline-block;
-  margin-right: $spacing-half;
-  padding: $spacing $spacing-and-half;
-}
-
 .job-listing__organization-name {
   @include font(body);
   display: flex;

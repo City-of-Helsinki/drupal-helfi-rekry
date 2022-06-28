@@ -106,10 +106,20 @@
     %}
       {% block component_content %}
         {% if content.field_employment_type|render or content.field_employment|render %}
-          <div class="job-listing__employment_and_type">
-            {{ content.field_employment_type }}
-            {{ content.field_employment }}
-          </div>
+          {% embed '@hdbt/misc/tag-list.twig' with { type: 'interactive' }%}
+            {% block content %}
+              {% if content.field_employment_type|render %}
+                  {% include '@hdbt/misc/tag.twig' with {
+                    tag: content.field_employment_type,
+                  }%}
+              {% endif %}
+              {% if content.field_employment|render %}
+                {% include '@hdbt/misc/tag.twig' with {
+                  tag: content.field_employment,
+                }%}
+              {% endif %}
+            {% endblock content %}
+          {% endembed %}
         {% endif %}
         {{ content.field_organization_name }}
         {{ content.field_link_to_application }}
