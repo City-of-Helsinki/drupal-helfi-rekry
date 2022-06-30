@@ -196,7 +196,7 @@
   .job-listing__container-left {
     @include breakpoint($breakpoint-l) {
       width: 70%;
-      padding-right: $spacing;
+      padding-right: $spacing-double;
     }
   }
 
@@ -222,6 +222,11 @@
 
   .job-listing__metadata {
     width: 100%;
+  }
+
+  .job-listing__metadata__label {
+    display: flex;
+    margin-bottom: $spacing-quarter;
   }
 
   .job-listing__title {
@@ -255,6 +260,7 @@
 
   .job-listing__organization-name {
     margin-top: $spacing-half;
+    pointer-events: none;
   }
 
   .job-listing__metadata--application-ends {
