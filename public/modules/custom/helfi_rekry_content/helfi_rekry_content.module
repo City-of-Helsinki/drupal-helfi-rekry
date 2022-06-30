@@ -111,14 +111,12 @@ function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
  * @param string|null $url
  *   The video url.
  *
- * @return string|null
- *   Valid video url or null
+ * @throws \Drupal\migrate\MigrateSkipRowException
  */
-function _helfi_rekry_check_video_existance(string|NULL $url = NULL) {
+function _helfi_rekry_check_video_existance(string|NULL $url = NULL): void {
   if (_helfi_rekry_content_lookup_video_mid($url)) {
     throw new MigrateSkipRowException();
   }
-
 }
 
 /**
@@ -130,7 +128,7 @@ function _helfi_rekry_check_video_existance(string|NULL $url = NULL) {
  * @return string|null
  *   The mid or null
  */
-function _helfi_rekry_content_lookup_video_mid($url): ?string {
+function _helfi_rekry_content_lookup_video_mid(string $url): ?string {
   $entityQuery = \Drupal::entityQuery('media')
     ->condition('bundle', 'remote_video')
     ->condition('field_media_oembed_video', $url)
@@ -154,7 +152,7 @@ function _helfi_rekry_content_lookup_video_mid($url): ?string {
  * @return string|null
  *   The nid or null
  */
-function _helfi_rekry_content_lookup_job_nid($id): ?string {
+function _helfi_rekry_content_lookup_job_nid(string $id): ?string {
   $entityQuery = \Drupal::entityQuery('node')
     ->condition('type', 'job_listing')
     ->condition('field_recruitment_id', $id)
@@ -178,7 +176,7 @@ function _helfi_rekry_content_lookup_job_nid($id): ?string {
  * @return string|null
  *   The resulting url or null
  */
-function _helfi_rekry_add_schema($url = NULL): ?string {
+function _helfi_rekry_add_schema(string|NULL $url = NULL): ?string {
   if ($url && parse_url($url, PHP_URL_SCHEME) === NULL) {
     return 'https://' . $url;
   }
