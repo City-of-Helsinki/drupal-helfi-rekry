@@ -25,7 +25,7 @@ function hdbt_subtheme_preprocess_block__views_block__of_interest(&$variables) {
 }
 
 /**
- * Implements hook_theme_suggestions_HOOK_alter for blocks.
+ * Implements hook_theme_suggestions_HOOK_alter().
  */
 function hdbt_subtheme_theme_suggestions_block_alter(&$suggestions) {
   // Load theme suggestions for blocks from parent theme.
@@ -75,8 +75,8 @@ function hdbt_subtheme_preprocess_page(&$variables) {
   $entity = hdbt_content_get_page_entity();
   if ($entity instanceof NodeInterface) {
 
-    // Handle first and second sidebar visibility for the "Job listing" (job_listing)
-    // content type.
+    // Handle first and second sidebar visibility for the "Job listing"
+    // (job_listing) content type.
     if ($entity->getType() === 'job_listing') {
       $variables['has_sidebar_second'] = TRUE;
     }

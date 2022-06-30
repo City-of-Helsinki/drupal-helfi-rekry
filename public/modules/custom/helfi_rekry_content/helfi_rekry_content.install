@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains install functions for HELfi Rekry Content module
+ * Contains install functions for HELfi Rekry Content module.
  */
 
 use Drupal\helfi_platform_config\ConfigHelper;
@@ -22,29 +22,28 @@ function helfi_rekry_content_install($is_syncing) {
 }
 
 /**
- * HELfi Rekry Content initial configurations
+ * HELfi Rekry Content initial configurations.
  */
 function helfi_rekry_content_update_9001() {
-  // Install config translations
+  // Install config translations.
   $configTranslationLocation = dirname(__FILE__) . '/config/language/';
 
   $configurations = [
     'field.field.taxonomy_term.organization.field_default_image',
     'field.field.taxonomy_term.organization.field_external_id',
-    'taxonomy.vocabulary.organization'
+    'taxonomy.vocabulary.organization',
   ];
 
-  foreach($configurations as $configuration) {
+  foreach ($configurations as $configuration) {
     ConfigHelper::installNewConfigTranslation($configTranslationLocation, $configuration);
   }
 }
-
 
 /**
  * HELfi Rekry content update 9002.
  */
 function helfi_rekry_content_update_9002() {
-  // Install config translations
+  // Install config translations.
   $configTranslationLocation = dirname(__FILE__) . '/config/language/';
 
   $configurations = [
@@ -72,7 +71,7 @@ function helfi_rekry_content_update_9002() {
     'taxonomy.vocabulary.task_area.yml',
   ];
 
-  foreach($configurations as $configuration) {
+  foreach ($configurations as $configuration) {
     ConfigHelper::installNewConfigTranslation($configTranslationLocation, $configuration);
   }
 }
@@ -81,44 +80,44 @@ function helfi_rekry_content_update_9002() {
  * HELfi rekry content update 9003.
  */
 function helfi_rekry_content_update_9003() {
-  
+
   $employmentTypeItems = [
     [
       'en' => 'Permanent contractual employment',
       'fi' => 'Vakinainen työsuhde',
-      'sv' => 'Fast anställning'
+      'sv' => 'Fast anställning',
     ],
     [
       'en' => 'Permanent public service employment',
       'fi' => 'Vakinainen virkasuhde',
-      'sv' => 'Fast tjänst'
+      'sv' => 'Fast tjänst',
     ],
     [
       'en' => 'Fixed-term contractual employment',
       'fi' => 'Määräaikainen työsuhde',
-      'sv' => 'Tidsbundet arbetsförhållande'
+      'sv' => 'Tidsbundet arbetsförhållande',
     ],
     [
       'en' => 'Fixed-term public service employment',
       'fi' => 'Määräaikainen virkasuhde',
-      'sv' => 'Tjänsteförhållande på viss tid'
+      'sv' => 'Tjänsteförhållande på viss tid',
     ],
     [
       'en' => 'Part-time employment',
       'fi' => 'Osa-aikainen ',
-      'sv' => 'Deltidsarbete'
+      'sv' => 'Deltidsarbete',
     ],
   ];
 
-  foreach($employmentTypeItems as $item) {
+  foreach ($employmentTypeItems as $item) {
     $term = Term::create([
       'parent' => [],
       'name' => $item['en'],
-      'vid' => 'employment_type'
+      'vid' => 'employment_type',
     ])->addTranslation('fi', [
-      'name' => $item['fi']
+      'name' => $item['fi'],
     ])->addTranslation('sv', [
-      'name' => $item['sv']
+      'name' => $item['sv'],
     ])->save();
   }
 
@@ -126,39 +125,39 @@ function helfi_rekry_content_update_9003() {
     [
       'en' => 'Temporary position',
       'fi' => 'Sijaisuus',
-      'sv' => 'Vikariat'
+      'sv' => 'Vikariat',
     ],
     [
       'en' => 'Job alternation leave substitute',
       'fi' => 'Vuorotteluvapaan sijaisuus',
-      'sv' => 'Vikariat under alterneringsledighet'
+      'sv' => 'Vikariat under alterneringsledighet',
     ],
     [
       'en' => 'Project-type job',
       'fi' => 'Projektiluonteinen työ',
-      'sv' => 'Projekt'
+      'sv' => 'Projekt',
     ],
     [
       'en' => 'Apprenticeship contract',
       'fi' => 'Oppisopimus',
-      'sv' => 'Läroavtal'
+      'sv' => 'Läroavtal',
     ],
     [
       'en' => 'Practical training',
       'fi' => 'Harjoittelu',
-      'sv' => 'Praktik'
-    ]
+      'sv' => 'Praktik',
+    ],
   ];
 
-  foreach($employmentItems as $item) {
+  foreach ($employmentItems as $item) {
     $term = Term::create([
       'parent' => [],
       'name' => $item['en'],
-      'vid' => 'employment'
+      'vid' => 'employment',
     ])->addTranslation('fi', [
-      'name' => $item['fi']
+      'name' => $item['fi'],
     ])->addTranslation('sv', [
-      'name' => $item['sv']
+      'name' => $item['sv'],
     ])->save();
   }
 }
