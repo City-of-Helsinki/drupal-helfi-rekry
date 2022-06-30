@@ -32,12 +32,24 @@
 %}
 
 <div{{ attributes.addClass(classes) }}>
-  {{ title_prefix }}
-  {% if label %}
-    <h2{{ title_attributes }}>{{ label }}</h2>
-  {% endif %}
-  {{ title_suffix }}
-  {% block content %}
-    {{ content }}
-  {% endblock %}
+  <div class="block--of-interest__content-container">
+    {{ title_prefix }}
+    {% if label %}
+      <h2{{ title_attributes }}>{{ label }}</h2>
+    {% endif %}
+    {{ title_suffix }}
+    {% block content %}
+      {{ content }}
+      {% set link_title %}
+        <span class="hds-button__label">{{ 'See all related jobs'|t }}</span>
+      {% endset %}
+      {% set link_attributes = {
+        'class': [
+          'hds-button',
+          'hds-button--primary',
+        ],
+      } %}
+      {{ link(link_title, related_jobs_link, link_attributes) }}
+    {% endblock %}
+   </div>
 </div>

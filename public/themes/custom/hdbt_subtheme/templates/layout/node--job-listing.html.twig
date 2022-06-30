@@ -127,8 +127,8 @@
           <div class="job-listing__metadata job-listing__metadata--application-ends">
             <span class="job-listing__metadata__label">{{ 'Application ends'|t }}</span>
             <span class="job-listing__metadata__content">
-              {% if content.field_publication_ends|render %}
-                {{ content.field_publication_ends }}
+              {% if unpublish_on|render %}
+                {{ unpublish_on }}
               {% else %}
                 -
               {% endif %}

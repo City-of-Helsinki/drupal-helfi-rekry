@@ -1,10 +1,12 @@
+$-block--of-interes-padding-top-and-bottom: 80px;
+
 .block--of-interest {
   background-color: $color-black-10;
-  padding-top: $spacing-sextuple;
-  padding-bottom: $spacing-sextuple;
+  padding: $-block--of-interes-padding-top-and-bottom 0;
+  margin-top: $spacing-quadruple;
+  margin-bottom: calc((#{$footer-koro-height} + #{$spacing-triple})* -1);
 
-  .views--of-interest,
-  h2 {
+  .block--of-interest__content-container {
     @include components-container-max-width();
     @include component-side-padding();
     margin: auto;
@@ -12,5 +14,6 @@
 
   h2 {
     margin-bottom: $spacing-triple;
+    margin-top: 0;
   }
 }
