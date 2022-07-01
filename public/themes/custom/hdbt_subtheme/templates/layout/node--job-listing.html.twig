@@ -106,7 +106,7 @@
     %}
       {% block component_content %}
         {% if content.field_employment_type|render or content.field_employment|render %}
-          {% embed '@hdbt/misc/tag-list.twig' with { type: 'interactive' }%}
+          {% embed '@hdbt/misc/tag-list.twig' with { type: 'static' }%}
             {% block content %}
               {% if content.field_employment_type|render %}
                   {% include '@hdbt/misc/tag.twig' with {
@@ -127,8 +127,8 @@
           <div class="job-listing__metadata job-listing__metadata--application-ends">
             <span class="job-listing__metadata__label">{{ 'Application ends'|t }}</span>
             <span class="job-listing__metadata__content">
-              {% if content.field_publication_ends|render %}
-                {{ content.field_publication_ends }}
+              {% if unpublish_on|render %}
+                {{ unpublish_on }}
               {% else %}
                 -
               {% endif %}

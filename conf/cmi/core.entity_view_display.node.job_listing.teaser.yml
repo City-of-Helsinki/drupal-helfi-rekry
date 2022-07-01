@@ -30,41 +30,53 @@ dependencies:
     - field.field.node.job_listing.job_description
     - node.type.job_listing
   module:
-    - text
     - user
 id: node.job_listing.teaser
 targetEntityType: node
 bundle: job_listing
 mode: teaser
 content:
-  job_description:
-    type: text_summary_or_trimmed
+  field_employment_type:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_job_duration:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_organization_name:
+    type: string
     label: hidden
     settings:
-      trim_length: 600
+      link_to_entity: false
     third_party_settings: {  }
-    weight: 101
+    weight: 3
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
   field_address: true
   field_anonymous: true
   field_contacts: true
   field_employment: true
-  field_employment_type: true
   field_image: true
-  field_job_duration: true
   field_jobs: true
   field_last_changed_remote: true
   field_link_to_application: true
   field_link_to_presentation: true
   field_organization: true
   field_organization_description: true
-  field_organization_name: true
   field_postal_area: true
   field_postal_code: true
   field_prevent_publishing: true
@@ -74,5 +86,6 @@ hidden:
   field_salary_class: true
   field_task_area: true
   field_video: true
+  job_description: true
   langcode: true
   toc_enabled: true
