@@ -203,7 +203,6 @@
   .job-listing__container-right {
     position: relative; 
     padding-right: $spacing-triple;
-    pointer-events: none;
 
     @include breakpoint($breakpoint-l) {
       width: 30%;
@@ -245,12 +244,10 @@
     }
   
     &::after {
-      bottom: 0;
       content: '';
-      left: 0;
+      inset: 0;
       position: absolute;
-      right: 0;
-      top: 0;
+      z-index: 2;
     }
   }
 
@@ -260,7 +257,6 @@
 
   .job-listing__organization-name {
     margin-top: $spacing-half;
-    pointer-events: none;
   }
 
   .job-listing__metadata--application-ends {
