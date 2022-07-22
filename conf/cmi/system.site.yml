@@ -3,7 +3,7 @@ _core:
 langcode: en
 uuid: c5c9becf-a997-4b50-8073-0601e0585a73
 name: 'Open jobs'
-mail: admin@example.com
+mail: drupal@hel.fi
 slogan: ''
 page:
   403: ''
