@@ -123,62 +123,19 @@
         {% endif %}
         {{ content.field_organization_name }}
         {{ content.field_link_to_application }}
-        <section class="job-listing__metadata-wrapper">
-          <div class="job-listing__metadata job-listing__metadata--application-ends">
-            <span class="job-listing__metadata__label">{{ 'Application ends'|t }}</span>
-            <span class="job-listing__metadata__content">
-              {% if unpublish_on|render %}
-                {{ unpublish_on }}
-              {% else %}
-                -
-              {% endif %}
-            </span>
-          </div>
-          {% if content.field_salary|render %}
-            <div class="job-listing__metadata job-listing__metadata--salary">
-              <span class="job-listing__metadata__label">{{ 'Salary'|t }}</span>
-              <span class="job-listing__metadata__content">
-                  {{ content.field_salary }}
-              </span>
-            </div>
-          {% endif %}
-          <div class="job-listing__metadata job-listing__metadata--job-duration">
-            <span class="job-listing__metadata__label">{{ 'Employment contract'|t }}</span>
-            <span class="job-listing__metadata__content">
-              {% if content.field_job_duration|render %}
-                {{ content.field_job_duration }}
-              {% else %}
-                -
-              {% endif %}
-            </span>
-          </div>
-          <div class="job-listing__metadata job-listing__metadata--address">
-            <span class="job-listing__metadata__label">{{ 'Address'|t }}</span>
-            <span class="job-listing__metadata__content">
-              {% if content.field_address|render %}
-                {{ content.field_address }}, {{ content.field_postal_code }} {{ content.field_postal_area }}
-              {% else %}
-                -
-              {% endif %}
-            </span>
-          </div>
-          <div class="job-listing__metadata job-listing__metadata--published">
-            <span class="job-listing__metadata__label">{{ 'Published'|t }}</span>
-            <span class="job-listing__metadata__content">
-              {{ content.field_publication_starts }}
-            </span>
-          </div>
-          <div class="job-listing__metadata job-listing__metadata--job-code">
-            <span class="job-listing__metadata__label">{{ 'Job code'|t }}</span>
-            <span class="job-listing__metadata__content">
-              {% if content.field_recruitment_id|render %}
-                {{ content.field_recruitment_id }}
-              {% else %}
-                -
-              {% endif %}
-            </span>
-          </div>
-        </section>
+        {% set metadata = [
+          { label: 'Application ends'|t, icon: 'clock', content: unpublish_on },
+          { label: 'Salary'|t, icon: 'glyph-euro', content: content.field_salary },
+          { label: 'Employment contract'|t, icon: 'calendar', content: content.field_job_duration },
+          { label: 'Address'|t, icon: 'location', content: [content.field_address, content.field_postal_code, content.field_postal_area] },
+          { label: 'Published'|t, icon: 'calendar-clock', content: content.field_publication_starts },
+          { label: 'Job code'|t, icon: 'locate', content: content.field_recruitment_id },
+        ] %}
+
+        <div class="job-listing__metadata-wrapper">
+          {% include '@hdbt/misc/metadata-wrapper.twig' with { items: metadata }%}
+        </div>
+
         {{ content.job_description }}
         {{ content.field_salary_class }}
         {% if content.field_contacts|render or content.field_internet_link %}
