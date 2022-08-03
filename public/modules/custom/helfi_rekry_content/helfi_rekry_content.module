@@ -226,10 +226,10 @@ function template_preprocess_organization_information_block(array &$variables) :
   $organization_default_image = $organization->get("field_default_image")->first()->view([
     'type' => 'image',
     'label' => 'hidden',
-    'settings' => array(
+    'settings' => [
       'image_style' => '3_2_m_2x',
       'image_link' => '',
-    ),
+    ],
   ]);
   $variables['content']['organization_default_image'] = $organization_default_image;
 }
