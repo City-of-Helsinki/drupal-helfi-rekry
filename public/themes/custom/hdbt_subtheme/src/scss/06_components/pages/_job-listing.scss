@@ -71,11 +71,17 @@
   padding: $spacing-and-half;
 }
 
-.job-listing__image img {
-  display: block;
-  height: auto;
-  max-width: 100%;
-  overflow: hidden;
+.job-listing__image {
+  img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .image-placeholder {
+    padding-bottom: 66.67%; // 3:2 aspect ratio.
+  }
 }
 
 .job-listing__organization {
@@ -132,7 +138,7 @@
   }
 
   .job-listing__container-right {
-    position: relative; 
+    position: relative;
     padding-right: $spacing-triple;
 
     @include breakpoint($breakpoint-l) {
@@ -168,12 +174,12 @@
   .job-listing__title a {
     display: block;
     text-decoration: none;
-  
+
     &:focus,
     &:hover {
       text-decoration: underline;
     }
-  
+
     &::after {
       content: '';
       inset: 0;
