@@ -7,6 +7,7 @@ namespace Drupal\helfi_rekry_content\Form;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\path_alias\AliasManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -81,6 +82,15 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('This page is displayed for anonymous users when a job listing is unpublished. Redirect to page that contains information about old and removed job listings.'),
     ];
 
+    $language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
+    $form['job_listings_']['city_description_' . $language] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('City description'),
+      '#default_value' => $siteConfig->get('city_description_' . $language),
+      '#description' => $this->t('This description will be added to all job listings.'),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -103,8 +113,11 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+
     $this->config('helfi_rekry_content.job_listings')
       ->set('redirect_403', $form_state->getValue('redirect_403'))
+      ->set('city_description_' . $language, $form_state->getValue('city_description_' . $language))
       ->save();
     parent::submitForm($form, $form_state);
   }
