@@ -213,10 +213,11 @@ function template_preprocess_organization_information_block(array &$variables) :
     $variables['content'][$key] = $variables['elements'][$key];
   }
 
-  // City description.
-  $siteConfig = $this->config('helfi_rekry_content.job_listings');
+  // City description title and text.
+  $siteConfig = \Drupal::config('helfi_rekry_content.job_listings');
 
   $language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
-  $variables['content']['city_description'] = $siteConfig->get('city_description_' . $language);
+  $variables['content']['city_description_title'] = $siteConfig->get('city_description_title_' . $language);
+  $variables['content']['city_description_text'] = $siteConfig->get('city_description_text_' . $language);
 }

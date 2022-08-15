@@ -84,11 +84,18 @@ class SettingsForm extends ConfigFormBase {
 
     $language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
-    $form['job_listings_']['city_description_' . $language] = [
+    $form['job_listings_']['city_description_title_' . $language] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('City description title'),
+      '#default_value' => $siteConfig->get('city_description_title_' . $language),
+      '#description' => $this->t('This description title will be added to all job listings.'),
+    ];
+
+    $form['job_listings_']['city_description_text_' . $language] = [
       '#type' => 'textarea',
-      '#title' => $this->t('City description'),
-      '#default_value' => $siteConfig->get('city_description_' . $language),
-      '#description' => $this->t('This description will be added to all job listings.'),
+      '#title' => $this->t('City description text'),
+      '#default_value' => $siteConfig->get('city_description_text_' . $language),
+      '#description' => $this->t('This description text will be added to all job listings.'),
     ];
 
     return parent::buildForm($form, $form_state);
@@ -117,7 +124,8 @@ class SettingsForm extends ConfigFormBase {
 
     $this->config('helfi_rekry_content.job_listings')
       ->set('redirect_403', $form_state->getValue('redirect_403'))
-      ->set('city_description_' . $language, $form_state->getValue('city_description_' . $language))
+      ->set('city_description_title_' . $language, $form_state->getValue('city_description_title_' . $language))
+      ->set('city_description_text_' . $language, $form_state->getValue('city_description_text_' . $language))
       ->save();
     parent::submitForm($form, $form_state);
   }

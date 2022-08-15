@@ -67,7 +67,8 @@
   background-color: var(--hdbt-color-palette--secondary);
 }
 
-.job-listing__organization-information {
+.job-listing__organization-information,
+.job-listing__city-description {
   padding: $spacing-and-half;
 }
 
@@ -78,12 +79,14 @@
   overflow: hidden;
 }
 
-.job-listing__organization {
+.job-listing__organization,
+.job-listing__city-description-title {
   @include font(h6);
   margin-top: 0;
 }
 
-.job-listing__organization-description {
+.job-listing__organization-description,
+.job-listing__city-description-text {
   @include font(small);
   margin-top: $spacing-half;
 
@@ -132,7 +135,7 @@
   }
 
   .job-listing__container-right {
-    position: relative; 
+    position: relative;
     padding-right: $spacing-triple;
 
     @include breakpoint($breakpoint-l) {
@@ -168,12 +171,12 @@
   .job-listing__title a {
     display: block;
     text-decoration: none;
-  
+
     &:focus,
     &:hover {
       text-decoration: underline;
     }
-  
+
     &::after {
       content: '';
       inset: 0;
