@@ -1,5 +1,5 @@
 helfi_rekry_content.settings:
-  path: '/admin/config/services/rekry-content'
+  path: '/admin/tools/rekry-content'
   defaults:
     _form: '\Drupal\helfi_rekry_content\Form\SettingsForm'
     _title: 'Rekry content settings'

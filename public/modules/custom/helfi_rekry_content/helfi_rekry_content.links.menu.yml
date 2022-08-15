@@ -1,5 +1,5 @@
 helfi_rekry_content.settings:
   title: 'Rekry content settings'
   route_name: helfi_rekry_content.settings
-  parent: system.admin_config_services
+  parent: hdbt_admin_tools.site_information
   weight: 95
