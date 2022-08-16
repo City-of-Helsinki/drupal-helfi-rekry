@@ -16,7 +16,6 @@ module:
   content_lock: 0
   content_lock_timeout: 0
   crop: 0
-  ctools: 0
   datetime: 0
   dblog: 0
   diff: 0
