@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.taxonomy_term.organization.field_default_image
     - field.field.taxonomy_term.organization.field_external_id
+    - image.style.3_2_m_2x
     - taxonomy.vocabulary.organization
   module:
     - image
@@ -28,7 +29,7 @@ content:
     label: above
     settings:
       image_link: ''
-      image_style: ''
+      image_style: 3_2_m_2x
       image_loading:
         attribute: lazy
     third_party_settings: {  }

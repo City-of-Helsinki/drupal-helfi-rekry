@@ -72,11 +72,17 @@
   padding: $spacing-and-half;
 }
 
-.job-listing__image img {
-  display: block;
-  height: auto;
-  max-width: 100%;
-  overflow: hidden;
+.job-listing__image {
+  img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .image-placeholder {
+    padding-bottom: 66.67%; // 3:2 aspect ratio.
+  }
 }
 
 .job-listing__organization,

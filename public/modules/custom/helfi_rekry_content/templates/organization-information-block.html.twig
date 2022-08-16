@@ -2,6 +2,8 @@
   <div class="job-listing__image">
     {% if content.field_image|render %}
       {{ content.field_image }}
+    {% elseif content.organization_default_image|render %}
+      {{ content.organization_default_image }}
     {% else %}
       {% include '@hdbt/media/image--card.html.twig' with {content: '' } %}
     {% endif %}
