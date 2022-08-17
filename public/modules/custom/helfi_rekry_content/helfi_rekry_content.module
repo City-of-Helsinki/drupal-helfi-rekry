@@ -216,10 +216,8 @@ function template_preprocess_organization_information_block(array &$variables) :
   // City description title and text.
   $siteConfig = \Drupal::config('helfi_rekry_content.job_listings');
 
-  $language = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
-
-  $variables['content']['city_description_title'] = $siteConfig->get('city_description_title_' . $language);
-  $variables['content']['city_description_text'] = $siteConfig->get('city_description_text_' . $language);
+  $variables['content']['city_description_title'] = $siteConfig->get('city_description_title');
+  $variables['content']['city_description_text'] = $siteConfig->get('city_description_text');
 
   // Check if there is default picture set for organization.
   if (empty($variables["elements"]["field_organization"]["#items"])) {
