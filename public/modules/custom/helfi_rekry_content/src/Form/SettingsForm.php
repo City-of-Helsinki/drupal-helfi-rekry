@@ -81,6 +81,20 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('This page is displayed for anonymous users when a job listing is unpublished. Redirect to page that contains information about old and removed job listings.'),
     ];
 
+    $form['job_listings_']['city_description_title'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('City description title'),
+      '#default_value' => $siteConfig->get('city_description_title'),
+      '#description' => $this->t('This description title will be added to all job listings.'),
+    ];
+
+    $form['job_listings_']['city_description_text'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('City description text'),
+      '#default_value' => $siteConfig->get('city_description_text'),
+      '#description' => $this->t('This description text will be added to all job listings.'),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -105,6 +119,8 @@ class SettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('helfi_rekry_content.job_listings')
       ->set('redirect_403', $form_state->getValue('redirect_403'))
+      ->set('city_description_title', $form_state->getValue('city_description_title'))
+      ->set('city_description_text', $form_state->getValue('city_description_text'))
       ->save();
     parent::submitForm($form, $form_state);
   }

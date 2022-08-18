@@ -18,4 +18,14 @@
       </div>
     </div>
   {% endif %}
+  {% if content.city_description_title|render or content.city_description_text|render %}
+    <div class="job-listing__city-description">
+      <h2 class="job-listing__city-description-title">
+        {{  content.city_description_title }}
+      </h2>
+      <div class="job-listing__city-description-text">
+        {{ content.city_description_text|nl2br }}
+      </div>
+    </div>
+  {% endif %}
 </div>

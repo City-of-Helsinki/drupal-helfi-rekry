@@ -67,7 +67,8 @@
   background-color: var(--hdbt-color-palette--secondary);
 }
 
-.job-listing__organization-information {
+.job-listing__organization-information,
+.job-listing__city-description {
   padding: $spacing-and-half;
 }
 
@@ -84,12 +85,14 @@
   }
 }
 
-.job-listing__organization {
+.job-listing__organization,
+.job-listing__city-description-title {
   @include font(h6);
   margin-top: 0;
 }
 
-.job-listing__organization-description {
+.job-listing__organization-description,
+.job-listing__city-description-text {
   @include font(small);
   margin-top: $spacing-half;
 
