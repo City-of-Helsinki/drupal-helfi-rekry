@@ -1,22 +1,3 @@
-.job-listing__employment_and_type {
-  display: flex;
-  margin-top: $spacing;
-
-  @include breakpoint($breakpoint-m) {
-    margin-top: $spacing-and-half;
-  }
-}
-
-.employment,
-.employment-type {
-  @include font('special.helper_text');
-  background-color: $color-black-10;
-  border-radius: 27px; // height of the pill divided by 2.
-  display: inline-block;
-  margin-right: $spacing-half;
-  padding: $spacing $spacing-and-half;
-}
-
 .job-listing__organization-name {
   @include font(body);
   display: flex;
@@ -64,75 +45,6 @@
   }
 }
 
-.job-listing__metadata-wrapper {
-  background-color: var(--hdbt-color-palette--secondary);
-  margin-top: $spacing;
-  padding: $spacing-and-half;
-  display: flex;
-  flex-wrap: wrap;
-
-  @include breakpoint($breakpoint-m) {
-    margin-top: $spacing-double;
-  }
-}
-
-.job-listing__metadata {
-  margin-top: $spacing;
-  width: 100%;
-
-  @include breakpoint($breakpoint-m) {
-    width: 50%;
-  }
-
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:nth-child(2) {
-    @include breakpoint($breakpoint-m) {
-      margin-top: 0;
-    }
-  }
-}
-
-.job-listing__metadata__label {
-  @include font(button);
-  display: block;
-
-  &::before {
-    margin-right: $spacing-half;
-  }
-}
-
-.job-listing__metadata__content {
-  // Icon width + margin between title and icon.
-  padding-left: calc(#{$spacing-and-half} + #{$spacing-half});
-}
-
-.job-listing__metadata--application-ends .job-listing__metadata__label::before {
-  @include pseudo-icon('clock', $spacing-and-half, currentColor);
-}
-
-.job-listing__metadata--salary .job-listing__metadata__label::before {
-  @include pseudo-icon('glyph-euro', $spacing-and-half, currentColor);
-}
-
-.job-listing__metadata--job-duration .job-listing__metadata__label::before {
-  // TODO: Missing from hdbt.
-  @include pseudo-icon('calendar', $spacing-and-half, currentColor);
-}
-
-.job-listing__metadata--address .job-listing__metadata__label::before {
-  @include pseudo-icon('location', $spacing-and-half, currentColor);
-}
-
-.job-listing__metadata--published .job-listing__metadata__label::before {
-  @include pseudo-icon('calendar-clock', $spacing-and-half, currentColor);
-}
-
-.job-listing__metadata--job-code .job-listing__metadata__label::before {
-  @include pseudo-icon('locate', $spacing-and-half, currentColor);
-}
 
 .job-listing__job-description {
   @include font(body);
@@ -155,23 +67,32 @@
   background-color: var(--hdbt-color-palette--secondary);
 }
 
-.job-listing__organization-information {
+.job-listing__organization-information,
+.job-listing__city-description {
   padding: $spacing-and-half;
 }
 
-.job-listing__image img {
-  display: block;
-  height: auto;
-  max-width: 100%;
-  overflow: hidden;
+.job-listing__image {
+  img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .image-placeholder {
+    padding-bottom: 66.67%; // 3:2 aspect ratio.
+  }
 }
 
-.job-listing__organization {
+.job-listing__organization,
+.job-listing__city-description-title {
   @include font(h6);
   margin-top: 0;
 }
 
-.job-listing__organization-description {
+.job-listing__organization-description,
+.job-listing__city-description-text {
   @include font(small);
   margin-top: $spacing-half;
 
@@ -183,7 +104,107 @@
 .node--type-job-listing .component--remote-video {
   margin-top: $spacing-double;
 
-  @include breakpoint($breakpoint-m) {
+  @include breakpoint($breakpoint-l) {
     margin-top: $spacing-triple;
+  }
+}
+
+.node--view-mode-full .content-tags {
+  margin-top: $spacing-and-half;
+}
+
+.node--view-mode-teaser {
+  position: relative;
+  padding: $spacing-double;
+  background-color: $color-white;
+  margin-bottom: $spacing-and-half;
+  display: flex;
+  flex-direction: column;
+
+  &:hover .hel-icon--arrow-right {
+    transform: translateX($spacing-quarter);
+
+    @media (prefers-reduced-motion) {
+      transform: none;
+    }
+  }
+
+  @include breakpoint($breakpoint-l) {
+    flex-direction: row;
+  }
+
+  .job-listing__container-left {
+    @include breakpoint($breakpoint-l) {
+      width: 70%;
+      padding-right: $spacing-double;
+    }
+  }
+
+  .job-listing__container-right {
+    position: relative;
+    padding-right: $spacing-triple;
+
+    @include breakpoint($breakpoint-l) {
+      width: 30%;
+    }
+
+    .hel-icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: $spacing-double;
+      height: $spacing-double;
+
+      @include hover-link-arrow-transition;
+    }
+  }
+
+  .job-listing__metadata {
+    width: 100%;
+  }
+
+  .job-listing__metadata__label {
+    display: flex;
+    margin-bottom: $spacing-quarter;
+  }
+
+  .job-listing__title {
+    @include font('h4');
+
+    margin-top: 0;
+  }
+
+  .job-listing__title a {
+    display: block;
+    text-decoration: none;
+
+    &:focus,
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &::after {
+      content: '';
+      inset: 0;
+      position: absolute;
+      z-index: 2;
+    }
+  }
+
+  .content-tags {
+    margin-top: $spacing;
+  }
+
+  .job-listing__organization-name {
+    margin-top: $spacing-half;
+  }
+
+  .job-listing__metadata--application-ends {
+    margin-bottom: $spacing-and-half;
+    margin-top: $spacing;
+
+    @include breakpoint($breakpoint-l) {
+      margin-top: 0;
+    }
   }
 }

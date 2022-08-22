@@ -1,0 +1,32 @@
+uuid: 2c747ece-9853-48ce-b062-9fbf9d945a2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.full_html
+    - filter.format.minimal
+    - node.type.job_listing
+  module:
+    - filter
+    - node
+    - scheduler
+    - system
+    - view_unpublished
+id: hr
+label: HR
+weight: -7
+is_admin: null
+permissions:
+  - 'access content overview'
+  - 'access user profiles'
+  - 'administer nodes'
+  - 'cancel account'
+  - 'change own username'
+  - 'edit any job_listing content'
+  - 'schedule publishing of nodes'
+  - 'use text format full_html'
+  - 'use text format minimal'
+  - 'view any unpublished job_listing content'
+  - 'view own unpublished content'
+  - 'view scheduled content'
+  - 'view the administration theme'

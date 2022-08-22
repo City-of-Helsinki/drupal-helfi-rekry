@@ -5,6 +5,14 @@ dependencies:
   config:
     - field.storage.node.field_postal_area
     - node.type.job_listing
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
 id: node.job_listing.field_postal_area
 field_name: field_postal_area
 entity_type: node

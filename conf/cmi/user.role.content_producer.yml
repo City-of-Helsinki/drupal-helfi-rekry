@@ -10,6 +10,7 @@ dependencies:
     - media.type.image
     - media.type.remote_video
     - media.type.soundcloud
+    - node.type.job_listing
     - node.type.landing_page
     - node.type.page
     - taxonomy.vocabulary.keywords
@@ -33,7 +34,7 @@ _core:
   default_config_hash: viSgvM0-88JonuEOigzOLS-5SZVM7AkhvD2CfKpIgFM
 id: content_producer
 label: 'Content producer'
-weight: 3
+weight: -6
 is_admin: null
 permissions:
   - 'access content overview'
@@ -77,12 +78,14 @@ permissions:
   - 'edit own file media'
   - 'edit own helfi_chart media'
   - 'edit own image media'
+  - 'edit own job_listing content'
   - 'edit own landing_page content'
   - 'edit own page content'
   - 'edit own remote_video media'
   - 'edit own soundcloud media'
   - 'edit paragraph library item'
   - 'edit terms in keywords'
+  - 'revert job_listing revisions'
   - 'revert landing_page revisions'
   - 'revert page revisions'
   - 'schedule publishing of nodes'
@@ -96,6 +99,7 @@ permissions:
   - 'view all revisions'
   - 'view any unpublished content'
   - 'view editoria11y checker'
+  - 'view job_listing revisions'
   - 'view landing_page revisions'
   - 'view own unpublished content'
   - 'view own unpublished media'

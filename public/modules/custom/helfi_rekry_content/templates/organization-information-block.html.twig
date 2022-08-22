@@ -2,6 +2,8 @@
   <div class="job-listing__image">
     {% if content.field_image|render %}
       {{ content.field_image }}
+    {% elseif content.organization_default_image|render %}
+      {{ content.organization_default_image }}
     {% else %}
       {% include '@hdbt/media/image--card.html.twig' with {content: '' } %}
     {% endif %}
@@ -13,6 +15,16 @@
       </h2>
       <div class="job-listing__organization-description">
         {{ content.field_organization_description }}
+      </div>
+    </div>
+  {% endif %}
+  {% if content.city_description_title|render or content.city_description_text|render %}
+    <div class="job-listing__city-description">
+      <h2 class="job-listing__city-description-title">
+        {{  content.city_description_title }}
+      </h2>
+      <div class="job-listing__city-description-text">
+        {{ content.city_description_text|nl2br }}
       </div>
     </div>
   {% endif %}

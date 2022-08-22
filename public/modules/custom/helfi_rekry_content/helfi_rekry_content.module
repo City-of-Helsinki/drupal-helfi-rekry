@@ -7,9 +7,23 @@
 
 declare(strict_types = 1);
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\node\NodeInterface;
 use Drupal\migrate\MigrateSkipRowException;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Disables title field for HR role when editing job listing node.
+ */
+function helfi_rekry_content_form_node_job_listing_edit_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $userRoles = \Drupal::currentUser()->getRoles();
+
+  if (in_array('hr', $userRoles)) {
+    $form['title']['#disabled'] = TRUE;
+  }
+}
 
 /**
  * Implements hook_scheduler_allow_publishing().
@@ -80,21 +94,15 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
  *   Valid video url or null
  */
 function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
-  if (!$url) {
-    return NULL;
-  }
-
   try {
     $resolver = \Drupal::service('media.oembed.url_resolver');
     $validate = $resolver->getProviderByUrl($url);
     return $url;
   }
   catch (\throwable $e) {
-    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '"failed validation with message: ' . $e->getMessage());
-    return NULL;
+    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
+    throw new MigrateSkipRowException();
   }
-
-  return NULL;
 }
 
 /**
@@ -103,14 +111,12 @@ function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
  * @param string|null $url
  *   The video url.
  *
- * @return string|null
- *   Valid video url or null
+ * @throws \Drupal\migrate\MigrateSkipRowException
  */
-function _helfi_rekry_check_video_existance(string|NULL $url = NULL) {
+function _helfi_rekry_check_video_existance(string|NULL $url = NULL): void {
   if (_helfi_rekry_content_lookup_video_mid($url)) {
     throw new MigrateSkipRowException();
   }
-
 }
 
 /**
@@ -122,7 +128,7 @@ function _helfi_rekry_check_video_existance(string|NULL $url = NULL) {
  * @return string|null
  *   The mid or null
  */
-function _helfi_rekry_content_lookup_video_mid($url): ?string {
+function _helfi_rekry_content_lookup_video_mid(string $url): ?string {
   $entityQuery = \Drupal::entityQuery('media')
     ->condition('bundle', 'remote_video')
     ->condition('field_media_oembed_video', $url)
@@ -146,7 +152,7 @@ function _helfi_rekry_content_lookup_video_mid($url): ?string {
  * @return string|null
  *   The nid or null
  */
-function _helfi_rekry_content_lookup_job_nid($id): ?string {
+function _helfi_rekry_content_lookup_job_nid(string $id): ?string {
   $entityQuery = \Drupal::entityQuery('node')
     ->condition('type', 'job_listing')
     ->condition('field_recruitment_id', $id)
@@ -170,7 +176,7 @@ function _helfi_rekry_content_lookup_job_nid($id): ?string {
  * @return string|null
  *   The resulting url or null
  */
-function _helfi_rekry_add_schema($url = NULL): ?string {
+function _helfi_rekry_add_schema(string|NULL $url = NULL): ?string {
   if ($url && parse_url($url, PHP_URL_SCHEME) === NULL) {
     return 'https://' . $url;
   }
@@ -205,4 +211,31 @@ function template_preprocess_organization_information_block(array &$variables) :
   foreach (Element::children($variables['elements']) as $key) {
     $variables['content'][$key] = $variables['elements'][$key];
   }
+
+  // City description title and text.
+  $siteConfig = \Drupal::config('helfi_rekry_content.job_listings');
+
+  $variables['content']['city_description_title'] = $siteConfig->get('city_description_title');
+  $variables['content']['city_description_text'] = $siteConfig->get('city_description_text');
+
+  // Check if there is default picture set for organization.
+  if (empty($variables["elements"]["field_organization"]["#items"])) {
+    return;
+  }
+  $organization_id = $variables["elements"]["field_organization"]["#items"]->target_id;
+  $organization = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($organization_id);
+
+  if (empty($organization->get("field_default_image")->first())) {
+    return;
+  }
+
+  $organization_default_image = $organization->get("field_default_image")->first()->view([
+    'type' => 'image',
+    'label' => 'hidden',
+    'settings' => [
+      'image_style' => '3_2_m_2x',
+      'image_link' => '',
+    ],
+  ]);
+  $variables['content']['organization_default_image'] = $organization_default_image;
 }

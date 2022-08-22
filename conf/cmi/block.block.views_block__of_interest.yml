@@ -1,0 +1,33 @@
+uuid: 32eb0ab5-d933-4f45-9318-a2d3acc02b1d
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.of_interest
+  module:
+    - node
+    - views
+  theme:
+    - hdbt_subtheme
+id: views_block__of_interest
+theme: hdbt_subtheme
+region: after_content
+weight: 0
+provider: null
+plugin: 'views_block:of_interest-block_1'
+settings:
+  id: 'views_block:of_interest-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  context_mapping: {  }
+  views_label: ''
+  items_per_page: none
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      job_listing: job_listing

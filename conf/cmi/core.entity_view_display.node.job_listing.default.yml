@@ -19,6 +19,7 @@ dependencies:
     - field.field.node.job_listing.field_organization_name
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
+    - field.field.node.job_listing.field_prevent_publishing
     - field.field.node.job_listing.field_recruitment_id
     - field.field.node.job_listing.field_recruitment_type
     - field.field.node.job_listing.field_salary
@@ -26,9 +27,11 @@ dependencies:
     - field.field.node.job_listing.field_task_area
     - field.field.node.job_listing.field_video
     - field.field.node.job_listing.job_description
+    - image.style.3_2_m_2x
     - node.type.job_listing
   module:
     - link
+    - media
     - text
     - user
 id: node.job_listing.default
@@ -68,11 +71,13 @@ content:
     weight: 0
     region: content
   field_image:
-    type: entity_reference_entity_view
+    type: media_thumbnail
     label: hidden
     settings:
-      view_mode: default
-      link: false
+      image_link: ''
+      image_style: 3_2_m_2x
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 13
     region: content

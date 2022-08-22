@@ -7,10 +7,16 @@ dependencies:
     - node.type.job_listing
   module:
     - allowed_formats
+    - disable_field
     - text
 third_party_settings:
   allowed_formats:
     allowed_formats: {  }
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
 id: node.job_listing.field_contacts
 field_name: field_contacts
 entity_type: node
