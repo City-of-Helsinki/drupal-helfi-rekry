@@ -221,13 +221,13 @@ process:
   type:
     plugin: default_value
     default_value: job_listing
+  # Check that `publish on` date is in the future.
   publish_on:
-    plugin: callback
-    callable: strtotime
+    plugin: not_past_date
     source: publication_starts
+  # Check that `unpublish on` date is in the future.
   unpublish_on:
-    plugin: callback
-    callable: strtotime
+    plugin: not_past_date
     source: publication_ends
 destination:
   plugin: 'entity:node'

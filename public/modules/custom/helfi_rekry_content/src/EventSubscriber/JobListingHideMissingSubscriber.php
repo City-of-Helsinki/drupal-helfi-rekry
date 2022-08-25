@@ -51,6 +51,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
     }
 
     $nodeStorage = $this->entityTypeManager->getStorage('node');
+
     /** @var \Drupal\migrate\Plugin\migrate\id_map\Sql $idMap */
     $idMap = $event->getMigration()->getIdMap();
     // Mark all previously imported as ready to be re-imported in order to have
@@ -82,6 +83,11 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
           // Unpublish the job listing node as it's still published, but its
           // source is no longer available.
           $node->setUnpublished();
+          if ($node->hasField('publish_on') && !empty($node->get('publish_on')->getValue())) {
+            // Also clear the publish on date to make sure the node is not
+            // going to be published anymore.
+            $node->set('publish_on', NULL);
+          }
           $node->save();
         }
       }
@@ -91,14 +97,16 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Return all possible job listing migrations.
+   * Return job listing migration names.
+   *
+   * The corresponding migration source must include all items for the given
+   * migration.
    *
    * @return array
    *   The migration names.
    */
   protected function getJobListingMigrations(): array {
     return [
-      'helfi_rekry_jobs',
       'helfi_rekry_jobs:all',
       'helfi_rekry_jobs:all_en',
       'helfi_rekry_jobs:all_sv',
