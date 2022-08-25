@@ -246,7 +246,7 @@ function template_preprocess_organization_information_block(array &$variables) :
 function helfi_rekry_content_page_attachments_alter(array &$attachments) : void {
   $node = \Drupal::routeMatch()->getParameter('node');
 
-  if ($node instanceof \Drupal\node\NodeInterface && $node->bundle() == 'job_listing') {
+  if ($node instanceof NodeInterface && $node->bundle() == 'job_listing') {
     $image_uri = FALSE;
 
     // If the node has an image, use that.
