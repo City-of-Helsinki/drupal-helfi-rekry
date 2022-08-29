@@ -245,7 +245,9 @@ function template_preprocess_organization_information_block(array &$variables) :
   if ($node->field_organization_description->isEmpty()) {
     $organization_description = $organization->getDescription();
 
-    $variables['content']['field_organization_description'] = strip_tags($organization_description);
+    if (!empty($organization_description)) {
+      $variables['content']['field_organization_description'] = strip_tags($organization_description);
+    }
   }
 }
 

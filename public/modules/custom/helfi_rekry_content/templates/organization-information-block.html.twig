@@ -8,16 +8,18 @@
       {% include '@hdbt/media/image--card.html.twig' with {content: '' } %}
     {% endif %}
   </div>
-  {% if content.content.field_organization|render or content.field_organization_description|render %}
-    <div class="job-listing__organization-information">
+  <div class="job-listing__organization-information">
+    {% if content.field_organization|render %}
       <h2 class="job-listing__organization">
         {{ content.field_organization }}
       </h2>
+    {% endif %}
+    {% if content.field_organization_description|render %}
       <div class="job-listing__organization-description">
         {{ content.field_organization_description }}
       </div>
-    </div>
-  {% endif %}
+    {% endif %}
+  </div>
   {% if content.city_description_title|render or content.city_description_text|render %}
     <div class="job-listing__city-description">
       <h2 class="job-listing__city-description-title">
