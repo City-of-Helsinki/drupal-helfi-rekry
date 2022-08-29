@@ -238,6 +238,15 @@ function template_preprocess_organization_information_block(array &$variables) :
     ],
   ]);
   $variables['content']['organization_default_image'] = $organization_default_image;
+
+  // Get organization description from the taxonomy term if missing from node.
+  $node = \Drupal::routeMatch()->getParameter('node');
+
+  if ($node->field_organization_description->isEmpty()) {
+    $organization_description = $organization->getDescription();
+
+    $variables['content']['field_organization_description'] = strip_tags($organization_description);
+  }
 }
 
 /**
