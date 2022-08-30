@@ -212,6 +212,12 @@ function template_preprocess_organization_information_block(array &$variables) :
     $variables['content'][$key] = $variables['elements'][$key];
   }
 
+  // City description title and text.
+  $siteConfig = \Drupal::config('helfi_rekry_content.job_listings');
+
+  $variables['content']['city_description_title'] = $siteConfig->get('city_description_title');
+  $variables['content']['city_description_text'] = $siteConfig->get('city_description_text');
+
   // Check if there is default picture set for organization.
   if (empty($variables["elements"]["field_organization"]["#items"])) {
     return;
@@ -232,4 +238,59 @@ function template_preprocess_organization_information_block(array &$variables) :
     ],
   ]);
   $variables['content']['organization_default_image'] = $organization_default_image;
+
+  // Get organization description from the taxonomy term if missing from node.
+  $node = \Drupal::routeMatch()->getParameter('node');
+
+  if ($node->field_organization_description->isEmpty()) {
+    $organization_description = $organization->getDescription();
+
+    if (!empty($organization_description)) {
+      $variables['content']['field_organization_description'] = strip_tags($organization_description);
+    }
+  }
+}
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function helfi_rekry_content_page_attachments_alter(array &$attachments) : void {
+  $node = \Drupal::routeMatch()->getParameter('node');
+
+  if ($node instanceof NodeInterface && $node->bundle() == 'job_listing') {
+    $image_uri = FALSE;
+
+    // If the node has an image, use that.
+    if ($node->hasField('field_image') && !$node->field_image->isEmpty()) {
+      $image_uri = $node->field_image->entity->field_media_image->entity->getFileUri();
+    }
+    else {
+      // Otherwise, use the one from the taxonomy term.
+      $taxonomy_term = $node->field_organization->entity;
+
+      if ($taxonomy_term->hasField('field_default_image') && !$taxonomy_term->field_default_image->isEmpty()) {
+        $image_uri = $taxonomy_term->field_default_image->entity->getFileUri();
+      }
+    }
+
+    if ($image_uri) {
+      // Replace the default og:image tag.
+      $og_image_url = \Drupal::service('file_url_generator')->generateAbsoluteString($image_uri);
+
+      $og_image = [
+        '#tag' => 'meta',
+        '#attributes' => [
+          'property' => 'og:image',
+          'content' => $og_image_url,
+        ],
+      ];
+
+      foreach ($attachments['#attached']['html_head'] as $key => $value) {
+        if (isset($value[0]['#attributes']['property']) && $value[0]['#attributes']['property'] == 'og:image') {
+          $attachments['#attached']['html_head'][$key] = [$og_image, 'og:image'];
+          break;
+        }
+      }
+    }
+  }
 }

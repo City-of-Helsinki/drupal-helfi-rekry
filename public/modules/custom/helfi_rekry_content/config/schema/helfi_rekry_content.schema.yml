@@ -6,3 +6,11 @@ helfi_rekry_content.job_listings:
     redirect_403:
       type: path
       label: 'Redirect 403 path'
+    city_description_title:
+      type: label
+      label: 'City description title'
+      translatable: true
+    city_description_text:
+      type: text
+      label: 'City description text'
+      translatable: true

@@ -1,0 +1,4 @@
+helfi_rekry_content.settings:
+  route_name: helfi_rekry_content.settings
+  title: 'Rekry content settings'
+  base_route: helfi_rekry_content.settings

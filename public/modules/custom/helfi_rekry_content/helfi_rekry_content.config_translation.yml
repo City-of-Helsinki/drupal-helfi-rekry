@@ -1,0 +1,5 @@
+helfi_rekry_content.job_listings:
+  title: 'Rekry content settings'
+  base_route_name: helfi_rekry_content.settings
+  names:
+    - helfi_rekry_content.job_listings
