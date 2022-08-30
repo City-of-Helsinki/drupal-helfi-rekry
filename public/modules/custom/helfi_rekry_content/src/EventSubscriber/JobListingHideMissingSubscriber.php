@@ -46,7 +46,8 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
    */
   public function hideMissingJobListings(MigrateImportEvent $event): void {
     // Return early if the migration is not a job listing migration.
-    if (!in_array($event->getMigration()->id(), $this->getJobListingMigrations())) {
+    $migrationId = $event->getMigration()->id();
+    if (!in_array($migrationId, $this->getJobListingMigrations())) {
       return;
     }
 
@@ -79,6 +80,13 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
       if (!in_array($mapSourceId, $sourceIdValues, TRUE) && !empty($destinationIds['nid'])) {
         // The job listing row is no longer found from source.
         $node = $nodeStorage->load($destinationIds['nid']);
+
+        // Use node translation if available.
+        $migrationLangcode = $this->getMigrationLangcode($migrationId);
+        if ($node->hasTranslation($migrationLangcode)) {
+          $node = $node->getTranslation($migrationLangcode);
+        }
+
         if ($node instanceof NodeInterface && $node->getType() == 'job_listing' && $node->isPublished()) {
           // Unpublish the job listing node as it's still published, but its
           // source is no longer available.
@@ -111,6 +119,24 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
       'helfi_rekry_jobs:all_en',
       'helfi_rekry_jobs:all_sv',
     ];
+  }
+
+  /**
+   * Get langcode from language specific migration ID.
+   *
+   * @param $migrationId
+   *   The language specific migration ID.
+   * @return string
+   *   The langcode.
+   */
+  protected function getMigrationLangcode($migrationId): string {
+    if (str_contains($migrationId, '_sv')) {
+      return 'sv';
+    }
+    elseif (str_contains($migrationId, '_en')) {
+      return 'en';
+    }
+    return 'fi';
   }
 
 }
