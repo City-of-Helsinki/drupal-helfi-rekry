@@ -221,13 +221,13 @@ process:
   type:
     plugin: default_value
     default_value: job_listing
-  # Check that `publish on` date is in the future.
+  # Skip if importing past date and job listing is already published.
   publish_on:
-    plugin: not_past_date
+    plugin: skip_past_date_for_published
     source: publication_starts
-  # Check that `unpublish on` date is in the future.
   unpublish_on:
-    plugin: not_past_date
+    plugin: callback
+    callable: strtotime
     source: publication_ends
 destination:
   plugin: 'entity:node'

@@ -124,12 +124,13 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
   /**
    * Get langcode from language specific migration ID.
    *
-   * @param $migrationId
+   * @param string $migrationId
    *   The language specific migration ID.
+   *
    * @return string
    *   The langcode.
    */
-  protected function getMigrationLangcode($migrationId): string {
+  protected function getMigrationLangcode(string $migrationId): string {
     if (str_contains($migrationId, '_sv')) {
       return 'sv';
     }
