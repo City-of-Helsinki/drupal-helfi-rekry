@@ -268,7 +268,7 @@ function helfi_rekry_content_page_attachments_alter(array &$attachments) : void 
       // Otherwise, use the one from the taxonomy term.
       $taxonomy_term = $node->field_organization->entity;
 
-      if ($taxonomy_term->hasField('field_default_image') && !$taxonomy_term->field_default_image->isEmpty()) {
+      if (!empty($taxonomy_term) && $taxonomy_term->hasField('field_default_image') && !$taxonomy_term->field_default_image->isEmpty()) {
         $image_uri = $taxonomy_term->field_default_image->entity->getFileUri();
       }
     }
