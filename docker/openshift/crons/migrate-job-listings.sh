@@ -39,8 +39,8 @@ function run_migrate {
 # default migrate interval to 6 hours.
 populate_variables 21600
 
-# Set API client ID.
-CLIENT_ID=helrekrymyst0422
+# Set HELBIT API client ID.
+export HELBIT_CLIENT_ID=helrekrymyst0422
 
 while true
 do
@@ -49,38 +49,38 @@ do
 
   if run_migrate "helfi_rekry_images:all"; then
     echo "Running job listing image migrations: $(date)"
-    HELBIT_CLIENT_ID=$CLIENT_ID drush migrate:import helfi_rekry_images:all
+    drush migrate:import helfi_rekry_images:all
   fi
 
   if run_migrate "helfi_rekry_videos:all"; then
     echo "Running job listing video migrations: $(date)"
-    HELBIT_CLIENT_ID=$CLIENT_ID drush migrate:import helfi_rekry_videos:all
+    drush migrate:import helfi_rekry_videos:all
   fi
 
   if run_migrate "helfi_rekry_task_areas:all"; then
     echo "Running job listing task area migrations: $(date)"
-    HELBIT_CLIENT_ID=$CLIENT_ID drush migrate:import helfi_rekry_task_areas:all
+    drush migrate:import helfi_rekry_task_areas:all
   fi
 
   if run_migrate "helfi_rekry_organizations:all"; then
     echo "Running job listing organization migrations: $(date)"
-    HELBIT_CLIENT_ID=$CLIENT_ID drush migrate:import helfi_rekry_organizations:all
+    drush migrate:import helfi_rekry_organizations:all
   fi
 
   echo "Running job listing migrations: $(date)"
   if run_migrate "helfi_rekry_jobs:all"; then
     echo "Running job listing migrations: $(date)"
-    HELBIT_CLIENT_ID=$CLIENT_ID drush migrate:import helfi_rekry_jobs:all
+    drush migrate:import helfi_rekry_jobs:all
   fi
 
   if run_migrate "helfi_rekry_jobs:all_sv"; then
     echo "Running job listing migrations (sv): $(date)"
-    HELBIT_CLIENT_ID=$CLIENT_ID drush migrate:import helfi_rekry_jobs:all_sv
+    drush migrate:import helfi_rekry_jobs:all_sv
   fi
 
   if run_migrate "helfi_rekry_jobs:all_en"; then
     echo "Running job listing migrations (en): $(date)"
-    HELBIT_CLIENT_ID=$CLIENT_ID drush migrate:import helfi_rekry_jobs:all_en
+    drush migrate:import helfi_rekry_jobs:all_en
   fi
 
   # Reset migrate status if migrate has been running for more
