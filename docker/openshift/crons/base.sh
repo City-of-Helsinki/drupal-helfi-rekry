@@ -24,7 +24,7 @@ exec "/crons/purge-queue.sh" &
  exec "/crons/update-translations.sh" &
 # Uncomment this to enable content scheduler
 exec "/crons/content-scheduler.sh" &
-# Uncomment this to enable job listing migration cron
+# Job listing migration cron
 exec "/crons/migrate-job-listings.sh" &
 
 while true
