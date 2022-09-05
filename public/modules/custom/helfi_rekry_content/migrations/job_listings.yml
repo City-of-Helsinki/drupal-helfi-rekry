@@ -221,9 +221,9 @@ process:
   type:
     plugin: default_value
     default_value: job_listing
+  # Skip if importing past date and job listing is already published.
   publish_on:
-    plugin: callback
-    callable: strtotime
+    plugin: skip_past_date_for_published
     source: publication_starts
   unpublish_on:
     plugin: callback
