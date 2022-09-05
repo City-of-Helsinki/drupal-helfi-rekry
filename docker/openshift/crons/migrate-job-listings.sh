@@ -21,6 +21,6 @@ do
   HELBIT_CLIENT_ID=helrekrymyst0422 drush migrate:import helfi_rekry_jobs:all_sv
   HELBIT_CLIENT_ID=helrekrymyst0422 drush migrate:import helfi_rekry_jobs:all_en
 
-  # Sleep for 24 hours.
-  sleep 86400
+  # Sleep for 6 hours.
+  sleep 21600
 done
