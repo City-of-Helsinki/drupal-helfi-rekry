@@ -4219,16 +4219,16 @@
         },
         {
             "name": "drupal/helfi_platform_config",
-            "version": "2.9.18",
+            "version": "2.9.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config.git",
-                "reference": "71679d2837c6cf7ec4b34c5ad0644f85da4867e9"
+                "reference": "61ba500e2916aada42b40fbc73f97e36933625cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/71679d2837c6cf7ec4b34c5ad0644f85da4867e9",
-                "reference": "71679d2837c6cf7ec4b34c5ad0644f85da4867e9",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/61ba500e2916aada42b40fbc73f97e36933625cb",
+                "reference": "61ba500e2916aada42b40fbc73f97e36933625cb",
                 "shasum": ""
             },
             "require": {
@@ -4248,7 +4248,7 @@
                 "drupal/elasticsearch_connector": "^7.0@alpha",
                 "drupal/entity_browser": "^2.5",
                 "drupal/entity_usage": "^2.0@beta",
-                "drupal/eu_cookie_compliance": "^1.14",
+                "drupal/eu_cookie_compliance": "1.19",
                 "drupal/external_entities": "^2.0@alpha",
                 "drupal/features": "^3.12",
                 "drupal/field_group": "^3.1",
@@ -4341,10 +4341,10 @@
             ],
             "description": "HELfi platform config",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/2.9.18",
+                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/2.9.20",
                 "issues": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/issues"
             },
-            "time": "2022-08-11T11:34:32+00:00"
+            "time": "2022-08-29T12:53:09+00:00"
         },
         {
             "name": "drupal/helfi_proxy",
