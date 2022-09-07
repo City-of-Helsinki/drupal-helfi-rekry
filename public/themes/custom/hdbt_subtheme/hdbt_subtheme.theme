@@ -5,6 +5,7 @@
  * Functions to support theming in the HDBT Subtheme.
  */
 
+use Drupal\Core\Render\Element;
 use Drupal\node\NodeInterface;
 
 /**
@@ -22,6 +23,64 @@ function hdbt_subtheme_preprocess_block(&$variables) {
 function hdbt_subtheme_preprocess_block__views_block__of_interest(&$variables) {
   // @todo change to correct url
   $variables['related_jobs_link'] = 'https://helfi-rekry.docker.so/';
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Prepares variables for organization_information_block template.
+ *
+ * Default template: organization-information-block.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An array of elements to display in view mode.
+ */
+function hdbt_subtheme_preprocess_organization_information_block(array &$variables) : void {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+
+  // Helpful $content variable for templates.
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+
+  // City description title and text.
+  $siteConfig = \Drupal::config('helfi_rekry_content.job_listings');
+
+  $variables['content']['city_description_title'] = $siteConfig->get('city_description_title');
+  $variables['content']['city_description_text'] = $siteConfig->get('city_description_text');
+
+  // Check if there is default picture set for organization.
+  if (empty($variables["elements"]["field_organization"]["#items"])) {
+    return;
+  }
+  $organization_id = $variables["elements"]["field_organization"]["#items"]->target_id;
+  $organization = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($organization_id);
+
+  if (empty($organization->get("field_default_image")->first())) {
+    return;
+  }
+
+  $organization_default_image = $organization->get("field_default_image")->first()->view([
+    'type' => 'image',
+    'label' => 'hidden',
+    'settings' => [
+      'image_style' => '3_2_m_2x',
+      'image_link' => '',
+    ],
+  ]);
+  $variables['content']['organization_default_image'] = $organization_default_image;
+
+  // Get organization description from the taxonomy term if missing from node.
+  $node = \Drupal::routeMatch()->getParameter('node');
+
+  if ($node->field_organization_description->isEmpty()) {
+    $organization_description = $organization->getDescription();
+
+    if (!empty($organization_description)) {
+      $variables['content']['field_organization_description'] = strip_tags($organization_description);
+    }
+  }
 }
 
 /**
