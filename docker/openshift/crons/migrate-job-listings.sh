@@ -39,9 +39,6 @@ function run_migrate {
 # default migrate interval to 6 hours.
 populate_variables 21600
 
-# Set HELBIT API client ID.
-export HELBIT_CLIENT_ID=helrekrymyst0422
-
 while true
 do
   # Reset stuck migrations.
