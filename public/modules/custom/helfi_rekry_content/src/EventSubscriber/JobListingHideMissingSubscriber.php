@@ -5,24 +5,30 @@ declare(strict_types = 1);
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\migrate\Event\MigrateEvents;
-use Drupal\migrate\Event\MigrateImportEvent;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Logger\RfcLogLevel;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\NodeInterface;
+use Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Subscribe to job listing import events for hiding missing items.
  */
 class JobListingHideMissingSubscriber implements EventSubscriberInterface {
+  use StringTranslationTrait;
 
   /**
    * Constructs a new JobListingHideMissingSubscriber object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
+   *   The logger channel factory.
    */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
+    protected LoggerChannelFactoryInterface $loggerFactory,
   ) {}
 
   /**
@@ -30,79 +36,116 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
    */
   public static function getSubscribedEvents(): array {
     return [
-      MigrateEvents::PRE_IMPORT => 'hideMissingJobListings',
+      MigrateMissingSourceRowsEvent::class => 'onMissingSourceRows',
     ];
   }
 
   /**
-   * Unpublish job listings that are no longer available at the API.
+   * Reacts on detecting a list of missing source rows after an import.
    *
-   * @param \Drupal\migrate\Event\MigrateImportEvent $event
-   *   The migration import event.
+   * Job listings that are missing from source but are still published, will be
+   * unpublished.
+   *
+   * @param \Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent $event
+   *   The missing source rows event.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function hideMissingJobListings(MigrateImportEvent $event): void {
+  public function onMissingSourceRows(MigrateMissingSourceRowsEvent $event): void {
     // Return early if the migration is not a job listing migration.
-    if (!in_array($event->getMigration()->id(), $this->getJobListingMigrations())) {
+    $migrationId = $event->getMigration()->id();
+    if (!in_array($migrationId, $this->getJobListingMigrations())) {
       return;
     }
 
-    $nodeStorage = $this->entityTypeManager->getStorage('node');
-    /** @var \Drupal\migrate\Plugin\migrate\id_map\Sql $idMap */
-    $idMap = $event->getMigration()->getIdMap();
-    // Mark all previously imported as ready to be re-imported in order to have
-    // a full list of source IDs.
-    $idMap->prepareUpdate();
+    // Get destination ids for job listings that are missing from source.
+    $destinationIDs = $event->getDestinationIds();
 
-    /** @var \Drupal\migrate_plus\Plugin\migrate\source\Url $source */
-    $source = clone $event->getMigration()->getSourcePlugin();
-    $source->rewind();
-    $sourceIdValues = [];
-
-    // Get source IDs from the current source.
-    while ($source->valid()) {
-      $sourceIdValues[] = $source->current()->getSourceIdValues();
-      $source->next();
+    $missingCount = count($destinationIDs);
+    if ($missingCount === 0) {
+      return;
     }
 
-    // Iterate existing migration rows.
-    $idMap->rewind();
-    while ($idMap->valid()) {
-      // Get current source ID and ID for the existing node.
-      $mapSourceId = $idMap->currentSource();
-      $destinationIds = $idMap->currentDestination();
+    $this->loggerFactory->get('helfi_rekry_content')->log(RfcLogLevel::NOTICE,
+      $this->formatPlural(
+        $missingCount,
+        'Total 1 job listing is missing from source and will be checked.',
+        'Total @count job listings are missing from source and will be checked.',
+        [],
+        ['langcode' => 'en']
+      ));
 
-      if (!in_array($mapSourceId, $sourceIdValues, TRUE) && !empty($destinationIds['nid'])) {
-        // The job listing row is no longer found from source.
-        $node = $nodeStorage->load($destinationIds['nid']);
-        if ($node instanceof NodeInterface && $node->getType() == 'job_listing' && $node->isPublished()) {
-          // Unpublish the job listing node as it's still published, but its
-          // source is no longer available.
-          $node->setUnpublished();
-          $node->save();
-        }
+    $nodeStorage = $this->entityTypeManager->getStorage('node');
+    $unpublishedCount = 0;
+    foreach ($destinationIDs as $destinationId) {
+      $node = $nodeStorage->load($destinationId['nid']);
+
+      // Use node translation if available.
+      $migrationLangcode = $this->getMigrationLangcode($migrationId);
+      if (!empty($node) && $node->hasTranslation($migrationLangcode)) {
+        $node = $node->getTranslation($migrationLangcode);
       }
 
-      $idMap->next();
+      if ($node instanceof NodeInterface && $node->getType() == 'job_listing' && $node->isPublished()) {
+        // Unpublish the job listing node as it's still published, but it's
+        // no longer available at the source.
+        $node->setUnpublished();
+        if ($node->hasField('publish_on') && !empty($node->get('publish_on')->getValue())) {
+          // Also clear the publish on date to make sure the node is not
+          // going to be re-published.
+          $node->set('publish_on', NULL);
+        }
+        $node->save();
+        $unpublishedCount++;
+      }
     }
+
+    $this->loggerFactory->get('helfi_rekry_content')->log(RfcLogLevel::NOTICE,
+      $this->formatPlural(
+        $unpublishedCount,
+        '1 missing item was published and is now unpublished.',
+        '@count missing items were published and are now unpublished.',
+        [],
+        ['langcode' => 'en']
+      ));
   }
 
   /**
-   * Return all possible job listing migrations.
+   * Return job listing migration names.
+   *
+   * The corresponding migration source must include all items for the given
+   * migration.
    *
    * @return array
    *   The migration names.
    */
   protected function getJobListingMigrations(): array {
     return [
-      'helfi_rekry_jobs',
       'helfi_rekry_jobs:all',
       'helfi_rekry_jobs:all_en',
       'helfi_rekry_jobs:all_sv',
     ];
+  }
+
+  /**
+   * Get langcode from language specific migration ID.
+   *
+   * @param string $migrationId
+   *   The language specific migration ID.
+   *
+   * @return string
+   *   The langcode.
+   */
+  protected function getMigrationLangcode(string $migrationId): string {
+    if (str_contains($migrationId, '_sv')) {
+      return 'sv';
+    }
+    elseif (str_contains($migrationId, '_en')) {
+      return 'en';
+    }
+    return 'fi';
   }
 
 }

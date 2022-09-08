@@ -1,0 +1,10 @@
+uuid: 931940f4-bf19-483b-ac1f-28bce3209b4a
+langcode: en
+status: true
+dependencies: {  }
+id: node__job_listing
+label: 'Content: Job listing'
+tags:
+  description: '[node:job_description]'
+  og_title: '[node:title] | [site:page-title-suffix]'
+  title: '[node:title] | [site:page-title-suffix]'

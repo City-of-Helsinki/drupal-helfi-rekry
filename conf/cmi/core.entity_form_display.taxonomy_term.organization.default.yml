@@ -60,10 +60,10 @@ content:
     settings:
       label: above
       formatter_type: text_span
-      show_description: '1'
       formatter_settings:
         string:
-          link_to_entity: 0
+          link_to_entity: false
+      show_description: true
     third_party_settings: {  }
   langcode:
     type: language_select
