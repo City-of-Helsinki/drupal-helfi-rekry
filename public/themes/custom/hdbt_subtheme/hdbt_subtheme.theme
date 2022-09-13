@@ -73,6 +73,29 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Adds number of open vacancies for job listing title field template.
+ *
+ * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+ */
+function hdbt_subtheme_preprocess_field(&$variables): void {
+  // Return yearly if not processing job listing title.
+  if (
+    $variables['field_name'] != 'title' ||
+    $variables['element']['#entity_type'] != 'node' ||
+    $variables['element']['#bundle'] != 'job_listing'
+  ) {
+    return;
+  }
+
+  if ($node = $variables['element']['#object']) {
+    /** @var \Drupal\node\NodeInterface $node */
+    $variables['vacancies'] = (int) $node->get('field_jobs')?->first()?->getString();
+  }
+}
+
+/**
  * Implements hook_theme_suggestions_HOOK() for blocks.
  */
 function hdbt_subtheme_theme_suggestions_block_alter(&$suggestions) {

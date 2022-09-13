@@ -1,3 +1,6 @@
-# Finnish translations
+# Swedish translations
 msgid ""
 msgstr ""
+
+msgid "jobs"
+msgstr "jobb"
