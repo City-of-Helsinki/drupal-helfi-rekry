@@ -1,0 +1,7 @@
+{% for item in items %}
+  {% set link_title %}{{ item.content['#url'].uri }}{% endset %}
+  {% set link_attributes = {
+    'data-selected-icon': 'link',
+  } %}
+  {{ link(link_title, item.content['#url'].uri, link_attributes) }}
+{% endfor %}
