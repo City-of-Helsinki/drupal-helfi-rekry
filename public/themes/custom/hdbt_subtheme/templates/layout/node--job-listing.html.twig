@@ -138,12 +138,12 @@
 
         {{ content.job_description }}
         {{ content.field_salary_class }}
-        {% if content.field_contacts|render or content.field_internet_link %}
+        {% if content.field_contacts|render or content.field_link_to_presentation|render %}
           <div class="job-listing__additional-information">
             <h2 class="job-listing__additional-information__title">{{ 'Additional information'|t }}</h2>
             <div class="job-listing__additional-information__content">
               {{ content.field_contacts }}
-              {{ content.field_internet_link }}
+              {{ content.field_link_to_presentation }}
             </div>
           </div>
         {% endif %}
