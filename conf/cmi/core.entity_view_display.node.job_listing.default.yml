@@ -79,7 +79,7 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 13
+    weight: 14
     region: content
   field_job_duration:
     type: string
@@ -101,20 +101,32 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
+  field_link_to_presentation:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: true
+      url_plain: false
+      rel: '0'
+      target: '0'
+    third_party_settings: {  }
+    weight: 13
+    region: content
   field_organization:
     type: entity_reference_label
     label: hidden
     settings:
       link: false
     third_party_settings: {  }
-    weight: 14
+    weight: 15
     region: content
   field_organization_description:
     type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 16
+    weight: 17
     region: content
   field_organization_name:
     type: string
@@ -171,7 +183,7 @@ content:
       view_mode: default
       link: true
     third_party_settings: {  }
-    weight: 15
+    weight: 16
     region: content
   job_description:
     type: text_default
@@ -184,7 +196,6 @@ hidden:
   field_anonymous: true
   field_jobs: true
   field_last_changed_remote: true
-  field_link_to_presentation: true
   field_prevent_publishing: true
   field_recruitment_type: true
   field_task_area: true
