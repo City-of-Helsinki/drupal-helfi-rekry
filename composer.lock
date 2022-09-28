@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90d7b6f0b28b81fda8c7de6572bbd0ed",
+    "content-hash": "f7fab37ba745deeae71a73d92e491470",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -12388,16 +12388,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.15.3",
+            "version": "v2.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "ab402673db8746cb3a4c46f3869d6253699f614a"
+                "reference": "3e43405a9a8b578809426339cc3780e16fba0c52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ab402673db8746cb3a4c46f3869d6253699f614a",
-                "reference": "ab402673db8746cb3a4c46f3869d6253699f614a",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/3e43405a9a8b578809426339cc3780e16fba0c52",
+                "reference": "3e43405a9a8b578809426339cc3780e16fba0c52",
                 "shasum": ""
             },
             "require": {
@@ -12452,7 +12452,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v2.15.3"
+                "source": "https://github.com/twigphp/Twig/tree/v2.15.2"
             },
             "funding": [
                 {
@@ -12464,7 +12464,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-28T08:40:08+00:00"
+            "time": "2022-08-12T06:43:37+00:00"
         },
         {
             "name": "twistor/flysystem-stream-wrapper",
