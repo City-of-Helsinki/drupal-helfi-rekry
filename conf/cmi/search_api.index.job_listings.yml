@@ -3,13 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_employment
     - field.storage.node.field_employment_type
-    - field.storage.node.field_organization
+    - field.storage.node.field_employment
     - field.storage.node.field_organization_name
+    - field.storage.node.field_organization
     - field.storage.node.field_postal_area
     - search_api.server.elastic_rekry
   module:
+    - taxonomy
     - node
     - search_api
 id: job_listings
@@ -17,30 +18,26 @@ name: 'Job listings'
 description: ''
 read_only: false
 field_settings:
-  field_employment:
-    label: Employment
+  employment:
+    label: 'Employment » Taxonomy term » Name'
     datasource_id: 'entity:node'
-    property_path: field_employment
+    property_path: 'field_employment:entity:name'
     type: string
     dependencies:
       config:
         - field.storage.node.field_employment
-  field_employment_type:
-    label: 'Employment type'
+      module:
+        - taxonomy
+  employment_type:
+    label: 'Employment type » Taxonomy term » Name'
     datasource_id: 'entity:node'
-    property_path: field_employment_type
-    type: integer
+    property_path: 'field_employment_type:entity:name'
+    type: string
     dependencies:
       config:
         - field.storage.node.field_employment_type
-  field_organization:
-    label: Organization
-    datasource_id: 'entity:node'
-    property_path: field_organization
-    type: integer
-    dependencies:
-      config:
-        - field.storage.node.field_organization
+      module:
+        - taxonomy
   field_organization_name:
     label: 'Organization name'
     datasource_id: 'entity:node'
@@ -65,6 +62,16 @@ field_settings:
     dependencies:
       module:
         - node
+  organization:
+    label: 'Organization » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_organization:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_organization
+      module:
+        - taxonomy
   title:
     label: Title
     datasource_id: 'entity:node'
@@ -96,7 +103,6 @@ processor_settings:
       preprocess_query: -20
     all_fields: false
     fields:
-      - field_employment
       - field_organization_name
       - field_postal_area
       - langcode
