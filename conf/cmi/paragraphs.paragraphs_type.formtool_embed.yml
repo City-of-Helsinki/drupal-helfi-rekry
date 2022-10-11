@@ -1,0 +1,12 @@
+uuid: 051f82bc-1327-4f12-b177-892598d2ee65
+langcode: fi
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: VGtmLhKDL8f9-5qlmot1UjqveA9WacSwL4qSfQC6JGw
+id: formtool_embed
+label: 'FormTool Embed'
+icon_uuid: null
+icon_default: null
+description: 'Embed formtool forms to a page'
+behavior_plugins: {  }
