@@ -13,7 +13,6 @@ dependencies:
     - paragraphs.paragraphs_type.content_cards
     - paragraphs.paragraphs_type.content_liftup
     - paragraphs.paragraphs_type.event_list
-    - paragraphs.paragraphs_type.formtool_embed
     - paragraphs.paragraphs_type.from_library
     - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.list_of_links
@@ -56,7 +55,6 @@ settings:
       remote_video: remote_video
       event_list: event_list
       contact_card_listing: contact_card_listing
-      formtool_embed: formtool_embed
       phasing: phasing
     negate: 0
     target_bundles_drag_drop:
