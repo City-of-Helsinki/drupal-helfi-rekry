@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_employment_type
     - field.storage.node.field_employment
+    - field.storage.node.field_job_duration
     - field.storage.node.field_organization_name
     - field.storage.node.field_organization
     - field.storage.node.field_postal_area
@@ -12,6 +13,7 @@ dependencies:
   module:
     - taxonomy
     - node
+    - scheduler
     - search_api
 id: job_listings
 name: 'Job listings'
@@ -38,6 +40,14 @@ field_settings:
         - field.storage.node.field_employment_type
       module:
         - taxonomy
+  field_job_duration:
+    label: 'Job duration'
+    datasource_id: 'entity:node'
+    property_path: field_job_duration
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_job_duration
   field_organization_name:
     label: 'Organization name'
     datasource_id: 'entity:node'
@@ -76,6 +86,22 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
+    type: string
+    dependencies:
+      module:
+        - node
+  unpublish_on:
+    label: 'Unpublish on'
+    datasource_id: 'entity:node'
+    property_path: unpublish_on
+    type: date
+    dependencies:
+      module:
+        - scheduler
+  uuid:
+    label: UUID
+    datasource_id: 'entity:node'
+    property_path: uuid
     type: string
     dependencies:
       module:
