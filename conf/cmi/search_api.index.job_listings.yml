@@ -20,7 +20,7 @@ name: 'Job listings'
 description: ''
 read_only: false
 field_settings:
-  employment:
+  field_employment:
     label: 'Employment » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_employment:entity:name'
@@ -30,7 +30,7 @@ field_settings:
         - field.storage.node.field_employment
       module:
         - taxonomy
-  employment_type:
+  field_employment_type:
     label: 'Employment type » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_employment_type:entity:name'
@@ -48,6 +48,16 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_job_duration
+  field_organization:
+    label: 'Organization » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_organization:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_organization
+      module:
+        - taxonomy
   field_organization_name:
     label: 'Organization name'
     datasource_id: 'entity:node'
@@ -72,16 +82,6 @@ field_settings:
     dependencies:
       module:
         - node
-  organization:
-    label: 'Organization » Taxonomy term » Name'
-    datasource_id: 'entity:node'
-    property_path: 'field_organization:entity:name'
-    type: string
-    dependencies:
-      config:
-        - field.storage.node.field_organization
-      module:
-        - taxonomy
   title:
     label: Title
     datasource_id: 'entity:node'
