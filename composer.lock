@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f35cfe0f828588d8a0840d288d7fbd2",
+    "content-hash": "a53747dc80462aeb8c53df712353c9bf",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4153,66 +4153,6 @@
                 "issues": "https://github.com/City-of-Helsinki/drupal-tools/issues"
             },
             "time": "2022-05-25T07:04:38+00:00"
-        },
-        {
-            "name": "drupal/helfi_formtool_embed",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-form-tool-embed.git",
-                "reference": "f921ac8691a57a428ecda897f857921abdec8f43"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-form-tool-embed/zipball/f921ac8691a57a428ecda897f857921abdec8f43",
-                "reference": "f921ac8691a57a428ecda897f857921abdec8f43",
-                "shasum": ""
-            },
-            "default-branch": true,
-            "type": "drupal-module",
-            "autoload": {
-                "psr-4": {
-                    "Drupal\\HelfiFormtoolEmbed\\": "src/"
-                }
-            },
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Embed form tool to Drupal",
-            "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-form-tool-embed/tree/main",
-                "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-form-tool-embed/issues"
-            },
-            "time": "2022-05-10T08:03:32+00:00"
-        },
-        {
-            "name": "drupal/helfi_helsinki_profiili",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-helsinki-profiili.git",
-                "reference": "19e5054b0dd32daf2a27ebfaed21bba34f5efea0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-helsinki-profiili/zipball/19e5054b0dd32daf2a27ebfaed21bba34f5efea0",
-                "reference": "19e5054b0dd32daf2a27ebfaed21bba34f5efea0",
-                "shasum": ""
-            },
-            "type": "drupal-module",
-            "autoload": {
-                "psr-4": {
-                    "Drupal\\HelfiHelsinkiProfiili\\": "src/"
-                }
-            },
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-helsinki-profiili/tree/develop",
-                "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-helsinki-profiili/issues"
-            },
-            "time": "2022-10-07T12:41:47+00:00"
         },
         {
             "name": "drupal/helfi_media_formtool",
@@ -16880,9 +16820,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/helfi_drupal_tools": 20,
-        "drupal/helfi_formtool_embed": 20,
-        "drupal/helfi_helsinki_profiili": 20
+        "drupal/helfi_drupal_tools": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
