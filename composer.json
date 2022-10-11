@@ -16,8 +16,6 @@
         "drupal/hdbt_admin": "^1.0",
         "drupal/helfi_azure_fs": "^1.0",
         "drupal/helfi_drupal_tools": "dev-main",
-        "drupal/helfi_formtool_embed": "dev-main",
-        "drupal/helfi_helsinki_profiili": "dev-develop",
         "drupal/helfi_platform_config": "^2.6",
         "drupal/helfi_proxy": "^2.2",
         "drupal/helfi_tpr": "^2.0",
