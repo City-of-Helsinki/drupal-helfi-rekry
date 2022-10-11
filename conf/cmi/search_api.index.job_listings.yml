@@ -9,6 +9,8 @@ dependencies:
     - field.storage.node.field_organization_name
     - field.storage.node.field_organization
     - field.storage.node.field_postal_area
+    - field.storage.node.field_recruitment_type
+    - field.storage.node.field_task_area
     - search_api.server.elastic_rekry
   module:
     - taxonomy
@@ -74,6 +76,24 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_postal_area
+  field_recruitment_type:
+    label: 'Recruitment type'
+    datasource_id: 'entity:node'
+    property_path: field_recruitment_type
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_recruitment_type
+  field_task_area:
+    label: 'Task area » Taxonomy term » Name'
+    datasource_id: 'entity:node'
+    property_path: 'field_task_area:entity:name'
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_task_area
+      module:
+        - taxonomy
   langcode:
     label: Language
     datasource_id: 'entity:node'
