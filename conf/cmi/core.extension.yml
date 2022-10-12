@@ -56,6 +56,7 @@ module:
   helfi_proxy: 0
   helfi_rekry_content: 0
   helfi_toc: 0
+  helfi_tunnistamo: 0
   image: 0
   image_style_quality: 0
   language: 0
