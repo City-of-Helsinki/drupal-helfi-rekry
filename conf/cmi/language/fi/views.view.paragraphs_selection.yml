@@ -7,8 +7,8 @@ display:
           expose:
             offset_label: Offset
           tags:
-            previous: ‹‹
-            next: ››
+            previous: '‹ Edellinen'
+            next: 'Seuraava ›'
       fields:
         id:
           separator: ', '
@@ -17,6 +17,6 @@ display:
       filters:
         label:
           expose:
-            label: Tunnus
+            label: Otsikko
   entity_reference:
     display_title: Entiteettiviittaus
