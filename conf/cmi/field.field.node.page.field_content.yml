@@ -88,9 +88,6 @@ settings:
       event_list:
         weight: 30
         enabled: true
-      formtool_embed:
-        weight: 40
-        enabled: true
       from_library:
         weight: 21
         enabled: true
