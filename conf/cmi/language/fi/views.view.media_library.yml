@@ -11,8 +11,8 @@ display:
       pager:
         options:
           tags:
-            next: ››
-            previous: ‹‹
+            next: 'Seuraava ›'
+            previous: '‹ Edellinen'
           expose:
             items_per_page_label: 'Merkintöjä sivua kohti'
             items_per_page_options_all_label: '- Kaikki -'
@@ -22,8 +22,8 @@ display:
           submit_button: 'Suodata tuloksia'
           reset_button_label: Palauta
           exposed_sorts_label: Lajittele
-          sort_asc_label: Asc
-          sort_desc_label: Desc
+          sort_asc_label: Nousevasti
+          sort_desc_label: Laskevasti
       empty:
         area_text_custom:
           content: 'Ei mediatiedostoja saatavilla.'
@@ -46,6 +46,8 @@ display:
             group_items:
               1:
                 title: Julkaistu
+              2:
+                title: Julkaisematon
         name:
           expose:
             label: Nimi
