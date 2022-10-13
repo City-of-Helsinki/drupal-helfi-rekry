@@ -6,12 +6,14 @@ dependencies:
     - filter.format.full_html
     - filter.format.minimal
     - media.type.file
+    - media.type.hel_map
     - media.type.helfi_chart
     - media.type.image
     - media.type.job_listing_image
     - media.type.remote_video
     - media.type.soundcloud
     - node.type.job_listing
+    - node.type.announcement
     - node.type.landing_page
     - node.type.page
     - taxonomy.vocabulary.keywords
@@ -29,6 +31,7 @@ dependencies:
     - paragraphs
     - paragraphs_library
     - path
+    - publication_date
     - redirect
     - scheduler
     - system
@@ -39,7 +42,7 @@ _core:
   default_config_hash: 3zCeRBZhMrXxOsP6Ug4LzetKw3tWyFwUO3V4T3cMbtw
 id: editor
 label: Editor
-weight: -5
+weight: 4
 is_admin: null
 permissions:
   - 'access administration pages'
@@ -47,7 +50,6 @@ permissions:
   - 'access files overview'
   - 'access media overview'
   - 'access remote entities overview'
-  - 'access site in maintenance mode'
   - 'access taxonomy overview'
   - 'access toolbar'
   - 'access user profiles'
@@ -58,8 +60,10 @@ permissions:
   - 'administer url aliases'
   - 'cancel account'
   - 'change own username'
+  - 'create announcement content'
   - 'create content translations'
   - 'create file media'
+  - 'create hel_map media'
   - 'create helfi_chart media'
   - 'create image media'
   - 'create landing_page content'
@@ -71,7 +75,10 @@ permissions:
   - 'create soundcloud media'
   - 'create terms in keywords'
   - 'create url aliases'
+  - 'delete announcement revisions'
+  - 'delete any announcement content'
   - 'delete any file media'
+  - 'delete any hel_map media'
   - 'delete any helfi_chart media'
   - 'delete any image media'
   - 'delete any landing_page content'
@@ -82,7 +89,9 @@ permissions:
   - 'delete content translations'
   - 'delete landing_page revisions'
   - 'delete media'
+  - 'delete own announcement content'
   - 'delete own file media'
+  - 'delete own hel_map media'
   - 'delete own helfi_chart media'
   - 'delete own image media'
   - 'delete own landing_page content'
@@ -92,7 +101,9 @@ permissions:
   - 'delete page revisions'
   - 'delete remote entities'
   - 'delete terms in keywords'
+  - 'edit any announcement content'
   - 'edit any file media'
+  - 'edit any hel_map media'
   - 'edit any helfi_chart media'
   - 'edit any image media'
   - 'edit any job_listing content'
@@ -101,7 +112,9 @@ permissions:
   - 'edit any page content'
   - 'edit any remote_video media'
   - 'edit any soundcloud media'
+  - 'edit own announcement content'
   - 'edit own file media'
+  - 'edit own hel_map media'
   - 'edit own helfi_chart media'
   - 'edit own image media'
   - 'edit own job_listing content'
@@ -114,11 +127,14 @@ permissions:
   - 'edit remote entities'
   - 'edit terms in keywords'
   - 'revert job_listing revisions'
+  - 'revert announcement revisions'
   - 'revert landing_page revisions'
   - 'revert page revisions'
   - 'schedule publishing of nodes'
+  - 'set announcement published on date'
   - 'set landing_page published on date'
   - 'set page published on date'
+  - 'translate announcement node'
   - 'translate any entity'
   - 'translate editable entities'
   - 'translate file media'
@@ -138,6 +154,7 @@ permissions:
   - 'use text format minimal'
   - 'view all media revisions'
   - 'view all revisions'
+  - 'view announcement revisions'
   - 'view any unpublished content'
   - 'view editoria11y checker'
   - 'view job_listing revisions'
@@ -148,3 +165,8 @@ permissions:
   - 'view scheduled content'
   - 'view the administration theme'
   - 'view unpublished paragraphs'
+  - 'create hel_map media'
+  - 'delete any hel_map media'
+  - 'delete own hel_map media'
+  - 'edit any hel_map media'
+  - 'edit own hel_map media'

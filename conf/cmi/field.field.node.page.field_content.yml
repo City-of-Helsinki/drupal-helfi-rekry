@@ -1,4 +1,4 @@
-uuid: 1ff7f7a9-a90b-4c8e-8150-b36fd5ca9866
+uuid: d9023223-e4bd-4652-a2a2-aa4cbb254200
 langcode: en
 status: true
 dependencies:
@@ -56,6 +56,7 @@ settings:
       event_list: event_list
       contact_card_listing: contact_card_listing
       phasing: phasing
+      map: map
     negate: 0
     target_bundles_drag_drop:
       accordion:
@@ -112,6 +113,9 @@ settings:
       list_of_links_item:
         weight: -17
         enabled: false
+      map:
+        weight: -20
+        enabled: true
       phasing:
         weight: 50
         enabled: true
