@@ -16,11 +16,12 @@
         "drupal/hdbt_admin": "^1.0",
         "drupal/helfi_azure_fs": "^1.0",
         "drupal/helfi_drupal_tools": "dev-main",
-        "drupal/helfi_platform_config": "^2.6",
+        "drupal/helfi_platform_config": "^2.0",
         "drupal/helfi_proxy": "^2.2",
         "drupal/helfi_tpr": "^2.0",
         "drupal/helfi_tunnistamo": "^2.0",
         "drupal/migrate_plus": "^6.0",
+        "drupal/openid_connect": "2.0.0-alpha12",
         "drupal/stage_file_proxy": "^1.2",
         "drush/drush": "^10.4 || ^11"
     },
