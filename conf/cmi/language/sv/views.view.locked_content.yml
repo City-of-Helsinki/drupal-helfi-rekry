@@ -1,4 +1,4 @@
-label: 'Låst innehåll'
+label: 'Locked content'
 display:
   default:
     display_title: Förvald
@@ -31,7 +31,7 @@ display:
           label: Innehållstyp
           separator: ', '
         name:
-          label: 'Lås ägare'
+          label: 'Lock owner'
           separator: ', '
         operations:
           label: Funktioner
@@ -44,17 +44,15 @@ display:
             group_items:
               1:
                 title: Publicerad
-              2:
-                title: 'Ej publicerad'
         type:
           expose:
             label: Innehållstyp
         title:
           expose:
             label: Titel
-      title: 'Låst innehåll'
+      title: 'Locked content'
   page_1:
     display_title: Sida
     display_options:
       menu:
-        title: 'Låst innehåll'
+        title: 'Locked content'

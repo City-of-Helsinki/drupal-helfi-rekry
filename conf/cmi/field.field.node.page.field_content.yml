@@ -56,6 +56,7 @@ settings:
       event_list: event_list
       contact_card_listing: contact_card_listing
       phasing: phasing
+      map: map
     negate: 0
     target_bundles_drag_drop:
       accordion:
@@ -88,9 +89,6 @@ settings:
       event_list:
         weight: 30
         enabled: true
-      formtool_embed:
-        weight: 40
-        enabled: true
       from_library:
         weight: 21
         enabled: true
@@ -115,6 +113,9 @@ settings:
       list_of_links_item:
         weight: -17
         enabled: false
+      map:
+        weight: -20
+        enabled: true
       phasing:
         weight: 50
         enabled: true

@@ -8,20 +8,20 @@ display:
           submit_button: Suodata
           reset_button_label: Palauta
           exposed_sorts_label: Lajittele
-          sort_asc_label: Asc
-          sort_desc_label: Desc
+          sort_asc_label: Nousevasti
+          sort_desc_label: Laskevasti
       pager:
         options:
           tags:
-            previous: ‹‹
-            next: ››
+            previous: '‹ Edellinen'
+            next: 'Seuraava ›'
           expose:
             items_per_page_label: 'Merkintöjä sivua kohti'
             items_per_page_options_all_label: '- Kaikki -'
             offset_label: Offset
       fields:
         label:
-          label: Tunnus
+          label: Otsikko
           separator: ', '
         type:
           label: Tyyppi
@@ -43,9 +43,9 @@ display:
       filters:
         label:
           expose:
-            label: Tunnus
+            label: Otsikko
           group_info:
-            label: Tunnus
+            label: Otsikko
         type:
           expose:
             label: Tyyppi

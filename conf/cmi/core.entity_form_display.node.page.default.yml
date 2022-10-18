@@ -18,6 +18,7 @@ dependencies:
     - metatag
     - paragraphs
     - path
+    - publication_date
     - scheduler
 _core:
   default_config_hash: DOmyO7EbPLR4QT_AFZyGKWuDjwDK_6cxtWsqZ0RI3qQ
@@ -117,6 +118,7 @@ content:
     region: content
     settings:
       sidebar: false
+      use_details: true
     third_party_settings: {  }
   field_sidebar_content:
     type: paragraphs
@@ -167,6 +169,12 @@ content:
   publish_on:
     type: datetime_timestamp_no_default
     weight: 17
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }

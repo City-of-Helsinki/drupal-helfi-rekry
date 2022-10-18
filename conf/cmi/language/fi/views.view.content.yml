@@ -1,11 +1,10 @@
-label: Sisältö
-description: 'Etsi ja ylläpidä sisältöä.'
 display:
   default:
-    display_title: Oletus
     display_options:
-      title: Sisältö
       fields:
+        langcode:
+          label: Kieli
+          separator: ', '
         title:
           label: Otsikko
         type:
@@ -22,6 +21,7 @@ display:
           label: Päivitetty
         operations:
           label: Toimenpiteet
+      title: Sisältö
       pager:
         options:
           tags:
@@ -34,8 +34,8 @@ display:
           submit_button: Suodata
           reset_button_label: Palauta
           exposed_sorts_label: Lajittele
-          sort_asc_label: Asc
-          sort_desc_label: Desc
+          sort_asc_label: Nousevasti
+          sort_desc_label: Laskevasti
       empty:
         area_text_custom:
           content: 'Ei sisältöä.'
@@ -59,6 +59,7 @@ display:
         langcode:
           expose:
             label: Kieli
+    display_title: Oletus
   page_1:
     display_title: Sivu
     display_options:
@@ -67,3 +68,5 @@ display:
       tab_options:
         title: Sisältö
         description: 'Etsi ja hallitse sisältöä'
+label: Sisältö
+description: 'Etsi ja ylläpidä sisältöä.'
