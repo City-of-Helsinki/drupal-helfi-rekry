@@ -20,6 +20,8 @@ dependencies:
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_prevent_publishing
+    - field.field.node.job_listing.field_publication_ends
+    - field.field.node.job_listing.field_publication_starts
     - field.field.node.job_listing.field_recruitment_id
     - field.field.node.job_listing.field_recruitment_type
     - field.field.node.job_listing.field_salary
@@ -30,6 +32,7 @@ dependencies:
     - image.style.3_2_m_2x
     - node.type.job_listing
   module:
+    - datetime
     - link
     - media
     - text
@@ -152,6 +155,24 @@ content:
     third_party_settings: {  }
     weight: 7
     region: content
+  field_publication_ends:
+    type: datetime_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 19
+    region: content
+  field_publication_starts:
+    type: datetime_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 18
+    region: content
   field_recruitment_id:
     type: string
     label: hidden
@@ -201,4 +222,5 @@ hidden:
   field_task_area: true
   langcode: true
   links: true
+  published_at: true
   toc_enabled: true

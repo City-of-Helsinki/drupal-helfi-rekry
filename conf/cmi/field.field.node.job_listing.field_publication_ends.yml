@@ -1,0 +1,26 @@
+uuid: 7e37cb85-4db2-4918-97cd-8039d3c2f86f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_publication_ends
+    - node.type.job_listing
+  module:
+    - datetime
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: none
+id: node.job_listing.field_publication_ends
+field_name: field_publication_ends
+entity_type: node
+bundle: job_listing
+label: 'Publication ends'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

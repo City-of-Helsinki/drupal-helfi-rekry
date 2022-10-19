@@ -21,6 +21,8 @@ dependencies:
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_prevent_publishing
+    - field.field.node.job_listing.field_publication_ends
+    - field.field.node.job_listing.field_publication_starts
     - field.field.node.job_listing.field_recruitment_id
     - field.field.node.job_listing.field_recruitment_type
     - field.field.node.job_listing.field_salary
@@ -80,6 +82,8 @@ hidden:
   field_postal_area: true
   field_postal_code: true
   field_prevent_publishing: true
+  field_publication_ends: true
+  field_publication_starts: true
   field_recruitment_id: true
   field_recruitment_type: true
   field_salary: true
@@ -88,4 +92,5 @@ hidden:
   field_video: true
   job_description: true
   langcode: true
+  published_at: true
   toc_enabled: true
