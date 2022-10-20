@@ -124,7 +124,7 @@
         {{ content.field_organization_name }}
         {{ content.field_link_to_application }}
 
-        {% if content.field_publication_starts.0['#attributes']['datetime']|date('Y-m-d') == 'now'|date('Y-m-d') %}
+        {% if publication_starts_today == true %}
           {% set publication_starts = 'today'|t %}
         {% else %}
           {% set publication_starts = content.field_publication_starts %}
