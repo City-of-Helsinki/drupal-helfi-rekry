@@ -88,4 +88,5 @@ hidden:
   field_video: true
   job_description: true
   langcode: true
+  published_at: true
   toc_enabled: true

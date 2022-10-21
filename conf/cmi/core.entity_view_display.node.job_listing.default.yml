@@ -201,4 +201,5 @@ hidden:
   field_task_area: true
   langcode: true
   links: true
+  published_at: true
   toc_enabled: true
