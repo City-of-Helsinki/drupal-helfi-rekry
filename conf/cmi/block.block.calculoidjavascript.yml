@@ -1,0 +1,25 @@
+uuid: 41aff990-6ae3-417c-b5fa-ed4270ba173c
+langcode: en
+status: true
+dependencies:
+  module:
+    - helfi_rekry_content
+    - system
+  theme:
+    - hdbt_subtheme
+id: calculoidjavascript
+theme: hdbt_subtheme
+region: content
+weight: 1
+provider: null
+plugin: calculoid_javascript_block
+settings:
+  id: calculoid_javascript_block
+  label: 'Calculoid Javascript'
+  label_display: '0'
+  provider: helfi_rekry_content
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /kotihoidon-asiakasmaksulaskuri
