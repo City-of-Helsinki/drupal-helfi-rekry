@@ -19,7 +19,7 @@ field_name: field_publication_starts
 entity_type: node
 bundle: job_listing
 label: 'Publication starts'
-description: 'Publication start date in remote system (Helbit).'
+description: 'Publication start date in remote system (Helbit). Does not affect publication status on the site.'
 required: false
 translatable: false
 default_value: {  }
