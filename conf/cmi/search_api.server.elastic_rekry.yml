@@ -1,0 +1,14 @@
+uuid: e2ba01f2-e61f-41be-a856-febadf31b1a3
+langcode: en
+status: true
+dependencies:
+  module:
+    - elasticsearch_connector
+id: elastic_rekry
+name: 'Elastic Rekry'
+description: ''
+backend: elasticsearch
+backend_config:
+  cluster_settings:
+    cluster: rekry
+  fuzziness: auto
