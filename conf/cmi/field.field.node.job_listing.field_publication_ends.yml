@@ -11,13 +11,15 @@ dependencies:
 third_party_settings:
   disable_field:
     add_disable: none
-    edit_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
 id: node.job_listing.field_publication_ends
 field_name: field_publication_ends
 entity_type: node
 bundle: job_listing
 label: 'Publication ends'
-description: ''
+description: 'Publication end date in remote system (Helbit).'
 required: false
 translatable: false
 default_value: {  }
