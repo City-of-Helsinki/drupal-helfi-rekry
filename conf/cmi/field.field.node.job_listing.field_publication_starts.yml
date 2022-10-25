@@ -1,0 +1,28 @@
+uuid: 5e065085-94ce-498c-9ef8-f2e6a42fdfd5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_publication_starts
+    - node.type.job_listing
+  module:
+    - datetime
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
+id: node.job_listing.field_publication_starts
+field_name: field_publication_starts
+entity_type: node
+bundle: job_listing
+label: 'Publication starts'
+description: 'Publication start date in remote system (Helbit). Does not affect publication status on the site.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

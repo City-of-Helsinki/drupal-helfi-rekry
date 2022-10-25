@@ -4,3 +4,6 @@ msgstr ""
 
 msgid "jobs"
 msgstr "jobb"
+
+msgid "today"
+msgstr "idag"

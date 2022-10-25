@@ -229,5 +229,7 @@ process:
     plugin: callback
     callable: strtotime
     source: publication_ends
+  field_publication_starts: publication_starts
+  field_publication_ends: publication_ends
 destination:
   plugin: 'entity:node'
