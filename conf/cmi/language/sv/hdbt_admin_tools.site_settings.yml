@@ -1,3 +1,6 @@
 footer_settings:
   footer_top_content:
+    value: "<ul class=\"menu\">\r\n\t<li class=\"menu__item menu__item--external\"><a class=\"link\" data-design=\"link\" data-link-text=\"Kontakta staden\" data-protocol=\"https\" href=\"https://www.hel.fi/sv/beslutsfattande-och-forvaltning/kontakta-helsingfors-stad\">Kontakta staden</a></li>\r\n\t<li class=\"menu__item menu__item--external\"><a class=\"link\" data-design=\"link\" data-link-text=\"Allmänna rådgivningen Helsingfors-info\" data-protocol=\"https\" href=\"https://www.hel.fi/kanslia/neuvonta-sv/\">Allmänna rådgivningen Helsingfors-info</a></li>\r\n\t<li class=\"menu__item menu__item--external\"><a class=\"link\" data-design=\"link\" data-is-external=\"true\" data-link-text=\"Digitalt stöd\" data-protocol=\"https\" href=\"https://digituki.hel.fi/sv/\">Digitalt stöd</a></li>\r\n\t<li class=\"menu__item menu__item--external\"><a class=\"link\" data-design=\"link\" data-link-text=\"Ge respons\" data-protocol=\"https\" href=\"https://www.hel.fi/respons/\">Ge respons</a></li>\r\n</ul>\r\n"
     format: full_html
+  footer_top_title: 'Ta kontakt'
+site_settings: {  }
