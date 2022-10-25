@@ -27,6 +27,7 @@ module:
   entity: 0
   entity_reference_revisions: 0
   entity_usage: 0
+  external_entities: 0
   field: 0
   field_group: 0
   field_ui: 0
@@ -54,6 +55,7 @@ module:
   helfi_media: 0
   helfi_media_map: 0
   helfi_media_map_config: 0
+  helfi_news_feed: 0
   helfi_platform_config: 0
   helfi_proxy: 0
   helfi_rekry_content: 0
@@ -61,6 +63,7 @@ module:
   helfi_tunnistamo: 0
   image: 0
   image_style_quality: 0
+  imagecache_external: 0
   language: 0
   link: 0
   linkit: 0
