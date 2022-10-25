@@ -4000,16 +4000,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "4.1.7",
+            "version": "4.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "cd9ab8bc8e79da7941c0df9873d6c6be2731eb37"
+                "reference": "adf4d958ec7234a5aa5a8f02583d5992b8d8ee26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/cd9ab8bc8e79da7941c0df9873d6c6be2731eb37",
-                "reference": "cd9ab8bc8e79da7941c0df9873d6c6be2731eb37",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/adf4d958ec7234a5aa5a8f02583d5992b8d8ee26",
+                "reference": "adf4d958ec7234a5aa5a8f02583d5992b8d8ee26",
                 "shasum": ""
             },
             "require": {
@@ -4024,10 +4024,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/4.1.7",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/4.1.8",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2022-10-21T06:20:11+00:00"
+            "time": "2022-10-21T13:32:01+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -4063,16 +4063,16 @@
         },
         {
             "name": "drupal/helfi_api_base",
-            "version": "2.3.2",
+            "version": "2.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base.git",
-                "reference": "43048a8a41a3e28cd3f8de6c6282a84bbbe09fab"
+                "reference": "403c56e5dc436ba0c404c240546e59de944eae2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-api-base/zipball/43048a8a41a3e28cd3f8de6c6282a84bbbe09fab",
-                "reference": "43048a8a41a3e28cd3f8de6c6282a84bbbe09fab",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-api-base/zipball/403c56e5dc436ba0c404c240546e59de944eae2e",
+                "reference": "403c56e5dc436ba0c404c240546e59de944eae2e",
                 "shasum": ""
             },
             "require": {
@@ -4095,10 +4095,10 @@
             ],
             "description": "Helfi - API Base",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base/tree/2.3.2",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base/tree/2.3.3",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base/issues"
             },
-            "time": "2022-10-14T09:42:58+00:00"
+            "time": "2022-10-24T06:09:19+00:00"
         },
         {
             "name": "drupal/helfi_azure_fs",
@@ -4353,16 +4353,16 @@
         },
         {
             "name": "drupal/helfi_proxy",
-            "version": "2.2.7",
+            "version": "2.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-proxy.git",
-                "reference": "be69a56c6f4019110d3c0c68d9475827286fa6ab"
+                "reference": "e75e953316a551a2075ddb7edad8b09128b19723"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-proxy/zipball/be69a56c6f4019110d3c0c68d9475827286fa6ab",
-                "reference": "be69a56c6f4019110d3c0c68d9475827286fa6ab",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-proxy/zipball/e75e953316a551a2075ddb7edad8b09128b19723",
+                "reference": "e75e953316a551a2075ddb7edad8b09128b19723",
                 "shasum": ""
             },
             "require": {
@@ -4385,10 +4385,10 @@
             ],
             "description": "Provides various fixes so we can serve multiple Drupal instances in one domain.",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-proxy/tree/2.2.7",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-proxy/tree/2.2.8",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-proxy/issues"
             },
-            "time": "2022-09-28T05:57:53+00:00"
+            "time": "2022-10-25T06:04:50+00:00"
         },
         {
             "name": "drupal/helfi_tpr",
@@ -7099,23 +7099,23 @@
         },
         {
             "name": "ezimuel/guzzlestreams",
-            "version": "3.0.1",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezimuel/guzzlestreams.git",
-                "reference": "abe3791d231167f14eb80d413420d1eab91163a8"
+                "reference": "b4b5a025dfee70d6cd34c780e07330eb93d5b997"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezimuel/guzzlestreams/zipball/abe3791d231167f14eb80d413420d1eab91163a8",
-                "reference": "abe3791d231167f14eb80d413420d1eab91163a8",
+                "url": "https://api.github.com/repos/ezimuel/guzzlestreams/zipball/b4b5a025dfee70d6cd34c780e07330eb93d5b997",
+                "reference": "b4b5a025dfee70d6cd34c780e07330eb93d5b997",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "~9.0"
             },
             "type": "library",
             "extra": {
@@ -7146,9 +7146,9 @@
                 "stream"
             ],
             "support": {
-                "source": "https://github.com/ezimuel/guzzlestreams/tree/3.0.1"
+                "source": "https://github.com/ezimuel/guzzlestreams/tree/3.1.0"
             },
-            "time": "2020-02-14T23:11:50+00:00"
+            "time": "2022-10-24T12:58:50+00:00"
         },
         {
             "name": "ezimuel/ringphp",
