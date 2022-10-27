@@ -7,3 +7,30 @@ msgstr "tehtävää"
 
 msgid "today"
 msgstr "tänään"
+
+msgid "Application period ends"
+msgstr "Haku päättyy"
+
+msgid "Employment contract"
+msgstr "Palvelussuhde"
+
+msgid "Pay"
+msgstr "Palkka"
+
+msgid "Address"
+msgstr "Osoite"
+
+msgid "Job code"
+msgstr "Työavain"
+
+msgid "Contract area"
+msgstr "Sopimusala"
+
+msgid "Additional information"
+msgstr "Lisätiedot"
+
+msgid "Apply for the position"
+msgstr "Hae työpaikkaa"
+
+msgid "See all related jobs"
+msgstr "Katso kaikki suositellut työpaikat"

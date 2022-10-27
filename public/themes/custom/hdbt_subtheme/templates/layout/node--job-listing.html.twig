@@ -133,8 +133,8 @@
         {% endif %}
 
         {% set metadata = [
-          { label: 'Application ends'|t, icon: 'clock', content: content.field_publication_ends },
-          { label: 'Salary'|t, icon: 'glyph-euro', content: content.field_salary },
+          { label: 'Application period ends'|t, icon: 'clock', content: content.field_publication_ends },
+          { label: 'Pay'|t, icon: 'glyph-euro', content: content.field_salary },
           { label: 'Employment contract'|t, icon: 'calendar', content: content.field_job_duration },
           { label: 'Address'|t, icon: 'location', content: [content.field_address, content.field_postal_code, content.field_postal_area] },
           { label: 'Published'|t, icon: 'calendar-clock', content: publication_starts },
