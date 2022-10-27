@@ -4,3 +4,6 @@ msgstr ""
 
 msgid "jobs"
 msgstr "tehtävää"
+
+msgid "today"
+msgstr "tänään"

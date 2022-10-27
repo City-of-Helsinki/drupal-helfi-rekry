@@ -62,6 +62,8 @@
  *   current user is a logged-in member.
  * - is_admin: Flag for admin user status. Will be true when the current user
  *   is an administrator.
+ * - publication_starts_today: Helper variable for displaying 'today' instead
+ *   of the actual timestamp if the job listing is published today.
  *
  * @see template_preprocess_node()
  *
@@ -123,12 +125,19 @@
         {% endif %}
         {{ content.field_organization_name }}
         {{ content.field_link_to_application }}
+
+        {% if publication_starts_today == true %}
+          {% set publication_starts = 'today'|t %}
+        {% else %}
+          {% set publication_starts = content.field_publication_starts %}
+        {% endif %}
+
         {% set metadata = [
-          { label: 'Application ends'|t, icon: 'clock', content: unpublish_on },
+          { label: 'Application ends'|t, icon: 'clock', content: content.field_publication_ends },
           { label: 'Salary'|t, icon: 'glyph-euro', content: content.field_salary },
           { label: 'Employment contract'|t, icon: 'calendar', content: content.field_job_duration },
           { label: 'Address'|t, icon: 'location', content: [content.field_address, content.field_postal_code, content.field_postal_area] },
-          { label: 'Published'|t, icon: 'calendar-clock', content: content.field_publication_starts },
+          { label: 'Published'|t, icon: 'calendar-clock', content: publication_starts },
           { label: 'Job code'|t, icon: 'locate', content: content.field_recruitment_id },
         ] %}
 
