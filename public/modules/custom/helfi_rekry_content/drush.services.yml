@@ -1,0 +1,5 @@
+services:
+  helfi_rekry_content.commands:
+    class: \Drupal\helfi_rekry_content\Commands\TranslationCommands
+    tags:
+      - { name: drush.command }

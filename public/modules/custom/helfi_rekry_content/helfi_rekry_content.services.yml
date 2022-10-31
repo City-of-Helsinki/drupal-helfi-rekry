@@ -15,3 +15,9 @@ services:
     arguments: ['@config.factory', '@current_user']
     tags:
       - { name: 'event_subscriber' }
+  helfi_rekry_content.translations_generator:
+    class: Drupal\helfi_rekry_content\TranslationGenerator
+  helfi_rekry_content.job_import_subscriber:
+    class: Drupal\helfi_rekry_content\EventSubscriber\JobImportSubscriber
+    tags:
+      - { name: 'event_subscriber' }
