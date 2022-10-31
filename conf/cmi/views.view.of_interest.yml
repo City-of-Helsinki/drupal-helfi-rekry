@@ -30,7 +30,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'You might also be interested in these jobs'
+      title: 'You might also be interested in these positions'
       fields:
         title:
           id: title
