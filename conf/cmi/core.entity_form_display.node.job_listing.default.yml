@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
+    - field.field.node.job_listing.field_copied
     - field.field.node.job_listing.field_employment
     - field.field.node.job_listing.field_employment_type
     - field.field.node.job_listing.field_image
@@ -17,6 +18,7 @@ dependencies:
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
     - field.field.node.job_listing.field_organization_name
+    - field.field.node.job_listing.field_original_language
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_prevent_publishing
@@ -72,6 +74,13 @@ content:
     settings:
       rows: 5
       placeholder: ''
+    third_party_settings: {  }
+  field_copied:
+    type: boolean_checkbox
+    weight: 39
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_employment:
     type: entity_reference_autocomplete
@@ -162,6 +171,12 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_original_language:
+    type: options_select
+    weight: 40
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_postal_area:
     type: string_textfield
