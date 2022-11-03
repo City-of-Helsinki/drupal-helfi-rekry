@@ -18,7 +18,6 @@ function helfi_rekry_content_install($is_syncing) {
     helfi_rekry_content_update_9001();
     helfi_rekry_content_update_9002();
     helfi_rekry_content_update_9003();
-    helfi_rekry_content_update_9004();
   }
 }
 
@@ -161,19 +160,4 @@ function helfi_rekry_content_update_9003() {
       'name' => $item['sv'],
     ])->save();
   }
-}
-
-/**
- * HELfi rekry content update 9004.
- */
-function helfi_rekry_content_update_9004() {
-  /** @var \Drupal\update_helper\Updater $updateHelper */
-  $updateHelper = \Drupal::service('update_helper.updater');
-
-  $config_location = dirname(__FILE__) . '/config/install/';
-  $config_translation_location = dirname(__FILE__) . '/config/language';
-
-  $new_config = [
-
-  ];
 }
