@@ -4,9 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\helfi_rekry_content\Plugin\Queueworker;
 
-use Drupal\Core\Annotation\QueueWorker;
-use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\node\Entity\Node;
@@ -22,6 +19,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 final class TranslationsQueue extends QueueWorkerBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * Queue id.
+   */
+  public const QUEUE_ID = 'helfi_rekry_job_translations';
 
   /**
    * Create a static instance.
@@ -80,7 +82,16 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
     }
 
     foreach ($missingVersions as $langcode) {
-      $listing->addTranslation($langcode, $listing->toArray());
+      $originalLangcode = $listing->get('langcode')->value;
+      $listing->addTranslation($langcode, array_merge($listing->toArray(), [
+        'field_copied' => [
+          ['value' => TRUE],
+        ],
+        'field_original_language' => [
+          ['value' => $originalLangcode],
+        ],
+      ]));
+
       $listing->save();
     }
   }

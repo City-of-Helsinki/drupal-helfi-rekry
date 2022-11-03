@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
+use Drupal\helfi_rekry_content\Plugin\QueueWorker\TranslationsQueue;
 use Drupal\migrate\Event\MigrateEvents;
 use Drupal\migrate\Event\MigratePostRowSaveEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -31,7 +32,7 @@ class JobImportSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $queue = \Drupal::service('queue')->get('helfi_rekry_job_translations');
+    $queue = \Drupal::service('queue')->get(TranslationsQueue::QUEUE_ID);
     $nids = $event->getDestinationIdValues();
 
     foreach ($nids as $nid) {
