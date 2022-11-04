@@ -1,6 +1,6 @@
 <div class="job-listing__organization-name">
   {% for item in items %}
-    <span class="organization">
+    <span {{ item.attributes.addClass('organization') }}>
       {{ item.content }}
     </span>
   {% endfor %}

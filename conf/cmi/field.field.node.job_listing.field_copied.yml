@@ -1,0 +1,29 @@
+uuid: c9a43bb6-42bd-4020-a34d-891bb041a254
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_copied
+    - node.type.job_listing
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: none
+id: node.job_listing.field_copied
+field_name: field_copied
+entity_type: node
+bundle: job_listing
+label: 'Copied from another language'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

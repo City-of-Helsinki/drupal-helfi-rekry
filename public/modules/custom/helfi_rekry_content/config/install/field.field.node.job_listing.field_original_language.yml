@@ -1,0 +1,26 @@
+uuid: 9e1e7c6d-cb0b-472e-873b-182a5a463029
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_original_language
+    - node.type.job_listing
+  module:
+    - disable_field
+    - options
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: none
+id: node.job_listing.field_original_language
+field_name: field_original_language
+entity_type: node
+bundle: job_listing
+label: 'Original language'
+description: 'Indicates what language is the original one for this node. Use in tandem with the ''Copied from another language'' field.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
