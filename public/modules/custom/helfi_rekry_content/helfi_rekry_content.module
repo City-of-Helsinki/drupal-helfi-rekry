@@ -200,24 +200,24 @@ function helfi_rekry_content_theme() {
 function helfi_rekry_content_preprocess_field(&$variables) {
   $node = $variables['element']['#object'];
 
-  // Return early if there's no need to expose original language
+  // Return early if there's no need to expose original language.
   if (
     !$node instanceof NodeInterface ||
     $node->get('field_copied')->isEmpty() ||
-    $node->get('field_original_language')->isEmpty())
-  {
+    $node->get('field_original_language')->isEmpty()
+  ) {
     return;
   }
 
   $originalLanguage = $node->get('field_original_language')->first()->getValue()['value'];
 
-  // Expose original language to field templates
+  // Expose original language to field templates.
   $variables['original_language'] = $originalLanguage;
 
-  // Expose original language as an attribute for these fields
+  // Expose original language as an attribute for these fields.
   $wrappedFields = [
     'field_salary_class',
-    'field_organization_name'
+    'field_organization_name',
   ];
 
   if ($variables['field_name'] && in_array($variables['field_name'], $wrappedFields)) {
