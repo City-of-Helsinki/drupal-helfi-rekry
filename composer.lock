@@ -4224,16 +4224,16 @@
         },
         {
             "name": "drupal/helfi_platform_config",
-            "version": "2.13.12",
+            "version": "2.13.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config.git",
-                "reference": "c12ee6203ef6fb0fd95a5b4fa14562f0f926dfa3"
+                "reference": "d13b2b7ab66eedbed5af5c5896b5eb1973c90973"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/c12ee6203ef6fb0fd95a5b4fa14562f0f926dfa3",
-                "reference": "c12ee6203ef6fb0fd95a5b4fa14562f0f926dfa3",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/d13b2b7ab66eedbed5af5c5896b5eb1973c90973",
+                "reference": "d13b2b7ab66eedbed5af5c5896b5eb1973c90973",
                 "shasum": ""
             },
             "require": {
@@ -4314,7 +4314,7 @@
                         "https://www.drupal.org/project/default_content/issues/2640734#comment-14638943": "https://raw.githubusercontent.com/City-of-Helsinki/drupal-helfi-platform-config/main/patches/default_content_2.0.0-alpha2-2640734_manual_imports-e164a354.patch"
                     },
                     "drupal/eu_cookie_compliance": {
-                        "[#UHF-885] Helfi-specific customizations to EU Cookie Compliance": "https://raw.githubusercontent.com/City-of-Helsinki/drupal-helfi-platform-config/e02b73fc68bd7d9f3611a1d55da267f6fe826340/patches/eu_cookie_compliance_block_8.x-1.24.patch"
+                        "[#UHF-885] Helfi-specific customizations to EU Cookie Compliance": "https://raw.githubusercontent.com/City-of-Helsinki/drupal-helfi-platform-config/923b35f699820b544397a35b7696570e101cd02c/patches/eu_cookie_compliance_block_8.x-1.24.patch"
                     },
                     "drupal/features": {
                         "https://www.drupal.org/project/features/issues/2869336": "https://www.drupal.org/files/issues/features_export-config-translation-2869336-2.patch"
@@ -4342,33 +4342,35 @@
             ],
             "description": "HELfi platform config",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/2.13.12",
+                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/2.13.13",
                 "issues": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/issues"
             },
-            "time": "2022-11-07T15:12:21+00:00"
+            "time": "2022-11-08T13:18:34+00:00"
         },
         {
             "name": "drupal/helfi_proxy",
-            "version": "2.2.9",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-proxy.git",
-                "reference": "949daf441d06906263dd34b7e05bcfe42dc5a9fe"
+                "reference": "cae301f5f3b2d5a2dc723cbc03d6cc9a47bec6f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-proxy/zipball/949daf441d06906263dd34b7e05bcfe42dc5a9fe",
-                "reference": "949daf441d06906263dd34b7e05bcfe42dc5a9fe",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-proxy/zipball/cae301f5f3b2d5a2dc723cbc03d6cc9a47bec6f7",
+                "reference": "cae301f5f3b2d5a2dc723cbc03d6cc9a47bec6f7",
                 "shasum": ""
             },
             "require": {
                 "drupal/helfi_api_base": "*",
                 "drupal/purge": "^3.0",
-                "drupal/redirect": "^1.0",
                 "drupal/varnish_purge": "^2.1",
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "php": "^8.0"
+            },
+            "conflict": {
+                "drupal/helfi_tunnistamo": "<=2.2.1"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
@@ -4381,10 +4383,10 @@
             ],
             "description": "Provides various fixes so we can serve multiple Drupal instances in one domain.",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-proxy/tree/2.2.9",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-proxy/tree/2.3.0",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-proxy/issues"
             },
-            "time": "2022-11-02T07:15:53+00:00"
+            "time": "2022-11-08T11:03:23+00:00"
         },
         {
             "name": "drupal/helfi_tpr",
