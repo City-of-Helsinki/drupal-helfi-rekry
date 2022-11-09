@@ -30,13 +30,15 @@ source:
     id:
       type: string
 process:
+  tid:
+    plugin: callback
+    callable: _helfi_rekry_content_lookup_organization_tid
+    source: id
   name: name
   langcode:
     plugin: default_value
     default_value: fi
-  field_external_id:
-    plugin: helfi_rekry_content_organization_translation
-    source: id
+  field_external_id: id
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: organization
