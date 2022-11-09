@@ -19,8 +19,3 @@ services:
     class: Drupal\helfi_rekry_content\EventSubscriber\JobImportSubscriber
     tags:
       - { name: 'event_subscriber' }
-  helfi_rekry_content.organization_import_subscriber:
-    class: Drupal\helfi_rekry_content\EventSubscriber\OrganizationImportSubscriber
-    arguments: [ '@entity_type.manager' ]
-    tags:
-      - { name: 'event_subscriber' }

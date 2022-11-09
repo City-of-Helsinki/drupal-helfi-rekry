@@ -31,10 +31,12 @@ source:
       type: string
 process:
   name: name
-  langcode: 
+  langcode:
     plugin: default_value
     default_value: fi
-  field_external_id: id
+  field_external_id:
+    plugin: helfi_rekry_content_organization_translation
+    source: id
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: organization

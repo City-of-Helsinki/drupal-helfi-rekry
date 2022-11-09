@@ -71,17 +71,17 @@ do
 
   if run_migrate "helfi_rekry_organizations:all"; then
     echo "Running job listing organization migrations: $(date)"
-    drush migrate:import helfi_rekry_organizations:all
+    drush migrate:import helfi_rekry_organizations:all --update
   fi
 
   if run_migrate "helfi_rekry_organizations:all_sv"; then
     echo "Running job listing organization migrations (sv): $(date)"
-    drush migrate:import helfi_rekry_organizations:all_sv
+    drush migrate:import helfi_rekry_organizations:all_sv --update
   fi
 
   if run_migrate "helfi_rekry_organizations:all_en"; then
     echo "Running job listing organization migrations (en): $(date)"
-    drush migrate:import helfi_rekry_organizations:all_en
+    drush migrate:import helfi_rekry_organizations:all_en --update
   fi
 
   echo "Running job listing migrations: $(date)"
