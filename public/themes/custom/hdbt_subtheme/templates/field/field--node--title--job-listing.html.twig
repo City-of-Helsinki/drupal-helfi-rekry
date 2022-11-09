@@ -14,7 +14,7 @@
 {% else %}
 <span{{ attributes }}>
   {%- for item in items -%}
-    {{ item.content }}{% if vacancies > 1 %} ({{ vacancies }} {{ 'jobs'|t }}){% endif %}
+    {% include '@hdbt_subtheme/field/field-content.html.twig'%}{% if vacancies > 1 %} ({{ vacancies }} {{ 'jobs'|t }}){% endif %}
   {%- endfor -%}
 </span>
 {% endif %}

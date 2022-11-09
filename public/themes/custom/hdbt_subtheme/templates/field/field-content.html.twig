@@ -1,0 +1,16 @@
+{# Set lang attributes if needed #}
+{% set content %}
+  {% if original_language %}
+    <div lang="{{ original_language }}">
+  {% endif %}
+
+  {% for item in items %}
+    {{ item.content }}
+  {% endfor %}
+
+  {% if original_language %}
+    </div>
+  {% endif %}
+{% endset %}
+
+{{ content }}

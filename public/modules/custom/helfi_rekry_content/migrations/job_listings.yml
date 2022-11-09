@@ -146,6 +146,9 @@ process:
   field_address: address
   field_anonymous: anonymous
   field_contacts: contacts
+  field_copied:
+    plugin: default_value
+    default_value: 0
   field_image/target_id:
     -
       plugin: migration_lookup
@@ -180,6 +183,9 @@ process:
     bundle: organization
     ignore_case: true
   field_organization_description: organization_description
+  field_original_language:
+    plugin: default_value
+    default_value: null
   field_video/target_id:
     plugin: callback
     callable: _helfi_rekry_content_lookup_video_mid

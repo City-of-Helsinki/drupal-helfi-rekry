@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
+    - field.field.node.job_listing.field_copied
     - field.field.node.job_listing.field_employment
     - field.field.node.job_listing.field_employment_type
     - field.field.node.job_listing.field_image
@@ -17,6 +18,7 @@ dependencies:
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
     - field.field.node.job_listing.field_organization_name
+    - field.field.node.job_listing.field_original_language
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_prevent_publishing
@@ -215,12 +217,15 @@ content:
     region: content
 hidden:
   field_anonymous: true
+  field_copied: true
   field_jobs: true
   field_last_changed_remote: true
+  field_original_language: true
   field_prevent_publishing: true
   field_recruitment_type: true
   field_task_area: true
   langcode: true
   links: true
   published_at: true
+  search_api_excerpt: true
   toc_enabled: true

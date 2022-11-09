@@ -6,4 +6,31 @@ msgid "jobs"
 msgstr "jobb"
 
 msgid "today"
-msgstr "idag"
+msgstr "i dag"
+
+msgid "Application period ends"
+msgstr "Ansökan stängs"
+
+msgid "Employment contract"
+msgstr "Anställningsförhållande"
+
+msgid "Pay"
+msgstr "Lön"
+
+msgid "Address"
+msgstr "Adress"
+
+msgid "Job code"
+msgstr "Arbetsnummer"
+
+msgid "Contract area"
+msgstr "Avtalsbransch"
+
+msgid "Additional information"
+msgstr "Mer info"
+
+msgid "Apply for the position"
+msgstr "Sök jobbet"
+
+msgid "See all related jobs"
+msgstr "Se alla rekommenderade jobb"
