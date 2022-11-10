@@ -6,6 +6,8 @@
  */
 
 use Drupal\helfi_platform_config\ConfigHelper;
+use Drupal\migrate\MigrateExecutable;
+use Drupal\migrate\MigrateMessage;
 use Drupal\taxonomy\Entity\Term;
 
 /**
@@ -159,5 +161,53 @@ function helfi_rekry_content_update_9003() {
     ])->addTranslation('sv', [
       'name' => $item['sv'],
     ])->save();
+  }
+}
+
+/**
+ * Cleanup "organization" taxonomy term translations.
+ */
+function helfi_rekry_content_update_9004() {
+  // Load Swedish and English "organization" taxonomy terms.
+  foreach (['sv', 'en'] as $langcode) {
+    $terms = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadByProperties([
+        'vid' => 'organization',
+        'langcode' => $langcode,
+      ]);
+
+    foreach ($terms as $term) {
+      // Get the external ID.
+      $external_id = $term->get('field_external_id')->getString();
+
+      // Get the Finnish term with the external ID.
+      $finnish_term_query = \Drupal::entityTypeManager()
+        ->getStorage('taxonomy_term')
+        ->loadByProperties([
+          'field_external_id' => $external_id,
+          'langcode' => 'fi',
+        ]);
+
+      $finnish_term = reset($finnish_term_query);
+
+      // If a translation already exists, remove it.
+      if ($finnish_term->hasTranslation($langcode)) {
+        $finnish_term->removeTranslation($langcode);
+      }
+
+      // Add translation to the term & save.
+      $finnish_term->addTranslation($langcode, [
+        'name' => $term->label(),
+      ])->save();
+
+      // Remove the original term.
+      $term->delete();
+    }
+
+    // Rollback migration to allow importing new term translations.
+    $migration = \Drupal::service('plugin.manager.migration')->createInstance('helfi_rekry_organizations:all_' . $langcode);
+    $executable = new MigrateExecutable($migration, new MigrateMessage());
+    $executable->rollback();
   }
 }

@@ -59,9 +59,29 @@ do
     drush migrate:import helfi_rekry_task_areas:all
   fi
 
+  if run_migrate "helfi_rekry_task_areas:all_sv"; then
+    echo "Running job listing task area migrations (sv): $(date)"
+    drush migrate:import helfi_rekry_task_areas:all_sv
+  fi
+
+  if run_migrate "helfi_rekry_task_areas:all_en"; then
+    echo "Running job listing task area migrations (en): $(date)"
+    drush migrate:import helfi_rekry_task_areas:all_en
+  fi
+
   if run_migrate "helfi_rekry_organizations:all"; then
     echo "Running job listing organization migrations: $(date)"
-    drush migrate:import helfi_rekry_organizations:all
+    drush migrate:import helfi_rekry_organizations:all --update
+  fi
+
+  if run_migrate "helfi_rekry_organizations:all_sv"; then
+    echo "Running job listing organization migrations (sv): $(date)"
+    drush migrate:import helfi_rekry_organizations:all_sv --update
+  fi
+
+  if run_migrate "helfi_rekry_organizations:all_en"; then
+    echo "Running job listing organization migrations (en): $(date)"
+    drush migrate:import helfi_rekry_organizations:all_en --update
   fi
 
   echo "Running job listing migrations: $(date)"
