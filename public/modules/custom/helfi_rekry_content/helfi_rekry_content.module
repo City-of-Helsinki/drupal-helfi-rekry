@@ -203,8 +203,9 @@ function helfi_rekry_content_preprocess_field(&$variables) {
   // Return early if there's no need to expose original language.
   if (
     !$node instanceof NodeInterface ||
-    $node->get('field_copied')->isEmpty() ||
-    $node->get('field_original_language')->isEmpty()
+    $node->getType() !== 'job_listing' ||
+    ($node->hasField('field_copied') && $node->get('field_copied')->isEmpty()) ||
+    ($node->hasField('field_original_language') && $node->get('field_original_language')->isEmpty())
   ) {
     return;
   }
