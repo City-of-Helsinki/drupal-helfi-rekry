@@ -1,0 +1,10 @@
+uuid: a7817c66-6f6f-42e5-ab64-de503328b3a0
+langcode: en
+status: true
+dependencies: {  }
+id: job_listing_search
+label: 'Job listing search'
+icon_uuid: null
+icon_default: null
+description: 'Paragraph that adds the job listing search.'
+behavior_plugins: {  }
