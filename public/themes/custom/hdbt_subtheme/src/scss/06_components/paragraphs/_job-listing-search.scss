@@ -17,3 +17,19 @@
     padding-top: $spacing-quadruple;
   }
 }
+
+.job-listing-search__count-container {
+  @include font('lead');
+
+  .job-listing-search__count {
+    font-weight: $font-weight-bold;
+  }
+}
+
+.job-listing-search__result--list {
+  margin-top: $spacing-and-half;
+
+  @include breakpoint($breakpoint-m) {
+    margin-top: $spacing-double;
+  }
+}

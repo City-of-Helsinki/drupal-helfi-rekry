@@ -80,52 +80,48 @@
 %}
 
 <div{{ attributes.addClass(classes) }}>
-  <div class="job-listing__container-left">
-    <h3 class="job-listing__title">
-      {% set link_attributes = {
-        'rel': 'bookmark',
-      } %}
-      {{ link(label, node_url, link_attributes) }}
-    </h3>
-    {% if content.field_employment_type|render or content.field_employment|render %}
-      {% embed '@hdbt/misc/tag-list.twig' with { type: 'static' }%}
-        {% block content %}
-          {% if content.field_employment_type|render %}
-              {% include '@hdbt/misc/tag.twig' with {
-                tag: content.field_employment_type,
-              }%}
-          {% endif %}
-          {% if content.field_employment|render %}
+  <h3 class="job-listing__title">
+    {% set link_attributes = {
+      'rel': 'bookmark',
+    } %}
+    {{ link(label, node_url, link_attributes) }}
+  </h3>
+  {% if content.field_employment_type|render or content.field_employment|render %}
+    {% embed '@hdbt/misc/tag-list.twig' with { type: 'static' }%}
+      {% block content %}
+        {% if content.field_employment_type|render %}
             {% include '@hdbt/misc/tag.twig' with {
-              tag: content.field_employment,
+              tag: content.field_employment_type,
             }%}
-          {% endif %}
-        {% endblock content %}
-      {% endembed %}
-    {% endif %}
-    {{ content.field_organization_name }}
-  </div>
-  <div class="job-listing__container-right">
-    <div class="job-listing__metadata job-listing__metadata--application-ends">
-      <span class="job-listing__metadata__label">{{ 'Application period ends'|t }}</span>
-      <span class="job-listing__metadata__content">
-        {% if unpublish_on|render %}
-          {{ unpublish_on }}
-        {% else %}
-          -
         {% endif %}
-      </span>
-    </div>
-    <div class="job-listing__metadata job-listing__metadata--job-duration">
-      <span class="job-listing__metadata__label">{{ 'Employment contract'|t }}</span>
-      <span class="job-listing__metadata__content">
-        {% if content.field_job_duration|render %}
-          {{ content.field_job_duration }}
-        {% else %}
-          -
+        {% if content.field_employment|render %}
+          {% include '@hdbt/misc/tag.twig' with {
+            tag: content.field_employment,
+          }%}
         {% endif %}
-      </span>
-    </div>
-    {% include '@hdbt/misc/icon.twig' with {icon: 'arrow-right'} only %}
+      {% endblock content %}
+    {% endembed %}
+  {% endif %}
+  {{ content.field_organization_name }}
+  <div class="job-listing__metadata job-listing__metadata--application-ends">
+    <span class="job-listing__metadata__label">{% include '@hdbt/misc/icon.twig' with {icon: 'clock'} only %}{{ 'Application period ends'|t }}</span>
+    <span class="job-listing__metadata__content">
+      {% if unpublish_on|render %}
+        {{ unpublish_on }}
+      {% else %}
+        -
+      {% endif %}
+    </span>
   </div>
+  <div class="job-listing__metadata job-listing__metadata--job-duration">
+    <span class="job-listing__metadata__label">{% include '@hdbt/misc/icon.twig' with {icon: 'calendar'} only %}{{ 'Employment contract'|t }}</span>
+    <span class="job-listing__metadata__content">
+      {% if content.field_job_duration|render %}
+        {{ content.field_job_duration }}
+      {% else %}
+        -
+      {% endif %}
+    </span>
+  </div>
+  {% include '@hdbt/misc/icon.twig' with {icon: 'arrow-right'} only %}
 </div>

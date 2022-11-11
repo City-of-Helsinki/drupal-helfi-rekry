@@ -137,7 +137,7 @@ display:
           entity_type: node
           entity_field: published_at
           plugin_id: date
-          order: ASC
+          order: DESC
           expose:
             label: ''
             field_identifier: ''
