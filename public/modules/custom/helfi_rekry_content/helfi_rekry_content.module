@@ -203,8 +203,9 @@ function helfi_rekry_content_preprocess_field(&$variables) {
   // Return early if there's no need to expose original language.
   if (
     !$node instanceof NodeInterface ||
-    $node->get('field_copied')->isEmpty() ||
-    $node->get('field_original_language')->isEmpty()
+    $node->getType() !== 'job_listing' ||
+    ($node->hasField('field_copied') && $node->get('field_copied')->isEmpty()) ||
+    ($node->hasField('field_original_language') && $node->get('field_original_language')->isEmpty())
   ) {
     return;
   }
@@ -225,4 +226,20 @@ function helfi_rekry_content_preprocess_field(&$variables) {
       $item['attributes']->setAttribute('lang', 'fi');
     }
   }
+}
+
+/**
+ * Combine "organization" term translations with external ID.
+ */
+function _helfi_rekry_content_lookup_organization_tid($external_id) {
+  $ids = \Drupal::entityQuery('taxonomy_term')
+    ->condition('vid', 'organization')
+    ->condition('field_external_id', $external_id)
+    ->execute();
+
+  if (empty($ids)) {
+    return NULL;
+  }
+
+  return reset($ids);
 }
