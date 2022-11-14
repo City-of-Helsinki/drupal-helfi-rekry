@@ -34,3 +34,9 @@ msgstr "Sök jobbet"
 
 msgid "See all related jobs"
 msgstr "Se alla rekommenderade jobb"
+
+msgctxt "Job listing search count"
+msgid "open job listing"
+msgid_plural "open job listings"
+msgstr[0] "öppet jobbannons"
+msgstr[1] "öppna jobbannonser"
