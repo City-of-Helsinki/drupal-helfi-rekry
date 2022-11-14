@@ -34,3 +34,9 @@ msgstr "Hae työpaikkaa"
 
 msgid "See all related jobs"
 msgstr "Katso kaikki suositellut työpaikat"
+
+msgctxt "Job listing search count"
+msgid "open job listing"
+msgid_plural "open job listings"
+msgstr[0] "avoin työpaikka"
+msgstr[1] "avointa työpaikkaa"
