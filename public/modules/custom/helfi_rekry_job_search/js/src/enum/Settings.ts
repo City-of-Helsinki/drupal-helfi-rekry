@@ -1,5 +1,5 @@
 export const Settings = {
-  INDEX: 'news',
+  INDEX: 'job_listings',
 };
 
 export default Settings;
