@@ -7,7 +7,7 @@ type Props = {
 };
 
 const BaseContainer = ({ children }: Props) => {
-  const proxyUrl = drupalSettings?.helfi_news_archive?.elastic_proxy_url;
+  const proxyUrl = drupalSettings?.helfi_rekry_job_search?.elastic_proxy_url;
 
   if (!proxyUrl && !process.env.REACT_APP_ELASTIC_URL) {
     return null;
