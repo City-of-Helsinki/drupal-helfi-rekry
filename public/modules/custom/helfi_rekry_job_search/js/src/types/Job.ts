@@ -6,13 +6,13 @@ type Job = {
   field_organization: string;
   field_organization_name: string;
   field_postal_area: string;
-  field_publication_starts: string;
+  field_publication_starts: number;
   field_recruitment_type: string;
   field_task_area: string;
   langcode: string;
   status: boolean;
   title: string;
-  unpublish_on: string;
+  unpublish_on: number;
   uuid: string;
 };
 
