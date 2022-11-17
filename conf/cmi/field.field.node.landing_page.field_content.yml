@@ -12,7 +12,7 @@ dependencies:
     - paragraphs.paragraphs_type.content_liftup
     - paragraphs.paragraphs_type.event_list
     - paragraphs.paragraphs_type.from_library
-    - paragraphs.paragraphs_type.job_listing_search
+    - paragraphs.paragraphs_type.job_search
     - paragraphs.paragraphs_type.liftup_with_image
     - paragraphs.paragraphs_type.list_of_links
     - paragraphs.paragraphs_type.map
@@ -22,7 +22,12 @@ dependencies:
     - paragraphs.paragraphs_type.remote_video
     - paragraphs.paragraphs_type.target_group_links
   module:
+    - disable_field
     - entity_reference_revisions
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: none
 _core:
   default_config_hash: D7s90vFMq6Tjc-ThXp4s3q8tO6lTN1lBPY3e63U8chU
 id: node.landing_page.field_content
@@ -53,7 +58,7 @@ settings:
       event_list: event_list
       news_list: news_list
       popular_services: popular_services
-      job_listing_search: job_listing_search
+      job_search: job_search
       phasing: phasing
     negate: 0
     target_bundles_drag_drop:
@@ -102,7 +107,7 @@ settings:
       image:
         weight: -17
         enabled: false
-      job_listing_search:
+      job_search:
         weight: 47
         enabled: true
       liftup_with_image:
