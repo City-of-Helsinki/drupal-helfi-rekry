@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_employment_type
     - field.storage.node.field_employment
     - field.storage.node.field_job_duration
+    - field.storage.node.field_publication_starts
     - field.storage.node.field_organization_name
     - field.storage.node.field_organization
     - field.storage.node.field_postal_area
@@ -76,6 +77,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_postal_area
+  field_publication_starts:
+    label: 'Julkaisun alkaminen'
+    datasource_id: 'entity:node'
+    property_path: field_publication_starts
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_publication_starts
   field_recruitment_type:
     label: 'Recruitment type'
     datasource_id: 'entity:node'
