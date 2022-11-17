@@ -1,0 +1,22 @@
+label: 'Öppna jobbannonser sök'
+display:
+  default:
+    display_options:
+      title: 'Öppna jobbannonser sök'
+      pager:
+        options:
+          tags:
+            next: Nästa
+            previous: Föregående
+            first: Första
+            last: Sista
+          expose:
+            items_per_page_label: 'Inlägg per sida'
+            items_per_page_options_all_label: '- Alla -'
+      exposed_form:
+        options:
+          submit_button: Skicka
+          reset_button_label: Återställ
+          exposed_sorts_label: 'Sortera efter'
+          sort_asc_label: Stigande
+          sort_desc_label: Fallande

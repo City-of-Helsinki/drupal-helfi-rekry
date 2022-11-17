@@ -12,6 +12,7 @@ dependencies:
     - paragraphs.paragraphs_type.content_liftup
     - paragraphs.paragraphs_type.event_list
     - paragraphs.paragraphs_type.from_library
+    - paragraphs.paragraphs_type.job_listing_search
     - paragraphs.paragraphs_type.liftup_with_image
     - paragraphs.paragraphs_type.list_of_links
     - paragraphs.paragraphs_type.map
@@ -38,21 +39,22 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
+      content_cards: content_cards
+      content_liftup: content_liftup
       columns: columns
       banner: banner
       list_of_links: list_of_links
       liftup_with_image: liftup_with_image
-      content_cards: content_cards
-      content_liftup: content_liftup
-      from_library: from_library
-      remote_video: remote_video
-      chart: chart
-      event_list: event_list
-      phasing: phasing
-      popular_services: popular_services
-      target_group_links: target_group_links
       map: map
+      from_library: from_library
+      target_group_links: target_group_links
+      chart: chart
+      remote_video: remote_video
+      event_list: event_list
       news_list: news_list
+      popular_services: popular_services
+      job_listing_search: job_listing_search
+      phasing: phasing
     negate: 0
     target_bundles_drag_drop:
       accordion:
@@ -70,6 +72,12 @@ settings:
       columns:
         weight: -27
         enabled: true
+      contact_card:
+        weight: 37
+        enabled: false
+      contact_card_listing:
+        weight: 38
+        enabled: false
       content_cards:
         weight: -33
         enabled: true
@@ -94,6 +102,9 @@ settings:
       image:
         weight: -17
         enabled: false
+      job_listing_search:
+        weight: 47
+        enabled: true
       liftup_with_image:
         weight: -24
         enabled: true
@@ -115,12 +126,21 @@ settings:
       phasing_item:
         weight: 30
         enabled: false
+      popular_service_item:
+        weight: 56
+        enabled: false
       popular_services:
         weight: 42
         enabled: true
       remote_video:
         weight: 27
         enabled: true
+      sidebar_text:
+        weight: 58
+        enabled: false
+      social_media_link:
+        weight: 59
+        enabled: false
       target_group_link_item:
         weight: 45
         enabled: false
