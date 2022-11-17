@@ -1,5 +1,7 @@
+import ResultsContainer from './ResultsContainer';
+
 const SearchContainer = () => {
-  return <div></div>;
+  return <ResultsContainer />;
 };
 
 export default SearchContainer;
