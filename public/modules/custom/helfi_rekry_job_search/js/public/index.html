@@ -36,7 +36,14 @@
       // Mock Drupal.t & drupalSettings in development to prevent errors.
       window.Drupal = {
         t: function(str, args, options) {
-          return str;
+          let updatedString = str;
+          if (args) {
+            Object.keys(args).forEach(key => {
+              updatedString = updatedString.replaceAll(key, args[key]);
+            })
+          }
+
+          return updatedString;
         }
       }
 
