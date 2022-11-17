@@ -11,9 +11,7 @@ type ResultsSortProps = {
 const ResultsSort = ({ options, setValue, value }: ResultsSortProps) => {
   return (
     <Select
-      label='Label'
-      helper='Assistive text'
-      placeholder='Placeholder'
+      label={Drupal.t('Order results', {}, { context: 'HELfi Rekry job search' })}
       options={options}
       onChange={(option: OptionType) => setValue(option.value)}
       value={value || null}

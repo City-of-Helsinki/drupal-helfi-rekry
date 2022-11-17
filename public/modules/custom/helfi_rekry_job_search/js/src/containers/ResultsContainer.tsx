@@ -1,4 +1,4 @@
-import { ReactiveList } from '@appbaseio/reactivesearch';
+import { ReactiveList, StateProvider } from '@appbaseio/reactivesearch';
 import { useRef, useState } from 'react';
 
 import Pagination from '../components/results/Pagination';
@@ -20,6 +20,21 @@ const SORT_NEW = 'SORT_NEW';
 const SORT_OLD = 'SORT_OLD';
 const SORT_CLOSING = 'SORT_CLOSING';
 
+const sortOptions: OptionType[] = [
+  {
+    value: SORT_NEW,
+    label: Drupal.t('Newest first', {}, { context: 'HELfi Rekry job search' }),
+  },
+  {
+    value: SORT_OLD,
+    label: Drupal.t('Oldest first', {}, { context: 'HELfi Rekry job search' }),
+  },
+  {
+    value: SORT_CLOSING,
+    label: Drupal.t('Application period ending', {}, { context: 'HELfi Rekry job search' }),
+  },
+];
+
 const ResultsContainer = () => {
   const [sort, setSort] = useState<string>(SORT_NEW);
   const dimensions = useWindowDimensions();
@@ -37,21 +52,6 @@ const ResultsContainer = () => {
 
   const pages = dimensions.isMobile ? 3 : 5;
 
-  const sortOptions: OptionType[] = [
-    {
-      value: SORT_NEW,
-      label: Drupal.t('Newest first', {}, { context: 'HELfi Rekry job search' }),
-    },
-    {
-      value: SORT_OLD,
-      label: Drupal.t('Oldest first', {}, { context: 'HELfi Rekry job search' }),
-    },
-    {
-      value: SORT_CLOSING,
-      label: Drupal.t('Application period ending', {}, { context: 'HELfi Rekry job search' }),
-    },
-  ];
-
   const getSortValue = () => {
     return sortOptions.find((option: OptionType) => option.value === sort);
   };
@@ -63,7 +63,7 @@ const ResultsContainer = () => {
     <div ref={resultsWrapper} className='jobs-wrapper main-content'>
       <div className='layout-content'>
         <div className='jobs-header'>
-          <ResultsHeader />
+          <StateProvider>{({ searchState }) => <ResultsHeader {...searchState} />}</StateProvider>
           <ResultsSort options={sortOptions} value={getSortValue()} setValue={setSort} />
         </div>
         <ReactiveList
