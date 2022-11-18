@@ -60,42 +60,47 @@ const ResultsContainer = () => {
   let sortBy: 'desc' | 'asc' = sort === SORT_NEW ? 'desc' : 'asc';
 
   return (
-    <div ref={resultsWrapper} className='jobs-wrapper main-content'>
-      <div className='layout-content'>
-        <div className='jobs-header'>
-          <StateProvider>{({ searchState }) => <ResultsHeader {...searchState} />}</StateProvider>
-          <ResultsSort options={sortOptions} value={getSortValue()} setValue={setSort} />
-        </div>
-        <ReactiveList
-          className='jobs-container'
-          componentId={SearchComponents.RESULTS}
-          dataField={dataField}
-          onPageChange={onPageChange}
-          pages={pages}
-          pagination={true}
-          defaultQuery={() => ({
-            query: {
-              ...defaultQuery,
-            },
-          })}
-          render={({ data }: ResultsData) => (
-            <ul className='jobs-listing jobs-listing--teasers'>
-              {data.map((item: Job) => (
-                <ResultCard key={item.uuid} {...item} />
-              ))}
-            </ul>
-          )}
-          renderNoResults={() => (
-            <div className='jobs-listing__no-results'>
-              {Drupal.t('No results found', {}, { context: 'Job search no results' })}
-            </div>
-          )}
-          renderPagination={(props) => <Pagination {...props} />}
-          showResultStats={false}
-          sortBy={sortBy}
-          size={10}
-        />
+    <div ref={resultsWrapper}>
+      <div className='job-listing-search__result-actions'>
+        <StateProvider>{({ searchState }) => <ResultsHeader {...searchState} />}</StateProvider>
+        <ResultsSort options={sortOptions} value={getSortValue()} setValue={setSort} />
       </div>
+      <ReactiveList
+        className='jobs-container'
+        componentId={SearchComponents.RESULTS}
+        dataField={dataField}
+        onPageChange={onPageChange}
+        pages={pages}
+        pagination={true}
+        defaultQuery={() => ({
+          aggs: {
+            [IndexFields.NUMBER_OF_JOBS]: {
+              sum: {
+                field: IndexFields.NUMBER_OF_JOBS,
+              },
+            },
+          },
+          query: {
+            ...defaultQuery,
+          },
+        })}
+        render={({ data }: ResultsData) => (
+          <div className='job-listing-search__result--list'>
+            {data.map((item: Job) => (
+              <ResultCard key={item.uuid[0]} {...item} />
+            ))}
+          </div>
+        )}
+        renderNoResults={() => (
+          <div className='job-listing-search__no-results'>
+            {Drupal.t('No results found', {}, { context: 'Job search no results' })}
+          </div>
+        )}
+        renderPagination={(props) => <Pagination {...props} />}
+        showResultStats={false}
+        sortBy={sortBy}
+        size={10}
+      />
     </div>
   );
 };

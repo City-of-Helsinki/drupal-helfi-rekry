@@ -1,7 +1,11 @@
 import type OptionType from './OptionType';
 
 type SearchStateItem = {
-  aggregations?: any;
+  aggregations?: {
+    [key: string]: {
+      value: number;
+    };
+  };
   value: OptionType[];
   hits?: {
     hidden: number;

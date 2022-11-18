@@ -3,6 +3,7 @@ const IndexFields = {
   EMPLOYMENT: 'field_employment',
   EMPLOYMENT_TYPE: 'field_employment_type',
   JOB_DURATION: 'field_job_duration',
+  NUMBER_OF_JOBS: 'field_jobs',
   ORGANIZATION: 'field_organization',
   ORGANIZATION_NAME: 'field_organization_name',
   POSTAL_AREA: 'field_postal_area',

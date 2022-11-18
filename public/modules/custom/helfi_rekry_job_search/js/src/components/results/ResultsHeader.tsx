@@ -1,22 +1,27 @@
+import IndexFields from '../../enum/IndexFields';
+import SearchComponents from '../../enum/SearchComponents';
 import type SearchState from '../../types/SearchState';
 
 const ResultsHeader = (searchState: SearchState) => {
-  const { results } = searchState;
+  const { [SearchComponents.RESULTS]: results } = searchState;
 
   if (!results || !results?.hits?.total) {
     return null;
   }
 
-  const resultString = Drupal.t(
-    'vacancies (@announcements announcements)',
-    { '@announcements': results.hits?.total || 0 },
-    { context: 'HELfi Rekry job search' }
-  );
+  const resultString = results?.hits?.total
+    ? Drupal.t(
+        'vacancies (@announcements announcements)',
+        { '@announcements': results.hits.total },
+        { context: 'HELfi Rekry job search' }
+      )
+    : null;
 
   return (
-    <div>
-      <strong>{results.hits?.total}</strong> {resultString}
-    </div>
+    <span className='job-listing-search__count-container'>
+      <span className='job-listing-search__count'>{results?.aggregations?.[IndexFields.NUMBER_OF_JOBS].value}</span>{' '}
+      {resultString}
+    </span>
   );
 };
 
