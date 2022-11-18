@@ -4,6 +4,7 @@ services:
   app:
     environment:
       - HELBIT_CLIENT_ID=${HELBIT_CLIENT_ID}
+      - ELASTIC_PROXY_URL=${ELASTIC_PROXY_URL}
   elastic:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.4.0
     container_name: "${COMPOSE_PROJECT_NAME}-elastic"
