@@ -25,7 +25,7 @@
   "scripts": {
     "analyze": "node ./analyze.js",
     "start": "BROWSER=none react-app-rewired start",
-    "build": "react-app-rewired build && cp ./build/static/js/main*.js ../assets/main.js && cp ./build/static/js/*.js.map ../assets/",
+    "build": "rm -rf ../assets/* && react-app-rewired build && cp ./build/static/js/main*.js ../assets/main.js && cp ./build/static/js/*.js.map ../assets/",
     "test": "TZ=UTC react-app-rewired test",
     "eject": "react-app-rewired eject",
     "prepare": "cd ../../../../../ && husky install public/modules/custom/helfi_rekry_job_search/js/.husky"
