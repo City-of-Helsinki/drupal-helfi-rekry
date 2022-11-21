@@ -34,6 +34,11 @@ const ResultCard = ({
     customAtts.lang = field_original_language[0];
   }
 
+  let organizationName;
+  if (field_organization_name && field_organization_name.length) {
+    organizationName = field_organization_name[0].charAt(0).toUpperCase() + field_organization_name[0].slice(1);
+  }
+
   return (
     <div role='article' className='node--type-job-listing node--view-mode-teaser'>
       <h3 className='job-listing__title' {...customAtts}>
@@ -66,11 +71,7 @@ const ResultCard = ({
         </ul>
       </section>
       <div className='job-listing__organization-name' {...customAtts}>
-        <span className='organization'>
-          {field_organization_name &&
-            field_organization_name.length &&
-            field_organization_name[0].charAt(0).toUpperCase() + field_organization_name[0].slice(1)}
-        </span>
+        <span className='organization'>{organizationName}</span>
       </div>
       <div className='job-listing__metadata job-listing__metadata--application-ends'>
         <span className='job-listing__metadata__label'>
