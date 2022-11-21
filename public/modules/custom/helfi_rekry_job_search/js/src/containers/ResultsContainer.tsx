@@ -17,17 +17,12 @@ type ResultsData = {
 };
 
 const SORT_NEW = 'SORT_NEW';
-const SORT_OLD = 'SORT_OLD';
 const SORT_CLOSING = 'SORT_CLOSING';
 
 const sortOptions: OptionType[] = [
   {
     value: SORT_NEW,
     label: Drupal.t('Newest first', {}, { context: 'HELfi Rekry job search' }),
-  },
-  {
-    value: SORT_OLD,
-    label: Drupal.t('Oldest first', {}, { context: 'HELfi Rekry job search' }),
   },
   {
     value: SORT_CLOSING,
@@ -57,7 +52,7 @@ const ResultsContainer = () => {
   };
 
   let dataField = sort === SORT_CLOSING ? IndexFields.UNPUBLISH_ON : IndexFields.PUBLICATION_STARTS;
-  let sortBy: 'desc' | 'asc' = sort === SORT_NEW ? 'desc' : 'asc';
+  let sortBy: 'desc' | 'asc' = sort === SORT_CLOSING ? 'asc' : 'desc';
 
   return (
     <div ref={resultsWrapper}>
