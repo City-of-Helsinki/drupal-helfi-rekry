@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
-
 /**
  * @file
- * Functions for HELfi Rekry Job Search module
+ * Functions for HELfi Rekry Job Search module.
  */
+
+declare(strict_types = 1);
 
 /**
  * Implements hook_preprocess_HOOK().
