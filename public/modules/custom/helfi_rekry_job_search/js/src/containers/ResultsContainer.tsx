@@ -8,6 +8,7 @@ import ResultsSort from '../components/results/ResultsSort';
 import IndexFields from '../enum/IndexFields';
 import SearchComponents from '../enum/SearchComponents';
 import useDefaultQuery from '../hooks/useDefaultQuery';
+import useSearchParams from '../hooks/useSearchParams';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import Job from '../types/Job';
 import OptionType from '../types/OptionType';
@@ -34,6 +35,7 @@ const ResultsContainer = () => {
   const [sort, setSort] = useState<string>(SORT_NEW);
   const dimensions = useWindowDimensions();
   const defaultQuery = useDefaultQuery();
+  const [params] = useSearchParams();
   const resultsWrapper = useRef<HTMLDivElement | null>(null);
   const onPageChange = () => {
     if (!resultsWrapper.current) {
@@ -63,10 +65,12 @@ const ResultsContainer = () => {
       <ReactiveList
         className='jobs-container'
         componentId={SearchComponents.RESULTS}
+        // Seems like a bug in ReactiveSearch.
+        // Setting defaultPage prop does nothing.
+        // currentPage props used in source but missing in props type declarations.
+        // @ts-ignore
+        currentPage={params.page}
         dataField={dataField}
-        onPageChange={onPageChange}
-        pages={pages}
-        pagination={true}
         defaultQuery={() => ({
           aggs: {
             [IndexFields.NUMBER_OF_JOBS]: {
@@ -79,6 +83,9 @@ const ResultsContainer = () => {
             ...defaultQuery,
           },
         })}
+        onPageChange={onPageChange}
+        pages={pages}
+        pagination={true}
         render={({ data }: ResultsData) => (
           <div className='job-listing-search__result--list'>
             {data.map((item: Job) => (
