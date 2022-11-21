@@ -95,7 +95,16 @@ const ResultsContainer = () => {
         )}
         renderNoResults={() => (
           <div className='job-listing-search__no-results'>
-            {Drupal.t('No results found', {}, { context: 'Job search no results' })}
+            <div>
+              <strong>{Drupal.t('No results found', {}, { context: 'Job search: no results title' })}</strong>
+            </div>
+            <div>
+              {
+                (Drupal.t('No results found with your selections. Remove some of the filters.'),
+                {},
+                { context: 'Job search: no results text' })
+              }
+            </div>
           </div>
         )}
         renderPagination={(props) => <Pagination {...props} />}
