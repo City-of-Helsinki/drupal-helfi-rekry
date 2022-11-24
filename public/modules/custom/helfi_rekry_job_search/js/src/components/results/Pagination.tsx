@@ -1,29 +1,22 @@
 import { IconAngleLeft, IconAngleRight } from 'hds-react';
+import { useAtom, useAtomValue } from 'jotai';
 import React, { Fragment } from 'react';
 
 import SearchComponents from '../../enum/SearchComponents';
-import { setParams } from '../../helpers/Params';
+import { pageAtom, urlAtom } from '../../store';
 
 type PaginationProps = {
   pages: number;
   totalPages: number;
-  currentPage: number;
-  setPage: Function;
-  setSize: Function;
 };
 
-export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }: PaginationProps) => {
+export const Pagination = ({ pages, totalPages }: PaginationProps) => {
+  const [urlParams, setUrlParams] = useAtom(urlAtom);
+  const currentPage = useAtomValue(pageAtom);
+
   const updatePage = (e: React.MouseEvent<HTMLElement>, index: number) => {
     e.preventDefault();
-    setPage(index);
-    setParams(
-      {
-        page: {
-          value: Number(index) + 1,
-        },
-      },
-      [SearchComponents.RESULTS]
-    );
+    setUrlParams({ ...urlParams, page: index.toString() });
   };
 
   const getPagination = (current: number, pages: number, totalPages: number) => {
@@ -33,7 +26,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
     let nextPages: Array<number> = [];
 
     if (pagesPerSide > 0) {
-      for (let i = current - 1; prevPages.length < pagesPerSide && i >= 0; i--) {
+      for (let i = current - 1; prevPages.length < pagesPerSide && i >= 1; i--) {
         prevPages.push(i);
         pagesLeft--;
       }
@@ -53,9 +46,9 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
   };
 
   const { prevPages, nextPages } = getPagination(currentPage, pages, totalPages);
-  const prevPageExists = currentPage - 1 >= 0;
-  const nextPageExists = currentPage + 1 < totalPages;
-  const firstWithinRange = prevPages.includes(0) || !prevPages.length;
+  const prevPageExists = currentPage >= 1;
+  const nextPageExists = currentPage < totalPages;
+  const firstWithinRange = prevPages.includes(1) || !prevPages.length;
   const lastWithinRange = nextPages.includes(totalPages - 1) || !nextPages.length;
 
   if (!Number.isFinite(totalPages)) {
@@ -117,7 +110,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
                   href={`?${SearchComponents.RESULTS}=1`}
                   onClick={(e) => {
                     if (prevPageExists) {
-                      updatePage(e, 0);
+                      updatePage(e, 1);
                     }
                   }}
                   className='hds-pagination__item-link'
@@ -135,34 +128,34 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
           {prevPages.map((pageIndex, i) => (
             <li className='pager__item' key={i}>
               <a
-                aria-label={Drupal.t('Go to page @key', { '@key': pageIndex + 1 })}
-                href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
+                aria-label={Drupal.t('Go to page @key', { '@key': pageIndex })}
+                href={`?${SearchComponents.RESULTS}=${pageIndex}`}
                 className='hds-pagination__item-link'
                 onClick={(e) => updatePage(e, pageIndex)}
                 key={pageIndex}
               >
-                {pageIndex + 1}
+                {pageIndex}
               </a>
             </li>
           ))}
           <li className='pager__item is-active'>
             <a
-              href={`?${SearchComponents.RESULTS}=${currentPage + 1}`}
+              href={`?${SearchComponents.RESULTS}=${currentPage}`}
               className='hds-pagination__item-link hds-pagination__item-link--active'
             >
-              {currentPage + 1}
+              {currentPage}
             </a>
           </li>
           {nextPages.map((pageIndex, i) => (
             <li className='pager__item' key={i}>
               <a
-                aria-label={Drupal.t('Go to page @key', { '@key': pageIndex + 1 })}
-                href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
+                aria-label={Drupal.t('Go to page @key', { '@key': pageIndex })}
+                href={`?${SearchComponents.RESULTS}=${pageIndex}`}
                 className='hds-pagination__item-link'
                 onClick={(e) => updatePage(e, pageIndex)}
                 key={pageIndex}
               >
-                {pageIndex + 1}
+                {pageIndex}
               </a>
             </li>
           ))}
@@ -175,8 +168,8 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
               )}
               <li>
                 <a
-                  href={`?${SearchComponents.RESULTS}=${totalPages - 1}`}
-                  onClick={(e) => updatePage(e, totalPages - 1)}
+                  href={`?${SearchComponents.RESULTS}=${totalPages}`}
+                  onClick={(e) => updatePage(e, totalPages)}
                   className='hds-pagination__item-link'
                 >
                   {totalPages}
@@ -189,7 +182,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
           <a
             aria-label={
               Drupal.t('Go to next page number', {}, { context: 'Pagination next page link title' }) +
-              ` ${currentPage + 2}`
+              ` ${currentPage + 1}`
             }
             className='hds-button hds-pagination__button-next'
             href={`?${SearchComponents.RESULTS}=${currentPage + 2}`}
@@ -200,7 +193,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
             }}
             title={
               Drupal.t('Go to next page number', {}, { context: 'Pagination next page link title' }) +
-              ` ${currentPage + 2}`
+              ` ${currentPage + 1}`
             }
             type='button'
             rel='next'

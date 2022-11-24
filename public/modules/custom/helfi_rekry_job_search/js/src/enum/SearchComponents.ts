@@ -1,6 +1,8 @@
-const SearchCoomponents = {
+const SearchComponents = {
+  KEYWORD: 'keyword',
+  RADIO_OPTIONS: 'continuous',
   RESULTS: 'page',
   ORDER: 'order',
 };
 
-export default SearchCoomponents;
+export default SearchComponents;
