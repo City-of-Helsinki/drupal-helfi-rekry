@@ -3,11 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.field_original_language
+    - field.storage.node.field_copied
     - field.storage.node.field_employment_type
     - field.storage.node.field_employment
     - field.storage.node.field_job_duration
+    - field.storage.node.field_publication_starts
     - field.storage.node.field_organization_name
     - field.storage.node.field_organization
+    - field.storage.node.field_jobs
     - field.storage.node.field_postal_area
     - field.storage.node.field_recruitment_type
     - field.storage.node.field_task_area
@@ -22,6 +26,14 @@ name: 'Job listings'
 description: ''
 read_only: false
 field_settings:
+  field_copied:
+    label: 'Copied from another language'
+    datasource_id: 'entity:node'
+    property_path: field_copied
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_copied
   field_employment:
     label: 'Employment » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -50,11 +62,19 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_job_duration
+  field_jobs:
+    label: 'Paikkojen määrä'
+    datasource_id: 'entity:node'
+    property_path: field_jobs
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_jobs
   field_organization:
     label: 'Organization » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_organization:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_organization
@@ -68,6 +88,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_organization_name
+  field_original_language:
+    label: 'Alkuperäinen kieli'
+    datasource_id: 'entity:node'
+    property_path: field_original_language
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_original_language
   field_postal_area:
     label: 'Postal area'
     datasource_id: 'entity:node'
@@ -76,6 +104,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_postal_area
+  field_publication_starts:
+    label: 'Julkaisun alkaminen'
+    datasource_id: 'entity:node'
+    property_path: field_publication_starts
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_publication_starts
   field_recruitment_type:
     label: 'Recruitment type'
     datasource_id: 'entity:node'
@@ -114,7 +150,8 @@ field_settings:
     label: Title
     datasource_id: 'entity:node'
     property_path: title
-    type: string
+    type: text
+    boost: !!float 2
     dependencies:
       module:
         - node
@@ -126,6 +163,12 @@ field_settings:
     dependencies:
       module:
         - scheduler
+  url:
+    label: URI
+    property_path: search_api_url
+    type: string
+    configuration:
+      absolute: true
   uuid:
     label: UUID
     datasource_id: 'entity:node'

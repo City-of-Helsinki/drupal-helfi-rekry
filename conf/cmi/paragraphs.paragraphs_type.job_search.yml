@@ -1,0 +1,10 @@
+uuid: 767c5dec-1b6f-4d26-9461-8e5b453f1617
+langcode: en
+status: true
+dependencies: {  }
+id: job_search
+label: 'Job search'
+icon_uuid: null
+icon_default: null
+description: 'Paragraph for displaying job search app.'
+behavior_plugins: {  }
