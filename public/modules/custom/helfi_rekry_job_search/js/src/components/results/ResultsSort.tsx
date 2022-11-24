@@ -1,5 +1,7 @@
 import { Select } from 'hds-react';
 
+import SearchComponents from '../../enum/SearchComponents';
+import { setParams } from '../../helpers/Params';
 import type OptionType from '../../types/OptionType';
 
 type ResultsSortProps = {
@@ -13,7 +15,17 @@ const ResultsSort = ({ options, setValue, value }: ResultsSortProps) => {
     <Select
       label={Drupal.t('Order results', {}, { context: 'HELfi Rekry job search' })}
       options={options}
-      onChange={(option: OptionType) => setValue(option.value)}
+      onChange={(option: OptionType) => {
+        setValue(option.value);
+        setParams(
+          {
+            [SearchComponents.ORDER]: {
+              value: option.value,
+            },
+          },
+          [SearchComponents.ORDER]
+        );
+      }}
       value={value || null}
     />
   );

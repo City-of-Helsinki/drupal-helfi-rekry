@@ -8,8 +8,8 @@ import ResultsSort from '../components/results/ResultsSort';
 import IndexFields from '../enum/IndexFields';
 import SearchComponents from '../enum/SearchComponents';
 import useDefaultQuery from '../hooks/useDefaultQuery';
-import useSearchParams from '../hooks/useSearchParams';
 import useWindowDimensions from '../hooks/useWindowDimensions';
+import InitialState from '../types/InitialState';
 import Job from '../types/Job';
 import OptionType from '../types/OptionType';
 
@@ -17,8 +17,8 @@ type ResultsData = {
   data: Job[];
 };
 
-const SORT_NEW = 'SORT_NEW';
-const SORT_CLOSING = 'SORT_CLOSING';
+const SORT_NEW = 'new';
+const SORT_CLOSING = 'closing';
 
 const sortOptions: OptionType[] = [
   {
@@ -31,11 +31,14 @@ const sortOptions: OptionType[] = [
   },
 ];
 
-const ResultsContainer = () => {
-  const [sort, setSort] = useState<string>(SORT_NEW);
+type ResultsContainerProps = {
+  initialValues: InitialState;
+};
+
+const ResultsContainer = ({ initialValues }: ResultsContainerProps) => {
+  const [sort, setSort] = useState<string>(initialValues.order || SORT_NEW);
   const dimensions = useWindowDimensions();
   const defaultQuery = useDefaultQuery();
-  const [params] = useSearchParams();
   const resultsWrapper = useRef<HTMLDivElement | null>(null);
   const onPageChange = () => {
     if (!resultsWrapper.current) {
@@ -69,7 +72,7 @@ const ResultsContainer = () => {
         // Setting defaultPage prop does nothing.
         // currentPage props used in source but missing in props type declarations.
         // @ts-ignore
-        currentPage={params.page}
+        currentPage={initialValues[SearchComponents.RESULTS]}
         dataField={dataField}
         defaultQuery={() => ({
           aggs: {

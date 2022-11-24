@@ -1,7 +1,10 @@
+import { getInitialValues } from '../helpers/Params';
 import ResultsContainer from './ResultsContainer';
 
 const SearchContainer = () => {
-  return <ResultsContainer />;
+  const initialValues = getInitialValues();
+
+  return <ResultsContainer initialValues={initialValues} />;
 };
 
 export default SearchContainer;

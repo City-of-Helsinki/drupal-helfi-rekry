@@ -1,5 +1,6 @@
 const SearchCoomponents = {
-  RESULTS: 'results',
+  RESULTS: 'page',
+  ORDER: 'order',
 };
 
 export default SearchCoomponents;
