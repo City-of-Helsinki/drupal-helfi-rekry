@@ -39,7 +39,7 @@ const updateParams = (
       const transformedValue = value.map((selection) => selection.value);
       searchParams.set(key, JSON.stringify(transformedValue));
     } else if (value) {
-      searchParams.set(key, value);
+      searchParams.set(key, value.toString());
     } else {
       searchParams.delete(key);
     }
