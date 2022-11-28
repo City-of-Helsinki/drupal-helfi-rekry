@@ -59,6 +59,7 @@ module:
   helfi_platform_config: 0
   helfi_proxy: 0
   helfi_rekry_content: 0
+  helfi_rekry_job_search: 0
   helfi_toc: 0
   helfi_tunnistamo: 0
   image: 0
@@ -96,6 +97,7 @@ module:
   purge_processor_cron: 0
   purge_queuer_coretags: 0
   purge_tokens: 0
+  raven: 0
   readonly_field_widget: 0
   redirect: 0
   responsive_image: 0

@@ -8,6 +8,12 @@
   padding-bottom: 55px; // Leave enough room between the last card and footer.
 }
 
+.job-listing-search__result-actions {
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+}
+
 .component--job-listing-search .component__container {
   padding-bottom: $spacing-double;
   padding-top: $spacing-double;
