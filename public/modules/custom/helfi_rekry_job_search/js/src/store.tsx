@@ -1,25 +1,26 @@
 import { atom } from 'jotai';
-import { selectAtom } from 'jotai/utils';
 
-import SearchComponents from './enum/SearchComponents';
+// import SearchComponents from './enum/SearchComponents';
 
 export const urlAtom = atom(Object.fromEntries(new URLSearchParams(window.location.search)), (get, set, value) => {
+  //set atom value
   set(urlAtom, value);
-  const url = get(urlAtom);
 
+  // Set new params to window.location
+  // TODO Maybe do a separate writeAtom for this side-effect, for clarity's sake
+  const url = get(urlAtom);
   const newUrl = new URL(window.location.toString());
   const newParams = new URLSearchParams();
-
-  Object.keys(url).map((key) => {
+  // eslint-disable-next-line array-callback-return
+  for (const key in url) {
     if (url[key]) {
       newParams.set(key, url[key]);
     } else {
       newParams.delete(key);
     }
-  });
+  }
 
   newUrl.search = newParams.toString();
-
   window.history.pushState({}, '', newUrl);
 });
 

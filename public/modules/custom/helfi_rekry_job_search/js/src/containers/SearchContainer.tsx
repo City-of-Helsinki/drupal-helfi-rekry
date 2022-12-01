@@ -1,42 +1,36 @@
-import { useAtom } from 'jotai';
-import { useEffect, useState } from 'react';
+import { useAtomValue } from 'jotai';
 import useSWR from 'swr';
 
-import RadioOptions from '../enum/RadioOptions';
 import SearchComponents from '../enum/SearchComponents';
-import { getInitialValues } from '../helpers/Params';
-import UseQuery from '../hooks/UseQuery';
-import UseResult from '../hooks/UseResult';
 import getRadioFilter from '../query/getRadioFilter';
 import { urlAtom } from '../store';
 import FormContainer from './FormContainer';
 import ResultsContainer from './ResultsContainer';
 
-type RadioOption = keyof typeof RadioOptions | null;
+type URLParams = {
+  [k: string]: string;
+};
 
 const SIZE = 10;
 
-const SearchContainer = () => {
-  const [urlParams, setUrlParams] = useAtom(urlAtom);
-  // const [page, setPage] = useState<number>(1);
-  // const [radioOption, setRadioOption] = useState<RadioOption>(null)
-  // const [query, updateQuery] = useState({});
-
+const getQueryParamString = (urlParams: URLParams) => {
+  //TODO Elastic query object type?
   let query: any = {
     size: SIZE,
+    query: undefined,
   };
-  let keywordQuery = {};
+
   let page: number | undefined;
   const filter = [];
 
   for (const key in urlParams) {
     switch (key) {
       case SearchComponents.KEYWORD:
-        if (urlParams[key] && urlParams[key]?.length) {
+        if (urlParams.keyword && urlParams.keyword?.length) {
           query.query = {
             match_phrase_prefix: {
               title: {
-                query: urlParams[key],
+                query: urlParams.keyword,
               },
             },
           };
@@ -44,17 +38,17 @@ const SearchContainer = () => {
         break;
       case SearchComponents.RADIO_OPTIONS:
         // @ts-ignore
-        filter.push(getRadioFilter(urlParams[key]));
+        filter.push(getRadioFilter(urlParams.continuous));
         break;
       case SearchComponents.RESULTS:
         // @ts-ignore
-        page = Number(urlParams[key]);
+        page = Number(urlParams.page);
         break;
       default:
         break;
     }
   }
-
+  //overwrite?
   if (filter.length) {
     query.query = {
       bool: {
@@ -71,6 +65,12 @@ const SearchContainer = () => {
     };
   }
 
+  return JSON.stringify(query);
+};
+
+const SearchContainer = () => {
+  const urlParams: URLParams = useAtomValue(urlAtom);
+
   const getQueryString = () => {
     return JSON.stringify(urlParams);
   };
@@ -84,7 +84,7 @@ const SearchContainer = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(query),
+      body: getQueryParamString(urlParams),
     }).then((res) => res.json());
   };
 
@@ -93,7 +93,9 @@ const SearchContainer = () => {
   return (
     <div>
       <FormContainer />
-      <ResultsContainer size={SIZE} {...data} />
+      {!data && !error && 'loading'}
+      {data && error && 'Error'}
+      {data && !error && !isValidating && <ResultsContainer size={SIZE} {...data} />}
     </div>
   );
 };
