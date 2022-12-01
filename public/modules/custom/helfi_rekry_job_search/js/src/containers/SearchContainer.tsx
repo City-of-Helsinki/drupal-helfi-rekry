@@ -1,7 +1,6 @@
 import { useAtomValue } from 'jotai';
 import useSWR from 'swr';
 
-import SearchComponents from '../enum/SearchComponents';
 import getRadioFilter from '../query/getRadioFilter';
 import { urlAtom } from '../store';
 import FormContainer from './FormContainer';
@@ -45,11 +44,6 @@ const getQueryParamString = (urlParams: URLParams) => {
 
 const SearchContainer = () => {
   const urlParams: URLParams = useAtomValue(urlAtom);
-
-  const getQueryString = () => {
-    return JSON.stringify(urlParams);
-  };
-
   const fetcher = () => {
     const proxyUrl = drupalSettings?.helfi_rekry_job_search?.elastic_proxy_url;
     const url: string | undefined = proxyUrl || process.env.REACT_APP_ELASTIC_URL;
@@ -63,7 +57,7 @@ const SearchContainer = () => {
     }).then((res) => res.json());
   };
 
-  const { data, error, isValidating } = useSWR(getQueryString(), fetcher);
+  const { data, error, isValidating } = useSWR(JSON.stringify(urlParams), fetcher);
 
   return (
     <div>
