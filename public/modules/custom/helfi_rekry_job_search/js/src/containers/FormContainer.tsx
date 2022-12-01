@@ -1,16 +1,18 @@
 import { Button, RadioButton, TextInput } from 'hds-react';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
+import { useUpdateAtom } from 'jotai/utils';
 import { useEffect } from 'react';
 
 import RadioOptions from '../enum/RadioOptions';
 import SearchComponents from '../enum/SearchComponents';
-import { keywordAtom, radioAtom } from '../store';
+import { keywordAtom, radioAtom, urlUpdateAtom } from '../store';
 import { urlAtom } from '../store';
 
 const FormContainer = () => {
   const [radio, setRadio] = useAtom(radioAtom);
   const [keyword, setKeyword] = useAtom(keywordAtom);
-  const [urlParams, setUrlParams] = useAtom(urlAtom);
+  const urlParams = useAtomValue(urlAtom);
+  const setUrlParams = useUpdateAtom(urlUpdateAtom);
 
   useEffect(() => {
     setKeyword(urlParams?.keyword || '');

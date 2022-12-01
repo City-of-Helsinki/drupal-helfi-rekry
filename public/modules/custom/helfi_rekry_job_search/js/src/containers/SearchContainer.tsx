@@ -7,62 +7,37 @@ import { urlAtom } from '../store';
 import FormContainer from './FormContainer';
 import ResultsContainer from './ResultsContainer';
 
-type URLParams = {
-  [k: string]: string;
+export type URLParams = {
+  keyword?: string;
+  page?: string;
+  continuous?: string;
 };
 
 const SIZE = 10;
 
 const getQueryParamString = (urlParams: URLParams) => {
-  //TODO Elastic query object type?
+  const filter = [];
+  const page = Number.isNaN(Number(urlParams.page)) ? 1 : Number(urlParams.page);
   let query: any = {
     size: SIZE,
-    query: undefined,
+    from: SIZE * (page - 1),
+    query: {
+      match_all: {},
+    },
   };
 
-  let page: number | undefined;
-  const filter = [];
-
-  for (const key in urlParams) {
-    switch (key) {
-      case SearchComponents.KEYWORD:
-        if (urlParams.keyword && urlParams.keyword?.length) {
-          query.query = {
-            match_phrase_prefix: {
-              title: {
-                query: urlParams.keyword,
-              },
-            },
-          };
-        }
-        break;
-      case SearchComponents.RADIO_OPTIONS:
-        // @ts-ignore
-        filter.push(getRadioFilter(urlParams.continuous));
-        break;
-      case SearchComponents.RESULTS:
-        // @ts-ignore
-        page = Number(urlParams.page);
-        break;
-      default:
-        break;
-    }
-  }
-  //overwrite?
-  if (filter.length) {
+  if (urlParams.keyword && urlParams.keyword.length > 0) {
     query.query = {
-      bool: {
-        filter: filter,
+      match_phrase_prefix: {
+        title: {
+          query: urlParams.keyword,
+        },
       },
     };
   }
 
-  if (page) {
-    query.from = SIZE * (page - 1);
-  } else {
-    query.query = {
-      match_all: {},
-    };
+  if (urlParams.continuous) {
+    filter.push(getRadioFilter(urlParams.continuous));
   }
 
   return JSON.stringify(query);
