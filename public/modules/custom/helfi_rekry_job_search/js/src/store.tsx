@@ -1,5 +1,4 @@
 import { atom } from 'jotai';
-import { SetStateAction } from 'jotai/vanilla';
 
 import { URLParams } from './containers/SearchContainer';
 
