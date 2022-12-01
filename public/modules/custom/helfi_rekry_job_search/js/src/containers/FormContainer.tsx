@@ -1,14 +1,11 @@
 import { Button, RadioButton, TextInput } from 'hds-react';
 import { useAtom } from 'jotai';
-import { FormEventHandler, SyntheticEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import RadioOptions from '../enum/RadioOptions';
 import SearchComponents from '../enum/SearchComponents';
 import { keywordAtom, radioAtom } from '../store';
 import { urlAtom } from '../store';
-import InitialState from '../types/InitialState';
-
-type FormContainerProps = {};
 
 const FormContainer = () => {
   const [radio, setRadio] = useAtom(radioAtom);
@@ -19,17 +16,13 @@ const FormContainer = () => {
     setKeyword(urlParams?.keyword || '');
   }, []);
 
-  const onSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUrlParams({ ...urlParams, keyword: keyword, [SearchComponents.RADIO_OPTIONS]: radio });
   };
 
   const onKeywordChange = (event: any) => {
     setKeyword(event.target.value);
-  };
-
-  const setOption = (value: string) => {
-    setRadio(value);
   };
 
   return (
