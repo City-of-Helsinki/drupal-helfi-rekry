@@ -5,7 +5,34 @@ import type URLParams from './types/URLParams';
 
 // import SearchComponents from './enum/SearchComponents';
 
-export const urlAtom = atom(Object.fromEntries(new URLSearchParams(window.location.search)));
+const getParams = (searchParams: URLSearchParams) => {
+  let params: URLParams = {};
+  const entries = searchParams.entries();
+  let result = entries.next();
+
+  while (!result.done) {
+    const [key, value] = result.value;
+
+    if (!value) {
+      result = entries.next();
+      continue;
+    }
+
+    const existing = params[key as keyof URLParams];
+    if (existing) {
+      const updatedValue = Array.isArray(existing) ? [...existing, value] : [existing, value];
+      params[key as keyof URLParams] = updatedValue;
+    } else {
+      params[key as keyof URLParams] = value;
+    }
+
+    result = entries.next();
+  }
+
+  return params;
+};
+
+export const urlAtom = atom<URLParams>(getParams(new URLSearchParams(window.location.search)));
 
 export const urlUpdateAtom = atom(null, (get, set, values: URLParams) => {
   //set atom value
@@ -16,13 +43,17 @@ export const urlUpdateAtom = atom(null, (get, set, values: URLParams) => {
   set(urlAtom, values);
 
   // Set new params to window.location
-  const url = get(urlAtom);
+  const url: URLParams = get(urlAtom);
   const newUrl = new URL(window.location.toString());
   const newParams = new URLSearchParams();
   // eslint-disable-next-line array-callback-return
   for (const key in url) {
-    if (url[key]) {
-      newParams.set(key, url[key]);
+    const value = url[key as keyof URLParams];
+
+    if (Array.isArray(value)) {
+      value.forEach((option: string) => newParams.append(key, option));
+    } else if (value) {
+      newParams.set(key, value.toString());
     } else {
       newParams.delete(key);
     }

@@ -32,7 +32,7 @@ const getQueryParamString = (urlParams: URLParams): string => {
   }
 
   if (urlParams.continuous) {
-    filter.push(getRadioFilter(urlParams.continuous));
+    // filter.push(getRadioFilter(urlParams.continuous));
   }
 
   return JSON.stringify(query);
