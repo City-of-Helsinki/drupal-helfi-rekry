@@ -33,7 +33,6 @@ export const urlUpdateAtom = atom(null, (get, set, values: URLParams) => {
 });
 
 export const keywordAtom = atom('');
-export const radioAtom = atom<null | string>(null);
 
 export const setPageAtom = atom(null, (get, set, page: string) => {
   const url = get(urlAtom);
@@ -50,3 +49,9 @@ export const occupationsAtom = atom<OptionType[] | Promise<OptionType[]>>(async 
 ]);
 //TODO connect these two
 export const occupationSelectionAtom = atom<OptionType | null>(null);
+
+// Checkbox atoms
+export const continuousAtom = atom<boolean>(false);
+export const internshipAtom = atom<boolean>(false);
+export const summerJobsAtom = atom<boolean>(false);
+export const youthSummerJobsAtom = atom<boolean>(false);
