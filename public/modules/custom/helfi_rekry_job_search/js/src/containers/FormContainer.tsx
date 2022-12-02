@@ -25,9 +25,9 @@ const FormContainer = () => {
   const [youthSummerJobs, setYouthSummerJobs] = useAtom(youthSummerJobsAtom);
   const [keyword, setKeyword] = useAtom(keywordAtom);
   const urlParams = useAtomValue(urlAtom);
-  const occupations = useAtomValue(occupationsAtom);
   const setUrlParams = useUpdateAtom(urlUpdateAtom);
-  const [occupationFilter, setOccupationFilter] = useAtom(occupationSelectionAtom);
+  const [occupationSelection, setOccupationFilter] = useAtom(occupationSelectionAtom);
+  const occupationsOptions = useAtomValue(occupationsAtom);
 
   // Set form control values from url parameters on load
   useEffect(() => {
@@ -71,7 +71,7 @@ const FormContainer = () => {
 
   const handleKeywordChange = ({ target: { value } }: { target: { value: string } }) => setKeyword(value);
 
-  const handleOccupationsChange = (option: OptionType) => setOccupationFilter(option);
+  const handleOccupationsChange = (option: OptionType | OptionType[]) => setOccupationFilter(option);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -83,8 +83,8 @@ const FormContainer = () => {
           multiselect
           label={Drupal.t('Ammattikunta', { context: 'Occupations filter label' })}
           helper={Drupal.t('ammattikunta - a18n', { context: 'Occupations filter helper' })}
-          options={occupations}
-          value={occupationFilter}
+          options={occupationsOptions}
+          value={occupationSelection}
           id={SearchComponents.OCCUPATIONS}
           onChange={handleOccupationsChange}
         />
