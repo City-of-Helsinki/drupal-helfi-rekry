@@ -56,16 +56,16 @@ const FormContainer = () => {
     event.preventDefault();
     setUrlParams({
       ...urlParams,
-      keyword: keyword,
+      keyword,
       occupations: [
         { label: 'Palomies', value: '1' },
         { label: 'Esihenkilö', value: '2' },
         { label: 'Kadunlakaisija', value: '3' },
       ].map((option) => option.value),
-      continuous: continuous,
-      internship: internship,
-      summerJobs: summerJobs,
-      youthSummerJobs: youthSummerJobs,
+      continuous,
+      internship,
+      summerJobs,
+      youthSummerJobs,
     } as URLParams);
   };
 
