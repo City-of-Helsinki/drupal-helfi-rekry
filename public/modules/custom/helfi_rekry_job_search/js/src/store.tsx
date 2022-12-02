@@ -1,5 +1,7 @@
 import { atom } from 'jotai';
+import { selectAtom } from 'jotai/vanilla/utils';
 
+import { AGGREGATIONS } from './query/queries';
 import type OptionType from './types/OptionType';
 import type URLParams from './types/URLParams';
 
@@ -72,14 +74,32 @@ export const setPageAtom = atom(null, (get, set, page: string) => {
 
 export const pageAtom = atom((get) => Number(get(urlAtom)?.page) || 1);
 
+export const configurationsAtom = atom(async () => {
+  const proxyUrl = drupalSettings?.helfi_rekry_job_search?.elastic_proxy_url;
+  const url: string | undefined = proxyUrl || process.env.REACT_APP_ELASTIC_URL;
+
+  return fetch(`${url}/_search`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(AGGREGATIONS),
+  })
+    .then((res) => res.json())
+    .then((json) => json.aggregations);
+});
+
 // TODO fetch data from elastic
-export const occupationsAtom = atom<OptionType[] | Promise<OptionType[]>>(async () => [
-  { label: 'Palomies', value: '1' },
-  { label: 'Esihenkilö', value: '2' },
-  { label: 'Kadunlakaisija', value: '3' },
-]);
+export const occupationsAtom = atom<OptionType[]>((get) => {
+  const conf = get(configurationsAtom);
+  return conf.occupations.buckets.map(({ key, doc_count }: { key: string; doc_count: number }) => {
+    return { label: `${key} ${doc_count}`, value: key as string };
+  }) as OptionType[];
+});
 //TODO connect these two
-export const occupationSelectionAtom = atom<OptionType | null>(null);
+export const occupationSelectionAtom = atom<OptionType | OptionType[]>([
+  { value: '', label: 'select occupation' },
+] as OptionType[]);
 
 // Checkbox atoms
 export const continuousAtom = atom<boolean>(false);
