@@ -29,6 +29,7 @@ const FormContainer = () => {
   const urlParams = useAtomValue(urlAtom);
   const setUrlParams = useUpdateAtom(urlUpdateAtom);
   const [occupationSelection, setOccupationFilter] = useAtom(occupationSelectionAtom);
+
   const occupationsOptions = useAtomValue(occupationsAtom);
 
   // Set form control values from url parameters on load
@@ -50,7 +51,7 @@ const FormContainer = () => {
       occupations: occupationSelection,
       summerJobs,
       youthSummerJobs,
-    } as URLParams);
+    });
   };
 
   const handleKeywordChange = ({ target: { value } }: { target: { value: string } }) => setKeyword(value);

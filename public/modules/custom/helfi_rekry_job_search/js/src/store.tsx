@@ -24,7 +24,7 @@ const transformParams = (initialParams: InitialParams) => {
 };
 
 const getParams = (searchParams: URLSearchParams) => {
-  let params: InitialParams = {};
+  let params: { [k: string]: any } = {};
   const entries = searchParams.entries();
   let result = entries.next();
 
@@ -108,10 +108,8 @@ export const occupationsAtom = atom<OptionType[]>((get) => {
     return { label: `${key} (${doc_count})`, value: key.trim() as string };
   }) as OptionType[];
 });
-//TODO connect these two
-export const occupationSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 
-// Atoms for checkbox filters
+export const occupationSelectionAtom = atom<OptionType[]>([]);
 export const continuousAtom = atom<boolean>(false);
 export const internshipAtom = atom<boolean>(false);
 export const summerJobsAtom = atom<boolean>(false);
