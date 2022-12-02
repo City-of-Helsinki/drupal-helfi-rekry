@@ -32,27 +32,36 @@ const FormContainer = () => {
   // Set form control values from url parameters on load
   useEffect(() => {
     setKeyword(urlParams?.keyword || '');
-    // let defaultOccupation = undefined;
-    // if (urlParams.occupation) {
-    //   // defaultOccupation = occupationsOptions.find(({ value }) => value === urlParams.occupation);
-    //   setOccupationFilter(defaultOccupation as OptionType);
-    // }
-    setContinuous(!!urlParams?.[SearchComponents.CONTINUOUS]);
-    setInternship(!!urlParams?.[SearchComponents.INTERSHIPS]);
-    setSummerJobs(!!urlParams?.[SearchComponents.SUMMER_JOBS]);
-    setYouthSummerJobs(!!urlParams?.[SearchComponents.YOUTH_SUMMER_JOBS]);
+    let defaultOccupation = undefined;
+    if (urlParams.occupations) {
+      let defaultOccupations: OptionType | OptionType[] | undefined;
+
+      if (Array.isArray(urlParams.occupations)) {
+        defaultOccupations = occupationsOptions.filter(({ value }) => urlParams.occupations?.includes(value));
+      } else {
+        defaultOccupations = occupationsOptions.find(({ value }) => value === urlParams.occupations);
+      }
+
+      if (defaultOccupations) {
+        setOccupationFilter(defaultOccupations as OptionType);
+      }
+    }
+    setContinuous(!!urlParams?.continuous);
+    setInternship(!!urlParams?.internship);
+    setSummerJobs(!!urlParams?.summerJobs);
+    setYouthSummerJobs(!!urlParams?.youthSummerJobs);
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUrlParams({
       ...urlParams,
-      keyword: keyword,
-      // [SearchComponents.OCCUPATIONS]: occupationFilter?.value,
-      [SearchComponents.CONTINUOUS]: continuous,
-      [SearchComponents.INTERSHIPS]: internship,
-      [SearchComponents.SUMMER_JOBS]: summerJobs,
-      [SearchComponents.YOUTH_SUMMER_JOBS]: youthSummerJobs,
+      keyword,
+      continuous,
+      internship,
+      occupations: occupationSelection?.value,
+      summerJobs,
+      youthSummerJobs,
     } as URLParams);
   };
 
@@ -67,7 +76,6 @@ const FormContainer = () => {
       </fieldset>
       <fieldset>
         <Select
-          multiselect
           label={Drupal.t('Ammattikunta', { context: 'Occupations filter label' })}
           helper={Drupal.t('ammattikunta - a18n', { context: 'Occupations filter helper' })}
           options={occupationsOptions}
