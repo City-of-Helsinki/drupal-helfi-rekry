@@ -65,7 +65,7 @@ const FormContainer = () => {
           onClick={() => setRadio(RadioOptions.CONTINUOUS)}
           checked={!!radio}
         />
-        <Button type='submit'>Submit</Button>
+        <Button type='submit'>{Drupal.t('Submit', { context: 'Rekry Search Submit button' })}</Button>
       </fieldset>
     </form>
   );
