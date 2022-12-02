@@ -49,17 +49,18 @@ const FormContainer = () => {
       </fieldset>
       <fieldset>
         <Select
-          label={Drupal.t('Ammattikunta')}
-          helper={Drupal.t('ammattikunta - a18n')}
+          label={Drupal.t('Ammattikunta', { context: 'Occupations filter label' })}
+          helper={Drupal.t('ammattikunta - a18n', { context: 'Occupations filter helper' })}
           options={occupations}
           value={occupationFilter}
+          id={SearchComponents.OCCUPATIONS}
           onChange={handleOccupationsChange}
         />
       </fieldset>
       <fieldset>
-        <legend>{Drupal.t('Show only')}</legend>
+        <legend>{Drupal.t('Show only', { context: 'Show only- filters legend' })}</legend>
         <RadioButton
-          label={Drupal.t('Continuous')}
+          label={Drupal.t('Continuous', { context: 'Continuous jobs filter label' })}
           id={SearchComponents.RADIO_OPTIONS}
           onClick={() => setRadio(RadioOptions.CONTINUOUS)}
           checked={!!radio}
