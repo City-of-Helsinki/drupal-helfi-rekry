@@ -1,7 +1,10 @@
 const SearchComponents = {
   KEYWORD: 'keyword',
-  RADIO_OPTIONS: 'continuous',
   OCCUPATIONS: 'occupation',
+  CONTINUOUS: 'continuous',
+  INTERSHIPS: 'internships',
+  SUMMER_JOBS: 'summer_jobs',
+  YOUTH_SUMMER_JOBS: 'youth_summer_jobs',
   RESULTS: 'page',
   ORDER: 'order',
 };
