@@ -1,21 +1,14 @@
 import { atom } from 'jotai';
 
-import { URLParams } from './containers/SearchContainer';
+import type OptionType from './types/OptionType';
+import type URLParams from './types/URLParams';
 
 // import SearchComponents from './enum/SearchComponents';
-
-// export type URLParams = {
-//   // [k: string]: string
-//   continuous: string | null
-//   keyword: string | null
-//   page: string | null
-// }
 
 export const urlAtom = atom(Object.fromEntries(new URLSearchParams(window.location.search)));
 
 export const urlUpdateAtom = atom(null, (get, set, values: URLParams) => {
   //set atom value
-
   const oldValues = get(urlAtom);
   if (values.page && oldValues.keyword !== values.keyword) {
     values.page = '1';
@@ -23,7 +16,6 @@ export const urlUpdateAtom = atom(null, (get, set, values: URLParams) => {
   set(urlAtom, values);
 
   // Set new params to window.location
-  // TODO Maybe do a separate writeAtom for this side-effect, for clarity's sake
   const url = get(urlAtom);
   const newUrl = new URL(window.location.toString());
   const newParams = new URLSearchParams();
@@ -48,5 +40,13 @@ export const setPageAtom = atom(null, (get, set, page: string) => {
   set(urlUpdateAtom, { ...url, page });
 });
 
-// @ts-ignore
 export const pageAtom = atom((get) => Number(get(urlAtom)?.page) || 1);
+
+// TODO fetch data from elastic
+export const occupationsAtom = atom<OptionType[] | Promise<OptionType[]>>(async () => [
+  { label: 'Palomies', value: '1' },
+  { label: 'Esihenkilö', value: '2' },
+  { label: 'Kadunlakaisija', value: '3' },
+]);
+//TODO connect these two
+export const occupationSelectionAtom = atom<OptionType | null>(null);
