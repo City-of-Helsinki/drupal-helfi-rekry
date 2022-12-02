@@ -1,20 +1,16 @@
 import { useAtomValue } from 'jotai';
+import { Suspense } from 'react';
 import useSWR from 'swr';
 
 import getRadioFilter from '../query/getRadioFilter';
 import { urlAtom } from '../store';
+import type URLParams from '../types/URLParams';
 import FormContainer from './FormContainer';
 import ResultsContainer from './ResultsContainer';
 
-export type URLParams = {
-  keyword?: string;
-  page?: string;
-  continuous?: string;
-};
-
 const SIZE = 10;
 
-const getQueryParamString = (urlParams: URLParams) => {
+const getQueryParamString = (urlParams: URLParams): string => {
   const filter = [];
   const page = Number.isNaN(Number(urlParams.page)) ? 1 : Number(urlParams.page);
   let query: any = {
@@ -61,7 +57,10 @@ const SearchContainer = () => {
 
   return (
     <div>
-      <FormContainer />
+      {/* For async atoms that need to load option values from elastic*/}
+      <Suspense fallback='Loading'>
+        <FormContainer />
+      </Suspense>
       {!data && !error && 'loading'}
       {data && error && 'Error'}
       {data && !error && !isValidating && <ResultsContainer size={SIZE} {...data} />}
