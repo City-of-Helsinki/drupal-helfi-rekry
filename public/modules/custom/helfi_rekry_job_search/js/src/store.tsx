@@ -7,7 +7,7 @@ import type URLParams from './types/URLParams';
 // import SearchComponents from './enum/SearchComponents';
 
 const getParams = (searchParams: URLSearchParams) => {
-  let params: URLParams = {};
+  let params: { [k: string]: any } = {};
   const entries = searchParams.entries();
   let result = entries.next();
 
@@ -19,12 +19,12 @@ const getParams = (searchParams: URLSearchParams) => {
       continue;
     }
 
-    const existing = params[key as keyof URLParams];
+    const existing = params[key];
     if (existing) {
       const updatedValue = Array.isArray(existing) ? [...existing, value] : [existing, value];
-      params[key as keyof URLParams] = updatedValue;
+      params[key] = updatedValue;
     } else {
-      params[key as keyof URLParams] = value;
+      params[key] = value;
     }
 
     result = entries.next();
@@ -95,12 +95,8 @@ export const occupationsAtom = atom<OptionType[]>((get) => {
     return { label: `${key} ${doc_count}`, value: key.trim() as string };
   }) as OptionType[];
 });
-//TODO connect these two
-export const occupationSelectionAtom = atom<OptionType | OptionType[]>([
-  { value: '', label: 'select occupation' },
-] as OptionType[]);
 
-// Checkbox atoms
+export const occupationSelectionAtom = atom<OptionType[]>([]);
 export const continuousAtom = atom<boolean>(false);
 export const internshipAtom = atom<boolean>(false);
 export const summerJobsAtom = atom<boolean>(false);

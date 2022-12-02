@@ -16,7 +16,6 @@ import {
 } from '../store';
 import { urlAtom } from '../store';
 import type OptionType from '../types/OptionType';
-import type URLParams from '../types/URLParams';
 
 const FormContainer = () => {
   const [continuous, setContinuous] = useAtom(continuousAtom);
@@ -27,23 +26,23 @@ const FormContainer = () => {
   const urlParams = useAtomValue(urlAtom);
   const setUrlParams = useUpdateAtom(urlUpdateAtom);
   const [occupationSelection, setOccupationFilter] = useAtom(occupationSelectionAtom);
+
   const occupationsOptions = useAtomValue(occupationsAtom);
 
   // Set form control values from url parameters on load
   useEffect(() => {
     setKeyword(urlParams?.keyword || '');
-    let defaultOccupation = undefined;
     if (urlParams.occupations) {
-      let defaultOccupations: OptionType | OptionType[] | undefined;
-
+      let defaultOccupations = [];
       if (Array.isArray(urlParams.occupations)) {
-        defaultOccupations = occupationsOptions.filter(({ value }) => urlParams.occupations?.includes(value));
+        defaultOccupations =
+          occupationsOptions.filter(({ value }) => urlParams.occupations?.includes(value)) || ([] as OptionType[]);
       } else {
-        defaultOccupations = occupationsOptions.find(({ value }) => value === urlParams.occupations);
+        defaultOccupations = [occupationsOptions.find(({ value }) => value === urlParams.occupations)] as OptionType[];
       }
 
-      if (defaultOccupations) {
-        setOccupationFilter(defaultOccupations as OptionType);
+      if (defaultOccupations.length > 0) {
+        setOccupationFilter(defaultOccupations);
       }
     }
     setContinuous(!!urlParams?.continuous);
@@ -59,15 +58,15 @@ const FormContainer = () => {
       keyword,
       continuous,
       internship,
-      occupations: occupationSelection?.value,
+      occupations: occupationSelection.map(({ value }) => value),
       summerJobs,
       youthSummerJobs,
-    } as URLParams);
+    });
   };
 
   const handleKeywordChange = ({ target: { value } }: { target: { value: string } }) => setKeyword(value);
 
-  const handleOccupationsChange = (option: OptionType | OptionType[]) => setOccupationFilter(option);
+  const handleOccupationsChange = (option: OptionType[]) => setOccupationFilter(option);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -76,8 +75,10 @@ const FormContainer = () => {
       </fieldset>
       <fieldset>
         <Select
+          multiselect
           label={Drupal.t('Ammattikunta', { context: 'Occupations filter label' })}
           helper={Drupal.t('ammattikunta - a18n', { context: 'Occupations filter helper' })}
+          /* @ts-ignore */
           options={occupationsOptions}
           value={occupationSelection}
           id={SearchComponents.OCCUPATIONS}
