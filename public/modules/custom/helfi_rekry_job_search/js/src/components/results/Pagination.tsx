@@ -11,6 +11,32 @@ type PaginationProps = {
   totalPages: number;
 };
 
+const getPagination = (current: number, pages: number, totalPages: number) => {
+  const pagesPerSide = (pages - 1) / 2;
+  let pagesLeft = pagesPerSide * 2;
+  let prevPages: Array<number> = [];
+  let nextPages: Array<number> = [];
+
+  if (pagesPerSide > 0) {
+    for (let i = current - 1; prevPages.length < pagesPerSide && i >= 1; i--) {
+      prevPages.push(i);
+      pagesLeft--;
+    }
+
+    for (let i = current + 1; pagesLeft > 0 && i < totalPages; i++) {
+      nextPages.push(i);
+      pagesLeft--;
+    }
+  }
+
+  prevPages.reverse();
+
+  return {
+    prevPages,
+    nextPages,
+  };
+};
+
 export const Pagination = ({ pages, totalPages }: PaginationProps) => {
   const currentPage = useAtomValue(pageAtom);
   const setPage = useUpdateAtom(setPageAtom);
@@ -20,34 +46,8 @@ export const Pagination = ({ pages, totalPages }: PaginationProps) => {
     setPage(index.toString());
   };
 
-  const getPagination = (current: number, pages: number, totalPages: number) => {
-    const pagesPerSide = (pages - 1) / 2;
-    let pagesLeft = pagesPerSide * 2;
-    let prevPages: Array<number> = [];
-    let nextPages: Array<number> = [];
-
-    if (pagesPerSide > 0) {
-      for (let i = current - 1; prevPages.length < pagesPerSide && i >= 1; i--) {
-        prevPages.push(i);
-        pagesLeft--;
-      }
-
-      for (let i = current + 1; pagesLeft > 0 && i < totalPages; i++) {
-        nextPages.push(i);
-        pagesLeft--;
-      }
-    }
-
-    prevPages.reverse();
-
-    return {
-      prevPages,
-      nextPages,
-    };
-  };
-
   const { prevPages, nextPages } = getPagination(currentPage, pages, totalPages);
-  const prevPageExists = currentPage >= 1;
+  const prevPageExists = currentPage > 1;
   const nextPageExists = currentPage < totalPages;
   const firstWithinRange = prevPages.includes(1) || !prevPages.length;
   const lastWithinRange = nextPages.includes(totalPages - 1) || !nextPages.length;
