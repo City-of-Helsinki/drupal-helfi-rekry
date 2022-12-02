@@ -1,17 +1,28 @@
-import { Button, RadioButton, Select, TextInput } from 'hds-react';
+import { Button, Checkbox, Select, TextInput } from 'hds-react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
 import React, { useEffect } from 'react';
 
-import RadioOptions from '../enum/RadioOptions';
 import SearchComponents from '../enum/SearchComponents';
-import { keywordAtom, radioAtom, urlUpdateAtom } from '../store';
-import { occupationSelectionAtom, occupationsAtom, urlAtom } from '../store';
 import type OptionType from '../types/OptionType';
 import type URLParams from '../types/URLParams';
+import {
+  continuousAtom,
+  internshipAtom,
+  keywordAtom,
+  occupationsAtom,
+  occupationSelectionAtom,
+  summerJobsAtom,
+  urlUpdateAtom,
+  youthSummerJobsAtom,
+} from '../store';
+import { urlAtom } from '../store';
 
 const FormContainer = () => {
-  const [radio, setRadio] = useAtom(radioAtom);
+  const [continuous, setContinuous] = useAtom(continuousAtom);
+  const [internship, setInternship] = useAtom(internshipAtom);
+  const [summerJobs, setSummerJobs] = useAtom(summerJobsAtom);
+  const [youthSummerJobs, setYouthSummerJobs] = useAtom(youthSummerJobsAtom);
   const [keyword, setKeyword] = useAtom(keywordAtom);
   const urlParams = useAtomValue(urlAtom);
   const occupations = useAtomValue(occupationsAtom);
@@ -26,6 +37,10 @@ const FormContainer = () => {
       defaultOccupation = occupations.find(({ value }) => value === urlParams.occupation);
       setOccupationFilter(defaultOccupation as OptionType);
     }
+    setContinuous(!!urlParams?.[SearchComponents.CONTINUOUS]);
+    setInternship(!!urlParams?.[SearchComponents.INTERSHIPS]);
+    setSummerJobs(!!urlParams?.[SearchComponents.SUMMER_JOBS]);
+    setYouthSummerJobs(!!urlParams?.[SearchComponents.YOUTH_SUMMER_JOBS]);
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,9 +48,12 @@ const FormContainer = () => {
     setUrlParams({
       ...urlParams,
       keyword: keyword,
-      [SearchComponents.RADIO_OPTIONS]: radio,
-      occupation: occupationFilter?.value,
-    } as URLParams);
+      [SearchComponents.OCCUPATIONS]: occupationFilter?.value,
+      [SearchComponents.CONTINUOUS]: continuous,
+      [SearchComponents.INTERSHIPS]: internship,
+      [SearchComponents.SUMMER_JOBS]: summerJobs,
+      [SearchComponents.YOUTH_SUMMER_JOBS]: youthSummerJobs,
+    }as URLParams);
   };
 
   const handleKeywordChange = ({ target: { value } }: { target: { value: string } }) => setKeyword(value);
@@ -58,15 +76,33 @@ const FormContainer = () => {
         />
       </fieldset>
       <fieldset>
-        <legend>{Drupal.t('Show only', { context: 'Show only- filters legend' })}</legend>
-        <RadioButton
-          label={Drupal.t('Continuous', { context: 'Continuous jobs filter label' })}
-          id={SearchComponents.RADIO_OPTIONS}
-          onClick={() => setRadio(RadioOptions.CONTINUOUS)}
-          checked={!!radio}
+        <legend>{Drupal.t('Show only')}</legend>
+        <Checkbox
+          label={Drupal.t('Continuous')}
+          id={SearchComponents.CONTINUOUS}
+          onClick={() => setContinuous(!continuous)}
+          checked={continuous}
         />
-        <Button type='submit'>{Drupal.t('Submit', { context: 'Rekry Search Submit button' })}</Button>
+        <Checkbox
+          label={Drupal.t('Internships')}
+          id={SearchComponents.INTERSHIPS}
+          onClick={() => setInternship(!internship)}
+          checked={internship}
+        />
+        <Checkbox
+          label={Drupal.t('Summer jobs')}
+          id={SearchComponents.SUMMER_JOBS}
+          onClick={() => setSummerJobs(!summerJobs)}
+          checked={summerJobs}
+        />
+        <Checkbox
+          label={Drupal.t('Summer jobs for youth')}
+          id={SearchComponents.YOUTH_SUMMER_JOBS}
+          onClick={() => setYouthSummerJobs(!youthSummerJobs)}
+          checked={youthSummerJobs}
+        />
       </fieldset>
+      <Button type='submit'>{Drupal.t('Submit', { context: 'Rekry Search Submit button' })}</Button>
     </form>
   );
 };
