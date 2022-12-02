@@ -36,10 +36,10 @@ const FormContainer = () => {
     if (urlParams.occupations) {
       let defaultOccupations: OptionType | OptionType[] | undefined;
 
-      if (Array.isArray(occupations)) {
-        defaultOccupations = occupations.filter(({ value }) => urlParams.occupations?.includes(value));
+      if (Array.isArray(urlParams.occupations)) {
+        defaultOccupations = occupationsOptions.filter(({ value }) => urlParams.occupations?.includes(value));
       } else {
-        defaultOccupations = occupations.find(({ value }) => value === urlParams.occupations);
+        defaultOccupations = occupationsOptions.find(({ value }) => value === urlParams.occupations);
       }
 
       if (defaultOccupations) {
@@ -57,13 +57,9 @@ const FormContainer = () => {
     setUrlParams({
       ...urlParams,
       keyword,
-      occupations: [
-        { label: 'Palomies', value: '1' },
-        { label: 'Esihenkilö', value: '2' },
-        { label: 'Kadunlakaisija', value: '3' },
-      ].map((option) => option.value),
       continuous,
       internship,
+      occupations: occupationSelection?.value,
       summerJobs,
       youthSummerJobs,
     } as URLParams);
@@ -80,7 +76,6 @@ const FormContainer = () => {
       </fieldset>
       <fieldset>
         <Select
-          multiselect
           label={Drupal.t('Ammattikunta', { context: 'Occupations filter label' })}
           helper={Drupal.t('ammattikunta - a18n', { context: 'Occupations filter helper' })}
           options={occupationsOptions}
