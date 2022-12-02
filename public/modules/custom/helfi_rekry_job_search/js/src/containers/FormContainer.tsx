@@ -4,19 +4,19 @@ import { useUpdateAtom } from 'jotai/utils';
 import React, { useEffect } from 'react';
 
 import SearchComponents from '../enum/SearchComponents';
-import type OptionType from '../types/OptionType';
-import type URLParams from '../types/URLParams';
 import {
   continuousAtom,
   internshipAtom,
   keywordAtom,
-  occupationsAtom,
   occupationSelectionAtom,
+  occupationsAtom,
   summerJobsAtom,
   urlUpdateAtom,
   youthSummerJobsAtom,
 } from '../store';
 import { urlAtom } from '../store';
+import type OptionType from '../types/OptionType';
+import type URLParams from '../types/URLParams';
 
 const FormContainer = () => {
   const [continuous, setContinuous] = useAtom(continuousAtom);
@@ -33,14 +33,23 @@ const FormContainer = () => {
   useEffect(() => {
     setKeyword(urlParams?.keyword || '');
     let defaultOccupation = undefined;
-    if (urlParams.occupation) {
-      defaultOccupation = occupations.find(({ value }) => value === urlParams.occupation);
-      setOccupationFilter(defaultOccupation as OptionType);
+    if (urlParams.occupations) {
+      let defaultOccupations: OptionType | OptionType[] | undefined;
+
+      if (Array.isArray(occupations)) {
+        defaultOccupations = occupations.filter(({ value }) => urlParams.occupations?.includes(value));
+      } else {
+        defaultOccupations = occupations.find(({ value }) => value === urlParams.occupations);
+      }
+
+      if (defaultOccupations) {
+        setOccupationFilter(defaultOccupations as OptionType);
+      }
     }
-    setContinuous(!!urlParams?.[SearchComponents.CONTINUOUS]);
-    setInternship(!!urlParams?.[SearchComponents.INTERSHIPS]);
-    setSummerJobs(!!urlParams?.[SearchComponents.SUMMER_JOBS]);
-    setYouthSummerJobs(!!urlParams?.[SearchComponents.YOUTH_SUMMER_JOBS]);
+    setContinuous(!!urlParams?.continuous);
+    setInternship(!!urlParams?.internship);
+    setSummerJobs(!!urlParams?.summerJobs);
+    setYouthSummerJobs(!!urlParams?.youthSummerJobs);
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -48,12 +57,16 @@ const FormContainer = () => {
     setUrlParams({
       ...urlParams,
       keyword: keyword,
-      [SearchComponents.OCCUPATIONS]: occupationFilter?.value,
-      [SearchComponents.CONTINUOUS]: continuous,
-      [SearchComponents.INTERSHIPS]: internship,
-      [SearchComponents.SUMMER_JOBS]: summerJobs,
-      [SearchComponents.YOUTH_SUMMER_JOBS]: youthSummerJobs,
-    }as URLParams);
+      occupations: [
+        { label: 'Palomies', value: '1' },
+        { label: 'Esihenkilö', value: '2' },
+        { label: 'Kadunlakaisija', value: '3' },
+      ].map((option) => option.value),
+      continuous: continuous,
+      internship: internship,
+      summerJobs: summerJobs,
+      youthSummerJobs: youthSummerJobs,
+    } as URLParams);
   };
 
   const handleKeywordChange = ({ target: { value } }: { target: { value: string } }) => setKeyword(value);
@@ -67,6 +80,7 @@ const FormContainer = () => {
       </fieldset>
       <fieldset>
         <Select
+          multiselect
           label={Drupal.t('Ammattikunta', { context: 'Occupations filter label' })}
           helper={Drupal.t('ammattikunta - a18n', { context: 'Occupations filter helper' })}
           options={occupations}
