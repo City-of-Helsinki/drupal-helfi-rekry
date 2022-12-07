@@ -42,7 +42,6 @@ const FormContainer = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUrlParams({
-      ...urlParams,
       keyword,
       continuous,
       internship,
