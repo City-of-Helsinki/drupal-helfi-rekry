@@ -32,20 +32,7 @@ const FormContainer = () => {
   // Set form control values from url parameters on load
   useEffect(() => {
     setKeyword(urlParams?.keyword || '');
-    let defaultOccupation = undefined;
-    if (urlParams.occupations) {
-      let defaultOccupations: OptionType | OptionType[] | undefined;
-
-      if (Array.isArray(urlParams.occupations)) {
-        defaultOccupations = occupationsOptions.filter(({ value }) => urlParams.occupations?.includes(value));
-      } else {
-        defaultOccupations = occupationsOptions.find(({ value }) => value === urlParams.occupations);
-      }
-
-      if (defaultOccupations) {
-        setOccupationFilter(defaultOccupations as OptionType);
-      }
-    }
+    setOccupationFilter(urlParams?.occupations || []);
     setContinuous(!!urlParams?.continuous);
     setInternship(!!urlParams?.internship);
     setSummerJobs(!!urlParams?.summerJobs);
@@ -59,7 +46,7 @@ const FormContainer = () => {
       keyword,
       continuous,
       internship,
-      occupations: occupationSelection?.value,
+      occupations: occupationSelection,
       summerJobs,
       youthSummerJobs,
     } as URLParams);
@@ -67,7 +54,7 @@ const FormContainer = () => {
 
   const handleKeywordChange = ({ target: { value } }: { target: { value: string } }) => setKeyword(value);
 
-  const handleOccupationsChange = (option: OptionType | OptionType[]) => setOccupationFilter(option);
+  const handleOccupationsChange = (option: OptionType[]) => setOccupationFilter(option);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -76,6 +63,11 @@ const FormContainer = () => {
       </fieldset>
       <fieldset>
         <Select
+          aria-labelledby=''
+          clearButtonAriaLabel=''
+          selectedItemRemoveButtonAriaLabel=''
+          placeholder=''
+          multiselect
           label={Drupal.t('Ammattikunta', { context: 'Occupations filter label' })}
           helper={Drupal.t('ammattikunta - a18n', { context: 'Occupations filter helper' })}
           options={occupationsOptions}
