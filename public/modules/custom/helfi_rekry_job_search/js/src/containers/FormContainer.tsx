@@ -15,8 +15,10 @@ import {
   youthSummerJobsAtom,
 } from '../store';
 import { urlAtom } from '../store';
+import { CONTINUOUS, INTERNSHIPS, SUMMER_JOBS, YOUTH_SUMMER_JOBS } from '../translations';
 import type OptionType from '../types/OptionType';
 import type URLParams from '../types/URLParams';
+import SelectionsContainer from './SelectionsContainer';
 
 const FormContainer = () => {
   const [continuous, setContinuous] = useAtom(continuousAtom);
@@ -78,30 +80,35 @@ const FormContainer = () => {
       <fieldset>
         <legend>{Drupal.t('Show only')}</legend>
         <Checkbox
-          label={Drupal.t('Continuous')}
+          label={Drupal.t(CONTINUOUS.value)}
           id={SearchComponents.CONTINUOUS}
           onClick={() => setContinuous(!continuous)}
           checked={continuous}
+          name={Drupal.t(CONTINUOUS.value)}
         />
         <Checkbox
-          label={Drupal.t('Internships')}
+          label={Drupal.t(INTERNSHIPS.value)}
           id={SearchComponents.INTERSHIPS}
           onClick={() => setInternship(!internship)}
           checked={internship}
+          name={Drupal.t(INTERNSHIPS.value)}
         />
         <Checkbox
-          label={Drupal.t('Summer jobs')}
+          label={SUMMER_JOBS.value}
           id={SearchComponents.SUMMER_JOBS}
           onClick={() => setSummerJobs(!summerJobs)}
           checked={summerJobs}
+          name={SUMMER_JOBS.value}
         />
         <Checkbox
-          label={Drupal.t('Summer jobs for youth')}
+          label={YOUTH_SUMMER_JOBS.value}
           id={SearchComponents.YOUTH_SUMMER_JOBS}
           onClick={() => setYouthSummerJobs(!youthSummerJobs)}
           checked={youthSummerJobs}
+          name={YOUTH_SUMMER_JOBS.value}
         />
       </fieldset>
+      <SelectionsContainer />
       <Button type='submit'>{Drupal.t('Submit', { context: 'Rekry Search Submit button' })}</Button>
     </form>
   );

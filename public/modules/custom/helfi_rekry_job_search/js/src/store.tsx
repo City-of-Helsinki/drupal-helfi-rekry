@@ -109,10 +109,20 @@ export const occupationsAtom = atom<OptionType[]>((get) => {
   }) as OptionType[];
 });
 //TODO connect these two
-export const occupationSelectionAtom = atom<OptionType[]>([{ value: '', label: 'select occupation' }] as OptionType[]);
+export const occupationSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 
-// Checkbox atoms
+// Atoms for checkbox filters
 export const continuousAtom = atom<boolean>(false);
 export const internshipAtom = atom<boolean>(false);
 export const summerJobsAtom = atom<boolean>(false);
 export const youthSummerJobsAtom = atom<boolean>(false);
+
+export const resetFormAtom = atom(null, (get, set) => {
+  set(occupationSelectionAtom, []);
+  set(keywordAtom, '');
+  set(continuousAtom, false);
+  set(internshipAtom, false);
+  set(summerJobsAtom, false);
+  set(youthSummerJobsAtom, false);
+  set(urlUpdateAtom, {});
+});
