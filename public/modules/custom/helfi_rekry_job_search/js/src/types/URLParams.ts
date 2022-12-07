@@ -4,7 +4,7 @@ type URLParams = {
   continuous?: boolean;
   internship?: boolean;
   keyword?: string;
-  occupations?: string[] | string;
+  occupations?: OptionType[];
   page?: string;
   summerJobs?: boolean;
   youthSummerJobs?: boolean;

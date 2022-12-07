@@ -6,8 +6,25 @@ import type URLParams from './types/URLParams';
 
 // import SearchComponents from './enum/SearchComponents';
 
+type InitialParams = { [key: string]: string | string[] };
+
+const transformParams = (initialParams: InitialParams) => {
+  let urlParams: URLParams = { ...initialParams };
+
+  if (initialParams?.occupations) {
+    const occupations = initialParams.occupations;
+    const isArray = Array.isArray(occupations);
+
+    urlParams.occupations = isArray
+      ? occupations.map((value: string) => ({ label: value, value: value }))
+      : [{ label: occupations, value: occupations }];
+  }
+
+  return urlParams;
+};
+
 const getParams = (searchParams: URLSearchParams) => {
-  let params: URLParams = {};
+  let params: InitialParams = {};
   const entries = searchParams.entries();
   let result = entries.next();
 
@@ -19,18 +36,18 @@ const getParams = (searchParams: URLSearchParams) => {
       continue;
     }
 
-    const existing = params[key as keyof URLParams];
+    const existing = params[key];
     if (existing) {
       const updatedValue = Array.isArray(existing) ? [...existing, value] : [existing, value];
-      params[key as keyof URLParams] = updatedValue;
+      params[key] = updatedValue;
     } else {
-      params[key as keyof URLParams] = value;
+      params[key] = value;
     }
 
     result = entries.next();
   }
 
-  return params;
+  return transformParams(params);
 };
 
 export const urlAtom = atom<URLParams>(getParams(new URLSearchParams(window.location.search)));
@@ -52,7 +69,7 @@ export const urlUpdateAtom = atom(null, (get, set, values: URLParams) => {
     const value = url[key as keyof URLParams];
 
     if (Array.isArray(value)) {
-      value.forEach((option: string) => newParams.append(key, option));
+      value.forEach((option: OptionType) => newParams.append(key, option.value));
     } else if (value) {
       newParams.set(key, value.toString());
     } else {
@@ -96,9 +113,7 @@ export const occupationsAtom = atom<OptionType[]>((get) => {
   }) as OptionType[];
 });
 //TODO connect these two
-export const occupationSelectionAtom = atom<OptionType | OptionType[]>([
-  { value: '', label: 'select occupation' },
-] as OptionType[]);
+export const occupationSelectionAtom = atom<OptionType[]>([{ value: '', label: 'select occupation' }] as OptionType[]);
 
 // Checkbox atoms
 export const continuousAtom = atom<boolean>(false);
