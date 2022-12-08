@@ -1,9 +1,12 @@
+import { LoadingSpinner } from 'hds-react';
 import { useAtomValue } from 'jotai';
 import { Suspense } from 'react';
 import useSWR from 'swr';
 
-import getRadioFilter from '../query/getRadioFilter';
+import IndexFields from '../enum/IndexFields';
+import { FILTER } from '../query/queries';
 import { urlAtom } from '../store';
+import OptionType from '../types/OptionType';
 import type URLParams from '../types/URLParams';
 import FormContainer from './FormContainer';
 import ResultsContainer from './ResultsContainer';
@@ -11,31 +14,81 @@ import ResultsContainer from './ResultsContainer';
 const SIZE = 10;
 
 const getQueryParamString = (urlParams: URLParams): string => {
-  const filter = [];
   const page = Number.isNaN(Number(urlParams.page)) ? 1 : Number(urlParams.page);
-  let query: any = {
-    size: SIZE,
-    from: SIZE * (page - 1),
-    query: {
-      match_all: {},
-    },
-  };
+  const must = [];
+  const should = [];
 
   if (urlParams.keyword && urlParams.keyword.length > 0) {
-    query.query = {
-      match_phrase_prefix: {
-        title: {
-          query: urlParams.keyword,
-        },
+    must.push({
+      bool: {
+        should: [
+          {
+            combined_fields: {
+              query: urlParams.keyword,
+              fields: [`${IndexFields.TITLE}^2`, IndexFields.EMPLOYMENT],
+            },
+          },
+          {
+            wildcard: {
+              [`${IndexFields.TITLE}.keyword`]: `*${urlParams.keyword}*`,
+            },
+          },
+        ],
       },
-    };
+    });
+  }
+
+  if (urlParams?.occupations?.length) {
+    must.push({
+      terms: {
+        [`${IndexFields.TASK_AREA}.keyword`]: urlParams.occupations.map((occupation: OptionType) => occupation.value),
+      },
+    });
   }
 
   if (urlParams.continuous) {
-    // filter.push(getRadioFilter(urlParams.continuous));
+    should.push({
+      [IndexFields.CONTINUOUS]: true,
+    });
   }
 
-  return JSON.stringify(query);
+  if (urlParams.internship) {
+    should.push({
+      [IndexFields.INTERNSHIP]: true,
+    });
+  }
+
+  if (urlParams.summerJobs) {
+    should.push({
+      [IndexFields.SUMMER_JOB]: true,
+    });
+  }
+
+  if (urlParams.youthSummerJobs) {
+    should.push({
+      [IndexFields.YOUTH_SUMMER_JOB]: true,
+    });
+  }
+
+  const query: any = {
+    bool: {
+      ...FILTER,
+    },
+  };
+
+  if (Object.keys(must).length) {
+    query.bool.must = must;
+  }
+
+  if (should.length) {
+    query.bool.should = should;
+  }
+
+  return JSON.stringify({
+    size: SIZE,
+    from: SIZE * (page - 1),
+    query: query,
+  });
 };
 
 const SearchContainer = () => {
@@ -58,10 +111,10 @@ const SearchContainer = () => {
   return (
     <div>
       {/* For async atoms that need to load option values from elastic*/}
-      <Suspense fallback='Loading'>
+      <Suspense fallback={<LoadingSpinner />}>
         <FormContainer />
       </Suspense>
-      {!data && !error && 'loading'}
+      {!data && !error && <LoadingSpinner />}
       {data && error && 'Error'}
       {data && !error && !isValidating && <ResultsContainer size={SIZE} {...data} />}
     </div>

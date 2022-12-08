@@ -12,10 +12,10 @@ type PaginationProps = {
 };
 
 const getPagination = (current: number, pages: number, totalPages: number) => {
-  const pagesPerSide = (pages - 1) / 2;
+  const pagesPerSide = pages / 2;
   let pagesLeft = pagesPerSide * 2;
-  let prevPages: Array<number> = [];
-  let nextPages: Array<number> = [];
+  const prevPages: Array<number> = [];
+  const nextPages: Array<number> = [];
 
   if (pagesPerSide > 0) {
     for (let i = current - 1; prevPages.length < pagesPerSide && i >= 1; i--) {
