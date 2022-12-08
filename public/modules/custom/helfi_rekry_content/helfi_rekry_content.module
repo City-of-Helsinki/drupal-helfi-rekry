@@ -285,3 +285,13 @@ function helfi_rekry_content_preprocess_block(&$variables) {
     }
   }
 }
+
+function helfi_rekry_content_page_attachments_alter(array &$attachments) {
+  $og_tags = ['og_site_name', 'og_url', 'og_title', 'og_image_0'];
+
+  foreach ($attachments["#attached"]["html_head"] as $key => $attachment) {
+    if (isset($attachment[1]) && in_array($attachment[1], $og_tags)) {
+      $attachments["#attached"]["html_head"][$key][0]['#attributes']['prefix'] = 'og: http://ogp.me/ns#';
+    }
+  }
+}
