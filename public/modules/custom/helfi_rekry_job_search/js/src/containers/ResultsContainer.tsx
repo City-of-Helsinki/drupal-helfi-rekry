@@ -13,14 +13,15 @@ type ResultsContainerProps = {
 };
 
 const ResultsContainer = ({ hits, isLoading, size }: ResultsContainerProps) => {
+  // @todo add no results message.
   if (!hits?.hits) {
-    return <div> _NO_RESULTS_</div>;
+    return <div>{Drupal.t('No results')}</div>;
   }
 
   const results = hits.hits;
   const total = hits.total.value;
   const pages = Math.floor(total / size);
-  const addLastPage = total % size;
+  const addLastPage = total > size && total % size;
 
   return (
     <div>

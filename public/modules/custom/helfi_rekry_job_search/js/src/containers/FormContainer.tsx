@@ -71,6 +71,7 @@ const FormContainer = () => {
           multiselect
           label={Drupal.t('Ammattikunta', { context: 'Occupations filter label' })}
           helper={Drupal.t('ammattikunta - a18n', { context: 'Occupations filter helper' })}
+          // @ts-ignore
           options={occupationsOptions}
           value={occupationSelection}
           id={SearchComponents.OCCUPATIONS}
