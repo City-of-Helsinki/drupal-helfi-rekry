@@ -1,7 +1,7 @@
 import { Button, IconCross } from 'hds-react';
-import { useAtom, useAtomValue } from 'jotai';
+import { SetStateAction, WritableAtom, useAtom, useAtomValue } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
-import { MouseEventHandler, ReactElement } from 'react';
+import { Fragment, MouseEventHandler } from 'react';
 
 import SearchComponents from '../enum/SearchComponents';
 import {
@@ -15,6 +15,7 @@ import {
   youthSummerJobsAtom,
 } from '../store';
 import { CONTINUOUS, INTERNSHIPS, SUMMER_JOBS, YOUTH_SUMMER_JOBS } from '../translations';
+import OptionType from '../types/OptionType';
 
 const SelectionsContainer = () => {
   const urlParams = useAtomValue(urlAtom);
@@ -31,6 +32,9 @@ const SelectionsContainer = () => {
   return (
     <div className='news-form__selections-wrapper'>
       <ul className='news-form__selections-container content-tags__tags'>
+        {urlParams.occupations?.length && (
+          <ListFilter atom={occupationSelectionAtom} valueKey={SearchComponents.OCCUPATIONS} />
+        )}
         {urlParams.continuous && (
           <CheckboxFilterPill label={CONTINUOUS.value} atom={continuousAtom} valueKey={SearchComponents.CONTINUOUS} />
         )}
@@ -48,18 +52,16 @@ const SelectionsContainer = () => {
           />
         )}
         <li className='news-form__clear-all'>
-          {showClearButton && (
-            <Button
-              // aria-hidden={filters.length ? 'true' : 'false'}
-              className='news-form__clear-all-button'
-              iconLeft={<IconCross className='news-form__clear-all-icon' />}
-              onClick={resetForm}
-              // style={filters.length ? {} : { visibility: 'hidden' }}
-              variant='supplementary'
-            >
-              {Drupal.t('Clear selections', {}, { context: 'News archive clear selections' })}
-            </Button>
-          )}
+          <Button
+            aria-hidden={showClearButton ? 'true' : 'false'}
+            className='news-form__clear-all-button'
+            iconLeft={<IconCross className='news-form__clear-all-icon' />}
+            onClick={resetForm}
+            style={showClearButton ? {} : { visibility: 'hidden' }}
+            variant='supplementary'
+          >
+            {Drupal.t('Clear selections', {}, { context: 'News archive clear selections' })}
+          </Button>
         </li>
       </ul>
     </div>
@@ -68,8 +70,42 @@ const SelectionsContainer = () => {
 
 export default SelectionsContainer;
 
+type ListFilterProps = {
+  atom: typeof occupationSelectionAtom;
+  valueKey: string;
+};
+
+const ListFilter = ({ atom, valueKey }: ListFilterProps) => {
+  const [selections, setValue] = useAtom(atom);
+  const urlParams = useAtomValue(urlAtom);
+  const setUrlParams = useUpdateAtom(urlUpdateAtom);
+
+  const removeSelection = (value: string) => {
+    const newValue = selections;
+    const index = newValue.findIndex((selection: OptionType) => selection.value === value);
+    newValue.splice(index, 1);
+    setValue(newValue);
+    setUrlParams({
+      ...urlParams,
+      [valueKey]: newValue,
+    });
+  };
+
+  return (
+    <Fragment>
+      {selections.map((selection: OptionType) => (
+        <FilterButton
+          value={selection.value}
+          clearSelection={() => removeSelection(selection.value)}
+          key={selection.value}
+        />
+      ))}
+    </Fragment>
+  );
+};
+
 type CheckboxFilterPillProps = {
-  atom: any;
+  atom: WritableAtom<boolean, SetStateAction<boolean>, void>;
   valueKey: string;
   label: string;
 };
