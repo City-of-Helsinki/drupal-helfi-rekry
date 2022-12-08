@@ -286,6 +286,9 @@ function helfi_rekry_content_preprocess_block(&$variables) {
   }
 }
 
+/**
+ * Implements hook_page_attachments_alter().
+ */
 function helfi_rekry_content_page_attachments_alter(array &$attachments) {
   $og_tags = ['og_site_name', 'og_url', 'og_title', 'og_image_0'];
 
