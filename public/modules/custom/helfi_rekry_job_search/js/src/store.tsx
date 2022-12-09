@@ -8,21 +8,6 @@ import type URLParams from './types/URLParams';
 
 type InitialParams = { [key: string]: string | string[] };
 
-const transformParams = (initialParams: InitialParams) => {
-  let urlParams: URLParams = { ...initialParams };
-
-  if (initialParams?.task_areas) {
-    const taskAreas = initialParams.task_areas;
-    const isArray = Array.isArray(taskAreas);
-
-    urlParams.task_areas = isArray
-      ? taskAreas.map((value: string) => ({ label: value, value: value }))
-      : [{ label: taskAreas, value: taskAreas }];
-  }
-
-  return urlParams;
-};
-
 const getParams = (searchParams: URLSearchParams) => {
   let params: { [k: string]: any } = {};
   const entries = searchParams.entries();
@@ -41,13 +26,13 @@ const getParams = (searchParams: URLSearchParams) => {
       const updatedValue = Array.isArray(existing) ? [...existing, value] : [existing, value];
       params[key] = updatedValue;
     } else {
-      params[key] = value;
+      params[key] = [value];
     }
 
     result = entries.next();
   }
 
-  return transformParams(params);
+  return params;
 };
 
 export const urlAtom = atom<URLParams>(getParams(new URLSearchParams(window.location.search)));
@@ -65,7 +50,7 @@ export const urlUpdateAtom = atom(null, (get, set, values: URLParams) => {
     const value = values[key as keyof URLParams];
 
     if (Array.isArray(value)) {
-      value.forEach((option: OptionType) => newParams.append(key, option.value));
+      value.forEach((option: string) => newParams.append(key, option));
     } else if (value) {
       newParams.set(key, value.toString());
     } else {

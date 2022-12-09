@@ -32,10 +32,27 @@ const FormContainer = () => {
   const [taskAreaSelection, setTaskAreaFilter] = useAtom(taskAreasSelectionAtom);
   const taskAreasOptions = useAtomValue(taskAreasAtom);
 
+  const transformTaskAreas = (taskAreas: string[] | undefined = []) => {
+    const transformedOptions: OptionType[] = [];
+
+    taskAreas.forEach((taskArea: string) => {
+      const matchedOption = taskAreasOptions.find((option: OptionType) => option.value === taskArea);
+
+      if (matchedOption) {
+        transformedOptions.push({
+          label: matchedOption.label,
+          value: matchedOption.value,
+        });
+      }
+    });
+
+    return transformedOptions;
+  };
+
   // Set form control values from url parameters on load
   useEffect(() => {
     setKeyword(urlParams?.keyword || '');
-    setTaskAreaFilter(urlParams?.task_areas || []);
+    setTaskAreaFilter(transformTaskAreas(urlParams?.task_areas));
     setContinuous(!!urlParams?.continuous);
     setInternship(!!urlParams?.internship);
     setSummerJobs(!!urlParams?.summerJobs);
@@ -52,7 +69,7 @@ const FormContainer = () => {
       keyword,
       continuous,
       internship,
-      task_areas: taskAreaSelection,
+      task_areas: taskAreaSelection.map((selection: OptionType) => selection.value),
       summerJobs,
       youthSummerJobs,
     });

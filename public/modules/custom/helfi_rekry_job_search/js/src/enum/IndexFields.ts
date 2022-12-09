@@ -15,6 +15,7 @@ const IndexFields = {
   TASK_AREA: 'field_task_area',
   LANGCODE: 'langcode',
   STATUS: 'status',
+  TID: 'tid',
   TITLE: 'title',
   YOUTH_SUMMER_JOB: 'is_youth_summer_job',
   UNPUBLISH_ON: 'unpublish_on',

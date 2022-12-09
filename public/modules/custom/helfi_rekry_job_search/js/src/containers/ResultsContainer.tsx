@@ -7,7 +7,6 @@ import ResultCard from '../components/results/ResultCard';
 import IndexFields from '../enum/IndexFields';
 import { FILTER } from '../query/queries';
 import { urlAtom } from '../store';
-import OptionType from '../types/OptionType';
 import type URLParams from '../types/URLParams';
 
 const SIZE = 10;
@@ -40,7 +39,7 @@ const getQueryParamString = (urlParams: URLParams): string => {
   if (urlParams?.task_areas?.length) {
     must.push({
       terms: {
-        [`${IndexFields.TASK_AREA}.keyword`]: urlParams.task_areas.map((taskArea: OptionType) => taskArea.value),
+        [`${IndexFields.TASK_AREA}.keyword`]: urlParams.task_areas,
       },
     });
   }
