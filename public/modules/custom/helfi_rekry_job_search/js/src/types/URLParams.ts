@@ -1,3 +1,5 @@
+import OptionType from './OptionType';
+
 type URLParams = {
   continuous?: boolean;
   internship?: boolean;
