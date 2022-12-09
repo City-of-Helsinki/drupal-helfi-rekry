@@ -105,7 +105,7 @@ export const configurationsAtom = atom(async () => {
 export const occupationsAtom = atom<OptionType[]>((get) => {
   const conf = get(configurationsAtom);
   return conf.occupations.buckets.map(({ key, doc_count }: { key: string; doc_count: number }) => {
-    return { label: `${key} ${doc_count}`, value: key.trim() as string };
+    return { label: `${key} (${doc_count})`, value: key.trim() as string };
   }) as OptionType[];
 });
 //TODO connect these two
