@@ -12,7 +12,7 @@ type PaginationProps = {
 };
 
 const getPagination = (current: number, pages: number, totalPages: number) => {
-  const pagesPerSide = pages / 2;
+  const pagesPerSide = Math.floor(pages / 2);
   let pagesLeft = pagesPerSide * 2;
   const prevPages: Array<number> = [];
   const nextPages: Array<number> = [];
@@ -22,8 +22,7 @@ const getPagination = (current: number, pages: number, totalPages: number) => {
       prevPages.push(i);
       pagesLeft--;
     }
-
-    for (let i = current + 1; pagesLeft > 0 && i < totalPages; i++) {
+    for (let i = current + 1; pagesLeft > 0 && i <= totalPages; i++) {
       nextPages.push(i);
       pagesLeft--;
     }
@@ -50,7 +49,7 @@ export const Pagination = ({ pages, totalPages }: PaginationProps) => {
   const prevPageExists = currentPage > 1;
   const nextPageExists = currentPage < totalPages;
   const firstWithinRange = prevPages.includes(1) || !prevPages.length;
-  const lastWithinRange = nextPages.includes(totalPages - 1) || !nextPages.length;
+  const lastWithinRange = nextPages.includes(totalPages) || !nextPages.length;
 
   if (!Number.isFinite(totalPages)) {
     return null;
