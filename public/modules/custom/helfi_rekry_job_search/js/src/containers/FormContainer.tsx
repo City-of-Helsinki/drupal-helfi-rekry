@@ -17,7 +17,6 @@ import {
 import { urlAtom } from '../store';
 import { CONTINUOUS, INTERNSHIPS, SUMMER_JOBS, YOUTH_SUMMER_JOBS } from '../translations';
 import type OptionType from '../types/OptionType';
-import type URLParams from '../types/URLParams';
 import SelectionsContainer from './SelectionsContainer';
 
 const FormContainer = () => {

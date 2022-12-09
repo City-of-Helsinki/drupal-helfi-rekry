@@ -4,10 +4,6 @@ import { AGGREGATIONS } from './query/queries';
 import type OptionType from './types/OptionType';
 import type URLParams from './types/URLParams';
 
-// import SearchComponents from './enum/SearchComponents';
-
-type InitialParams = { [key: string]: string | string[] };
-
 const getParams = (searchParams: URLSearchParams) => {
   let params: { [k: string]: any } = {};
   const entries = searchParams.entries();
