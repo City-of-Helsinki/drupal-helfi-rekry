@@ -8,20 +8,20 @@ dependencies:
 id: job_listing_content_pattern_finnish
 label: 'Job listing content pattern - Finnish'
 type: 'canonical_entities:node'
-pattern: '[node:menu-link:parents:join-path]/avoimet-tyopaikat/[node:field_recruitment_id]'
+pattern: '[node:menu-link:parents:join-path]/avoimet-tyopaikat/[node:title]/[node:field_recruitment_id]'
 selection_criteria:
-  cde1330d-3305-41ef-90cb-6b53cbb71fa4:
+  92468ed8-5e56-40f6-b910-40734db09619:
     id: 'entity_bundle:node'
     negate: false
-    uuid: cde1330d-3305-41ef-90cb-6b53cbb71fa4
+    uuid: 92468ed8-5e56-40f6-b910-40734db09619
     context_mapping:
       node: node
     bundles:
       job_listing: job_listing
-  40db6691-1cbc-488e-aa4d-9f52a4575e15:
+  45670eef-2fca-4e6a-8080-1ca44d5c4e9f:
     id: language
     negate: false
-    uuid: 40db6691-1cbc-488e-aa4d-9f52a4575e15
+    uuid: 45670eef-2fca-4e6a-8080-1ca44d5c4e9f
     context_mapping:
       language: 'node:langcode:language'
     langcodes:
