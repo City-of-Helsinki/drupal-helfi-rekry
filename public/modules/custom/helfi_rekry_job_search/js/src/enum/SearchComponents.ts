@@ -1,6 +1,6 @@
 const SearchComponents = {
   KEYWORD: 'keyword',
-  OCCUPATIONS: 'occupation',
+  TASK_AREAS: 'task_areas',
   CONTINUOUS: 'continuous',
   INTERSHIPS: 'internship',
   SUMMER_JOBS: 'summerJobs',

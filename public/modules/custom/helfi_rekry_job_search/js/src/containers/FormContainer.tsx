@@ -8,9 +8,9 @@ import {
   continuousAtom,
   internshipAtom,
   keywordAtom,
-  occupationSelectionAtom,
-  occupationsAtom,
   summerJobsAtom,
+  taskAreasAtom,
+  taskAreasSelectionAtom,
   urlUpdateAtom,
   youthSummerJobsAtom,
 } from '../store';
@@ -21,6 +21,7 @@ import type URLParams from '../types/URLParams';
 import SelectionsContainer from './SelectionsContainer';
 
 const FormContainer = () => {
+  const formAction = drupalSettings?.helfi_rekry_job_search?.results_page_path || '';
   const [continuous, setContinuous] = useAtom(continuousAtom);
   const [internship, setInternship] = useAtom(internshipAtom);
   const [summerJobs, setSummerJobs] = useAtom(summerJobsAtom);
@@ -28,14 +29,13 @@ const FormContainer = () => {
   const [keyword, setKeyword] = useAtom(keywordAtom);
   const urlParams = useAtomValue(urlAtom);
   const setUrlParams = useUpdateAtom(urlUpdateAtom);
-  const [occupationSelection, setOccupationFilter] = useAtom(occupationSelectionAtom);
-
-  const occupationsOptions = useAtomValue(occupationsAtom);
+  const [taskAreaSelection, setTaskAreaFilter] = useAtom(taskAreasSelectionAtom);
+  const taskAreasOptions = useAtomValue(taskAreasAtom);
 
   // Set form control values from url parameters on load
   useEffect(() => {
     setKeyword(urlParams?.keyword || '');
-    setOccupationFilter(urlParams?.occupations || []);
+    setTaskAreaFilter(urlParams?.task_areas || []);
     setContinuous(!!urlParams?.continuous);
     setInternship(!!urlParams?.internship);
     setSummerJobs(!!urlParams?.summerJobs);
@@ -43,12 +43,16 @@ const FormContainer = () => {
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    if (formAction.length) {
+      return true;
+    }
+
     event.preventDefault();
     setUrlParams({
       keyword,
       continuous,
       internship,
-      occupations: occupationSelection,
+      task_areas: taskAreaSelection,
       summerJobs,
       youthSummerJobs,
     });
@@ -56,10 +60,11 @@ const FormContainer = () => {
 
   const handleKeywordChange = ({ target: { value } }: { target: { value: string } }) => setKeyword(value);
 
-  const handleOccupationsChange = (option: OptionType[]) => setOccupationFilter(option);
+  const handleTaskAreasChange = (option: OptionType[]) => setTaskAreaFilter(option);
+  const taskAreaInputValue = taskAreaSelection.map((option: OptionType) => option.value);
 
   return (
-    <form className='recruitment-search__form' onSubmit={handleSubmit}>
+    <form className='recruitment-search__form' onSubmit={handleSubmit} action={formAction}>
       <TextInput
         id={SearchComponents.KEYWORD}
         label={Drupal.t('Keyword', { context: 'Search keyword label' })}
@@ -71,15 +76,28 @@ const FormContainer = () => {
         <Select
           clearButtonAriaLabel=''
           selectedItemRemoveButtonAriaLabel=''
-          placeholder={Drupal.t('All task areas', { context: 'Occupations filter placeholder' })}
+          placeholder={Drupal.t('All task areas', { context: 'Task areas filter placeholder' })}
           multiselect
-          label={Drupal.t('Task area', { context: 'Occupations filter label' })}
+          label={Drupal.t('Task area', { context: 'Task areas filter label' })}
           // @ts-ignore
-          options={occupationsOptions}
-          value={occupationSelection}
-          id={SearchComponents.OCCUPATIONS}
-          onChange={handleOccupationsChange}
+          options={taskAreasOptions}
+          value={taskAreaSelection}
+          id={SearchComponents.TASK_AREAS}
+          onChange={handleTaskAreasChange}
         />
+        {formAction && (
+          <select
+            aria-hidden
+            multiple
+            value={taskAreaInputValue}
+            name={SearchComponents.TASK_AREAS}
+            style={{ display: 'none' }}
+          >
+            {taskAreaInputValue.map((value: string) => (
+              <option key={value} value={value} selected />
+            ))}
+          </select>
+        )}
       </div>
       <fieldset>
         <legend>{Drupal.t('Show only')}</legend>
@@ -88,28 +106,32 @@ const FormContainer = () => {
           id={SearchComponents.CONTINUOUS}
           onClick={() => setContinuous(!continuous)}
           checked={continuous}
-          name={Drupal.t(CONTINUOUS.value)}
+          name={SearchComponents.CONTINUOUS}
+          value={continuous.toString()}
         />
         <Checkbox
           label={Drupal.t(INTERNSHIPS.value)}
           id={SearchComponents.INTERSHIPS}
           onClick={() => setInternship(!internship)}
           checked={internship}
-          name={Drupal.t(INTERNSHIPS.value)}
+          name={SearchComponents.INTERSHIPS}
+          value={internship.toString()}
         />
         <Checkbox
           label={SUMMER_JOBS.value}
           id={SearchComponents.SUMMER_JOBS}
           onClick={() => setSummerJobs(!summerJobs)}
           checked={summerJobs}
-          name={SUMMER_JOBS.value}
+          name={SearchComponents.SUMMER_JOBS}
+          value={summerJobs.toString()}
         />
         <Checkbox
           label={YOUTH_SUMMER_JOBS.value}
           id={SearchComponents.YOUTH_SUMMER_JOBS}
           onClick={() => setYouthSummerJobs(!youthSummerJobs)}
           checked={youthSummerJobs}
-          name={YOUTH_SUMMER_JOBS.value}
+          name={SearchComponents.YOUTH_SUMMER_JOBS}
+          value={youthSummerJobs.toString()}
         />
       </fieldset>
       <Button type='submit' variant='primary'>

@@ -11,13 +11,13 @@ type InitialParams = { [key: string]: string | string[] };
 const transformParams = (initialParams: InitialParams) => {
   let urlParams: URLParams = { ...initialParams };
 
-  if (initialParams?.occupations) {
-    const occupations = initialParams.occupations;
-    const isArray = Array.isArray(occupations);
+  if (initialParams?.task_areas) {
+    const taskAreas = initialParams.task_areas;
+    const isArray = Array.isArray(taskAreas);
 
-    urlParams.occupations = isArray
-      ? occupations.map((value: string) => ({ label: value, value: value }))
-      : [{ label: occupations, value: occupations }];
+    urlParams.task_areas = isArray
+      ? taskAreas.map((value: string) => ({ label: value, value: value }))
+      : [{ label: taskAreas, value: taskAreas }];
   }
 
   return urlParams;
@@ -102,21 +102,21 @@ export const configurationsAtom = atom(async () => {
 });
 
 // TODO fetch data from elastic
-export const occupationsAtom = atom<OptionType[]>((get) => {
+export const taskAreasAtom = atom<OptionType[]>((get) => {
   const conf = get(configurationsAtom);
   return conf.occupations.buckets.map(({ key, doc_count }: { key: string; doc_count: number }) => {
     return { label: `${key} (${doc_count})`, value: key.trim() as string };
   }) as OptionType[];
 });
-
-export const occupationSelectionAtom = atom<OptionType[]>([]);
+//TODO connect these two
+export const taskAreasSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 export const continuousAtom = atom<boolean>(false);
 export const internshipAtom = atom<boolean>(false);
 export const summerJobsAtom = atom<boolean>(false);
 export const youthSummerJobsAtom = atom<boolean>(false);
 
 export const resetFormAtom = atom(null, (get, set) => {
-  set(occupationSelectionAtom, []);
+  set(taskAreasSelectionAtom, []);
   set(keywordAtom, '');
   set(continuousAtom, false);
   set(internshipAtom, false);

@@ -7,9 +7,9 @@ import SearchComponents from '../enum/SearchComponents';
 import {
   continuousAtom,
   internshipAtom,
-  occupationSelectionAtom,
   resetFormAtom,
   summerJobsAtom,
+  taskAreasSelectionAtom,
   urlAtom,
   urlUpdateAtom,
   youthSummerJobsAtom,
@@ -23,18 +23,18 @@ const SelectionsContainer = () => {
 
   const showClearButton =
     urlParams?.keyword?.length ||
-    urlParams?.occupations?.length ||
+    urlParams?.task_areas?.length ||
     urlParams?.continuous ||
     urlParams?.internship ||
     urlParams?.summerJobs ||
     urlParams?.youthSummerJobs;
 
-  const showOccupations = Boolean(urlParams.occupations?.length && urlParams.occupations.length > 0);
+  const showTaskAreas = Boolean(urlParams.task_areas?.length && urlParams.task_areas.length > 0);
 
   return (
     <div className='news-form__selections-wrapper'>
       <ul className='news-form__selections-container content-tags__tags'>
-        {showOccupations && <ListFilter atom={occupationSelectionAtom} valueKey={SearchComponents.OCCUPATIONS} />}
+        {showTaskAreas && <ListFilter atom={taskAreasSelectionAtom} valueKey={SearchComponents.TASK_AREAS} />}
         {urlParams.continuous && (
           <CheckboxFilterPill label={CONTINUOUS.value} atom={continuousAtom} valueKey={SearchComponents.CONTINUOUS} />
         )}
@@ -71,7 +71,7 @@ const SelectionsContainer = () => {
 export default SelectionsContainer;
 
 type ListFilterProps = {
-  atom: typeof occupationSelectionAtom;
+  atom: typeof taskAreasSelectionAtom;
   valueKey: string;
 };
 
