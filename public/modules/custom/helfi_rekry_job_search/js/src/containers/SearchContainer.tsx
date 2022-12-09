@@ -48,25 +48,33 @@ const getQueryParamString = (urlParams: URLParams): string => {
 
   if (urlParams.continuous) {
     should.push({
-      [IndexFields.CONTINUOUS]: true,
+      term: {
+        [IndexFields.CONTINUOUS]: true,
+      },
     });
   }
 
   if (urlParams.internship) {
     should.push({
-      [IndexFields.INTERNSHIP]: true,
+      term: {
+        [IndexFields.INTERNSHIP]: true,
+      },
     });
   }
 
   if (urlParams.summerJobs) {
     should.push({
-      [IndexFields.SUMMER_JOB]: true,
+      term: {
+        [IndexFields.SUMMER_JOB]: true,
+      },
     });
   }
 
   if (urlParams.youthSummerJobs) {
     should.push({
-      [IndexFields.YOUTH_SUMMER_JOB]: true,
+      term: {
+        [IndexFields.YOUTH_SUMMER_JOB]: true,
+      },
     });
   }
 
@@ -82,6 +90,7 @@ const getQueryParamString = (urlParams: URLParams): string => {
 
   if (should.length) {
     query.bool.should = should;
+    query.bool.minimum_should_match = 1;
   }
 
   return JSON.stringify({
@@ -109,7 +118,7 @@ const SearchContainer = () => {
   const { data, error, isValidating } = useSWR(JSON.stringify(urlParams), fetcher);
 
   return (
-    <div>
+    <div className='recruitment-search'>
       {/* For async atoms that need to load option values from elastic*/}
       <Suspense fallback={<LoadingSpinner />}>
         <FormContainer />

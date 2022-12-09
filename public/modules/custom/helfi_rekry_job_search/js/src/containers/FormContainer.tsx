@@ -58,26 +58,28 @@ const FormContainer = () => {
   const handleOccupationsChange = (option: OptionType[]) => setOccupationFilter(option);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <fieldset>
-        <TextInput id={SearchComponents.KEYWORD} label='text' onChange={handleKeywordChange} value={keyword} />
-      </fieldset>
-      <fieldset>
+    <form className='recruitment-search__form' onSubmit={handleSubmit}>
+      <TextInput
+        id={SearchComponents.KEYWORD}
+        label={Drupal.t('Keyword', { context: 'Search keyword label' })}
+        onChange={handleKeywordChange}
+        value={keyword}
+        placeholder={Drupal.t('Eg. title, office, department', { context: 'Search keyword placeholder' })}
+      />
+      <div className='recruitment-search__dropdowns'>
         <Select
-          aria-labelledby=''
           clearButtonAriaLabel=''
           selectedItemRemoveButtonAriaLabel=''
-          placeholder=''
+          placeholder={Drupal.t('All task areas', { context: 'Occupations filter placeholder' })}
           multiselect
-          label={Drupal.t('Ammattikunta', { context: 'Occupations filter label' })}
-          helper={Drupal.t('ammattikunta - a18n', { context: 'Occupations filter helper' })}
+          label={Drupal.t('Task area', { context: 'Occupations filter label' })}
           // @ts-ignore
           options={occupationsOptions}
           value={occupationSelection}
           id={SearchComponents.OCCUPATIONS}
           onChange={handleOccupationsChange}
         />
-      </fieldset>
+      </div>
       <fieldset>
         <legend>{Drupal.t('Show only')}</legend>
         <Checkbox
@@ -109,8 +111,10 @@ const FormContainer = () => {
           name={YOUTH_SUMMER_JOBS.value}
         />
       </fieldset>
+      <Button type='submit' variant='primary'>
+        {Drupal.t('Submit', { context: 'Rekry Search Submit button' })}
+      </Button>
       <SelectionsContainer />
-      <Button type='submit'>{Drupal.t('Submit', { context: 'Rekry Search Submit button' })}</Button>
     </form>
   );
 };
