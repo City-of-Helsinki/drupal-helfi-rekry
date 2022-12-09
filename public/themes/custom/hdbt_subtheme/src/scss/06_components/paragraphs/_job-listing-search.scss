@@ -38,4 +38,8 @@
   @include breakpoint($breakpoint-m) {
     margin-top: $spacing-double;
   }
+
+  .views-row:not(:first-of-type) {
+    margin-top: $spacing;
+  }
 }

@@ -1,7 +1,7 @@
 {# Set lang attributes if needed #}
 {% set content %}
   {% if original_language %}
-    <div lang="{{ original_language }}">
+    <span lang="{{ original_language }}">
   {% endif %}
 
   {% for item in items %}
@@ -9,7 +9,7 @@
   {% endfor %}
 
   {% if original_language %}
-    </div>
+    </span>
   {% endif %}
 {% endset %}
 
