@@ -17,7 +17,6 @@ import {
 import { urlAtom } from '../store';
 import { CONTINUOUS, INTERNSHIPS, SUMMER_JOBS, YOUTH_SUMMER_JOBS } from '../translations';
 import type OptionType from '../types/OptionType';
-import type URLParams from '../types/URLParams';
 import SelectionsContainer from './SelectionsContainer';
 
 const FormContainer = () => {
@@ -29,6 +28,7 @@ const FormContainer = () => {
   const urlParams = useAtomValue(urlAtom);
   const setUrlParams = useUpdateAtom(urlUpdateAtom);
   const [occupationSelection, setOccupationFilter] = useAtom(occupationSelectionAtom);
+
   const occupationsOptions = useAtomValue(occupationsAtom);
 
   // Set form control values from url parameters on load
@@ -50,7 +50,7 @@ const FormContainer = () => {
       occupations: occupationSelection,
       summerJobs,
       youthSummerJobs,
-    } as URLParams);
+    });
   };
 
   const handleKeywordChange = ({ target: { value } }: { target: { value: string } }) => setKeyword(value);
