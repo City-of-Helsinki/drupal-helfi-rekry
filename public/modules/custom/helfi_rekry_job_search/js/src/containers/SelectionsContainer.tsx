@@ -29,12 +29,12 @@ const SelectionsContainer = () => {
     urlParams?.summerJobs ||
     urlParams?.youthSummerJobs;
 
+  const showOccupations = Boolean(urlParams.occupations?.length && urlParams.occupations.length > 0);
+
   return (
     <div className='news-form__selections-wrapper'>
       <ul className='news-form__selections-container content-tags__tags'>
-        {urlParams.occupations?.length && (
-          <ListFilter atom={occupationSelectionAtom} valueKey={SearchComponents.OCCUPATIONS} />
-        )}
+        {showOccupations && <ListFilter atom={occupationSelectionAtom} valueKey={SearchComponents.OCCUPATIONS} />}
         {urlParams.continuous && (
           <CheckboxFilterPill label={CONTINUOUS.value} atom={continuousAtom} valueKey={SearchComponents.CONTINUOUS} />
         )}
