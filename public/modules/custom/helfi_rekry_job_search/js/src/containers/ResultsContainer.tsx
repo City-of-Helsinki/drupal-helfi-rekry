@@ -61,7 +61,7 @@ const getQueryParamString = (urlParams: URLParams): string => {
     });
   }
 
-  if (urlParams.summerJobs) {
+  if (urlParams.summer_jobs) {
     should.push({
       term: {
         [IndexFields.SUMMER_JOB]: true,
@@ -69,7 +69,7 @@ const getQueryParamString = (urlParams: URLParams): string => {
     });
   }
 
-  if (urlParams.youthSummerJobs) {
+  if (urlParams.youth_summer_jobs) {
     should.push({
       term: {
         [IndexFields.YOUTH_SUMMER_JOB]: true,

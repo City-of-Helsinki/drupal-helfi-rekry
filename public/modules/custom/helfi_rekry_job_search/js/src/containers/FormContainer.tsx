@@ -54,8 +54,8 @@ const FormContainer = () => {
     setTaskAreaFilter(transformTaskAreas(urlParams?.task_areas));
     setContinuous(!!urlParams?.continuous);
     setInternship(!!urlParams?.internship);
-    setSummerJobs(!!urlParams?.summerJobs);
-    setYouthSummerJobs(!!urlParams?.youthSummerJobs);
+    setSummerJobs(!!urlParams?.summer_jobs);
+    setYouthSummerJobs(!!urlParams?.youth_summer_jobs);
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -69,8 +69,8 @@ const FormContainer = () => {
       continuous,
       internship,
       task_areas: taskAreaSelection.map((selection: OptionType) => selection.value),
-      summerJobs,
-      youthSummerJobs,
+      summer_jobs: summerJobs,
+      youth_summer_jobs: youthSummerJobs,
     });
   };
 
@@ -81,13 +81,11 @@ const FormContainer = () => {
 
   return (
     <form className='job-search-form' onSubmit={handleSubmit} action={formAction}>
-      <h2 className='job-search-form__title'>
-        {Drupal.t('Filter search', {}, { context: 'Recruitment search title' })}
-      </h2>
       <TextInput
         className='job-search-form__filter'
         id={SearchComponents.KEYWORD}
         label={Drupal.t('Keyword', { context: 'Search keyword label' })}
+        name={SearchComponents.KEYWORD}
         onChange={handleKeywordChange}
         value={keyword}
         placeholder={Drupal.t('Eg. title, office, department', { context: 'Search keyword placeholder' })}
@@ -136,10 +134,10 @@ const FormContainer = () => {
         <Checkbox
           className='job-search-form__checkbox'
           label={Drupal.t(INTERNSHIPS.value)}
-          id={SearchComponents.INTERSHIPS}
+          id={SearchComponents.INTERNSHIPS}
           onClick={() => setInternship(!internship)}
           checked={internship}
-          name={SearchComponents.INTERSHIPS}
+          name={SearchComponents.INTERNSHIPS}
           value={internship.toString()}
         />
         <Checkbox

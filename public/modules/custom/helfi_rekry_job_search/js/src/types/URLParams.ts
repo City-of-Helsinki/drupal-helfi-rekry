@@ -1,3 +1,4 @@
+import SearchComponents from '../enum/SearchComponents';
 import OptionType from './OptionType';
 
 type URLParams = {
@@ -6,8 +7,8 @@ type URLParams = {
   keyword?: string;
   task_areas?: string[];
   page?: string;
-  summerJobs?: boolean;
-  youthSummerJobs?: boolean;
+  summer_jobs?: boolean;
+  youth_summer_jobs?: boolean;
 };
 
 export default URLParams;

@@ -26,8 +26,8 @@ const SelectionsContainer = () => {
     urlParams?.task_areas?.length ||
     urlParams?.continuous ||
     urlParams?.internship ||
-    urlParams?.summerJobs ||
-    urlParams?.youthSummerJobs;
+    urlParams?.summer_jobs ||
+    urlParams?.youth_summer_jobs;
 
   const showTaskAreas = Boolean(urlParams.task_areas?.length && urlParams.task_areas.length > 0);
 
@@ -39,12 +39,12 @@ const SelectionsContainer = () => {
           <CheckboxFilterPill label={CONTINUOUS.value} atom={continuousAtom} valueKey={SearchComponents.CONTINUOUS} />
         )}
         {urlParams.internship && (
-          <CheckboxFilterPill label={INTERNSHIPS.value} atom={internshipAtom} valueKey={SearchComponents.INTERSHIPS} />
+          <CheckboxFilterPill label={INTERNSHIPS.value} atom={internshipAtom} valueKey={SearchComponents.INTERNSHIPS} />
         )}
-        {urlParams.summerJobs && (
+        {urlParams.summer_jobs && (
           <CheckboxFilterPill label={SUMMER_JOBS.value} atom={summerJobsAtom} valueKey={SearchComponents.SUMMER_JOBS} />
         )}
-        {urlParams.youthSummerJobs && (
+        {urlParams.youth_summer_jobs && (
           <CheckboxFilterPill
             label={YOUTH_SUMMER_JOBS.value}
             atom={youthSummerJobsAtom}
