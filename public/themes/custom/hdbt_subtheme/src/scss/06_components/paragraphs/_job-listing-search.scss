@@ -40,12 +40,21 @@
   }
 }
 
+.job-search-form {
+  margin-bottom: $spacing-double;
+}
+
 .job-search-form__title {
   margin-bottom: $spacing-double;
 }
 
 .job-search-form__dropdowns {
   display: flex;
+}
+
+// Override default li styles
+.job-search-form__dropdown li + li {
+  margin-top: 0;
 }
 
 .job-search-form__dropdown--upper {
@@ -136,6 +145,10 @@ button.job-search-form__remove-selection-button:not(:disabled) {
   margin-right: 0;
 }
 
+.job-search-form__clear-all {
+  margin-top: 0;
+}
+
 // Need a specific selector to override hds styles
 .job-search-form__clear-all .job-search-form__clear-all-button {
   --background-color-hover: transparent;
@@ -152,6 +165,7 @@ button.job-search-form__remove-selection-button:not(:disabled) {
 }
 
 .job-search__results-stats {
+  margin-bottom: $spacing-double;
   margin-left: $spacing;
   margin-right: $spacing;
 }
