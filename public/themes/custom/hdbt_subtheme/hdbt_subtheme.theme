@@ -176,6 +176,17 @@ function hdbt_subtheme_preprocess_node(&$variables) {
  * Implements hook_preprocess_HOOK().
  */
 function hdbt_subtheme_preprocess_paragraph__job_search(array &$variables) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  $paragraph_type = $paragraph->getType();
+
+  if ($paragraph_type == 'job_search') {
+    if ($search_result_page_nid = $paragraph->get('field_job_search_result_page')->getString()) {
+      $search_result_page_path_alias = \Drupal::service('path_alias.manager')->getAliasByPath('/node/'.$search_result_page_nid);
+      $variables['#attached']['drupalSettings']['helfi_rekry_job_search']['results_page_path'] = $search_result_page_path_alias;
+    }
+  }
+
   $config = \Drupal::config('elastic_proxy.settings');
   if ($config->get('elastic_proxy_url')) {
     $variables['#attached']['drupalSettings']['helfi_rekry_job_search']['elastic_proxy_url'] = $config->get('elastic_proxy_url');
