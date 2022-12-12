@@ -70,7 +70,6 @@
     display: flex;
     flex: wrap;
   }
-
   border: none;
   margin-bottom: $spacing-double;
   padding-bottom: 0;
@@ -89,7 +88,6 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
     margin-left: $spacing;
     margin-top: 0;
   }
-
   margin-top: $spacing-double;
 }
 
@@ -125,6 +123,7 @@ button.job-search-form__submit-button {
 // Use a very specific selector here to override hds styles
 button.job-search-form__remove-selection-button:not(:disabled) {
   @include tag('interactive--deletable');
+
   --color-hover-focus: var(--hdbt-text-color);
   color: var(--hdbt-color-black);
 }
