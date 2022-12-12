@@ -1,5 +1,6 @@
 import { LoadingSpinner } from 'hds-react';
 import { useAtomValue } from 'jotai';
+import { Fragment } from 'react';
 import useSWR from 'swr';
 
 import Pagination from '../components/results/Pagination';
@@ -92,6 +93,13 @@ const getQueryParamString = (urlParams: URLParams): string => {
   }
 
   return JSON.stringify({
+    aggs: {
+      [IndexFields.NUMBER_OF_JOBS]: {
+        sum: {
+          field: IndexFields.NUMBER_OF_JOBS,
+        },
+      },
+    },
     size: SIZE,
     from: SIZE * (page - 1),
     query: query,
@@ -134,8 +142,27 @@ const ResultsContainer = () => {
     return null;
   }
 
+  // Total number of available jobs
+  const jobs: number = data?.aggregations?.[IndexFields.NUMBER_OF_JOBS]?.value;
+
   return (
-    <div>
+    <div className='job-search__results'>
+      <div className='job-search__results-stats'>
+        <div className='job-listing-search__count-container'>
+          {!isNaN(jobs) && !isNaN(total) && (
+            <Fragment>
+              <span className='job-listing-search__count'>{jobs}</span>
+              {' ' +
+                Drupal.t(
+                  'open jobs (@listings listings)',
+                  { '@listings': total },
+                  { context: 'Job search results statline' }
+                )}
+            </Fragment>
+          )}
+        </div>
+        <div></div>
+      </div>
       {results.map((hit: any) => (
         <ResultCard key={hit._id} {...hit._source} />
       ))}

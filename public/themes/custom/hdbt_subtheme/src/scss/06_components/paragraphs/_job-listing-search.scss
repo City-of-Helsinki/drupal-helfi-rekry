@@ -50,15 +50,27 @@
 }
 
 .job-search-form__dropdowns {
-  margin-bottom: $spacing-double;
+  display: flex;
+}
+
+.job-search-form__dropdown--upper {
+  @include breakpoint($breakpoint-l) {
+    width: 50%;
+  }
 }
 
 .job-search-form__filter {
   margin-bottom: $spacing;
+  width: 100%;
 }
 
 // Override some fieldset default styles here
 .job-search-form__checkboxes {
+  @include breakpoint($breakpoint-l) {
+    display: flex;
+    flex: wrap;
+  }
+
   border: none;
   margin-bottom: $spacing-double;
   padding-bottom: 0;
@@ -73,6 +85,11 @@ fieldset .job-search-form__checkbox {
 }
 
 fieldset .job-search-form__checkbox:not(:first-of-type) {
+  @include breakpoint($breakpoint-l) {
+    margin-left: $spacing;
+    margin-top: 0;
+  }
+
   margin-top: $spacing-double;
 }
 
@@ -99,6 +116,10 @@ button.job-search-form__submit-button {
   --focus-outline-color: var(--hdbt-color-black);
   margin-bottom: $spacing;
   width: 100%;
+}
+
+.job-search-form__selections-container {
+  list-style-type: none;
 }
 
 // Use a very specific selector here to override hds styles
@@ -134,4 +155,9 @@ button.job-search-form__remove-selection-button:not(:disabled) {
   --color-focus: var(--hdbt-color-black);
   --color-hover-focus: var(--hdbt-color-black);
   --focus-outline-color: var(--hdbt-color-black);
+}
+
+.job-search__results-stats {
+  margin-left: $spacing;
+  margin-right: $spacing;
 }

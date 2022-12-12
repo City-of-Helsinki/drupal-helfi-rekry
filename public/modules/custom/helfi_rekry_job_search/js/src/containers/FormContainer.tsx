@@ -92,33 +92,35 @@ const FormContainer = () => {
         value={keyword}
         placeholder={Drupal.t('Eg. title, office, department', { context: 'Search keyword placeholder' })}
       />
-      <div className='job-search-form__filter'>
-        <Select
-          clearButtonAriaLabel=''
-          className='job-search-form__dropdown'
-          selectedItemRemoveButtonAriaLabel=''
-          placeholder={Drupal.t('All task areas', { context: 'Task areas filter placeholder' })}
-          multiselect
-          label={Drupal.t('Task area', { context: 'Task areas filter label' })}
-          // @ts-ignore
-          options={taskAreasOptions}
-          value={taskAreaSelection}
-          id={SearchComponents.TASK_AREAS}
-          onChange={handleTaskAreasChange}
-        />
-        {formAction && (
-          <select
-            aria-hidden
-            multiple
-            value={taskAreaInputValue}
-            name={SearchComponents.TASK_AREAS}
-            style={{ display: 'none' }}
-          >
-            {taskAreaInputValue.map((value: string) => (
-              <option key={value} value={value} selected />
-            ))}
-          </select>
-        )}
+      <div className='job-search-form__dropdowns'>
+        <div className='job-search-form__filter job-search-form__dropdown--upper'>
+          <Select
+            clearButtonAriaLabel=''
+            className='job-search-form__dropdown'
+            selectedItemRemoveButtonAriaLabel=''
+            placeholder={Drupal.t('All task areas', { context: 'Task areas filter placeholder' })}
+            multiselect
+            label={Drupal.t('Task area', { context: 'Task areas filter label' })}
+            // @ts-ignore
+            options={taskAreasOptions}
+            value={taskAreaSelection}
+            id={SearchComponents.TASK_AREAS}
+            onChange={handleTaskAreasChange}
+          />
+          {formAction && (
+            <select
+              aria-hidden
+              multiple
+              value={taskAreaInputValue}
+              name={SearchComponents.TASK_AREAS}
+              style={{ display: 'none' }}
+            >
+              {taskAreaInputValue.map((value: string) => (
+                <option key={value} value={value} selected />
+              ))}
+            </select>
+          )}
+        </div>
       </div>
       <fieldset className='job-search-form__checkboxes'>
         <legend className='job-search-form__checkboxes-legend'>{Drupal.t('Show only')}</legend>
