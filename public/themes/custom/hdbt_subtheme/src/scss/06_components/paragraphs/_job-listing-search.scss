@@ -39,3 +39,99 @@
     margin-top: $spacing-double;
   }
 }
+
+.job-search-form {
+  padding-left: $spacing;
+  padding-right: $spacing;
+}
+
+.job-search-form__title {
+  margin-bottom: $spacing-double;
+}
+
+.job-search-form__dropdowns {
+  margin-bottom: $spacing-double;
+}
+
+.job-search-form__filter {
+  margin-bottom: $spacing;
+}
+
+// Override some fieldset default styles here
+.job-search-form__checkboxes {
+  border: none;
+  margin-bottom: $spacing-double;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+}
+
+// Use specific selectors here to override HDS styles
+fieldset .job-search-form__checkbox {
+  --background-selected: var(--hdbt-color-black);
+}
+
+fieldset .job-search-form__checkbox:not(:first-of-type) {
+  margin-top: $spacing-double;
+}
+
+.job-search-form__checkboxes-legend {
+  @include font(h6);
+  margin-bottom: $spacing;
+}
+
+// Use specific selector to override HDS styles
+button.job-search-form__submit-button {
+  // Set state-specific colors for submit button
+  --background-color: var(--hdbt-color-black);
+  --background-color-hover: var(--hdbt-text-color);
+  --background-color-focus: var(--hdbt-text-color);
+  --background-color-hover-focus: var(--hdbt-text-color);
+  --border-color: var(--hdbt-color-black);
+  --border-color-hover: var(--hdbt-color-black);
+  --border-color-focus: var(--hdbt-color-black);
+  --border-color-hover-focus: var(--hdbt-color-black);
+  --color: var(--hdbt-text-color);
+  --color-hover: var(--hdbt-color-black);
+  --color-focus: var(--hdbt-color-black);
+  --color-hover-focus: var(--hdbt-color-black);
+  --focus-outline-color: var(--hdbt-color-black);
+  margin-bottom: $spacing;
+  width: 100%;
+}
+
+// Use a very specific selector here to override hds styles
+button.job-search-form__remove-selection-button:not(:disabled) {
+  @include tag('interactive--deletable');
+  --color-hover-focus: var(--hdbt-text-color);
+  color: var(--hdbt-color-black);
+}
+
+// Neagate HDS-defined paddings for span-element inside button
+.job-search-form__remove-selection-button span {
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+}
+
+// Negate HDS-defined margin for icon inside remove button
+.job-search-form__selections-wrapper button.job-search-form__remove-selection-button > div {
+  margin-right: 0;
+}
+
+// Need a specific selector to override hds styles
+.job-search-form__clear-all .job-search-form__clear-all-button {
+  --background-color-hover: transparent;
+  --background-color-focus: transparent;
+  --background-color-hover-focus: transparent;
+  --border-color-hover: var(--hdbt-color-black);
+  --border-color-focus: var(--hdbt-color-black);
+  --border-color-hover-focus: var(--hdbt-color-black);
+  --color: var(--hdbt-color-black);
+  --color-hover: var(--hdbt-color-black);
+  --color-focus: var(--hdbt-color-black);
+  --color-hover-focus: var(--hdbt-color-black);
+  --focus-outline-color: var(--hdbt-color-black);
+}

@@ -32,8 +32,8 @@ const SelectionsContainer = () => {
   const showTaskAreas = Boolean(urlParams.task_areas?.length && urlParams.task_areas.length > 0);
 
   return (
-    <div className='news-form__selections-wrapper'>
-      <ul className='news-form__selections-container content-tags__tags'>
+    <div className='job-search-form__selections-wrapper'>
+      <ul className='job-search-form__selections-container content-tags__tags'>
         {showTaskAreas && <ListFilter atom={taskAreasSelectionAtom} valueKey={SearchComponents.TASK_AREAS} />}
         {urlParams.continuous && (
           <CheckboxFilterPill label={CONTINUOUS.value} atom={continuousAtom} valueKey={SearchComponents.CONTINUOUS} />
@@ -51,11 +51,11 @@ const SelectionsContainer = () => {
             valueKey={SearchComponents.YOUTH_SUMMER_JOBS}
           />
         )}
-        <li className='news-form__clear-all'>
+        <li className='job-search-form__clear-all'>
           <Button
             aria-hidden={showClearButton ? 'true' : 'false'}
-            className='news-form__clear-all-button'
-            iconLeft={<IconCross className='news-form__clear-all-icon' />}
+            className='job-search-form__clear-all-button'
+            iconLeft={<IconCross className='job-search-form__clear-all-icon' />}
             onClick={resetForm}
             style={showClearButton ? {} : { visibility: 'hidden' }}
             variant='supplementary'
@@ -144,7 +144,7 @@ const FilterButton = ({ value, clearSelection }: FilterButtonProps) => {
           { '@item': value.toString() },
           { context: 'Search: remove item aria label' }
         )}
-        className='news-form__remove-selection-button'
+        className='job-search-form__remove-selection-button'
         iconRight={<IconCross />}
         variant='supplementary'
       >

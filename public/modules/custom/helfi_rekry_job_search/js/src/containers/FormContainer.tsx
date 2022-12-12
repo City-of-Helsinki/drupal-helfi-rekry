@@ -80,17 +80,22 @@ const FormContainer = () => {
   const taskAreaInputValue = taskAreaSelection.map((option: OptionType) => option.value);
 
   return (
-    <form className='recruitment-search__form' onSubmit={handleSubmit} action={formAction}>
+    <form className='job-search-form' onSubmit={handleSubmit} action={formAction}>
+      <h2 className='job-search-form__title'>
+        {Drupal.t('Filter search', {}, { context: 'Recruitment search title' })}
+      </h2>
       <TextInput
+        className='job-search-form__filter'
         id={SearchComponents.KEYWORD}
         label={Drupal.t('Keyword', { context: 'Search keyword label' })}
         onChange={handleKeywordChange}
         value={keyword}
         placeholder={Drupal.t('Eg. title, office, department', { context: 'Search keyword placeholder' })}
       />
-      <div className='recruitment-search__dropdowns'>
+      <div className='job-search-form__filter'>
         <Select
           clearButtonAriaLabel=''
+          className='job-search-form__dropdown'
           selectedItemRemoveButtonAriaLabel=''
           placeholder={Drupal.t('All task areas', { context: 'Task areas filter placeholder' })}
           multiselect
@@ -115,9 +120,10 @@ const FormContainer = () => {
           </select>
         )}
       </div>
-      <fieldset>
-        <legend>{Drupal.t('Show only')}</legend>
+      <fieldset className='job-search-form__checkboxes'>
+        <legend className='job-search-form__checkboxes-legend'>{Drupal.t('Show only')}</legend>
         <Checkbox
+          className='job-search-form__checkbox'
           label={Drupal.t(CONTINUOUS.value)}
           id={SearchComponents.CONTINUOUS}
           onClick={() => setContinuous(!continuous)}
@@ -126,6 +132,7 @@ const FormContainer = () => {
           value={continuous.toString()}
         />
         <Checkbox
+          className='job-search-form__checkbox'
           label={Drupal.t(INTERNSHIPS.value)}
           id={SearchComponents.INTERSHIPS}
           onClick={() => setInternship(!internship)}
@@ -134,6 +141,7 @@ const FormContainer = () => {
           value={internship.toString()}
         />
         <Checkbox
+          className='job-search-form__checkbox'
           label={SUMMER_JOBS.value}
           id={SearchComponents.SUMMER_JOBS}
           onClick={() => setSummerJobs(!summerJobs)}
@@ -142,6 +150,7 @@ const FormContainer = () => {
           value={summerJobs.toString()}
         />
         <Checkbox
+          className='job-search-form__checkbox'
           label={YOUTH_SUMMER_JOBS.value}
           id={SearchComponents.YOUTH_SUMMER_JOBS}
           onClick={() => setYouthSummerJobs(!youthSummerJobs)}
@@ -150,7 +159,7 @@ const FormContainer = () => {
           value={youthSummerJobs.toString()}
         />
       </fieldset>
-      <Button type='submit' variant='primary'>
+      <Button className='hds-button hds-button--primary job-search-form__submit-button' type='submit'>
         {Drupal.t('Submit', { context: 'Rekry Search Submit button' })}
       </Button>
       <SelectionsContainer />
