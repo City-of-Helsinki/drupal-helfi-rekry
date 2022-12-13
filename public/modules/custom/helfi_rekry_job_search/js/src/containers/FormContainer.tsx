@@ -50,7 +50,7 @@ const FormContainer = () => {
 
   // Set form control values from url parameters on load
   useEffect(() => {
-    setKeyword(urlParams?.keyword || '');
+    setKeyword(urlParams?.keyword?.toString() || '');
     setTaskAreaFilter(transformTaskAreas(urlParams?.task_areas));
     setContinuous(!!urlParams?.continuous);
     setInternship(!!urlParams?.internship);
@@ -78,6 +78,8 @@ const FormContainer = () => {
 
   const handleTaskAreasChange = (option: OptionType[]) => setTaskAreaFilter(option);
   const taskAreaInputValue = taskAreaSelection.map((option: OptionType) => option.value);
+
+  const isFullSearch = !drupalSettings?.helfi_rekry_job_search?.results_page_path;
 
   return (
     <form className='job-search-form' onSubmit={handleSubmit} action={formAction}>
@@ -120,45 +122,47 @@ const FormContainer = () => {
           )}
         </div>
       </div>
-      <fieldset className='job-search-form__checkboxes'>
-        <legend className='job-search-form__checkboxes-legend'>{Drupal.t('Show only')}</legend>
-        <Checkbox
-          className='job-search-form__checkbox'
-          label={Drupal.t(CONTINUOUS.value)}
-          id={SearchComponents.CONTINUOUS}
-          onClick={() => setContinuous(!continuous)}
-          checked={continuous}
-          name={SearchComponents.CONTINUOUS}
-          value={continuous.toString()}
-        />
-        <Checkbox
-          className='job-search-form__checkbox'
-          label={Drupal.t(INTERNSHIPS.value)}
-          id={SearchComponents.INTERNSHIPS}
-          onClick={() => setInternship(!internship)}
-          checked={internship}
-          name={SearchComponents.INTERNSHIPS}
-          value={internship.toString()}
-        />
-        <Checkbox
-          className='job-search-form__checkbox'
-          label={SUMMER_JOBS.value}
-          id={SearchComponents.SUMMER_JOBS}
-          onClick={() => setSummerJobs(!summerJobs)}
-          checked={summerJobs}
-          name={SearchComponents.SUMMER_JOBS}
-          value={summerJobs.toString()}
-        />
-        <Checkbox
-          className='job-search-form__checkbox'
-          label={YOUTH_SUMMER_JOBS.value}
-          id={SearchComponents.YOUTH_SUMMER_JOBS}
-          onClick={() => setYouthSummerJobs(!youthSummerJobs)}
-          checked={youthSummerJobs}
-          name={SearchComponents.YOUTH_SUMMER_JOBS}
-          value={youthSummerJobs.toString()}
-        />
-      </fieldset>
+      {isFullSearch && (
+        <fieldset className='job-search-form__checkboxes'>
+          <legend className='job-search-form__checkboxes-legend'>{Drupal.t('Show only')}</legend>
+          <Checkbox
+            className='job-search-form__checkbox'
+            label={Drupal.t(CONTINUOUS.value)}
+            id={SearchComponents.CONTINUOUS}
+            onClick={() => setContinuous(!continuous)}
+            checked={continuous}
+            name={SearchComponents.CONTINUOUS}
+            value={continuous.toString()}
+          />
+          <Checkbox
+            className='job-search-form__checkbox'
+            label={Drupal.t(INTERNSHIPS.value)}
+            id={SearchComponents.INTERNSHIPS}
+            onClick={() => setInternship(!internship)}
+            checked={internship}
+            name={SearchComponents.INTERNSHIPS}
+            value={internship.toString()}
+          />
+          <Checkbox
+            className='job-search-form__checkbox'
+            label={SUMMER_JOBS.value}
+            id={SearchComponents.SUMMER_JOBS}
+            onClick={() => setSummerJobs(!summerJobs)}
+            checked={summerJobs}
+            name={SearchComponents.SUMMER_JOBS}
+            value={summerJobs.toString()}
+          />
+          <Checkbox
+            className='job-search-form__checkbox'
+            label={YOUTH_SUMMER_JOBS.value}
+            id={SearchComponents.YOUTH_SUMMER_JOBS}
+            onClick={() => setYouthSummerJobs(!youthSummerJobs)}
+            checked={youthSummerJobs}
+            name={SearchComponents.YOUTH_SUMMER_JOBS}
+            value={youthSummerJobs.toString()}
+          />
+        </fieldset>
+      )}
       <Button className='hds-button hds-button--primary job-search-form__submit-button' type='submit'>
         {Drupal.t('Submit', { context: 'Rekry Search Submit button' })}
       </Button>

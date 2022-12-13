@@ -23,8 +23,8 @@ const getQueryParamString = (urlParams: URLParams): string => {
         should: [
           {
             combined_fields: {
-              query: urlParams.keyword,
-              fields: [`${IndexFields.TITLE}^2`, IndexFields.EMPLOYMENT],
+              query: urlParams.keyword.toString(),
+              fields: [`${IndexFields.TITLE}^2`, IndexFields.EMPLOYMENT, IndexFields.ORGANIZATION_NAME],
             },
           },
           {
