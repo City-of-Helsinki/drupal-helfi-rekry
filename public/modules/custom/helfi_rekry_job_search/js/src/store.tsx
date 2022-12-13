@@ -41,6 +41,7 @@ export const urlUpdateAtom = atom(null, (get, set, values: URLParams) => {
   // Set new params to window.location
   const newUrl = new URL(window.location.toString());
   const newParams = new URLSearchParams();
+
   // eslint-disable-next-line array-callback-return
   for (const key in values) {
     const value = values[key as keyof URLParams];

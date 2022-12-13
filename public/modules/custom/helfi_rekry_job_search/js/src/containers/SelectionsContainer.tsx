@@ -1,5 +1,5 @@
 import { Button, IconCross } from 'hds-react';
-import { SetStateAction, WritableAtom, useAtom, useAtomValue } from 'jotai';
+import { SetStateAction, WritableAtom, useAtomValue } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
 import { Fragment, MouseEventHandler } from 'react';
 
@@ -9,6 +9,7 @@ import {
   internshipAtom,
   resetFormAtom,
   summerJobsAtom,
+  taskAreasAtom,
   taskAreasSelectionAtom,
   urlAtom,
   urlUpdateAtom,
@@ -17,9 +18,28 @@ import {
 import { CONTINUOUS, INTERNSHIPS, SUMMER_JOBS, YOUTH_SUMMER_JOBS } from '../translations';
 import OptionType from '../types/OptionType';
 
+const transformTaskAreas = (taskAreas: string[] | undefined = [], options: OptionType[] = []) => {
+  const transformedOptions: OptionType[] = [];
+
+  taskAreas.forEach((taskArea: string) => {
+    const matchedOption = options.find((option: OptionType) => option.value === taskArea);
+
+    if (matchedOption) {
+      transformedOptions.push({
+        label: matchedOption.label,
+        value: matchedOption.value,
+      });
+    }
+  });
+
+  return transformedOptions;
+};
+
 const SelectionsContainer = () => {
   const urlParams = useAtomValue(urlAtom);
   const resetForm = useUpdateAtom(resetFormAtom);
+  const taskAreaOptions = useAtomValue(taskAreasAtom);
+  const updateTaskAreas = useUpdateAtom(taskAreasSelectionAtom);
 
   const showClearButton =
     urlParams?.keyword?.length ||
@@ -34,7 +54,13 @@ const SelectionsContainer = () => {
   return (
     <div className='job-search-form__selections-wrapper'>
       <ul className='job-search-form__selections-container content-tags__tags'>
-        {showTaskAreas && <ListFilter atom={taskAreasSelectionAtom} valueKey={SearchComponents.TASK_AREAS} />}
+        {showTaskAreas && (
+          <ListFilter
+            updater={updateTaskAreas}
+            valueKey={SearchComponents.TASK_AREAS}
+            values={transformTaskAreas(urlParams.task_areas, taskAreaOptions)}
+          />
+        )}
         {urlParams.continuous && (
           <CheckboxFilterPill label={CONTINUOUS.value} atom={continuousAtom} valueKey={SearchComponents.CONTINUOUS} />
         )}
@@ -71,29 +97,29 @@ const SelectionsContainer = () => {
 export default SelectionsContainer;
 
 type ListFilterProps = {
-  atom: typeof taskAreasSelectionAtom;
+  updater: Function;
   valueKey: string;
+  values: OptionType[];
 };
 
-const ListFilter = ({ atom, valueKey }: ListFilterProps) => {
-  const [selections, setValue] = useAtom(atom);
+const ListFilter = ({ updater, values, valueKey }: ListFilterProps) => {
   const urlParams = useAtomValue(urlAtom);
   const setUrlParams = useUpdateAtom(urlUpdateAtom);
 
   const removeSelection = (value: string) => {
-    const newValue = selections;
+    const newValue = values;
     const index = newValue.findIndex((selection: OptionType) => selection.value === value);
     newValue.splice(index, 1);
-    setValue(newValue);
+    updater(newValue);
     setUrlParams({
       ...urlParams,
-      [valueKey]: newValue,
+      [valueKey]: newValue.map((selection: OptionType) => selection.value),
     });
   };
 
   return (
     <Fragment>
-      {selections.map((selection: OptionType) => (
+      {values.map((selection: OptionType) => (
         <FilterButton
           value={selection.value}
           clearSelection={() => removeSelection(selection.value)}

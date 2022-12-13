@@ -128,8 +128,13 @@ const ResultsContainer = () => {
   }
 
   // @todo add no results message.
-  if (!data?.hits?.hits) {
-    return <div>{Drupal.t('No results')}</div>;
+  if (!data?.hits?.hits.length) {
+    return (
+      <div className='job-search__no-results'>
+        <div className='job-search__no-results__heading'>{Drupal.t('No results')}</div>
+        <div>{Drupal.t('No results match the given parameters. Remove some of the filter selections.')}</div>
+      </div>
+    );
   }
 
   const results = data.hits.hits;

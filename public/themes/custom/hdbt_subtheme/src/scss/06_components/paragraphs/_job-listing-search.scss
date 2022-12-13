@@ -95,13 +95,19 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
   margin-top: $spacing-double;
 }
 
-.job-search-form__checkboxes-legend {
+.job-search-form__checkboxes-legend, .job-search__no-results__heading {
   @include font(h6);
   margin-bottom: $spacing;
 }
 
 // Use specific selector to override HDS styles
 button.job-search-form__submit-button {
+  @include breakpoint($breakpoint-l) {
+    padding-left: $spacing-quadruple;
+    padding-right: $spacing-quadruple;
+    width: auto;
+  }
+
   // Set state-specific colors for submit button
   --background-color: var(--hdbt-color-black);
   --background-color-hover: var(--hdbt-text-color);
@@ -118,6 +124,7 @@ button.job-search-form__submit-button {
   --focus-outline-color: var(--hdbt-color-black);
   margin-bottom: $spacing;
   width: 100%;
+
 }
 
 .job-search-form__selections-container {
