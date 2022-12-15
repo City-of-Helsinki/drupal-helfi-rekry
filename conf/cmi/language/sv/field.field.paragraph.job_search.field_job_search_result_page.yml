@@ -1,0 +1,2 @@
+label: Sökresultatsida
+description: 'Välj den söksida som sökningen leder dig till. Om detta fält är ifyllt visas inte söklistan på denna sida. Fyll bara i detta fält om du vill att sökningen ska omdirigera till söksidan, som också visar söklistan.'

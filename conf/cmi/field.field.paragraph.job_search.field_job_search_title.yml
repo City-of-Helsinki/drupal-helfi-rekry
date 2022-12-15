@@ -1,20 +1,20 @@
-uuid: fc5df442-5156-4fb6-b5dd-8bdf295442d3
+uuid: 150319f6-6520-4d84-84b7-89be8a0e0b83
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_job_listing_search_title
-    - paragraphs.paragraphs_type.job_listing_search
+    - field.storage.paragraph.field_job_search_title
+    - paragraphs.paragraphs_type.job_search
   module:
     - disable_field
 third_party_settings:
   disable_field:
     add_disable: none
     edit_disable: none
-id: paragraph.job_listing_search.field_job_listing_search_title
-field_name: field_job_listing_search_title
+id: paragraph.job_search.field_job_search_title
+field_name: field_job_search_title
 entity_type: paragraph
-bundle: job_listing_search
+bundle: job_search
 label: Title
 description: ''
 required: true

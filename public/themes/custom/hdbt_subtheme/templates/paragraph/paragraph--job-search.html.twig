@@ -1,9 +1,10 @@
+{{ attach_library('helfi_rekry_job_search/job-search') }}
 {% block paragraph %}
   {% embed "@hdbt/misc/component.twig" with
     {
       component_classes: [ 'component--job-listing-search'],
-      component_title: content.field_job_listing_search_title,
-      component_description: content.field_job_listing_search_desc,
+      component_title: content.field_job_search_title,
+      component_description: content.field_job_search_desc,
       component_content_class: 'job-listing-search',
     }
   %}

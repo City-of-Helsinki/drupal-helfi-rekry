@@ -1,10 +1,10 @@
-uuid: e18f4337-fe63-4a8c-bfc7-f216594b8e73
+uuid: a2ff8bc2-41a9-4195-8e2d-cb5b405b30f8
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_job_listing_search_desc
-    - paragraphs.paragraphs_type.job_listing_search
+    - field.storage.paragraph.field_job_search_desc
+    - paragraphs.paragraphs_type.job_search
   module:
     - allowed_formats
     - disable_field
@@ -15,10 +15,10 @@ third_party_settings:
   disable_field:
     add_disable: none
     edit_disable: none
-id: paragraph.job_listing_search.field_job_listing_search_desc
-field_name: field_job_listing_search_desc
+id: paragraph.job_search.field_job_search_desc
+field_name: field_job_search_desc
 entity_type: paragraph
-bundle: job_listing_search
+bundle: job_search
 label: Description
 description: ''
 required: false
