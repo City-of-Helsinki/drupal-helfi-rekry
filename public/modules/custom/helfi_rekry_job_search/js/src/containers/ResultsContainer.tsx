@@ -1,120 +1,177 @@
-import { ReactiveList, StateProvider } from '@appbaseio/reactivesearch';
-import { useRef, useState } from 'react';
+import { LoadingSpinner } from 'hds-react';
+import { useAtomValue } from 'jotai';
+import { Fragment } from 'react';
+import useSWR from 'swr';
 
 import Pagination from '../components/results/Pagination';
 import ResultCard from '../components/results/ResultCard';
-import ResultsHeader from '../components/results/ResultsHeader';
-import ResultsSort from '../components/results/ResultsSort';
 import IndexFields from '../enum/IndexFields';
-import SearchComponents from '../enum/SearchComponents';
-import useDefaultQuery from '../hooks/useDefaultQuery';
-import useWindowDimensions from '../hooks/useWindowDimensions';
-import InitialState from '../types/InitialState';
-import Job from '../types/Job';
-import OptionType from '../types/OptionType';
+import { FILTER } from '../query/queries';
+import { urlAtom } from '../store';
+import type URLParams from '../types/URLParams';
 
-type ResultsData = {
-  data: Job[];
-};
+const SIZE = 10;
 
-const SORT_NEW = 'new';
-const SORT_CLOSING = 'closing';
+const getQueryParamString = (urlParams: URLParams): string => {
+  const page = Number.isNaN(Number(urlParams.page)) ? 1 : Number(urlParams.page);
+  const must = [];
+  const should = [];
 
-const sortOptions: OptionType[] = [
-  {
-    value: SORT_NEW,
-    label: Drupal.t('Newest first', {}, { context: 'HELfi Rekry job search' }),
-  },
-  {
-    value: SORT_CLOSING,
-    label: Drupal.t('Application period ending', {}, { context: 'HELfi Rekry job search' }),
-  },
-];
-
-type ResultsContainerProps = {
-  initialValues: InitialState;
-};
-
-const ResultsContainer = ({ initialValues }: ResultsContainerProps) => {
-  const [sort, setSort] = useState<string>(initialValues.order || SORT_NEW);
-  const dimensions = useWindowDimensions();
-  const defaultQuery = useDefaultQuery();
-  const resultsWrapper = useRef<HTMLDivElement | null>(null);
-  const onPageChange = () => {
-    if (!resultsWrapper.current) {
-      return;
-    }
-
-    if (Math.abs(resultsWrapper.current.getBoundingClientRect().y) < window.pageYOffset) {
-      resultsWrapper.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const pages = dimensions.isMobile ? 3 : 5;
-
-  const getSortValue = () => {
-    return sortOptions.find((option: OptionType) => option.value === sort);
-  };
-
-  let dataField = sort === SORT_CLOSING ? IndexFields.UNPUBLISH_ON : IndexFields.PUBLICATION_STARTS;
-  let sortBy: 'desc' | 'asc' = sort === SORT_CLOSING ? 'asc' : 'desc';
-
-  return (
-    <div ref={resultsWrapper}>
-      <div className='job-listing-search__result-actions'>
-        <StateProvider>{({ searchState }) => <ResultsHeader {...searchState} />}</StateProvider>
-        <ResultsSort options={sortOptions} value={getSortValue()} setValue={setSort} />
-      </div>
-      <ReactiveList
-        className='jobs-container'
-        componentId={SearchComponents.RESULTS}
-        // Seems like a bug in ReactiveSearch.
-        // Setting defaultPage prop does nothing.
-        // currentPage props used in source but missing in props type declarations.
-        // @ts-ignore
-        currentPage={initialValues[SearchComponents.RESULTS]}
-        dataField={dataField}
-        defaultQuery={() => ({
-          aggs: {
-            [IndexFields.NUMBER_OF_JOBS]: {
-              sum: {
-                field: IndexFields.NUMBER_OF_JOBS,
-              },
+  if (urlParams.keyword && urlParams.keyword.length > 0) {
+    must.push({
+      bool: {
+        should: [
+          {
+            combined_fields: {
+              query: urlParams.keyword.toString(),
+              fields: [`${IndexFields.TITLE}^2`, IndexFields.EMPLOYMENT, IndexFields.ORGANIZATION_NAME],
             },
           },
-          query: {
-            ...defaultQuery,
+          {
+            wildcard: {
+              [`${IndexFields.TITLE}.keyword`]: `*${urlParams.keyword}*`,
+            },
           },
-        })}
-        onPageChange={onPageChange}
-        pages={pages}
-        pagination={true}
-        render={({ data }: ResultsData) => (
-          <div className='job-listing-search__result--list'>
-            {data.map((item: Job) => (
-              <ResultCard key={item.uuid[0]} {...item} />
-            ))}
-          </div>
-        )}
-        renderNoResults={() => (
-          <div className='job-listing-search__no-results'>
-            <div>
-              <strong>{Drupal.t('No results found', {}, { context: 'Job search: no results title' })}</strong>
-            </div>
-            <div>
-              {Drupal.t(
-                'No results found with your selections. Remove some of the filters.',
-                {},
-                { context: 'Job search: no results text' }
-              )}
-            </div>
-          </div>
-        )}
-        renderPagination={(props) => <Pagination {...props} />}
-        showResultStats={false}
-        sortBy={sortBy}
-        size={10}
-      />
+        ],
+      },
+    });
+  }
+
+  if (urlParams?.task_areas?.length) {
+    must.push({
+      terms: {
+        [`${IndexFields.TASK_AREA}.keyword`]: urlParams.task_areas,
+      },
+    });
+  }
+
+  if (urlParams.continuous) {
+    should.push({
+      term: {
+        [IndexFields.CONTINUOUS]: true,
+      },
+    });
+  }
+
+  if (urlParams.internship) {
+    should.push({
+      term: {
+        [IndexFields.INTERNSHIP]: true,
+      },
+    });
+  }
+
+  if (urlParams.summer_jobs) {
+    should.push({
+      term: {
+        [IndexFields.SUMMER_JOB]: true,
+      },
+    });
+  }
+
+  if (urlParams.youth_summer_jobs) {
+    should.push({
+      term: {
+        [IndexFields.YOUTH_SUMMER_JOB]: true,
+      },
+    });
+  }
+
+  const query: any = {
+    bool: {
+      ...FILTER,
+    },
+  };
+
+  if (Object.keys(must).length) {
+    query.bool.must = must;
+  }
+
+  if (should.length) {
+    query.bool.should = should;
+    query.bool.minimum_should_match = 1;
+  }
+
+  return JSON.stringify({
+    aggs: {
+      [IndexFields.NUMBER_OF_JOBS]: {
+        sum: {
+          field: IndexFields.NUMBER_OF_JOBS,
+        },
+      },
+    },
+    size: SIZE,
+    from: SIZE * (page - 1),
+    query: query,
+  });
+};
+
+const ResultsContainer = () => {
+  const urlParams: URLParams = useAtomValue(urlAtom);
+  const fetcher = () => {
+    const proxyUrl = drupalSettings?.helfi_rekry_job_search?.elastic_proxy_url;
+    const url: string | undefined = proxyUrl || process.env.REACT_APP_ELASTIC_URL;
+
+    return fetch(`${url}/_search`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: getQueryParamString(urlParams),
+    }).then((res) => res.json());
+  };
+
+  const { data, error } = useSWR(JSON.stringify(urlParams), fetcher);
+
+  if (!data && !error) {
+    return <LoadingSpinner />;
+  }
+
+  // @todo add no results message.
+  if (!data?.hits?.hits.length) {
+    return (
+      <div className='job-search__no-results'>
+        <div className='job-search__no-results__heading'>{Drupal.t('No results')}</div>
+        <div>{Drupal.t('No results match the given parameters. Remove some of the filter selections.')}</div>
+      </div>
+    );
+  }
+
+  const results = data.hits.hits;
+  const total = data.hits.total.value;
+  const pages = Math.floor(total / SIZE);
+  const addLastPage = total > SIZE && total % SIZE;
+
+  if (error) {
+    console.warn('Error loading data');
+    return null;
+  }
+
+  // Total number of available jobs
+  const jobs: number = data?.aggregations?.[IndexFields.NUMBER_OF_JOBS]?.value;
+
+  return (
+    <div className='job-search__results'>
+      <div className='job-search__results-stats'>
+        <div className='job-listing-search__count-container'>
+          {!isNaN(jobs) && !isNaN(total) && (
+            <Fragment>
+              <span className='job-listing-search__count'>{jobs}</span>
+              {' ' +
+                Drupal.t(
+                  'open jobs (@listings listings)',
+                  { '@listings': total },
+                  { context: 'Job search results statline' }
+                )}
+            </Fragment>
+          )}
+        </div>
+        <div></div>
+      </div>
+      {results.map((hit: any) => (
+        <ResultCard key={hit._id} {...hit._source} />
+      ))}
+      <Pagination pages={5} totalPages={addLastPage ? pages + 1 : pages} />
     </div>
   );
 };

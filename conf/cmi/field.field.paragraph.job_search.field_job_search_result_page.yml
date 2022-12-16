@@ -1,0 +1,37 @@
+uuid: 7bc94ecb-1a33-4e68-b942-8f750fccb3ed
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_job_search_result_page
+    - node.type.landing_page
+    - node.type.page
+    - paragraphs.paragraphs_type.job_search
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: none
+id: paragraph.job_search.field_job_search_result_page
+field_name: field_job_search_result_page
+entity_type: paragraph
+bundle: job_search
+label: 'Search result page'
+description: 'Select the search page to which the search will direct you. If this field is filled, the search listing is not displayed on this page. Fill in this field only if you want the search to redirect to the search page, which also shows the search listing.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      landing_page: landing_page
+      page: page
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: landing_page
+field_type: entity_reference

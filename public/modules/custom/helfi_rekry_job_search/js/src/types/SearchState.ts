@@ -6,7 +6,7 @@ type SearchStateItem = {
       value: number;
     };
   };
-  value: OptionType[];
+  value: OptionType[] | string | number | boolean;
   hits?: {
     hidden: number;
     hits: any[];

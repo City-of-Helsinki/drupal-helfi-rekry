@@ -89,6 +89,7 @@ const ResultCard = ({
         </span>
         <span className='job-listing__metadata__content'>{field_job_duration || '-'}</span>
       </div>
+      <span className='hel-icon hel-icon--arrow-right' aria-hidden='true'></span>
     </div>
   );
 };
