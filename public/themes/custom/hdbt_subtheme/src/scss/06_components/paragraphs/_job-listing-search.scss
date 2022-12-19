@@ -48,7 +48,8 @@
   margin-bottom: $spacing-double;
 }
 
-.job-search-form__dropdowns {
+.job-search-form__dropdowns__upper {
+  @include flex-gap($spacing-and-half);
   display: flex;
 }
 
@@ -66,6 +67,10 @@
 .job-search-form__filter {
   margin-bottom: $spacing;
   width: 100%;
+
+  @include breakpoint($breakpoint-l) {
+    margin-bottom: $spacing-and-half;
+  }
 }
 
 // Override some fieldset default styles here

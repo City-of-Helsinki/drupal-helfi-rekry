@@ -2,7 +2,8 @@ import { atom } from 'jotai';
 
 import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS } from './query/queries';
 import type OptionType from './types/OptionType';
-import Term from './types/Term';
+import type Result from './types/Result';
+import type Term from './types/Term';
 import type URLParams from './types/URLParams';
 
 const getParams = (searchParams: URLSearchParams) => {

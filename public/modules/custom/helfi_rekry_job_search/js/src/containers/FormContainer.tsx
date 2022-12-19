@@ -1,7 +1,7 @@
 import { Button, Checkbox, Select, TextInput } from 'hds-react';
 import { useAtom, useAtomValue } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 import SearchComponents from '../enum/SearchComponents';
 import { transformDropdownsValues } from '../helpers/Params';
@@ -70,6 +70,7 @@ const FormContainer = () => {
   const taskAreaInputValue = taskAreaSelection.map((option: OptionType) => option.value);
 
   const handleEmploymentChange = (option: OptionType[]) => setEmploymentFilter(option);
+  const employmentInputValue = employmentSelection.map((option: OptionType) => option.value);
 
   const isFullSearch = !drupalSettings?.helfi_rekry_job_search?.results_page_path;
 
@@ -85,34 +86,41 @@ const FormContainer = () => {
         placeholder={Drupal.t('Eg. title, office, department', { context: 'Search keyword placeholder' })}
       />
       <div className='job-search-form__dropdowns'>
-        <div className='job-search-form__filter job-search-form__dropdown--upper'>
-          <Select
-            clearButtonAriaLabel=''
-            className='job-search-form__dropdown'
-            selectedItemRemoveButtonAriaLabel=''
-            placeholder={Drupal.t('All task areas', { context: 'Task areas filter placeholder' })}
-            multiselect
-            label={Drupal.t('Task area', { context: 'Task areas filter label' })}
-            // @ts-ignore
-            options={taskAreasOptions}
-            value={taskAreaSelection}
-            id={SearchComponents.TASK_AREAS}
-            onChange={handleTaskAreasChange}
-          />
-          <Select
-            clearButtonAriaLabel=''
-            className='job-search-form__dropdown'
-            selectedItemRemoveButtonAriaLabel=''
-            placeholder={Drupal.t('All employment type options', { context: 'Employment filter placeholder' })}
-            multiselect
-            label={Drupal.t('Task area', { context: 'Employment filter label' })}
-            // @ts-ignore
-            options={employmentOptions}
-            value={employmentSelection}
-            id={SearchComponents.TASK_AREAS}
-            onChange={handleEmploymentChange}
-          />
-          {formAction && (
+        <div className='job-search-form__dropdowns__upper'>
+          <div className='job-search-form__filter job-search-form__dropdown--upper'>
+            <Select
+              clearButtonAriaLabel=''
+              className='job-search-form__dropdown'
+              selectedItemRemoveButtonAriaLabel=''
+              placeholder={Drupal.t('All task areas', { context: 'Task areas filter placeholder' })}
+              multiselect
+              label={Drupal.t('Task area', { context: 'Task areas filter label' })}
+              // @ts-ignore
+              options={taskAreasOptions}
+              value={taskAreaSelection}
+              id={SearchComponents.TASK_AREAS}
+              onChange={handleTaskAreasChange}
+            />
+          </div>
+          <div className='job-search-form__filter job-search-form__dropdown--upper'>
+            <Select
+              clearButtonAriaLabel=''
+              className='job-search-form__dropdown'
+              selectedItemRemoveButtonAriaLabel=''
+              placeholder={Drupal.t('All employment type options', { context: 'Employment filter placeholder' })}
+              multiselect
+              label={Drupal.t('Employment type', { context: 'Employment filter label' })}
+              // @ts-ignore
+              options={employmentOptions}
+              value={employmentSelection}
+              id={SearchComponents.TASK_AREAS}
+              onChange={handleEmploymentChange}
+            />
+          </div>
+        </div>
+        {/** Hidden select elements to enable native form functions */}
+        {formAction && (
+          <Fragment>
             <select
               aria-hidden
               multiple
@@ -124,8 +132,19 @@ const FormContainer = () => {
                 <option key={value} value={value} selected />
               ))}
             </select>
-          )}
-        </div>
+            <select
+              aria-hidden
+              multiple
+              value={employmentInputValue}
+              name={SearchComponents.EMPLOYMENT}
+              style={{ display: 'none' }}
+            >
+              {employmentInputValue.map((value: string) => (
+                <option key={value} value={value} selected />
+              ))}
+            </select>
+          </Fragment>
+        )}
       </div>
       {isFullSearch && (
         <fieldset className='job-search-form__checkboxes'>
