@@ -100,7 +100,8 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
   margin-top: $spacing-double;
 }
 
-.job-search-form__checkboxes-legend, .job-search__no-results__heading {
+.job-search-form__checkboxes-legend,
+.job-search__no-results__heading {
   @include font(h6);
   margin-bottom: $spacing;
 }
@@ -129,7 +130,6 @@ button.job-search-form__submit-button {
   --focus-outline-color: var(--hdbt-color-black);
   margin-bottom: $spacing;
   width: 100%;
-
 }
 
 .job-search-form__selections-container {
