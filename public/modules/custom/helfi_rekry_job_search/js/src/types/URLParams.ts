@@ -3,6 +3,7 @@ import OptionType from './OptionType';
 
 type URLParams = {
   continuous?: boolean;
+  employment?: string[];
   internship?: boolean;
   keyword?: string;
   task_areas?: string[];

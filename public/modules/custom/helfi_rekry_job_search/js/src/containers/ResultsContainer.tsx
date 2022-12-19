@@ -5,109 +5,16 @@ import useSWR from 'swr';
 
 import Pagination from '../components/results/Pagination';
 import ResultCard from '../components/results/ResultCard';
+import Global from '../enum/Global';
 import IndexFields from '../enum/IndexFields';
-import { FILTER } from '../query/queries';
+import useQueryString from '../hooks/useQueryString';
 import { urlAtom } from '../store';
 import type URLParams from '../types/URLParams';
 
-const SIZE = 10;
-
-const getQueryParamString = (urlParams: URLParams): string => {
-  const page = Number.isNaN(Number(urlParams.page)) ? 1 : Number(urlParams.page);
-  const must = [];
-  const should = [];
-
-  if (urlParams.keyword && urlParams.keyword.length > 0) {
-    must.push({
-      bool: {
-        should: [
-          {
-            combined_fields: {
-              query: urlParams.keyword.toString(),
-              fields: [`${IndexFields.TITLE}^2`, IndexFields.EMPLOYMENT, IndexFields.ORGANIZATION_NAME],
-            },
-          },
-          {
-            wildcard: {
-              [`${IndexFields.TITLE}.keyword`]: `*${urlParams.keyword}*`,
-            },
-          },
-        ],
-      },
-    });
-  }
-
-  if (urlParams?.task_areas?.length) {
-    must.push({
-      terms: {
-        [`${IndexFields.TASK_AREA}.keyword`]: urlParams.task_areas,
-      },
-    });
-  }
-
-  if (urlParams.continuous) {
-    should.push({
-      term: {
-        [IndexFields.CONTINUOUS]: true,
-      },
-    });
-  }
-
-  if (urlParams.internship) {
-    should.push({
-      term: {
-        [IndexFields.INTERNSHIP]: true,
-      },
-    });
-  }
-
-  if (urlParams.summer_jobs) {
-    should.push({
-      term: {
-        [IndexFields.SUMMER_JOB]: true,
-      },
-    });
-  }
-
-  if (urlParams.youth_summer_jobs) {
-    should.push({
-      term: {
-        [IndexFields.YOUTH_SUMMER_JOB]: true,
-      },
-    });
-  }
-
-  const query: any = {
-    bool: {
-      ...FILTER,
-    },
-  };
-
-  if (Object.keys(must).length) {
-    query.bool.must = must;
-  }
-
-  if (should.length) {
-    query.bool.should = should;
-    query.bool.minimum_should_match = 1;
-  }
-
-  return JSON.stringify({
-    aggs: {
-      [IndexFields.NUMBER_OF_JOBS]: {
-        sum: {
-          field: IndexFields.NUMBER_OF_JOBS,
-        },
-      },
-    },
-    size: SIZE,
-    from: SIZE * (page - 1),
-    query: query,
-  });
-};
-
 const ResultsContainer = () => {
+  const { size } = Global;
   const urlParams: URLParams = useAtomValue(urlAtom);
+  const queryString = useQueryString(urlParams);
   const fetcher = () => {
     const proxyUrl = drupalSettings?.helfi_rekry_job_search?.elastic_proxy_url;
     const url: string | undefined = proxyUrl || process.env.REACT_APP_ELASTIC_URL;
@@ -117,17 +24,16 @@ const ResultsContainer = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: getQueryParamString(urlParams),
+      body: queryString,
     }).then((res) => res.json());
   };
 
-  const { data, error } = useSWR(JSON.stringify(urlParams), fetcher);
+  const { data, error } = useSWR(queryString, fetcher);
 
   if (!data && !error) {
     return <LoadingSpinner />;
   }
 
-  // @todo add no results message.
   if (!data?.hits?.hits.length) {
     return (
       <div className='job-search__no-results'>
@@ -139,8 +45,8 @@ const ResultsContainer = () => {
 
   const results = data.hits.hits;
   const total = data.hits.total.value;
-  const pages = Math.floor(total / SIZE);
-  const addLastPage = total > SIZE && total % SIZE;
+  const pages = Math.floor(total / size);
+  const addLastPage = total > size && total % size;
 
   if (error) {
     console.warn('Error loading data');

@@ -4,8 +4,11 @@ import { useUpdateAtom } from 'jotai/utils';
 import React, { useEffect } from 'react';
 
 import SearchComponents from '../enum/SearchComponents';
+import { transformDropdownsValues } from '../helpers/Params';
 import {
   continuousAtom,
+  employmentAtom,
+  employmentSelectionAtom,
   internshipAtom,
   keywordAtom,
   summerJobsAtom,
@@ -30,28 +33,14 @@ const FormContainer = () => {
   const setUrlParams = useUpdateAtom(urlUpdateAtom);
   const [taskAreaSelection, setTaskAreaFilter] = useAtom(taskAreasSelectionAtom);
   const taskAreasOptions = useAtomValue(taskAreasAtom);
-
-  const transformTaskAreas = (taskAreas: string[] | undefined = []) => {
-    const transformedOptions: OptionType[] = [];
-
-    taskAreas.forEach((taskArea: string) => {
-      const matchedOption = taskAreasOptions.find((option: OptionType) => option.value === taskArea);
-
-      if (matchedOption) {
-        transformedOptions.push({
-          label: matchedOption.label,
-          value: matchedOption.value,
-        });
-      }
-    });
-
-    return transformedOptions;
-  };
+  const employmentOptions = useAtomValue(employmentAtom);
+  const [employmentSelection, setEmploymentFilter] = useAtom(employmentSelectionAtom);
 
   // Set form control values from url parameters on load
   useEffect(() => {
     setKeyword(urlParams?.keyword?.toString() || '');
-    setTaskAreaFilter(transformTaskAreas(urlParams?.task_areas));
+    setTaskAreaFilter(transformDropdownsValues(urlParams?.task_areas, taskAreasOptions));
+    setEmploymentFilter(transformDropdownsValues(urlParams?.employment, employmentOptions));
     setContinuous(!!urlParams?.continuous);
     setInternship(!!urlParams?.internship);
     setSummerJobs(!!urlParams?.summer_jobs);
@@ -65,6 +54,7 @@ const FormContainer = () => {
 
     event.preventDefault();
     setUrlParams({
+      employment: employmentSelection.map((selection: OptionType) => selection.value),
       keyword,
       continuous,
       internship,
@@ -78,6 +68,8 @@ const FormContainer = () => {
 
   const handleTaskAreasChange = (option: OptionType[]) => setTaskAreaFilter(option);
   const taskAreaInputValue = taskAreaSelection.map((option: OptionType) => option.value);
+
+  const handleEmploymentChange = (option: OptionType[]) => setEmploymentFilter(option);
 
   const isFullSearch = !drupalSettings?.helfi_rekry_job_search?.results_page_path;
 
@@ -106,6 +98,19 @@ const FormContainer = () => {
             value={taskAreaSelection}
             id={SearchComponents.TASK_AREAS}
             onChange={handleTaskAreasChange}
+          />
+          <Select
+            clearButtonAriaLabel=''
+            className='job-search-form__dropdown'
+            selectedItemRemoveButtonAriaLabel=''
+            placeholder={Drupal.t('All employment type options', { context: 'Employment filter placeholder' })}
+            multiselect
+            label={Drupal.t('Task area', { context: 'Employment filter label' })}
+            // @ts-ignore
+            options={employmentOptions}
+            value={employmentSelection}
+            id={SearchComponents.TASK_AREAS}
+            onChange={handleEmploymentChange}
           />
           {formAction && (
             <select

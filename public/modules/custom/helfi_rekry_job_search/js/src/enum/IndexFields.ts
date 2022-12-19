@@ -3,6 +3,7 @@ const IndexFields = {
   CONTINUOUS: 'is_continuous',
   EMPLOYMENT: 'field_employment',
   EMPLOYMENT_TYPE: 'field_employment_type',
+  ENTITY_TYPE: 'entity_type',
   INTERNSHIP: 'is_internship',
   JOB_DURATION: 'field_job_duration',
   NUMBER_OF_JOBS: 'field_jobs',

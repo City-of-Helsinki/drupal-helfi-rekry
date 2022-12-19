@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-import { AGGREGATIONS } from './query/queries';
+import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS } from './query/queries';
 import type OptionType from './types/OptionType';
 import type URLParams from './types/URLParams';
 
@@ -71,27 +71,68 @@ export const pageAtom = atom((get) => Number(get(urlAtom)?.page) || 1);
 export const configurationsAtom = atom(async () => {
   const proxyUrl = drupalSettings?.helfi_rekry_job_search?.elastic_proxy_url;
   const url: string | undefined = proxyUrl || process.env.REACT_APP_ELASTIC_URL;
+  const ndjsonHeader = '{}';
 
-  return fetch(`${url}/_search`, {
+  const body =
+    ndjsonHeader +
+    '\n' +
+    JSON.stringify(AGGREGATIONS) +
+    '\n' +
+    ndjsonHeader +
+    '\n' +
+    JSON.stringify(EMPLOYMENT_FILTER_OPTIONS) +
+    '\n';
+
+  return fetch(`${url}/_msearch`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-ndjson',
     },
-    body: JSON.stringify(AGGREGATIONS),
+    body: body,
   })
     .then((res) => res.json())
-    .then((json) => json.aggregations);
+    .then((json) => {
+      // Simplify response for later use.
+      const [aggs, options] = json?.responses;
+
+      return {
+        occupations: aggs?.aggregations?.occupations?.buckets || [],
+        employment: aggs?.aggregations?.employment?.buckets || [],
+        employmentOptions: options?.hits?.hits || [],
+        employmentType: aggs?.aggregations?.employment_type?.buckets || [],
+      };
+    });
 });
 
-// TODO fetch data from elastic
 export const taskAreasAtom = atom<OptionType[]>((get) => {
-  const conf = get(configurationsAtom);
-  return conf.occupations.buckets.map(({ key, doc_count }: { key: string; doc_count: number }) => {
-    return { label: `${key} (${doc_count})`, value: key.trim() as string };
+  const occupations = get(configurationsAtom)?.occupations;
+  return occupations.map(({ key, doc_count }: { key: string; doc_count: number }) => {
+    return {
+      label: `${key} (${doc_count})`,
+      simpleLabel: key,
+      value: key.trim() as string,
+    };
   }) as OptionType[];
 });
-//TODO connect these two
 export const taskAreasSelectionAtom = atom<OptionType[]>([] as OptionType[]);
+
+export const employmentAtom = atom<OptionType[]>((get) => {
+  const { employment, employmentOptions, employmentType } = get(configurationsAtom);
+
+  const getCount = (tid: number) => {
+    const matchedAgg = employment.concat(employmentType).find((aggData: any) => aggData.key === tid);
+
+    return matchedAgg?.doc_count || 0;
+  };
+
+  return employmentOptions.map((term: any) => ({
+    label: `${term._source.name} (${getCount(term._source.tid[0])})`,
+    simpleLabel: term._source.name,
+    value: term._source.tid[0],
+  }));
+});
+export const employmentSelectionAtom = atom<OptionType[]>([] as OptionType[]);
+
 export const continuousAtom = atom<boolean>(false);
 export const internshipAtom = atom<boolean>(false);
 export const summerJobsAtom = atom<boolean>(false);
