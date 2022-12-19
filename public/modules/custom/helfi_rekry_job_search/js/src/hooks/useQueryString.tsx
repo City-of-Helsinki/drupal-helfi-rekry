@@ -37,18 +37,19 @@ const useQueryString = (urlParams: URLParams): string => {
     });
   }
 
+  // These values can match either employment or employment_type IDs
   if (urlParams?.employment?.length) {
     must.push({
       bool: {
         should: [
           {
             terms: {
-              employment_id: urlParams.employment,
+              [IndexFields.EMPLOYMENT_ID]: urlParams.employment,
             },
           },
           {
             terms: {
-              employment_type_id: urlParams.employment,
+              [IndexFields.EMPLOYMENT_TYPE_ID]: urlParams.employment,
             },
           },
         ],

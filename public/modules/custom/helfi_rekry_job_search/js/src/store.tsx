@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 
 import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS } from './query/queries';
 import type OptionType from './types/OptionType';
+import Term from './types/Term';
 import type URLParams from './types/URLParams';
 
 const getParams = (searchParams: URLSearchParams) => {
@@ -119,13 +120,13 @@ export const taskAreasSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 export const employmentAtom = atom<OptionType[]>((get) => {
   const { employment, employmentOptions, employmentType } = get(configurationsAtom);
 
-  const getCount = (tid: number) => {
+  const getCount = (tid: string) => {
     const matchedAgg = employment.concat(employmentType).find((aggData: any) => aggData.key === tid);
 
     return matchedAgg?.doc_count || 0;
   };
 
-  return employmentOptions.map((term: any) => ({
+  return employmentOptions.map((term: Result<Term>) => ({
     label: `${term._source.name} (${getCount(term._source.tid[0])})`,
     simpleLabel: term._source.name,
     value: term._source.tid[0],
