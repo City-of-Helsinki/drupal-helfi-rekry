@@ -1,16 +1,17 @@
-uuid: 4d83a346-57fc-4b17-9775-c99763877c7e
+uuid: b50367fc-f077-4767-b81c-72bf59e2f143
 langcode: en
 status: true
 dependencies:
   module:
+    - node
     - paragraphs
-    - text
-id: paragraph.field_job_listing_search_desc
-field_name: field_job_listing_search_desc
+id: paragraph.field_job_search_result_page
+field_name: field_job_search_result_page
 entity_type: paragraph
-type: text_long
-settings: {  }
-module: text
+type: entity_reference
+settings:
+  target_type: node
+module: core
 locked: false
 cardinality: 1
 translatable: true
