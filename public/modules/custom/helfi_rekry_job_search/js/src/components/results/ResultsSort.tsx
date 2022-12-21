@@ -15,7 +15,7 @@ const options: OptionType[] = [
     value: sortOptions.newestFirst,
   },
   {
-    label: Drupal.t('Closing', {}, { context: 'Job search' }),
+    label: Drupal.t('Closing date', {}, { context: 'Job search' }),
     value: sortOptions.closing,
   },
 ];
