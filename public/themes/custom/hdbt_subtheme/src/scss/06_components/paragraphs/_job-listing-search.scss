@@ -1,3 +1,6 @@
+// Minimum width for the sort element. Stops weird behavior on wider screens.
+$sort-minimum-width: 283px;
+
 .component--job-listing-search {
   background-color: $color-silver-light;
 }
@@ -26,10 +29,19 @@
 
 .job-listing-search__count-container {
   @include font('lead');
+  margin-bottom: $spacing;
 
   .job-listing-search__count {
     font-weight: $font-weight-bold;
   }
+
+  @include breakpoint($breakpoint-l) {
+    margin-bottom: 0;
+  }
+}
+
+.job-listing-search__sort {
+  min-width: $sort-minimum-width;
 }
 
 .job-listing-search__result--list {
@@ -49,8 +61,10 @@
 }
 
 .job-search-form__dropdowns__upper {
-  @include flex-gap($spacing-and-half);
-  display: flex;
+  @include breakpoint($breakpoint-l) {
+    @include flex-gap($spacing-and-half);
+    display: flex;
+  }
 }
 
 // Override default li styles
@@ -180,4 +194,10 @@ button.job-search-form__remove-selection-button:not(:disabled) {
   margin-bottom: $spacing-double;
   margin-left: $spacing;
   margin-right: $spacing;
+
+  @include breakpoint($breakpoint-l) {
+    align-items: flex-end;
+    display: flex;
+    justify-content: space-between;
+  }
 }

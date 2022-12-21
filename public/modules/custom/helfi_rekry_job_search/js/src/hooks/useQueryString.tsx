@@ -4,7 +4,7 @@ import { FILTER } from '../query/queries';
 import URLParams from '../types/URLParams';
 
 const useQueryString = (urlParams: URLParams): string => {
-  const { size } = Global;
+  const { size, sortOptions } = Global;
   const page = Number.isNaN(Number(urlParams.page)) ? 1 : Number(urlParams.page);
   const must = [];
   const should = [];
@@ -105,6 +105,19 @@ const useQueryString = (urlParams: URLParams): string => {
     query.bool.minimum_should_match = 1;
   }
 
+  const sort =
+    urlParams?.sort === sortOptions.closing
+      ? {
+          [IndexFields.UNPUBLISH_ON]: {
+            order: 'asc',
+          },
+        }
+      : {
+          [IndexFields.PUBLICATION_STARTS]: {
+            order: 'desc',
+          },
+        };
+
   return JSON.stringify({
     aggs: {
       [IndexFields.NUMBER_OF_JOBS]: {
@@ -113,6 +126,7 @@ const useQueryString = (urlParams: URLParams): string => {
         },
       },
     },
+    sort: [sort],
     size: size,
     from: size * (page - 1),
     query: query,
