@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+
+msgctxt "HELfi Rekry job search keyword placeholder"
+msgid "Eg. title, location, department"
+msgstr "Esim. nimike, toimipiste tai yksikkö"
+
+msgctxt "Job search results statline"
+msgid "open positions"
+msgstr "avointa työpaikkaa (@listings ilmoitusta)"
+
+msgctxt "HELfi Rekry job search"
+msgid "Sort by"
+msgstr "Järjestys"
+
+msgctxt "Job search clear button aria label"
+msgid "Clear selection"
+msgstr "Tyhjennä kaikki valinnat"
+
+msgctxt "Job search remove item aria label"
+msgid "Remove item"
+msgstr "Poista valinta"
+
+msgctxt "Task areas filter label"
+msgid "Task area"
+msgstr "Ammattiala"
+
+msgctxt "Task areas filter placeholder"
+msgid "All fields"
+msgstr "Kaikki ammattialat"
+
+msgctxt "Employment filter label"
+msgid "Type of employment relationship"
+msgstr "Palvelussuhteen tyyppi"
+
+msgctxt "Employment filter placeholder"
+msgid "All employment relationship options"
+msgstr "Kaikki palvelussuhteen tyypit"
+
+msgctxt "Language filter label"
+msgid "Language"
+msgstr "Ilmoituksen kieli"
+
+msgctxt "Language placeholder"
+msgid "All languages"
+msgstr "Kaikki kielet"
+
+msgctxt "Organisation filter label"
+msgid "Organisation"
+msgstr "Organisaatio"
+
+msgctxt "Organisation placeholder"
+msgid "All organisations"
+msgstr "Kaikki organisaatiot"
+
+msgctxt "Location filter label"
+msgid "Location of the workplace"
+msgstr "Työpaikan sijainti"
+
+msgctxt "Location placeholder"
+msgid "All areas"
+msgstr "Kaikki alueet"
+
+msgctxt "Checkbox filters heading"
+msgid "Filters"
+msgstr "Näytä vain"
+
+msgctxt "Job search"
+msgid "Open-ended vacancies"
+msgstr "Jatkuvan haun tehtävät"
+
+msgctxt "Job search"
+msgid "Practical training"
+msgstr "Harjoittelut"
+
+msgctxt "Job search"
+msgid "summer jobs and substitute vacancies"
+msgstr "Kesätyöt ja sijaisuudet"
+
+msgctxt "Job search"
+msgid "Summer jobs for young people"
+msgstr "Nuorten kesätyöt"
+
+msgctxt "Job search"
+msgid "Newest first"
+msgstr "Uusin ensin"
+
+msgctxt "Job search"
+msgid "Closing date"
+msgstr "Sulkeutuvat"
+
+msgctxt "Job search clear selections"
+msgid "Clear selections"
+msgstr "Töm urvalet"
