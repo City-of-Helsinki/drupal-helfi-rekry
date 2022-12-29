@@ -17,6 +17,7 @@ const IndexFields = {
   RECRUITMENT_TYPE: 'field_recruitment_type',
   SUMMER_JOB: 'is_summer_job',
   TASK_AREA: 'field_task_area',
+  TASK_AREA_ID: 'task_area_id',
   LANGCODE: 'langcode',
   STATUS: 'status',
   TID: 'tid',

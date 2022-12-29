@@ -1,7 +1,8 @@
 import { atom } from 'jotai';
 
+import { bucketToMap } from './helpers/Aggregations';
 import { getLanguageLabel } from './helpers/Language';
-import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS, LANGUAGE_OPTIONS } from './query/queries';
+import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS, LANGUAGE_OPTIONS, TASK_AREA_OPTIONS } from './query/queries';
 import type { AggregationItem } from './types/Aggregations';
 import type OptionType from './types/OptionType';
 import type Result from './types/Result';
@@ -84,6 +85,10 @@ export const configurationsAtom = atom(async () => {
     '\n' +
     ndjsonHeader +
     '\n' +
+    JSON.stringify(TASK_AREA_OPTIONS) +
+    '\n' +
+    ndjsonHeader +
+    '\n' +
     JSON.stringify(EMPLOYMENT_FILTER_OPTIONS) +
     '\n' +
     ndjsonHeader +
@@ -100,10 +105,11 @@ export const configurationsAtom = atom(async () => {
     .then((res) => res.json())
     .then((json) => {
       // Simplify response for later use.
-      const [aggs, options, languages] = json?.responses;
+      const [aggs, taskAreas, options, languages] = json?.responses;
 
       return {
-        occupations: aggs?.aggregations?.occupations?.buckets || [],
+        taskAreaOptions: taskAreas?.hits?.hits || [],
+        taskAreas: aggs?.aggregations?.occupations?.buckets || [],
         employment: aggs?.aggregations?.employment?.buckets || [],
         employmentOptions: options?.hits?.hits || [],
         employmentType: aggs?.aggregations?.employment_type?.buckets || [],
@@ -113,14 +119,19 @@ export const configurationsAtom = atom(async () => {
 });
 
 export const taskAreasAtom = atom<OptionType[]>((get) => {
-  const occupations = get(configurationsAtom)?.occupations;
-  return occupations.map(({ key, doc_count }: AggregationItem) => {
+  const aggs = bucketToMap(get(configurationsAtom)?.taskAreas);
+  const options = get(configurationsAtom)?.taskAreaOptions;
+
+  return options.map((option: Result<Term>) => {
+    const count = aggs.get(option._source.tid[0]) || 0;
+    const name = option._source.name;
+
     return {
-      label: `${key} (${doc_count})`,
-      simpleLabel: key,
-      value: key.trim() as string,
+      label: `${name} (${count})`,
+      simpleLabel: name,
+      value: option._source.tid[0],
     };
-  }) as OptionType[];
+  });
 });
 export const taskAreasSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 

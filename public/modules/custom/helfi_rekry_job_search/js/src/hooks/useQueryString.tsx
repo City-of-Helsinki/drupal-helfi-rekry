@@ -32,7 +32,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams?.task_areas?.length) {
     must.push({
       terms: {
-        [`${IndexFields.TASK_AREA}.keyword`]: urlParams.task_areas,
+        [IndexFields.TASK_AREA_ID]: urlParams.task_areas,
       },
     });
   }

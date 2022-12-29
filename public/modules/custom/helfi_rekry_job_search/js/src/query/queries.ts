@@ -21,12 +21,19 @@ export const nodeFilter = {
   term: { [IndexFields.ENTITY_TYPE]: 'node' },
 };
 
+// Alphabetical sort for terms
+const alphabeticallySortTerms = {
+  'name.keyword': {
+    order: 'asc',
+  },
+};
+
 // Base aggregations
 export const AGGREGATIONS = {
   aggs: {
     occupations: {
       terms: {
-        field: 'field_task_area.keyword',
+        field: 'task_area_id',
       },
     },
     employment: {
@@ -60,6 +67,8 @@ export const EMPLOYMENT_FILTER_OPTIONS = {
       minimum_should_match: 1,
     },
   },
+  sort: [{ ...alphabeticallySortTerms }],
+  size: 100,
 };
 
 // Get all eligible language options
@@ -76,4 +85,28 @@ export const LANGUAGE_OPTIONS = {
       field_copied: false,
     },
   },
+  size: 100,
+};
+
+// Get all task area options
+export const TASK_AREA_OPTIONS = {
+  query: {
+    bool: {
+      filter: [
+        {
+          term: {
+            vid: 'task_area',
+          },
+        },
+        {
+          term: {
+            entity_type: 'taxonomy_term',
+          },
+        },
+        { ...languageFilter },
+      ],
+    },
+  },
+  sort: [{ ...alphabeticallySortTerms }],
+  size: 100,
 };
