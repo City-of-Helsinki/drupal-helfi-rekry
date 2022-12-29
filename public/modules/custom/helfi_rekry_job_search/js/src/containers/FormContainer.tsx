@@ -4,6 +4,7 @@ import { useUpdateAtom } from 'jotai/utils';
 import React, { Fragment, useEffect } from 'react';
 
 import SearchComponents from '../enum/SearchComponents';
+import { getInitialLanguage } from '../helpers/Language';
 import { transformDropdownsValues } from '../helpers/Params';
 import {
   continuousAtom,
@@ -11,6 +12,8 @@ import {
   employmentSelectionAtom,
   internshipAtom,
   keywordAtom,
+  languageSelectionAtom,
+  languagesAtom,
   summerJobsAtom,
   taskAreasAtom,
   taskAreasSelectionAtom,
@@ -34,6 +37,8 @@ const FormContainer = () => {
   const taskAreasOptions = useAtomValue(taskAreasAtom);
   const employmentOptions = useAtomValue(employmentAtom);
   const [employmentSelection, setEmploymentFilter] = useAtom(employmentSelectionAtom);
+  const languagesOptions = useAtomValue(languagesAtom);
+  const [languageSelection, setLanguageFilter] = useAtom(languageSelectionAtom);
 
   // Set form control values from url parameters on load
   useEffect(() => {
@@ -44,6 +49,7 @@ const FormContainer = () => {
     setInternship(!!urlParams?.internship);
     setSummerJobs(!!urlParams?.summer_jobs);
     setYouthSummerJobs(!!urlParams?.youth_summer_jobs);
+    setLanguageFilter(getInitialLanguage(urlParams?.language, languagesOptions));
   }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,6 +61,7 @@ const FormContainer = () => {
     setUrlParams({
       employment: employmentSelection.map((selection: OptionType) => selection.value),
       keyword,
+      language: languageSelection?.value,
       continuous,
       internship,
       task_areas: taskAreaSelection.map((selection: OptionType) => selection.value),
@@ -72,6 +79,7 @@ const FormContainer = () => {
   const employmentInputValue = employmentSelection.map((option: OptionType) => option.value);
 
   const isFullSearch = !drupalSettings?.helfi_rekry_job_search?.results_page_path;
+  const langSelected = languageSelection?.value?.length;
 
   // @todo enable checkboxes once https://helsinkisolutionoffice.atlassian.net/browse/UHF-7763 is done
   const showCheckboxes = false;
@@ -114,7 +122,7 @@ const FormContainer = () => {
           </div>
           <div className='job-search-form__filter job-search-form__dropdown--upper'>
             <Select
-              clearButtonAriaLabel=''
+              clearButtonAriaLabel={Drupal.t('Clear selection', {}, { context: 'Job search clear button aria label' })}
               className='job-search-form__dropdown'
               selectedItemRemoveButtonAriaLabel={Drupal.t(
                 'Remove item',
@@ -164,6 +172,47 @@ const FormContainer = () => {
           </Fragment>
         )}
       </div>
+      {isFullSearch && (
+        <div className='job-search-form__dropdowns'>
+          <div className='job-search-form__dropdowns__lower'>
+            <div className='job-search-form__filter job-search-form__dropdown--upper'>
+              <Select
+                clearButtonAriaLabel={Drupal.t(
+                  'Clear selection',
+                  {},
+                  { context: 'Job search clear button aria label' }
+                )}
+                className='job-search-form__dropdown'
+                clearable
+                selectedItemRemoveButtonAriaLabel={Drupal.t(
+                  'Remove item',
+                  {},
+                  { context: 'Job search remove item aria label' }
+                )}
+                placeholder={Drupal.t('All languages', {}, { context: 'Language placeholder' })}
+                label={Drupal.t('Language', {}, { context: 'Language filter label' })}
+                // @ts-ignore
+                options={languagesOptions}
+                value={languageSelection}
+                id={SearchComponents.LANGUAGE}
+                onChange={setLanguageFilter}
+              />
+              {/** Hidden select elements to enable native form functions */}
+              {!!formAction && langSelected && (
+                <select
+                  aria-hidden
+                  multiple
+                  value={languageSelection?.value}
+                  name={SearchComponents.LANGUAGE}
+                  style={{ display: 'none' }}
+                >
+                  <option key={languageSelection?.value} value={languageSelection?.value} selected />
+                </select>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       {isFullSearch && showCheckboxes && (
         <fieldset className='job-search-form__checkboxes'>
           <legend className='job-search-form__checkboxes-legend'>

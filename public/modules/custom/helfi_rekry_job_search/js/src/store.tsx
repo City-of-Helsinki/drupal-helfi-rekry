@@ -1,6 +1,8 @@
 import { atom } from 'jotai';
 
-import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS } from './query/queries';
+import { getLanguageLabel } from './helpers/Language';
+import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS, LANGUAGE_OPTIONS } from './query/queries';
+import type { AggregationItem } from './types/Aggregations';
 import type OptionType from './types/OptionType';
 import type Result from './types/Result';
 import type Term from './types/Term';
@@ -83,8 +85,11 @@ export const configurationsAtom = atom(async () => {
     ndjsonHeader +
     '\n' +
     JSON.stringify(EMPLOYMENT_FILTER_OPTIONS) +
+    '\n' +
+    ndjsonHeader +
+    '\n' +
+    JSON.stringify(LANGUAGE_OPTIONS) +
     '\n';
-
   return fetch(`${url}/_msearch`, {
     method: 'POST',
     headers: {
@@ -95,20 +100,21 @@ export const configurationsAtom = atom(async () => {
     .then((res) => res.json())
     .then((json) => {
       // Simplify response for later use.
-      const [aggs, options] = json?.responses;
+      const [aggs, options, languages] = json?.responses;
 
       return {
         occupations: aggs?.aggregations?.occupations?.buckets || [],
         employment: aggs?.aggregations?.employment?.buckets || [],
         employmentOptions: options?.hits?.hits || [],
         employmentType: aggs?.aggregations?.employment_type?.buckets || [],
+        languages: languages?.aggregations?.languages?.buckets || [],
       };
     });
 });
 
 export const taskAreasAtom = atom<OptionType[]>((get) => {
   const occupations = get(configurationsAtom)?.occupations;
-  return occupations.map(({ key, doc_count }: { key: string; doc_count: number }) => {
+  return occupations.map(({ key, doc_count }: AggregationItem) => {
     return {
       label: `${key} (${doc_count})`,
       simpleLabel: key,
@@ -134,6 +140,17 @@ export const employmentAtom = atom<OptionType[]>((get) => {
   }));
 });
 export const employmentSelectionAtom = atom<OptionType[]>([] as OptionType[]);
+
+export const languagesAtom = atom<OptionType[]>((get) => {
+  const languages = get(configurationsAtom)?.languages;
+
+  return languages.map(({ key, doc_count }: AggregationItem) => ({
+    label: `${getLanguageLabel(key)} (${doc_count})`,
+    simpleLabel: key,
+    value: key,
+  }));
+});
+export const languageSelectionAtom = atom<OptionType | null>(null);
 
 export const continuousAtom = atom<boolean>(false);
 export const internshipAtom = atom<boolean>(false);
