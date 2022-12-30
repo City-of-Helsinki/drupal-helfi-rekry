@@ -5,6 +5,7 @@ import useSWR from 'swr';
 
 import Pagination from '../components/results/Pagination';
 import ResultCard from '../components/results/ResultCard';
+import ResultsSort from '../components/results/ResultsSort';
 import Global from '../enum/Global';
 import IndexFields from '../enum/IndexFields';
 import useQueryString from '../hooks/useQueryString';
@@ -63,16 +64,11 @@ const ResultsContainer = () => {
           {!isNaN(jobs) && !isNaN(total) && (
             <Fragment>
               <span className='job-listing-search__count'>{jobs}</span>
-              {' ' +
-                Drupal.t(
-                  'open jobs (@listings listings)',
-                  { '@listings': total },
-                  { context: 'Job search results statline' }
-                )}
+              {' ' + Drupal.t('open positions', { '@listings': total }, { context: 'Job search results statline' })}
             </Fragment>
           )}
         </div>
-        <div></div>
+        <ResultsSort />
       </div>
       {results.map((hit: any) => (
         <ResultCard key={hit._id} {...hit._source} />

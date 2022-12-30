@@ -18,7 +18,6 @@ import {
   urlUpdateAtom,
   youthSummerJobsAtom,
 } from '../store';
-import { CONTINUOUS, INTERNSHIPS, SUMMER_JOBS, YOUTH_SUMMER_JOBS } from '../translations';
 import OptionType from '../types/OptionType';
 
 const SelectionsContainer = () => {
@@ -58,17 +57,29 @@ const SelectionsContainer = () => {
           />
         )}
         {urlParams.continuous && (
-          <CheckboxFilterPill label={CONTINUOUS.value} atom={continuousAtom} valueKey={SearchComponents.CONTINUOUS} />
+          <CheckboxFilterPill
+            label={Drupal.t('Continuous', {}, { context: 'Job search' })}
+            atom={continuousAtom}
+            valueKey={SearchComponents.CONTINUOUS}
+          />
         )}
         {urlParams.internship && (
-          <CheckboxFilterPill label={INTERNSHIPS.value} atom={internshipAtom} valueKey={SearchComponents.INTERNSHIPS} />
+          <CheckboxFilterPill
+            label={Drupal.t('Internships', {}, { context: 'Job search' })}
+            atom={internshipAtom}
+            valueKey={SearchComponents.INTERNSHIPS}
+          />
         )}
         {urlParams.summer_jobs && (
-          <CheckboxFilterPill label={SUMMER_JOBS.value} atom={summerJobsAtom} valueKey={SearchComponents.SUMMER_JOBS} />
+          <CheckboxFilterPill
+            label={Drupal.t('Summer jobs', {}, { context: 'Job search' })}
+            atom={summerJobsAtom}
+            valueKey={SearchComponents.SUMMER_JOBS}
+          />
         )}
         {urlParams.youth_summer_jobs && (
           <CheckboxFilterPill
-            label={YOUTH_SUMMER_JOBS.value}
+            label={Drupal.t('Summer jobs for youth', {}, { context: 'Job search' })}
             atom={youthSummerJobsAtom}
             valueKey={SearchComponents.YOUTH_SUMMER_JOBS}
           />
@@ -82,7 +93,7 @@ const SelectionsContainer = () => {
             style={showClearButton ? {} : { visibility: 'hidden' }}
             variant='supplementary'
           >
-            {Drupal.t('Clear selections', {}, { context: 'News archive clear selections' })}
+            {Drupal.t('Clear selections', {}, { context: 'Job search clear selections' })}
           </Button>
         </li>
       </ul>

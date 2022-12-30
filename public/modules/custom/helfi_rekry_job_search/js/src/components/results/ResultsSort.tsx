@@ -1,32 +1,53 @@
 import { Select } from 'hds-react';
+import { useAtomValue } from 'jotai';
+import { useUpdateAtom } from 'jotai/utils';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-import SearchComponents from '../../enum/SearchComponents';
-import { setParams } from '../../helpers/Params';
+import Global from '../../enum/Global';
+import { urlAtom, urlUpdateAtom } from '../../store';
 import type OptionType from '../../types/OptionType';
 
-type ResultsSortProps = {
-  options: OptionType[];
-  setValue: Function;
-  value: OptionType | undefined;
-};
+const { sortOptions } = Global;
+const options: OptionType[] = [
+  {
+    label: Drupal.t('Newest first', {}, { context: 'Job search' }),
+    value: sortOptions.newestFirst,
+  },
+  {
+    label: Drupal.t('Closing date', {}, { context: 'Job search' }),
+    value: sortOptions.closing,
+  },
+];
 
-const ResultsSort = ({ options, setValue, value }: ResultsSortProps) => {
+const ResultsSort = () => {
+  const urlParams = useAtomValue(urlAtom);
+  const setUrlParams = useUpdateAtom(urlUpdateAtom);
+  const [sort, setSort] = useState<OptionType>(options[1]);
+
+  useEffect(() => {
+    if (urlParams.sort) {
+      const matchedSort = options.find((option: OptionType) => option.value === urlParams.sort);
+
+      if (matchedSort) {
+        setSort(matchedSort);
+      }
+    }
+  }, []);
+
   return (
     <Select
-      label={Drupal.t('Order results', {}, { context: 'HELfi Rekry job search' })}
+      className='job-listing-search__sort'
+      label={Drupal.t('Sort by', {}, { context: 'HELfi Rekry job search' })}
       options={options}
       onChange={(option: OptionType) => {
-        setValue(option.value);
-        setParams(
-          {
-            [SearchComponents.ORDER]: {
-              value: option.value,
-            },
-          },
-          [SearchComponents.ORDER]
-        );
+        setSort(option);
+        setUrlParams({
+          ...urlParams,
+          sort: option.value,
+        });
       }}
-      value={value || null}
+      value={sort}
     />
   );
 };

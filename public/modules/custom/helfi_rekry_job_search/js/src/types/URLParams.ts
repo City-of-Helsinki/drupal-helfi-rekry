@@ -7,6 +7,7 @@ type URLParams = {
   internship?: boolean;
   keyword?: string;
   task_areas?: string[];
+  sort?: string;
   page?: string;
   summer_jobs?: boolean;
   youth_summer_jobs?: boolean;

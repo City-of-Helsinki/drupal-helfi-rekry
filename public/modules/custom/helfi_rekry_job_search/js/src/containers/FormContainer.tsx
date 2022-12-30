@@ -18,7 +18,6 @@ import {
   youthSummerJobsAtom,
 } from '../store';
 import { urlAtom } from '../store';
-import { CONTINUOUS, INTERNSHIPS, SUMMER_JOBS, YOUTH_SUMMER_JOBS } from '../translations';
 import type OptionType from '../types/OptionType';
 import SelectionsContainer from './SelectionsContainer';
 
@@ -74,6 +73,9 @@ const FormContainer = () => {
 
   const isFullSearch = !drupalSettings?.helfi_rekry_job_search?.results_page_path;
 
+  // @todo enable checkboxes once https://helsinkisolutionoffice.atlassian.net/browse/UHF-7763 is done
+  const showCheckboxes = false;
+
   return (
     <form className='job-search-form' onSubmit={handleSubmit} action={formAction}>
       <TextInput
@@ -83,18 +85,26 @@ const FormContainer = () => {
         name={SearchComponents.KEYWORD}
         onChange={handleKeywordChange}
         value={keyword}
-        placeholder={Drupal.t('Eg. title, office, department', { context: 'Search keyword placeholder' })}
+        placeholder={Drupal.t(
+          'Eg. title, location, department',
+          {},
+          { context: 'HELfi Rekry job search keyword placeholder' }
+        )}
       />
       <div className='job-search-form__dropdowns'>
         <div className='job-search-form__dropdowns__upper'>
           <div className='job-search-form__filter job-search-form__dropdown--upper'>
             <Select
-              clearButtonAriaLabel=''
+              clearButtonAriaLabel={Drupal.t('Clear selection', {}, { context: 'Job search clear button aria label' })}
               className='job-search-form__dropdown'
-              selectedItemRemoveButtonAriaLabel=''
-              placeholder={Drupal.t('All task areas', { context: 'Task areas filter placeholder' })}
+              selectedItemRemoveButtonAriaLabel={Drupal.t(
+                'Remove item',
+                {},
+                { context: 'Job search remove item aria label' }
+              )}
+              placeholder={Drupal.t('All fields', {}, { context: 'Task areas filter placeholder' })}
               multiselect
-              label={Drupal.t('Task area', { context: 'Task areas filter label' })}
+              label={Drupal.t('Task area', {}, { context: 'Task areas filter label' })}
               // @ts-ignore
               options={taskAreasOptions}
               value={taskAreaSelection}
@@ -106,10 +116,18 @@ const FormContainer = () => {
             <Select
               clearButtonAriaLabel=''
               className='job-search-form__dropdown'
-              selectedItemRemoveButtonAriaLabel=''
-              placeholder={Drupal.t('All employment type options', { context: 'Employment filter placeholder' })}
+              selectedItemRemoveButtonAriaLabel={Drupal.t(
+                'Remove item',
+                {},
+                { context: 'Job search remove item aria label' }
+              )}
+              placeholder={Drupal.t(
+                'All employment relationship options',
+                {},
+                { context: 'Employment filter placeholder' }
+              )}
               multiselect
-              label={Drupal.t('Employment type', { context: 'Employment filter label' })}
+              label={Drupal.t('Type of employment relationship', {}, { context: 'Employment filter label' })}
               // @ts-ignore
               options={employmentOptions}
               value={employmentSelection}
@@ -146,12 +164,14 @@ const FormContainer = () => {
           </Fragment>
         )}
       </div>
-      {isFullSearch && (
+      {isFullSearch && showCheckboxes && (
         <fieldset className='job-search-form__checkboxes'>
-          <legend className='job-search-form__checkboxes-legend'>{Drupal.t('Show only')}</legend>
+          <legend className='job-search-form__checkboxes-legend'>
+            {Drupal.t('Filters', {}, { context: 'Checkbox filters heading' })}
+          </legend>
           <Checkbox
             className='job-search-form__checkbox'
-            label={Drupal.t(CONTINUOUS.value)}
+            label={Drupal.t('Open-ended vacancies', {}, { context: 'Job search' })}
             id={SearchComponents.CONTINUOUS}
             onClick={() => setContinuous(!continuous)}
             checked={continuous}
@@ -160,7 +180,7 @@ const FormContainer = () => {
           />
           <Checkbox
             className='job-search-form__checkbox'
-            label={Drupal.t(INTERNSHIPS.value)}
+            label={Drupal.t('Practical training', {}, { context: 'Job search' })}
             id={SearchComponents.INTERNSHIPS}
             onClick={() => setInternship(!internship)}
             checked={internship}
@@ -169,7 +189,7 @@ const FormContainer = () => {
           />
           <Checkbox
             className='job-search-form__checkbox'
-            label={SUMMER_JOBS.value}
+            label={Drupal.t('summer jobs and substitute vacancies', {}, { context: 'Job search' })}
             id={SearchComponents.SUMMER_JOBS}
             onClick={() => setSummerJobs(!summerJobs)}
             checked={summerJobs}
@@ -178,7 +198,7 @@ const FormContainer = () => {
           />
           <Checkbox
             className='job-search-form__checkbox'
-            label={YOUTH_SUMMER_JOBS.value}
+            label={Drupal.t('Summer jobs for young people', {}, { context: 'Job search' })}
             id={SearchComponents.YOUTH_SUMMER_JOBS}
             onClick={() => setYouthSummerJobs(!youthSummerJobs)}
             checked={youthSummerJobs}
@@ -188,7 +208,7 @@ const FormContainer = () => {
         </fieldset>
       )}
       <Button className='hds-button hds-button--primary job-search-form__submit-button' type='submit'>
-        {Drupal.t('Submit', { context: 'Rekry Search Submit button' })}
+        {Drupal.t('Search')}
       </Button>
       <SelectionsContainer />
     </form>
