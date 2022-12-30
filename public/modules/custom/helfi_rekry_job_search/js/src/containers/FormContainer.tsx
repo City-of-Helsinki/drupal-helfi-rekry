@@ -72,14 +72,11 @@ const FormContainer = () => {
 
   const handleKeywordChange = ({ target: { value } }: { target: { value: string } }) => setKeyword(value);
 
-  const handleTaskAreasChange = (option: OptionType[]) => setTaskAreaFilter(option);
+  // Input values for native elements
   const taskAreaInputValue = taskAreaSelection.map((option: OptionType) => option.value);
-
-  const handleEmploymentChange = (option: OptionType[]) => setEmploymentFilter(option);
   const employmentInputValue = employmentSelection.map((option: OptionType) => option.value);
 
   const isFullSearch = !drupalSettings?.helfi_rekry_job_search?.results_page_path;
-  const langSelected = languageSelection?.value?.length;
 
   // @todo enable checkboxes once https://helsinkisolutionoffice.atlassian.net/browse/UHF-7763 is done
   const showCheckboxes = false;
@@ -117,7 +114,7 @@ const FormContainer = () => {
               options={taskAreasOptions}
               value={taskAreaSelection}
               id={SearchComponents.TASK_AREAS}
-              onChange={handleTaskAreasChange}
+              onChange={setTaskAreaFilter}
             />
           </div>
           <div className='job-search-form__filter job-search-form__dropdown--upper'>
@@ -140,7 +137,7 @@ const FormContainer = () => {
               options={employmentOptions}
               value={employmentSelection}
               id={SearchComponents.TASK_AREAS}
-              onChange={handleEmploymentChange}
+              onChange={setEmploymentFilter}
             />
           </div>
         </div>
@@ -197,18 +194,6 @@ const FormContainer = () => {
                 id={SearchComponents.LANGUAGE}
                 onChange={setLanguageFilter}
               />
-              {/** Hidden select elements to enable native form functions */}
-              {!!formAction && langSelected && (
-                <select
-                  aria-hidden
-                  multiple
-                  value={languageSelection?.value}
-                  name={SearchComponents.LANGUAGE}
-                  style={{ display: 'none' }}
-                >
-                  <option key={languageSelection?.value} value={languageSelection?.value} selected />
-                </select>
-              )}
             </div>
           </div>
         </div>
