@@ -1,5 +1,6 @@
 export type OptionType = {
-  label?: string;
+  simpleLabel?: string;
+  label: string;
   value: string;
 };
 

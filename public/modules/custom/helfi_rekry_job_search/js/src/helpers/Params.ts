@@ -1,5 +1,6 @@
 import SearchComponents from '../enum/SearchComponents';
 import type InitialState from '../types/InitialState';
+import type OptionType from '../types/OptionType';
 import type SearchState from '../types/SearchState';
 
 const MASK_KEYS = [SearchComponents.RESULTS, SearchComponents.ORDER];
@@ -76,4 +77,20 @@ export const setParams = (searchState: any, mask: string[] | null = null) => {
 export const clearParams = () => {
   const newUrl = new URL(window.location.pathname, window.location.origin);
   window.history.pushState({}, '', newUrl.toString());
+};
+
+export const transformDropdownsValues = (paramOptions: string[] | undefined = [], availableOptions: OptionType[]) => {
+  const transformedOptions: OptionType[] = [];
+
+  paramOptions.forEach((selection: string) => {
+    const matchedOption = availableOptions.find(
+      (option: OptionType) => option.value.toString() === selection.toString()
+    );
+
+    if (matchedOption) {
+      transformedOptions.push(matchedOption);
+    }
+  });
+
+  return transformedOptions;
 };

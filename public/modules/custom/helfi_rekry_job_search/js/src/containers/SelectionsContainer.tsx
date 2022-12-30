@@ -4,8 +4,11 @@ import { useUpdateAtom } from 'jotai/utils';
 import { Fragment, MouseEventHandler } from 'react';
 
 import SearchComponents from '../enum/SearchComponents';
+import { transformDropdownsValues } from '../helpers/Params';
 import {
   continuousAtom,
+  employmentAtom,
+  employmentSelectionAtom,
   internshipAtom,
   resetFormAtom,
   summerJobsAtom,
@@ -18,28 +21,13 @@ import {
 import { CONTINUOUS, INTERNSHIPS, SUMMER_JOBS, YOUTH_SUMMER_JOBS } from '../translations';
 import OptionType from '../types/OptionType';
 
-const transformTaskAreas = (taskAreas: string[] | undefined = [], options: OptionType[] = []) => {
-  const transformedOptions: OptionType[] = [];
-
-  taskAreas.forEach((taskArea: string) => {
-    const matchedOption = options.find((option: OptionType) => option.value === taskArea);
-
-    if (matchedOption) {
-      transformedOptions.push({
-        label: matchedOption.label,
-        value: matchedOption.value,
-      });
-    }
-  });
-
-  return transformedOptions;
-};
-
 const SelectionsContainer = () => {
   const urlParams = useAtomValue(urlAtom);
   const resetForm = useUpdateAtom(resetFormAtom);
   const taskAreaOptions = useAtomValue(taskAreasAtom);
   const updateTaskAreas = useUpdateAtom(taskAreasSelectionAtom);
+  const employmentOptions = useAtomValue(employmentAtom);
+  const updateEmploymentOptions = useUpdateAtom(employmentSelectionAtom);
 
   const showClearButton =
     urlParams?.keyword?.length ||
@@ -50,6 +38,7 @@ const SelectionsContainer = () => {
     urlParams?.youth_summer_jobs;
 
   const showTaskAreas = Boolean(urlParams.task_areas?.length && urlParams.task_areas.length > 0);
+  const showEmployment = Boolean(urlParams.employment?.length && urlParams.employment?.length > 0);
 
   return (
     <div className='job-search-form__selections-wrapper'>
@@ -58,7 +47,14 @@ const SelectionsContainer = () => {
           <ListFilter
             updater={updateTaskAreas}
             valueKey={SearchComponents.TASK_AREAS}
-            values={transformTaskAreas(urlParams.task_areas, taskAreaOptions)}
+            values={transformDropdownsValues(urlParams.task_areas, taskAreaOptions)}
+          />
+        )}
+        {showEmployment && (
+          <ListFilter
+            updater={updateEmploymentOptions}
+            valueKey={SearchComponents.EMPLOYMENT}
+            values={transformDropdownsValues(urlParams.employment, employmentOptions)}
           />
         )}
         {urlParams.continuous && (
@@ -121,7 +117,7 @@ const ListFilter = ({ updater, values, valueKey }: ListFilterProps) => {
     <Fragment>
       {values.map((selection: OptionType) => (
         <FilterButton
-          value={selection.value}
+          value={selection.simpleLabel || selection.label}
           clearSelection={() => removeSelection(selection.value)}
           key={selection.value}
         />

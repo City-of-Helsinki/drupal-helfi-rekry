@@ -1,4 +1,5 @@
 const SearchComponents = {
+  EMPLOYMENT: 'employment',
   KEYWORD: 'keyword',
   TASK_AREAS: 'task_areas',
   CONTINUOUS: 'continuous',
