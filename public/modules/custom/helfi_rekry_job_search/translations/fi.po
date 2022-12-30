@@ -91,4 +91,4 @@ msgstr "Sulkeutuvat"
 
 msgctxt "Job search clear selections"
 msgid "Clear selections"
-msgstr "Töm urvalet"
+msgstr "Tyhjennä valinnat"
