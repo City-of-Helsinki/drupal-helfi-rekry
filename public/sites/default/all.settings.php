@@ -10,13 +10,13 @@ $config['helfi_rekry_content.settings']['helbit_client_id'] = getenv('HELBIT_CLI
 
 // Elasticsearch settings.
 if (getenv('ELASTICSEARCH_URL')) {
-  $config['elasticsearch_connector.cluster.news']['url'] = getenv('ELASTICSEARCH_URL');
+  $config['elasticsearch_connector.cluster.rekry']['url'] = getenv('ELASTICSEARCH_URL');
 
   if (getenv('ELASTIC_USER') && getenv('ELASTIC_PASSWORD')) {
-    $config['elasticsearch_connector.cluster.news']['options']['use_authentication'] = '1';
-    $config['elasticsearch_connector.cluster.news']['options']['authentication_type'] = 'Basic';
-    $config['elasticsearch_connector.cluster.news']['options']['username'] = getenv('ELASTIC_USER');
-    $config['elasticsearch_connector.cluster.news']['options']['password'] = getenv('ELASTIC_PASSWORD');
+    $config['elasticsearch_connector.cluster.rekry']['options']['use_authentication'] = '1';
+    $config['elasticsearch_connector.cluster.rekry']['options']['authentication_type'] = 'Basic';
+    $config['elasticsearch_connector.cluster.rekry']['options']['username'] = getenv('ELASTIC_USER');
+    $config['elasticsearch_connector.cluster.rekry']['options']['password'] = getenv('ELASTIC_PASSWORD');
   }
 }
 
