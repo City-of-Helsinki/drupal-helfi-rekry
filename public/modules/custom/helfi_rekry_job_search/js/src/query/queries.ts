@@ -46,6 +46,11 @@ export const AGGREGATIONS = {
         field: 'employment_type_id',
       },
     },
+    languages: {
+      terms: {
+        field: '_language.keyword',
+      },
+    },
   },
   query: {
     bool: {
@@ -81,8 +86,15 @@ export const LANGUAGE_OPTIONS = {
     },
   },
   query: {
-    term: {
-      field_copied: false,
+    bool: {
+      filter: [
+        {
+          term: {
+            field_copied: false,
+          },
+        },
+        { ...publicationFilter },
+      ],
     },
   },
   size: 100,
