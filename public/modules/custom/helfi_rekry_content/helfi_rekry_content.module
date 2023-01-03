@@ -263,7 +263,7 @@ function _helfi_rekry_content_lookup_task_area_tid($args) {
     return reset($ids);
   }
 
-  // Since ext id is a later addition, try matching by name before creating new terms
+  // Since ext id mihgt not exist yet, try matching by name.
   $fallbackQuery = \Drupal::entityQuery('taxonomy_term')
     ->condition('vid', 'task_area')
     ->condition('name', $name);
