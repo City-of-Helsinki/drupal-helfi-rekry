@@ -246,6 +246,38 @@ function _helfi_rekry_content_lookup_organization_tid($external_id) {
 }
 
 /**
+ * Combine "task_area" term translations with external ID.
+ */
+function _helfi_rekry_content_lookup_task_area_tid($args) {
+
+  $external_id = $args[0];
+  $name = $args[1];
+
+  $query = \Drupal::entityQuery('taxonomy_term')
+    ->condition('vid', 'task_area')
+    ->condition('field_external_id', $external_id);
+
+  $ids = $query->execute();
+
+  if ($ids) {
+    return reset($ids);
+  }
+
+  // Since ext id mihgt not exist yet, try matching by name.
+  $fallbackQuery = \Drupal::entityQuery('taxonomy_term')
+    ->condition('vid', 'task_area')
+    ->condition('name', $name);
+
+  $ids = $fallbackQuery->execute();
+
+  if ($ids) {
+    return reset($ids);
+  }
+
+  return NULL;
+}
+
+/**
  * Implements hook_preprocess_HOOK().
  */
 function helfi_rekry_content_preprocess_block(&$variables) {

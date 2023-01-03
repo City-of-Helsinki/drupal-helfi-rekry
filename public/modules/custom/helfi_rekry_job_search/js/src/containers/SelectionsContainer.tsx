@@ -4,12 +4,14 @@ import { useUpdateAtom } from 'jotai/utils';
 import { Fragment, MouseEventHandler } from 'react';
 
 import SearchComponents from '../enum/SearchComponents';
+import { getLanguageLabel } from '../helpers/Language';
 import { transformDropdownsValues } from '../helpers/Params';
 import {
   continuousAtom,
   employmentAtom,
   employmentSelectionAtom,
   internshipAtom,
+  languageSelectionAtom,
   resetFormAtom,
   summerJobsAtom,
   taskAreasAtom,
@@ -29,10 +31,10 @@ const SelectionsContainer = () => {
   const updateEmploymentOptions = useUpdateAtom(employmentSelectionAtom);
 
   const showClearButton =
-    urlParams?.keyword?.length ||
     urlParams?.task_areas?.length ||
     urlParams?.continuous ||
     urlParams?.internship ||
+    urlParams?.language ||
     urlParams?.summer_jobs ||
     urlParams?.youth_summer_jobs;
 
@@ -54,6 +56,13 @@ const SelectionsContainer = () => {
             updater={updateEmploymentOptions}
             valueKey={SearchComponents.EMPLOYMENT}
             values={transformDropdownsValues(urlParams.employment, employmentOptions)}
+          />
+        )}
+        {urlParams.language && (
+          <SingleFilter
+            label={getLanguageLabel(urlParams.language)}
+            atom={languageSelectionAtom}
+            valueKey={SearchComponents.LANGUAGE}
           />
         )}
         {urlParams.continuous && (
@@ -154,6 +163,29 @@ const CheckboxFilterPill = ({ atom, valueKey, label }: CheckboxFilterPillProps) 
       clearSelection={() => {
         setUrlParams({ ...urlParams, [valueKey]: false });
         setValue(false);
+      }}
+    />
+  );
+};
+
+type SingleFilterProps = {
+  atom: WritableAtom<OptionType | null, SetStateAction<OptionType | null>, void>;
+  valueKey: string;
+  label: string;
+};
+const SingleFilter = ({ atom, valueKey, label }: SingleFilterProps) => {
+  const setValue = useUpdateAtom(atom);
+  const urlParams = useAtomValue(urlAtom);
+  const setUrlParams = useUpdateAtom(urlUpdateAtom);
+
+  const { language, ...updatedParams } = urlParams;
+
+  return (
+    <FilterButton
+      value={label}
+      clearSelection={() => {
+        setUrlParams(updatedParams);
+        setValue(null);
       }}
     />
   );

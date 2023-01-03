@@ -209,15 +209,15 @@ process:
     callable: intval
     source: recruitment_type
   field_employment_type:
-    plugin: entity_lookup
+    plugin: entity_generate
     entity_type: taxonomy_term
     value_key: name
     source: employment_type
     bundle_key: vid
     bundle: employment_type
     ignore_case: true
-  field_employment/target_id:
-    plugin: entity_lookup
+  field_employment:
+    plugin: entity_generate
     entity_type: taxonomy_term
     value_key: name
     source: employment

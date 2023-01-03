@@ -1,6 +1,10 @@
 import { atom } from 'jotai';
 
-import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS } from './query/queries';
+import { bucketToMap } from './helpers/Aggregations';
+import { getLanguageLabel } from './helpers/Language';
+import { sortOptions } from './helpers/Options';
+import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS, LANGUAGE_OPTIONS, TASK_AREA_OPTIONS } from './query/queries';
+import type { AggregationItem } from './types/Aggregations';
 import type OptionType from './types/OptionType';
 import type Result from './types/Result';
 import type Term from './types/Term';
@@ -82,9 +86,16 @@ export const configurationsAtom = atom(async () => {
     '\n' +
     ndjsonHeader +
     '\n' +
+    JSON.stringify(TASK_AREA_OPTIONS) +
+    '\n' +
+    ndjsonHeader +
+    '\n' +
     JSON.stringify(EMPLOYMENT_FILTER_OPTIONS) +
+    '\n' +
+    ndjsonHeader +
+    '\n' +
+    JSON.stringify(LANGUAGE_OPTIONS) +
     '\n';
-
   return fetch(`${url}/_msearch`, {
     method: 'POST',
     headers: {
@@ -95,26 +106,36 @@ export const configurationsAtom = atom(async () => {
     .then((res) => res.json())
     .then((json) => {
       // Simplify response for later use.
-      const [aggs, options] = json?.responses;
+      const [aggs, taskAreas, employmentOptions, languages] = json?.responses;
 
       return {
-        occupations: aggs?.aggregations?.occupations?.buckets || [],
+        taskAreaOptions: taskAreas?.hits?.hits || [],
+        taskAreas: aggs?.aggregations?.occupations?.buckets || [],
         employment: aggs?.aggregations?.employment?.buckets || [],
-        employmentOptions: options?.hits?.hits || [],
+        employmentOptions: employmentOptions?.hits?.hits || [],
         employmentType: aggs?.aggregations?.employment_type?.buckets || [],
+        languages: languages?.aggregations?.languages?.buckets || [],
       };
     });
 });
 
 export const taskAreasAtom = atom<OptionType[]>((get) => {
-  const occupations = get(configurationsAtom)?.occupations;
-  return occupations.map(({ key, doc_count }: { key: string; doc_count: number }) => {
-    return {
-      label: `${key} (${doc_count})`,
-      simpleLabel: key,
-      value: key.trim() as string,
-    };
-  }) as OptionType[];
+  const aggs = bucketToMap(get(configurationsAtom)?.taskAreas);
+  const options = get(configurationsAtom)?.taskAreaOptions;
+
+  return options
+    .map((option: Result<Term>) => {
+      const count = aggs.get(option._source.tid[0]) || 0;
+      const name = option._source.name;
+
+      return {
+        count: count,
+        label: `${name} (${count})`,
+        simpleLabel: name,
+        value: option._source.tid[0],
+      };
+    })
+    .sort((a: OptionType, b: OptionType) => sortOptions(a, b));
 });
 export const taskAreasSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 
@@ -127,13 +148,31 @@ export const employmentAtom = atom<OptionType[]>((get) => {
     return matchedAgg?.doc_count || 0;
   };
 
-  return employmentOptions.map((term: Result<Term>) => ({
-    label: `${term._source.name} (${getCount(term._source.tid[0])})`,
-    simpleLabel: term._source.name,
-    value: term._source.tid[0],
-  }));
+  return employmentOptions
+    .map((term: Result<Term>) => {
+      const count = getCount(term._source.tid[0]);
+
+      return {
+        count: count,
+        label: `${term._source.name} (${count})`,
+        simpleLabel: term._source.name,
+        value: term._source.tid[0],
+      };
+    })
+    .sort((a: OptionType, b: OptionType) => sortOptions(a, b));
 });
 export const employmentSelectionAtom = atom<OptionType[]>([] as OptionType[]);
+
+export const languagesAtom = atom<OptionType[]>((get) => {
+  const languages = get(configurationsAtom)?.languages;
+
+  return languages.map(({ key, doc_count }: AggregationItem) => ({
+    label: `${getLanguageLabel(key)} (${doc_count})`,
+    simpleLabel: key,
+    value: key,
+  }));
+});
+export const languageSelectionAtom = atom<OptionType | null>(null);
 
 export const continuousAtom = atom<boolean>(false);
 export const internshipAtom = atom<boolean>(false);
@@ -148,4 +187,5 @@ export const resetFormAtom = atom(null, (get, set) => {
   set(summerJobsAtom, false);
   set(youthSummerJobsAtom, false);
   set(urlUpdateAtom, {});
+  set(languageSelectionAtom, null);
 });

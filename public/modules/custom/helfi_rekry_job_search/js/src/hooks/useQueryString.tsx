@@ -1,6 +1,6 @@
 import Global from '../enum/Global';
 import IndexFields from '../enum/IndexFields';
-import { FILTER } from '../query/queries';
+import { languageFilter, nodeFilter, publicationFilter } from '../query/queries';
 import URLParams from '../types/URLParams';
 
 const useQueryString = (urlParams: URLParams): string => {
@@ -32,7 +32,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams?.task_areas?.length) {
     must.push({
       terms: {
-        [`${IndexFields.TASK_AREA}.keyword`]: urlParams.task_areas,
+        [IndexFields.TASK_AREA_ID]: urlParams.task_areas,
       },
     });
   }
@@ -92,9 +92,33 @@ const useQueryString = (urlParams: URLParams): string => {
 
   const query: any = {
     bool: {
-      ...FILTER,
+      filter: [
+        urlParams.language
+          ? {
+              term: {
+                [IndexFields.LANGUAGE]: urlParams.language.toString(),
+              },
+            }
+          : languageFilter,
+        publicationFilter,
+        nodeFilter,
+      ],
     },
   };
+
+  if (urlParams.language) {
+    must.push({
+      bool: {
+        must: [
+          {
+            term: {
+              [IndexFields.COPIED]: false,
+            },
+          },
+        ],
+      },
+    });
+  }
 
   if (Object.keys(must).length) {
     query.bool.must = must;

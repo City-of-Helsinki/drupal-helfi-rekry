@@ -6,6 +6,7 @@ type URLParams = {
   employment?: string[];
   internship?: boolean;
   keyword?: string;
+  language?: string;
   task_areas?: string[];
   sort?: string;
   page?: string;

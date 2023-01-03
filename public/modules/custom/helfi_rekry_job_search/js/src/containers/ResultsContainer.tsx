@@ -29,7 +29,9 @@ const ResultsContainer = () => {
     }).then((res) => res.json());
   };
 
-  const { data, error } = useSWR(queryString, fetcher);
+  const { data, error } = useSWR(queryString, fetcher, {
+    revalidateOnFocus: false,
+  });
 
   if (!data && !error) {
     return <LoadingSpinner />;

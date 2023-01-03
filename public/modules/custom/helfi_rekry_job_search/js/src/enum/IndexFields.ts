@@ -1,6 +1,7 @@
 const IndexFields = {
   LANGUAGE: '_language',
   CONTINUOUS: 'is_continuous',
+  COPIED: 'field_copied',
   EMPLOYMENT: 'field_employment',
   EMPLOYMENT_ID: 'employment_id',
   EMPLOYMENT_TYPE: 'field_employment_type',
@@ -16,6 +17,7 @@ const IndexFields = {
   RECRUITMENT_TYPE: 'field_recruitment_type',
   SUMMER_JOB: 'is_summer_job',
   TASK_AREA: 'field_task_area',
+  TASK_AREA_ID: 'task_area_id',
   LANGCODE: 'langcode',
   STATUS: 'status',
   TID: 'tid',

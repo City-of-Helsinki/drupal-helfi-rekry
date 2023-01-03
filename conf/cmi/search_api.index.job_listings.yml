@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_original_language
+    - field.storage.node.field_task_area
     - field.storage.node.field_copied
     - field.storage.node.field_employment_type
     - field.storage.node.field_employment
@@ -14,24 +15,17 @@ dependencies:
     - field.storage.node.field_jobs
     - field.storage.node.field_postal_area
     - field.storage.node.field_recruitment_type
-    - field.storage.node.field_task_area
     - search_api.server.elastic_rekry
   module:
     - taxonomy
     - node
     - scheduler
     - search_api
-    - helfi_rekry_job_search
 id: job_listings
 name: 'Job listings'
 description: ''
 read_only: false
 field_settings:
-  employment:
-    label: Employment
-    datasource_id: 'entity:node'
-    property_path: employment
-    type: object
   employment_id:
     label: 'Employment » Luokittelutermi » Termin ID'
     datasource_id: 'entity:node'
@@ -184,6 +178,16 @@ field_settings:
     dependencies:
       module:
         - node
+  task_area_id:
+    label: 'Ammattiala » Luokittelutermi » Termin ID'
+    datasource_id: 'entity:node'
+    property_path: 'field_task_area:entity:tid'
+    type: integer
+    dependencies:
+      config:
+        - field.storage.node.field_task_area
+      module:
+        - taxonomy
   tid:
     label: 'Term ID'
     datasource_id: 'entity:taxonomy_term'
@@ -223,6 +227,14 @@ field_settings:
     dependencies:
       module:
         - node
+  vid:
+    label: Luokittelu
+    datasource_id: 'entity:taxonomy_term'
+    property_path: vid
+    type: string
+    dependencies:
+      module:
+        - taxonomy
 datasource_settings:
   'entity:node':
     bundles:
