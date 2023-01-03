@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 
 import { bucketToMap } from './helpers/Aggregations';
 import { getLanguageLabel } from './helpers/Language';
+import { sortOptions } from './helpers/Options';
 import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS, LANGUAGE_OPTIONS, TASK_AREA_OPTIONS } from './query/queries';
 import type { AggregationItem } from './types/Aggregations';
 import type OptionType from './types/OptionType';
@@ -105,13 +106,13 @@ export const configurationsAtom = atom(async () => {
     .then((res) => res.json())
     .then((json) => {
       // Simplify response for later use.
-      const [aggs, taskAreas, options, languages] = json?.responses;
+      const [aggs, taskAreas, employmentOptions, languages] = json?.responses;
 
       return {
         taskAreaOptions: taskAreas?.hits?.hits || [],
         taskAreas: aggs?.aggregations?.occupations?.buckets || [],
         employment: aggs?.aggregations?.employment?.buckets || [],
-        employmentOptions: options?.hits?.hits || [],
+        employmentOptions: employmentOptions?.hits?.hits || [],
         employmentType: aggs?.aggregations?.employment_type?.buckets || [],
         languages: languages?.aggregations?.languages?.buckets || [],
       };
@@ -122,16 +123,19 @@ export const taskAreasAtom = atom<OptionType[]>((get) => {
   const aggs = bucketToMap(get(configurationsAtom)?.taskAreas);
   const options = get(configurationsAtom)?.taskAreaOptions;
 
-  return options.map((option: Result<Term>) => {
-    const count = aggs.get(option._source.tid[0]) || 0;
-    const name = option._source.name;
+  return options
+    .map((option: Result<Term>) => {
+      const count = aggs.get(option._source.tid[0]) || 0;
+      const name = option._source.name;
 
-    return {
-      label: `${name} (${count})`,
-      simpleLabel: name,
-      value: option._source.tid[0],
-    };
-  });
+      return {
+        count: count,
+        label: `${name} (${count})`,
+        simpleLabel: name,
+        value: option._source.tid[0],
+      };
+    })
+    .sort((a: OptionType, b: OptionType) => sortOptions(a, b));
 });
 export const taskAreasSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 
@@ -144,11 +148,18 @@ export const employmentAtom = atom<OptionType[]>((get) => {
     return matchedAgg?.doc_count || 0;
   };
 
-  return employmentOptions.map((term: Result<Term>) => ({
-    label: `${term._source.name} (${getCount(term._source.tid[0])})`,
-    simpleLabel: term._source.name,
-    value: term._source.tid[0],
-  }));
+  return employmentOptions
+    .map((term: Result<Term>) => {
+      const count = getCount(term._source.tid[0]);
+
+      return {
+        count: count,
+        label: `${term._source.name} (${count})`,
+        simpleLabel: term._source.name,
+        value: term._source.tid[0],
+      };
+    })
+    .sort((a: OptionType, b: OptionType) => sortOptions(a, b));
 });
 export const employmentSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 

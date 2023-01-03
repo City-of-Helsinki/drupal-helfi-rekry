@@ -31,7 +31,6 @@ const SelectionsContainer = () => {
   const updateEmploymentOptions = useUpdateAtom(employmentSelectionAtom);
 
   const showClearButton =
-    urlParams?.keyword?.length ||
     urlParams?.task_areas?.length ||
     urlParams?.continuous ||
     urlParams?.internship ||

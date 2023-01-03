@@ -57,6 +57,7 @@ export const AGGREGATIONS = {
       filter: [languageFilter, nodeFilter, publicationFilter],
     },
   },
+  size: 10000,
 };
 
 // Get all employment filter options
@@ -93,11 +94,12 @@ export const LANGUAGE_OPTIONS = {
             field_copied: false,
           },
         },
+        { ...nodeFilter },
         { ...publicationFilter },
       ],
     },
   },
-  size: 100,
+  size: 10000,
 };
 
 // Get all task area options
