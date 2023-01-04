@@ -66,7 +66,7 @@ export const EMPLOYMENT_FILTER_OPTIONS = {
     bool: {
       should: [
         {
-          terms: { tid: [1, 3, 5, 6, 7, 10] },
+          terms: { tid: [1, 3, 7, 10] },
         },
       ],
       filter: [{ ...languageFilter }, { term: { [IndexFields.ENTITY_TYPE]: 'taxonomy_term' } }],
