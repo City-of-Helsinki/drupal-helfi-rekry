@@ -34,21 +34,25 @@ export const AGGREGATIONS = {
     occupations: {
       terms: {
         field: 'task_area_id',
+        size: 100,
       },
     },
     employment: {
       terms: {
         field: 'employment_id',
+        size: 100,
       },
     },
     employment_type: {
       terms: {
         field: 'employment_type_id',
+        size: 100,
       },
     },
     languages: {
       terms: {
         field: '_language.keyword',
+        size: 100,
       },
     },
   },
