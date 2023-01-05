@@ -3,6 +3,22 @@ import IndexFields from '../enum/IndexFields';
 import { languageFilter, nodeFilter, publicationFilter } from '../query/queries';
 import URLParams from '../types/URLParams';
 
+/**
+ * Dirty fix for combining results for multiple tids.
+ * Combine results for public service / contractual employments.
+ * (Virkasuhde / työsuhde)
+ */
+const combineEmploymentTypes = (types: string[]) => {
+  if (types.includes('1')) {
+    types.push('2');
+  }
+  if (types.includes('3')) {
+    types.push('4');
+  }
+
+  return types;
+};
+
 const useQueryString = (urlParams: URLParams): string => {
   const { size, sortOptions } = Global;
   const page = Number.isNaN(Number(urlParams.page)) ? 1 : Number(urlParams.page);
@@ -49,7 +65,7 @@ const useQueryString = (urlParams: URLParams): string => {
           },
           {
             terms: {
-              [IndexFields.EMPLOYMENT_TYPE_ID]: urlParams.employment,
+              [IndexFields.EMPLOYMENT_TYPE_ID]: combineEmploymentTypes(urlParams.employment),
             },
           },
         ],
@@ -147,6 +163,7 @@ const useQueryString = (urlParams: URLParams): string => {
       [IndexFields.NUMBER_OF_JOBS]: {
         sum: {
           field: IndexFields.NUMBER_OF_JOBS,
+          missing: 1,
         },
       },
     },

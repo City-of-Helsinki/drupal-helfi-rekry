@@ -4,7 +4,6 @@ import { bucketToMap } from './helpers/Aggregations';
 import { getLanguageLabel } from './helpers/Language';
 import { sortOptions } from './helpers/Options';
 import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS, LANGUAGE_OPTIONS, TASK_AREA_OPTIONS } from './query/queries';
-import type { AggregationItem } from './types/Aggregations';
 import type OptionType from './types/OptionType';
 import type Result from './types/Result';
 import type Term from './types/Term';
@@ -141,22 +140,31 @@ export const taskAreasSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 
 export const employmentAtom = atom<OptionType[]>((get) => {
   const { employment, employmentOptions, employmentType } = get(configurationsAtom);
-
-  const getCount = (tid: string) => {
-    const matchedAgg = employment.concat(employmentType).find((aggData: any) => aggData.key === tid);
-
-    return matchedAgg?.doc_count || 0;
-  };
+  const combinedAggs = bucketToMap(employment.concat(employmentType));
 
   return employmentOptions
     .map((term: Result<Term>) => {
-      const count = getCount(term._source.tid[0]);
+      const tid = term._source.tid[0];
+      let count = 0;
+
+      // Combine results for service / contractual employments
+      switch (tid.toString()) {
+        case '1':
+          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(2) || 0);
+          break;
+        case '3':
+          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(4) || 0);
+          break;
+        default:
+          count = combinedAggs.get(tid) || 0;
+          break;
+      }
 
       return {
         count: count,
         label: `${term._source.name} (${count})`,
         simpleLabel: term._source.name,
-        value: term._source.tid[0],
+        value: tid,
       };
     })
     .sort((a: OptionType, b: OptionType) => sortOptions(a, b));
@@ -164,12 +172,13 @@ export const employmentAtom = atom<OptionType[]>((get) => {
 export const employmentSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 
 export const languagesAtom = atom<OptionType[]>((get) => {
-  const languages = get(configurationsAtom)?.languages;
+  const languages = bucketToMap(get(configurationsAtom)?.languages);
+  const languageOptions = ['fi', 'sv', 'en'];
 
-  return languages.map(({ key, doc_count }: AggregationItem) => ({
-    label: `${getLanguageLabel(key)} (${doc_count})`,
-    simpleLabel: key,
-    value: key,
+  return languageOptions.map((langcode: string) => ({
+    label: `${getLanguageLabel(langcode)} (${languages.get(langcode) || 0})`,
+    simpleLabel: langcode,
+    value: langcode,
   }));
 });
 export const languageSelectionAtom = atom<OptionType | null>(null);
