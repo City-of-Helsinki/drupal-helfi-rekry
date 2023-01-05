@@ -278,9 +278,13 @@ function _helfi_rekry_content_lookup_task_area_tid($args) {
 }
 
 /**
- * 
- * 
- * @param strint $employment
+ * Transform illegal values from api.
+ *
+ * @param string $employment
+ *   The original string.
+ *
+ * @return string
+ *   The corrected value.
  */
 function _helfi_rekry_transform_employment($employment) {
   if ($employment === 'Vuorotteluvapaasijaisuus') {
