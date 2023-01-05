@@ -8,12 +8,12 @@ import URLParams from '../types/URLParams';
  * Combine results for public service / contractual employments.
  * (Virkasuhde / työsuhde)
  */
-const combineEmploymentTypes = (types: string[]) => {
-  if (types.includes('1')) {
-    types.push('2');
+const combineEmploymentTypes = (types: (number | string)[]) => {
+  if (types.includes(1) && !types.includes(2)) {
+    types.push(2);
   }
-  if (types.includes('3')) {
-    types.push('4');
+  if (types.includes(3) && !types.includes(4)) {
+    types.push(4);
   }
 
   return types;
