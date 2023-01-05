@@ -15,6 +15,7 @@ dependencies:
     - node.type.landing_page
     - node.type.page
     - taxonomy.vocabulary.keywords
+    - taxonomy.vocabulary.organization
   module:
     - block
     - config_translation
@@ -145,10 +146,11 @@ permissions:
   - 'edit paragraph library item'
   - 'edit remote entities'
   - 'edit terms in keywords'
+  - 'edit terms in organization'
   - 'restful get helfi_debug_data'
   - 'revert all revisions'
-  - 'revert job_listing revisions'
   - 'revert announcement revisions'
+  - 'revert job_listing revisions'
   - 'revert landing_page revisions'
   - 'revert page revisions'
   - 'schedule publishing of nodes'
@@ -190,8 +192,3 @@ permissions:
   - 'view scheduled content'
   - 'view the administration theme'
   - 'view unpublished paragraphs'
-  - 'create hel_map media'
-  - 'delete any hel_map media'
-  - 'delete own hel_map media'
-  - 'edit any hel_map media'
-  - 'edit own hel_map media'
