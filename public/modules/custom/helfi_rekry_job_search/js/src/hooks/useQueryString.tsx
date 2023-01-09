@@ -1,6 +1,6 @@
 import Global from '../enum/Global';
 import IndexFields from '../enum/IndexFields';
-import { languageFilter, nodeFilter, publicationFilter } from '../query/queries';
+import { languageFilter, nodeFilter, publicationQuery } from '../query/queries';
 import URLParams from '../types/URLParams';
 
 /**
@@ -108,6 +108,7 @@ const useQueryString = (urlParams: URLParams): string => {
 
   const query: any = {
     bool: {
+      ...publicationQuery.bool,
       filter: [
         urlParams.language
           ? {
@@ -116,7 +117,6 @@ const useQueryString = (urlParams: URLParams): string => {
               },
             }
           : languageFilter,
-        publicationFilter,
         nodeFilter,
       ],
     },
