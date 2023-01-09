@@ -14,6 +14,7 @@ dependencies:
     - field.storage.node.field_organization
     - field.storage.node.field_jobs
     - field.storage.node.field_postal_area
+    - field.storage.node.field_recruitment_id
     - field.storage.node.field_recruitment_type
     - search_api.server.elastic_rekry
   module:
@@ -21,6 +22,7 @@ dependencies:
     - node
     - scheduler
     - search_api
+    - helfi_rekry_job_search
 id: job_listings
 name: 'Job listings'
 description: ''
@@ -136,6 +138,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_publication_starts
+  field_recruitment_id:
+    label: 'Recruitment ID'
+    datasource_id: 'entity:node'
+    property_path: field_recruitment_id
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_recruitment_id
   field_recruitment_type:
     label: 'Recruitment type'
     datasource_id: 'entity:node'
@@ -259,6 +269,7 @@ processor_settings:
   aggregated_field: {  }
   entity_status: {  }
   entity_type: {  }
+  helfi_rekry_custom_labels: {  }
   ignorecase:
     weights:
       preprocess_index: -20

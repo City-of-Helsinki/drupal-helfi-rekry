@@ -4,15 +4,33 @@ const now = Math.floor(Date.now() / 1000);
 
 // Filter by current language
 export const languageFilter = {
-  term: { [IndexFields.LANGUAGE]: window.drupalSettings.path.currentLanguage || 'fi' },
+  term: { [`${IndexFields.LANGUAGE}.keyword`]: window.drupalSettings.path.currentLanguage || 'fi' },
 };
 
-// Filter by current date within pub dates
-export const publicationFilter = {
-  range: {
-    [IndexFields.UNPUBLISH_ON]: {
-      gte: now,
-    },
+// Match by current date within pub dates or pub date is null
+export const publicationQuery = {
+  bool: {
+    minimum_should_match: 1,
+    should: [
+      {
+        range: {
+          [IndexFields.UNPUBLISH_ON]: {
+            gte: now,
+          },
+        },
+      },
+      {
+        bool: {
+          must_not: [
+            {
+              exists: {
+                field: 'unpublish_on',
+              },
+            },
+          ],
+        },
+      },
+    ],
   },
 };
 
@@ -58,7 +76,8 @@ export const AGGREGATIONS = {
   },
   query: {
     bool: {
-      filter: [languageFilter, nodeFilter, publicationFilter],
+      ...publicationQuery.bool,
+      filter: [nodeFilter],
     },
   },
   size: 10000,
@@ -92,6 +111,7 @@ export const LANGUAGE_OPTIONS = {
   },
   query: {
     bool: {
+      ...publicationQuery.bool,
       filter: [
         {
           term: {
@@ -99,7 +119,6 @@ export const LANGUAGE_OPTIONS = {
           },
         },
         nodeFilter,
-        publicationFilter,
       ],
     },
   },
