@@ -28,6 +28,10 @@ name: 'Job listings'
 description: ''
 read_only: false
 field_settings:
+  custom_labels:
+    label: 'Custom labels'
+    property_path: custom_labels
+    type: string
   employment_id:
     label: 'Employment » Luokittelutermi » Termin ID'
     datasource_id: 'entity:node'

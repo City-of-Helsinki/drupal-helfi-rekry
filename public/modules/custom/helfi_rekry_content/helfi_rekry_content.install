@@ -211,3 +211,44 @@ function helfi_rekry_content_update_9004() {
     $executable->rollback();
   }
 }
+
+/**
+ * HELfi rekry content update 9005.
+ */
+function helfi_rekry_content_update_9005() {
+
+  $employmentItems = [
+    [
+      'en' => 'Summer jobs and summer temporary posts',
+      'fi' => 'Kesätyöt ja kesäsijaisuudet',
+      'sv' => 'Sommarjobb',
+    ],
+    [
+      'en' => 'Young summer workers aged 16-17',
+      'fi' => 'Nuoret 16-17 -vuotiaat kesätyöntekijät',
+      'sv' => 'Sommarjobb för unga (16-17 år)',
+    ],
+    [
+      'en' => 'Siisti kesä! Project',
+      'fi' => 'Siisti kesä -hanke',
+      'sv' => 'Projektet En snygg sommar',
+    ],
+    [
+      'en' => 'Open-ended vacancies',
+      'fi' => 'Jatkuva haku',
+      'sv' => 'Jatkuva haku',
+    ]
+  ];
+
+  foreach ($employmentItems as $item) {
+    $term = Term::create([
+      'parent' => [],
+      'name' => $item['en'],
+      'vid' => 'employment',
+    ])->addTranslation('fi', [
+      'name' => $item['fi'],
+    ])->addTranslation('sv', [
+      'name' => $item['sv'],
+    ])->save();
+  }
+}

@@ -78,9 +78,6 @@ const FormContainer = () => {
 
   const isFullSearch = !drupalSettings?.helfi_rekry_job_search?.results_page_path;
 
-  // @todo enable checkboxes once https://helsinkisolutionoffice.atlassian.net/browse/UHF-7763 is done
-  const showCheckboxes = false;
-
   return (
     <form className='job-search-form' onSubmit={handleSubmit} action={formAction}>
       <TextInput
@@ -198,7 +195,7 @@ const FormContainer = () => {
           </div>
         </div>
       )}
-      {isFullSearch && showCheckboxes && (
+      {isFullSearch && (
         <fieldset className='job-search-form__checkboxes'>
           <legend className='job-search-form__checkboxes-legend'>
             {Drupal.t('Filters', {}, { context: 'Checkbox filters heading' })}
@@ -223,7 +220,7 @@ const FormContainer = () => {
           />
           <Checkbox
             className='job-search-form__checkbox'
-            label={Drupal.t('summer jobs and substitute vacancies', {}, { context: 'Job search' })}
+            label={Drupal.t('Summer jobs and summer temporary posts', {}, { context: 'Job search' })}
             id={SearchComponents.SUMMER_JOBS}
             onClick={() => setSummerJobs(!summerJobs)}
             checked={summerJobs}

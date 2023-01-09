@@ -74,12 +74,6 @@ export const AGGREGATIONS = {
         size: 100,
       },
     },
-    languages: {
-      terms: {
-        field: '_language.keyword',
-        size: 100,
-      },
-    },
   },
   query: {
     bool: {
@@ -129,7 +123,6 @@ export const LANGUAGE_OPTIONS = {
       ],
     },
   },
-  size: 10000,
 };
 
 // Get all task area options

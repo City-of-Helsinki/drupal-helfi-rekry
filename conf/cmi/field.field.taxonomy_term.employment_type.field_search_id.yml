@@ -1,0 +1,29 @@
+uuid: d96ae5ed-2577-49ef-bf80-3121e8c7810c
+langcode: fi
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_search_id
+    - taxonomy.vocabulary.employment_type
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: roles_enable
+    add_roles:
+      - admin
+    edit_disable: roles_enable
+    edit_roles:
+      - admin
+id: taxonomy_term.employment_type.field_search_id
+field_name: field_search_id
+entity_type: taxonomy_term
+bundle: employment_type
+label: 'Search ID'
+description: 'Hakuapplikaation vaatima arvo, jolla tunnistetaan termien käyttötarkoitus.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
