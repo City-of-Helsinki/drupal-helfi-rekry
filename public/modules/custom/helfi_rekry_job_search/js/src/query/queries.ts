@@ -21,6 +21,13 @@ export const publicationQuery = {
       },
       {
         bool: {
+          must: [
+            {
+              term: {
+                status: true,
+              },
+            },
+          ],
           must_not: [
             {
               exists: {
@@ -77,10 +84,9 @@ export const AGGREGATIONS = {
   query: {
     bool: {
       ...publicationQuery.bool,
-      filter: [nodeFilter],
+      filter: [languageFilter, nodeFilter],
     },
   },
-  size: 10000,
 };
 
 // Get all employment filter options
