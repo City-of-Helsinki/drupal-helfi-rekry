@@ -148,12 +148,14 @@ export const employmentAtom = atom<OptionType[]>((get) => {
       let count = 0;
 
       // Combine results for service / contractual employments
+      // Tids match production ones
+      // @todo fix hard-coded values
       switch (tid.toString()) {
-        case '1':
-          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(2) || 0);
+        case '89':
+          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(88) || 0);
           break;
-        case '3':
-          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(4) || 0);
+        case '91':
+          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(90) || 0);
           break;
         default:
           count = combinedAggs.get(tid) || 0;
