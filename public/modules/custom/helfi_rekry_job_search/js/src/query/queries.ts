@@ -95,7 +95,8 @@ export const EMPLOYMENT_FILTER_OPTIONS = {
     bool: {
       should: [
         {
-          terms: { tid: [1, 3, 7, 10] },
+          // These match the tids in production
+          terms: { tid: [89, 91, 86, 83] },
         },
       ],
       filter: [languageFilter, { term: { [IndexFields.ENTITY_TYPE]: 'taxonomy_term' } }],
