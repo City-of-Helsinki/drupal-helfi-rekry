@@ -216,14 +216,18 @@ process:
     bundle_key: vid
     bundle: employment_type
     ignore_case: true
-  field_employment/target_id:
-    plugin: entity_lookup
-    entity_type: taxonomy_term
-    value_key: name
-    source: employment
-    bundle_key: vid
-    bundle: employment
-    ignore_case: true
+  field_employment:
+    - 
+      plugin: callback
+      callable: _helfi_rekry_transform_employment
+      source: employment
+    -
+      plugin: entity_lookup
+      entity_type: taxonomy_term
+      value_key: name
+      bundle_key: vid
+      bundle: employment
+      ignore_case: true
   type:
     plugin: default_value
     default_value: job_listing

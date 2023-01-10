@@ -12,5 +12,5 @@ third_party_settings:
 id: taxonomy_term.task_area
 target_entity_type_id: taxonomy_term
 target_bundle: task_area
-default_langcode: site_default
+default_langcode: en
 language_alterable: false

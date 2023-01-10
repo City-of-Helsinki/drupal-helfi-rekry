@@ -1,7 +1,12 @@
 import { atom } from 'jotai';
 
-import { AGGREGATIONS } from './query/queries';
+import { bucketToMap } from './helpers/Aggregations';
+import { getLanguageLabel } from './helpers/Language';
+import { sortOptions } from './helpers/Options';
+import { AGGREGATIONS, EMPLOYMENT_FILTER_OPTIONS, LANGUAGE_OPTIONS, TASK_AREA_OPTIONS } from './query/queries';
 import type OptionType from './types/OptionType';
+import type Result from './types/Result';
+import type Term from './types/Term';
 import type URLParams from './types/URLParams';
 
 const getParams = (searchParams: URLSearchParams) => {
@@ -71,27 +76,113 @@ export const pageAtom = atom((get) => Number(get(urlAtom)?.page) || 1);
 export const configurationsAtom = atom(async () => {
   const proxyUrl = drupalSettings?.helfi_rekry_job_search?.elastic_proxy_url;
   const url: string | undefined = proxyUrl || process.env.REACT_APP_ELASTIC_URL;
+  const ndjsonHeader = '{}';
 
-  return fetch(`${url}/_search`, {
+  const body =
+    ndjsonHeader +
+    '\n' +
+    JSON.stringify(AGGREGATIONS) +
+    '\n' +
+    ndjsonHeader +
+    '\n' +
+    JSON.stringify(TASK_AREA_OPTIONS) +
+    '\n' +
+    ndjsonHeader +
+    '\n' +
+    JSON.stringify(EMPLOYMENT_FILTER_OPTIONS) +
+    '\n' +
+    ndjsonHeader +
+    '\n' +
+    JSON.stringify(LANGUAGE_OPTIONS) +
+    '\n';
+  return fetch(`${url}/_msearch`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-ndjson',
     },
-    body: JSON.stringify(AGGREGATIONS),
+    body: body,
   })
     .then((res) => res.json())
-    .then((json) => json.aggregations);
+    .then((json) => {
+      // Simplify response for later use.
+      const [aggs, taskAreas, employmentOptions, languages] = json?.responses;
+
+      return {
+        taskAreaOptions: taskAreas?.hits?.hits || [],
+        taskAreas: aggs?.aggregations?.occupations?.buckets || [],
+        employment: aggs?.aggregations?.employment?.buckets || [],
+        employmentOptions: employmentOptions?.hits?.hits || [],
+        employmentType: aggs?.aggregations?.employment_type?.buckets || [],
+        languages: languages?.aggregations?.languages?.buckets || [],
+      };
+    });
 });
 
-// TODO fetch data from elastic
 export const taskAreasAtom = atom<OptionType[]>((get) => {
-  const conf = get(configurationsAtom);
-  return conf.occupations.buckets.map(({ key, doc_count }: { key: string; doc_count: number }) => {
-    return { label: `${key} (${doc_count})`, value: key.trim() as string };
-  }) as OptionType[];
+  const aggs = bucketToMap(get(configurationsAtom)?.taskAreas);
+  const options = get(configurationsAtom)?.taskAreaOptions;
+
+  return options
+    .map((option: Result<Term>) => {
+      const count = aggs.get(option._source.tid[0]) || 0;
+      const name = option._source.name;
+
+      return {
+        count: count,
+        label: `${name} (${count})`,
+        simpleLabel: name,
+        value: option._source.tid[0],
+      };
+    })
+    .sort((a: OptionType, b: OptionType) => sortOptions(a, b));
 });
-//TODO connect these two
 export const taskAreasSelectionAtom = atom<OptionType[]>([] as OptionType[]);
+
+export const employmentAtom = atom<OptionType[]>((get) => {
+  const { employment, employmentOptions, employmentType } = get(configurationsAtom);
+  const combinedAggs = bucketToMap(employment.concat(employmentType));
+
+  return employmentOptions
+    .map((term: Result<Term>) => {
+      const tid = term._source.tid[0];
+      let count = 0;
+
+      // Combine results for service / contractual employments
+      switch (tid.toString()) {
+        case '1':
+          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(2) || 0);
+          break;
+        case '3':
+          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(4) || 0);
+          break;
+        default:
+          count = combinedAggs.get(tid) || 0;
+          break;
+      }
+
+      return {
+        count: count,
+        label: `${term._source.name} (${count})`,
+        simpleLabel: term._source.name,
+        value: tid,
+      };
+    })
+    .sort((a: OptionType, b: OptionType) => sortOptions(a, b));
+});
+export const employmentSelectionAtom = atom<OptionType[]>([] as OptionType[]);
+
+export const languagesAtom = atom<OptionType[]>((get) => {
+  const languages = bucketToMap(get(configurationsAtom)?.languages);
+  const languageOptions = ['fi', 'sv', 'en'];
+
+  return languageOptions.map((langcode: string) => ({
+    label: `${getLanguageLabel(langcode)} (${languages.get(langcode) || 0})`,
+    simpleLabel: langcode,
+    value: langcode,
+  }));
+});
+export const languageSelectionAtom = atom<OptionType | null>(null);
+
 export const continuousAtom = atom<boolean>(false);
 export const internshipAtom = atom<boolean>(false);
 export const summerJobsAtom = atom<boolean>(false);
@@ -105,4 +196,5 @@ export const resetFormAtom = atom(null, (get, set) => {
   set(summerJobsAtom, false);
   set(youthSummerJobsAtom, false);
   set(urlUpdateAtom, {});
+  set(languageSelectionAtom, null);
 });

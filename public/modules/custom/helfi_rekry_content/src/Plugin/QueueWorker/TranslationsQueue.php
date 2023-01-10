@@ -26,6 +26,17 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
   public const QUEUE_ID = 'helfi_rekry_job_translations';
 
   /**
+   * All possible langcode values.
+   *
+   * @var protectedarray
+   */
+  protected array $langcodes = [
+    'en' => 'en',
+    'fi' => 'fi',
+    'sv' => 'sv',
+  ];
+
+  /**
    * Create a static instance.
    *
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
@@ -59,31 +70,41 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
       return;
     }
 
-    $this->createTranslations($data->nid);
+    $this->handleTranslations($data->nid);
   }
 
   /**
-   * Create missing language versions.
+   * Create / update forced translations.
    *
    * @param string $id
    *   Job listing node id.
    */
-  public function createTranslations(string $id): void {
+  public function handleTranslations(string $id): void {
     $listing = Node::load($id);
 
     if (!$listing) {
       return;
     }
 
-    $missingVersions = $this->getMissingVersions($listing);
+    $originalLangcode = $listing->get('langcode')->value;
 
-    if (count($missingVersions) < 1) {
-      return;
-    }
+    foreach ($this->langcodes as $langcode) {
+      if ($langcode === $originalLangcode) {
+        continue;
+      }
 
-    foreach ($missingVersions as $langcode) {
-      $originalLangcode = $listing->get('langcode')->value;
-      $listing->addTranslation($langcode, array_merge($listing->toArray(), [
+      $existing = NULL;
+      $translated = $listing->hasTranslation($langcode);
+
+      if ($translated) {
+        $existing = $listing->getTranslation($langcode);
+      }
+
+      if ($existing && $this->shouldNotUpdate($existing)) {
+        return;
+      }
+
+      $translation = $existing ? $existing : $listing->addTranslation($langcode, array_merge($listing->toArray(), [
         'field_copied' => [
           ['value' => TRUE],
         ],
@@ -92,27 +113,23 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
         ],
       ]));
 
+      // Publish the translation if needed.
+      if ($listing->isPublished()) {
+        $translation->setPublished(TRUE);
+      }
+
       $listing->save();
     }
   }
 
   /**
-   * Checks which translations need to be created.
-   *
-   * @param \Drupal\node\Entity\Node $node
-   *   Node entity to check for.
+   * Handle updating existing translations.
    */
-  private function getMissingVersions(Node $node) {
-    $langcodes = ['fi', 'sv', 'en'];
-    $missing = [];
-
-    foreach ($langcodes as $langcode) {
-      if (!$node->hasTranslation($langcode)) {
-        $missing[] = $langcode;
-      }
+  private function shouldNotUpdate(Node $translation) {
+    // Don't update listings that haver their own translation in Helbit.
+    if ($translation->get('field_copied')->getValue() === FALSE) {
+      return;
     }
-
-    return $missing;
   }
 
 }
