@@ -228,7 +228,7 @@ field_settings:
     property_path: search_api_url
     type: string
     configuration:
-      absolute: true
+      absolute: false
   uuid:
     label: UUID
     datasource_id: 'entity:node'
