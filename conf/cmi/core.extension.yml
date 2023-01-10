@@ -33,6 +33,7 @@ module:
   field_group: 0
   field_ui: 0
   file: 0
+  file_mdm: 0
   filter: 0
   flysystem: 0
   flysystem_azure: 0
@@ -65,6 +66,7 @@ module:
   image: 0
   image_style_quality: 0
   imagecache_external: 0
+  imagemagick: 0
   language: 0
   link: 0
   linkit: 0
@@ -108,6 +110,7 @@ module:
   select2_icon: 0
   simple_sitemap: 0
   social_media: 0
+  sophron: 0
   system: 0
   taxonomy: 0
   telephone: 0
