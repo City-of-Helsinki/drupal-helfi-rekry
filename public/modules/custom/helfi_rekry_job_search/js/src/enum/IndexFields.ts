@@ -1,11 +1,11 @@
 const IndexFields = {
   LANGUAGE: '_language',
   COPIED: 'field_copied',
-  CUSTOM_LABELS: 'custom_labels',
   EMPLOYMENT: 'field_employment',
   EMPLOYMENT_ID: 'employment_id',
   EMPLOYMENT_TYPE: 'field_employment_type',
   EMPLOYMENT_TYPE_ID: 'employment_type_id',
+  EMPLOYMENT_SEARCH_ID: 'employment_search_id',
   ENTITY_TYPE: 'entity_type',
   JOB_DURATION: 'field_job_duration',
   NUMBER_OF_JOBS: 'field_jobs',
@@ -18,18 +18,12 @@ const IndexFields = {
   TASK_AREA: 'field_task_area',
   TASK_AREA_ID: 'task_area_id',
   LANGCODE: 'langcode',
+  SEARCH_ID: 'field_search_id',
   STATUS: 'status',
   TID: 'tid',
   TITLE: 'title',
   UNPUBLISH_ON: 'unpublish_on',
   UUID: 'uuid',
-};
-
-export const CustomLabels = {
-  is_continuous: 'is_continuous',
-  is_internship: 'is_internship',
-  is_summer_job: 'is_summer_job',
-  is_youth_summer_job: 'is_youth_summer_job',
 };
 
 export default IndexFields;

@@ -1,10 +1,11 @@
+import { CustomIds } from '../enum/CustomTermIds';
 import IndexFields from '../enum/IndexFields';
 
 const now = Math.floor(Date.now() / 1000);
 
 // Filter by current language
 export const languageFilter = {
-  term: { [`${IndexFields.LANGUAGE}.keyword`]: window.drupalSettings.path.currentLanguage || 'fi' },
+  term: { [IndexFields.LANGUAGE]: window.drupalSettings.path.currentLanguage || 'fi' },
 };
 
 // Match by current date within pub dates or pub date is null
@@ -90,7 +91,16 @@ export const EMPLOYMENT_FILTER_OPTIONS = {
       should: [
         {
           // These match the tids in production
-          terms: { tid: [89, 91, 86, 83] },
+          terms: {
+            field_search_id: [
+              CustomIds.FIXED_CONTRACTUAL,
+              CustomIds.FIXED_SERVICE,
+              CustomIds.PERMANENT_CONTRACTUAL,
+              CustomIds.PERMANENT_SERVICE,
+              CustomIds.TRAINING,
+              CustomIds.ALTERNATION,
+            ],
+          },
         },
       ],
       filter: [languageFilter, { term: { [IndexFields.ENTITY_TYPE]: 'taxonomy_term' } }],

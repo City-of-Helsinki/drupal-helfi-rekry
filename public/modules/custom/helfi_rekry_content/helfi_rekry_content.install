@@ -222,25 +222,25 @@ function helfi_rekry_content_update_9005() {
       'en' => 'Summer jobs and summer temporary posts',
       'fi' => 'Kesätyöt ja kesäsijaisuudet',
       'sv' => 'Sommarjobb',
-      'search_id' => 'SUMMER_JOBS'
+      'search_id' => 'summer_jobs'
     ],
     [
       'en' => 'Young summer workers aged 16-17',
       'fi' => 'Nuoret 16-17 -vuotiaat kesätyöntekijät',
       'sv' => 'Sommarjobb för unga (16-17 år)',
-      'search_id' => 'YOUTH_SUMMER_JOBS'
+      'search_id' => 'youth_summer_jobs'
     ],
     [
       'en' => 'Siisti kesä! Project',
       'fi' => 'Siisti kesä -hanke',
       'sv' => 'Projektet En snygg sommar',
-      'search_id' => 'COOL_SUMMER_PROJECT'
+      'search_id' => 'cool_summer_project'
     ],
     [
       'en' => 'Open-ended vacancies',
       'fi' => 'Jatkuva haku',
       'sv' => 'Jatkuva haku',
-      'search_id' => 'CONTINUOUS'
+      'search_id' => 'continuous'
     ]
   ];
 
@@ -256,4 +256,55 @@ function helfi_rekry_content_update_9005() {
       'name' => $item['sv'],
     ])->save();
   }
+}
+
+/**
+ * HELfi rekry content update 9006.
+ */
+function helfi_rekry_content_update_9006() {
+  $query = \Drupal::entityQuery('taxonomy_term')
+    ->condition('vid', ['employment', 'employment_type'], 'IN')
+    ->notExists('field_search_id', '');
+
+  $ids = $query->execute();
+
+  if (count($ids) === 0) {
+    return;
+  }
+
+  $terms = Term::loadMultiple($ids);
+
+  foreach ($terms as $term) {
+    if (!$term->hasTranslation('en')) {
+      continue;
+    }
+
+    $translation = $term->getTranslation('en');
+    $name = $translation->getName();
+
+    $search_id = match ($name) {
+      'Summer jobs and summer temporary posts' => 'summer_jobs',
+      'Young summer workers aged 16-17' => 'youth_summer_jobs',
+      'Siisti kesä! Project' =>'cool_summer_project',
+      'Permanent contractual employment' =>'permanent_contractual',
+      'Permanent public service employment' =>'permanent_service',
+      'Fixed-term contractual employment' =>'fixed_contractual',
+      'Fixed-term public service employment' => 'fixed_service',
+      'Part-time employment' =>'part_time',
+      'Temporary position' =>'temporary',
+      'Job alternation leave substitute' =>'alternation',
+      'Project-type job' =>'project',
+      'Apprenticeship contract' =>'apprenticeship',
+      'Practical training' =>'training',
+      default => NULL
+    };
+
+    if (!$search_id) {
+      continue;
+    }
+
+    $term->set('field_search_id', $search_id);
+    $term->save();
+  }
+
 }

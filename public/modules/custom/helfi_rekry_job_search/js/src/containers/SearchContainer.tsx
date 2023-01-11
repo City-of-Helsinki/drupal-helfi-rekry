@@ -10,8 +10,8 @@ const SearchContainer = () => {
       {/* For async atoms that need to load option values from elastic*/}
       <Suspense fallback={<LoadingSpinner />}>
         <FormContainer />
+        {!drupalSettings?.helfi_rekry_job_search?.results_page_path && <ResultsContainer />}
       </Suspense>
-      {!drupalSettings?.helfi_rekry_job_search?.results_page_path && <ResultsContainer />}
     </div>
   );
 };

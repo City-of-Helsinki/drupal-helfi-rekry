@@ -1,5 +1,6 @@
+import { CustomIds } from '../enum/CustomTermIds';
 import Global from '../enum/Global';
-import IndexFields, { CustomLabels } from '../enum/IndexFields';
+import IndexFields from '../enum/IndexFields';
 import { languageFilter, nodeFilter, publicationQuery } from '../query/queries';
 import URLParams from '../types/URLParams';
 
@@ -82,7 +83,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams.continuous) {
     should.push({
       term: {
-        [IndexFields.CUSTOM_LABELS]: CustomLabels.is_continuous,
+        [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.CONTINUOUS,
       },
     });
   }
@@ -90,7 +91,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams.internship) {
     should.push({
       term: {
-        [IndexFields.CUSTOM_LABELS]: CustomLabels.is_internship,
+        [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.TRAINING,
       },
     });
   }
@@ -98,7 +99,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams.summer_jobs) {
     should.push({
       term: {
-        [IndexFields.CUSTOM_LABELS]: CustomLabels.is_summer_job,
+        [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.SUMMER_JOBS,
       },
     });
   }
@@ -106,7 +107,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams.youth_summer_jobs) {
     should.push({
       term: {
-        [IndexFields.CUSTOM_LABELS]: CustomLabels.is_youth_summer_job,
+        [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.YOUTH_SUMMER_JOBS,
       },
     });
   }

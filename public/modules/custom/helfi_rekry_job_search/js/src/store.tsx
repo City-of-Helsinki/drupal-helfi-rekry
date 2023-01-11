@@ -1,5 +1,6 @@
 import { atom } from 'jotai';
 
+import { CustomIds } from './enum/CustomTermIds';
 import { bucketToMap } from './helpers/Aggregations';
 import { getLanguageLabel } from './helpers/Language';
 import { sortOptions } from './helpers/Options';
@@ -142,20 +143,31 @@ export const employmentAtom = atom<OptionType[]>((get) => {
   const { employment, employmentOptions, employmentType } = get(configurationsAtom);
   const combinedAggs = bucketToMap(employment.concat(employmentType));
 
-  return employmentOptions
+  const visibleOptions = employmentOptions.filter(
+    (term: Result<Term>) =>
+      term._source?.field_search_id?.[0] &&
+      ![CustomIds.PERMANENT_SERVICE, CustomIds.FIXED_SERVICE].includes(term._source.field_search_id[0])
+  );
+
+  return visibleOptions
     .map((term: Result<Term>) => {
       const tid = term._source.tid[0];
+      const customId = term._source.field_search_id?.[0];
       let count = 0;
 
       // Combine results for service / contractual employments
-      // Tids match production ones
-      // @todo fix hard-coded values
-      switch (tid.toString()) {
-        case '89':
-          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(88) || 0);
+      switch (customId?.toString()) {
+        case CustomIds.PERMANENT_CONTRACTUAL:
+          const permanentService = employmentOptions.find(
+            (term: Result<Term>) => term._source?.field_search_id?.[0] === CustomIds.PERMANENT_SERVICE
+          )?._source.tid[0];
+          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(permanentService) || 0);
           break;
-        case '91':
-          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(90) || 0);
+        case CustomIds.FIXED_CONTRACTUAL:
+          const fixedService = employmentOptions.find(
+            (term: Result<Term>) => term._source?.field_search_id?.[0] === CustomIds.FIXED_SERVICE
+          )?._source.tid[0];
+          count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(fixedService) || 0);
           break;
         default:
           count = combinedAggs.get(tid) || 0;
