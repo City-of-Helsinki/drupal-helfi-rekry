@@ -10,12 +10,12 @@ use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Queue worker for kob listing translations.
+ * Queue worker for job listing translations.
  *
  * @QueueWorker(
  *   id = "helfi_rekry_job_translations",
  *   title = @Translation("Job listing translations"),
- *   cron = {"time" = 60}
+ *   cron = {"time" = 900}
  * )
  */
 final class TranslationsQueue extends QueueWorkerBase implements ContainerFactoryPluginInterface {
