@@ -39,7 +39,7 @@ msgstr "Alla typer av anställningsförhållande"
 
 msgctxt "Language filter label"
 msgid "Language"
-msgstr "Ilmoituksen kieli"
+msgstr "Annonsens språk"
 
 msgctxt "Language placeholder"
 msgid "All languages"

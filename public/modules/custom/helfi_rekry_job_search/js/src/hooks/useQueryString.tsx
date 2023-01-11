@@ -1,6 +1,6 @@
 import Global from '../enum/Global';
 import IndexFields, { CustomLabels } from '../enum/IndexFields';
-import { languageFilter, nodeFilter, publicationFilter } from '../query/queries';
+import { languageFilter, nodeFilter, publicationQuery } from '../query/queries';
 import URLParams from '../types/URLParams';
 
 /**
@@ -30,6 +30,11 @@ const useQueryString = (urlParams: URLParams): string => {
       bool: {
         should: [
           {
+            match_phrase_prefix: {
+              [IndexFields.RECRUITMENT_ID]: urlParams.keyword.toString(),
+            },
+          },
+          {
             combined_fields: {
               query: urlParams.keyword.toString(),
               fields: [`${IndexFields.TITLE}^2`, IndexFields.EMPLOYMENT, IndexFields.ORGANIZATION_NAME],
@@ -37,7 +42,7 @@ const useQueryString = (urlParams: URLParams): string => {
           },
           {
             wildcard: {
-              [`${IndexFields.TITLE}.keyword`]: `*${urlParams.keyword}*`,
+              [`${IndexFields.TITLE}.keyword`]: `*${urlParams.keyword.toString()}*`,
             },
           },
         ],

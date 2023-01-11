@@ -13,6 +13,7 @@ const IndexFields = {
   ORGANIZATION_NAME: 'field_organization_name',
   POSTAL_AREA: 'field_postal_area',
   PUBLICATION_STARTS: 'field_publication_starts',
+  RECRUITMENT_ID: 'field_recruitment_id',
   RECRUITMENT_TYPE: 'field_recruitment_type',
   TASK_AREA: 'field_task_area',
   TASK_AREA_ID: 'task_area_id',
