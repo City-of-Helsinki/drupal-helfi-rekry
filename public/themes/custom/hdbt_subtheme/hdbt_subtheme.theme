@@ -184,6 +184,12 @@ function hdbt_subtheme_preprocess_paragraph__job_search(array &$variables) {
   if ($paragraph_type == 'job_search') {
     if ($search_result_page_nid = $paragraph->get('field_job_search_result_page')->getString()) {
       $entity = Node::load($search_result_page_nid);
+      $language = \Drupal::languageManager()->getCurrentLanguage()->getId();
+
+      if ($entity->hasTranslation($language)) {
+        $entity = $entity->getTranslation($language);
+      }
+
       $url = $entity->toUrl()->toString();
       $variables['#attached']['drupalSettings']['helfi_rekry_job_search']['results_page_path'] = $url;
     }
