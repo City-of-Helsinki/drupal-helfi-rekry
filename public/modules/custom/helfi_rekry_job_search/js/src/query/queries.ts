@@ -75,6 +75,12 @@ export const AGGREGATIONS = {
         size: 100,
       },
     },
+    employment_search_id: {
+      terms: {
+        field: 'employment_search_id.keyword',
+        size: 100,
+      },
+    },
   },
   query: {
     bool: {

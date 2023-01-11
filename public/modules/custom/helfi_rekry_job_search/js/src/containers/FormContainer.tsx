@@ -3,10 +3,13 @@ import { useAtom, useAtomValue } from 'jotai';
 import { useUpdateAtom } from 'jotai/utils';
 import React, { Fragment, useEffect } from 'react';
 
+import { CustomIds } from '../enum/CustomTermIds';
 import SearchComponents from '../enum/SearchComponents';
+import { bucketToMap } from '../helpers/Aggregations';
 import { getInitialLanguage } from '../helpers/Language';
 import { transformDropdownsValues } from '../helpers/Params';
 import {
+  configurationsAtom,
   continuousAtom,
   employmentAtom,
   employmentSelectionAtom,
@@ -39,6 +42,8 @@ const FormContainer = () => {
   const [employmentSelection, setEmploymentFilter] = useAtom(employmentSelectionAtom);
   const languagesOptions = useAtomValue(languagesAtom);
   const [languageSelection, setLanguageFilter] = useAtom(languageSelectionAtom);
+  const { employmentSearchIds } = useAtomValue(configurationsAtom);
+  const employmentSearchIdMap = bucketToMap(employmentSearchIds);
 
   // Set form control values from url parameters on load
   useEffect(() => {
@@ -60,7 +65,10 @@ const FormContainer = () => {
     event.preventDefault();
     setUrlParams({
       employment: employmentSelection.reduce((acc: any, curr: any) => {
-        return Array.isArray(curr.value) ? acc.concat(curr.value) : acc.push(curr.value);
+        let target = curr.additionalValue
+          ? [curr.additionalValue.toString(), curr.value.toString()]
+          : [curr.value.toString()];
+        return acc.concat(target);
       }, []),
       keyword,
       language: languageSelection?.value,
@@ -202,42 +210,50 @@ const FormContainer = () => {
           <legend className='job-search-form__checkboxes-legend'>
             {Drupal.t('Filters', {}, { context: 'Checkbox filters heading' })}
           </legend>
-          <Checkbox
-            className='job-search-form__checkbox'
-            label={Drupal.t('Open-ended vacancies', {}, { context: 'Job search' })}
-            id={SearchComponents.CONTINUOUS}
-            onClick={() => setContinuous(!continuous)}
-            checked={continuous}
-            name={SearchComponents.CONTINUOUS}
-            value={continuous.toString()}
-          />
-          <Checkbox
-            className='job-search-form__checkbox'
-            label={Drupal.t('Practical training', {}, { context: 'Job search' })}
-            id={SearchComponents.INTERNSHIPS}
-            onClick={() => setInternship(!internship)}
-            checked={internship}
-            name={SearchComponents.INTERNSHIPS}
-            value={internship.toString()}
-          />
-          <Checkbox
-            className='job-search-form__checkbox'
-            label={Drupal.t('Summer jobs', {}, { context: 'Job search' })}
-            id={SearchComponents.SUMMER_JOBS}
-            onClick={() => setSummerJobs(!summerJobs)}
-            checked={summerJobs}
-            name={SearchComponents.SUMMER_JOBS}
-            value={summerJobs.toString()}
-          />
-          <Checkbox
-            className='job-search-form__checkbox'
-            label={Drupal.t('Summer jobs for young people', {}, { context: 'Job search' })}
-            id={SearchComponents.YOUTH_SUMMER_JOBS}
-            onClick={() => setYouthSummerJobs(!youthSummerJobs)}
-            checked={youthSummerJobs}
-            name={SearchComponents.YOUTH_SUMMER_JOBS}
-            value={youthSummerJobs.toString()}
-          />
+          {employmentSearchIdMap.get(CustomIds.CONTINUOUS) && (
+            <Checkbox
+              className='job-search-form__checkbox'
+              label={Drupal.t('Open-ended vacancies', {}, { context: 'Job search' })}
+              id={SearchComponents.CONTINUOUS}
+              onClick={() => setContinuous(!continuous)}
+              checked={continuous}
+              name={SearchComponents.CONTINUOUS}
+              value={continuous.toString()}
+            />
+          )}
+          {employmentSearchIdMap.get(CustomIds.TRAINING) && (
+            <Checkbox
+              className='job-search-form__checkbox'
+              label={Drupal.t('Practical training', {}, { context: 'Job search' })}
+              id={SearchComponents.INTERNSHIPS}
+              onClick={() => setInternship(!internship)}
+              checked={internship}
+              name={SearchComponents.INTERNSHIPS}
+              value={internship.toString()}
+            />
+          )}
+          {employmentSearchIdMap.get(CustomIds.SUMMER_JOBS) && (
+            <Checkbox
+              className='job-search-form__checkbox'
+              label={Drupal.t('Summer jobs', {}, { context: 'Job search' })}
+              id={SearchComponents.SUMMER_JOBS}
+              onClick={() => setSummerJobs(!summerJobs)}
+              checked={summerJobs}
+              name={SearchComponents.SUMMER_JOBS}
+              value={summerJobs.toString()}
+            />
+          )}
+          {employmentSearchIdMap.get(CustomIds.YOUTH_SUMMER_JOBS) && (
+            <Checkbox
+              className='job-search-form__checkbox'
+              label={Drupal.t('Summer jobs for young people', {}, { context: 'Job search' })}
+              id={SearchComponents.YOUTH_SUMMER_JOBS}
+              onClick={() => setYouthSummerJobs(!youthSummerJobs)}
+              checked={youthSummerJobs}
+              name={SearchComponents.YOUTH_SUMMER_JOBS}
+              value={youthSummerJobs.toString()}
+            />
+          )}
         </fieldset>
       )}
       <Button className='hds-button hds-button--primary job-search-form__submit-button' type='submit'>

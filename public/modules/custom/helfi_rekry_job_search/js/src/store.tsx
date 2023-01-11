@@ -113,6 +113,7 @@ export const configurationsAtom = atom(async () => {
         taskAreas: aggs?.aggregations?.occupations?.buckets || [],
         employment: aggs?.aggregations?.employment?.buckets || [],
         employmentOptions: employmentOptions?.hits?.hits || [],
+        employmentSearchIds: aggs?.aggregations?.employment_search_id?.buckets || [],
         employmentType: aggs?.aggregations?.employment_type?.buckets || [],
         languages: languages?.aggregations?.languages?.buckets || [],
       };
@@ -154,6 +155,7 @@ export const employmentAtom = atom<OptionType[]>((get) => {
       const tid = term._source.tid[0];
       const customId = term._source.field_search_id?.[0];
       let count = 0;
+      let additionalValue = null;
 
       // Combine results for service / contractual employments
       switch (customId?.toString()) {
@@ -161,12 +163,14 @@ export const employmentAtom = atom<OptionType[]>((get) => {
           const permanentService = employmentOptions.find(
             (term: Result<Term>) => term._source?.field_search_id?.[0] === CustomIds.PERMANENT_SERVICE
           )?._source.tid[0];
+          additionalValue = permanentService;
           count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(permanentService) || 0);
           break;
         case CustomIds.FIXED_CONTRACTUAL:
           const fixedService = employmentOptions.find(
             (term: Result<Term>) => term._source?.field_search_id?.[0] === CustomIds.FIXED_SERVICE
           )?._source.tid[0];
+          additionalValue = fixedService;
           count = (combinedAggs.get(tid) || 0) + (combinedAggs.get(fixedService) || 0);
           break;
         default:
@@ -175,6 +179,7 @@ export const employmentAtom = atom<OptionType[]>((get) => {
       }
 
       return {
+        additionalValue: additionalValue,
         count: count,
         label: `${term._source.name} (${count})`,
         simpleLabel: term._source.name,
