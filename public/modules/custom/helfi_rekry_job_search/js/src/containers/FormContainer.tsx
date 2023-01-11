@@ -59,7 +59,9 @@ const FormContainer = () => {
 
     event.preventDefault();
     setUrlParams({
-      employment: employmentSelection.map((selection: OptionType) => selection.value),
+      employment: employmentSelection.reduce((acc: any, curr: any) => {
+        return Array.isArray(curr.value) ? acc.concat(curr.value) : acc.push(curr.value);
+      }, []),
       keyword,
       language: languageSelection?.value,
       continuous,
@@ -220,7 +222,7 @@ const FormContainer = () => {
           />
           <Checkbox
             className='job-search-form__checkbox'
-            label={Drupal.t('Summer jobs and summer temporary posts', {}, { context: 'Job search' })}
+            label={Drupal.t('Summer jobs', {}, { context: 'Job search' })}
             id={SearchComponents.SUMMER_JOBS}
             onClick={() => setSummerJobs(!summerJobs)}
             checked={summerJobs}
