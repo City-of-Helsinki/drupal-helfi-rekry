@@ -9,11 +9,11 @@ import URLParams from '../types/URLParams';
  * (Virkasuhde / työsuhde)
  */
 const combineEmploymentTypes = (types: (number | string)[]) => {
-  if (types.includes(1) && !types.includes(2)) {
-    types.push(2);
+  if (types.includes(89) && !types.includes(88)) {
+    types.push(88);
   }
-  if (types.includes(3) && !types.includes(4)) {
-    types.push(4);
+  if (types.includes(91) && !types.includes(90)) {
+    types.push(90);
   }
 
   return types;
