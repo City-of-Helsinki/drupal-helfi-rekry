@@ -83,22 +83,31 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
       $node = $nodeStorage->load($destinationId['nid']);
 
       // Use node translation if available.
-      $migrationLangcode = $this->getMigrationLangcode($migrationId);
-      if (!empty($node) && $node->hasTranslation($migrationLangcode)) {
-        $node = $node->getTranslation($migrationLangcode);
-      }
+      // $migrationLangcode = $this->getMigrationLangcode($migrationId);
+      // if (!empty($node) && $node->hasTranslation($migrationLangcode)) {  
+      //   $node = $node->getTranslation($migrationLangcode);
+      // }
 
-      if ($node instanceof NodeInterface && $node->getType() == 'job_listing' && $node->isPublished()) {
-        // Unpublish the job listing node as it's still published, but it's
-        // no longer available at the source.
-        $node->setUnpublished();
-        if ($node->hasField('publish_on') && !empty($node->get('publish_on')->getValue())) {
-          // Also clear the publish on date to make sure the node is not
-          // going to be re-published.
-          $node->set('publish_on', NULL);
+      if ($node instanceof NodeInterface && $node->getType() == 'job_listing') {
+        foreach (['fi', 'sv', 'en'] as $langcode) {
+          // Unpublish the job listing node as it's still published, but it's
+          // no longer available at the source.
+          if (!$node->hasTranslation($langcode)) {
+            continue;
+          }
+
+          $translation = $node->getTranslation($langcode);
+          if ($translation->isPublished()) {
+            $translation->setUnpublished();
+            if ($translation->hasField('publish_on') && !empty($translation->get('publish_on')->getValue())) {
+              // Also clear the publish on date to make sure the translation is
+              // not going to be re-published.
+              $translation->set('publish_on', NULL);
+            }
+            $translation->save();
+            $unpublishedCount++;
+          }
         }
-        $node->save();
-        $unpublishedCount++;
       }
     }
 
