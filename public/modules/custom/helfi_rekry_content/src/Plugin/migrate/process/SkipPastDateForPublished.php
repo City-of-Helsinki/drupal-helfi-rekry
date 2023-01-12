@@ -74,16 +74,15 @@ class SkipPastDateForPublished extends ProcessPluginBase implements ContainerFac
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\migrate\MigrateSkipProcessException
    */
-  public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) : int {
-    $valueTimestamp = strtotime($value);
-    if ($valueTimestamp <= \Drupal::time()->getCurrentTime() && !empty($nid = $row->getDestinationProperty('nid'))) {
+  public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) : string {
+    if ((int) $value && (int) $value <= \Drupal::time()->getCurrentTime() && !empty($nid = $row->getDestinationProperty('nid'))) {
       $node = $this->entityTypeManager->getStorage('node')->load($nid);
       if (!empty($node) && $node->isPublished()) {
         // Value is in the past, node exists, and the node is already published.
         throw new MigrateSkipProcessException("The date is in the past and destination node is already published.");
       }
     }
-    return $valueTimestamp;
+    return $value;
   }
 
 }

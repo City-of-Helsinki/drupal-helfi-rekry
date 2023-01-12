@@ -5,6 +5,9 @@ services:
       - { name: 'event_subscriber' }
   Drupal\helfi_rekry_content\Plugin\Deriver:
     arguments: ['@config.factory']
+  Drupal\helfi_rekry_content\EventSubscriber\PrepareIndex:
+    tags:
+      - { name: 'event_subscriber' }
   helfi_rekry_content.job_listing_hide_missing:
     class: Drupal\helfi_rekry_content\EventSubscriber\JobListingHideMissingSubscriber
     arguments: [ '@entity_type.manager', '@logger.factory' ]

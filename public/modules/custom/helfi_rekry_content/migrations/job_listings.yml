@@ -159,7 +159,13 @@ process:
       callable: _helfi_rekry_content_get_media_image
   field_job_duration: job_duration
   field_jobs: number_of_vacancies
-  field_last_changed_remote: last_changed_remote
+  field_last_changed_remote:
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s'
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: 'Europe/Helsinki'
+    to_timezone: 'UTC'
+    source: last_changed_remote
   field_link_to_application:
     plugin: concat
     source:
@@ -233,13 +239,35 @@ process:
     default_value: job_listing
   # Skip if importing past date and job listing is already published.
   publish_on:
-    plugin: skip_past_date_for_published
-    source: publication_starts
+    - 
+      plugin: format_date
+      from_format: 'Y-m-d\TH:i:s'
+      to_format: 'U'
+      from_timezone: 'Europe/Helsinki'
+      to_timezone: 'UTC'
+      source: publication_starts
+    -
+      plugin: skip_past_date_for_published
   unpublish_on:
-    plugin: callback
-    callable: strtotime
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s'
+    to_format: 'U'
+    from_timezone: 'Europe/Helsinki'
+    to_timezone: 'UTC'
     source: publication_ends
-  field_publication_starts: publication_starts
-  field_publication_ends: publication_ends
+  field_publication_starts:
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s'
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: 'Europe/Helsinki'
+    to_timezone: 'UTC'
+    source: publication_starts
+  field_publication_ends:
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s'
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: 'Europe/Helsinki'
+    to_timezone: 'UTC'
+    source: publication_ends
 destination:
   plugin: 'entity:node'

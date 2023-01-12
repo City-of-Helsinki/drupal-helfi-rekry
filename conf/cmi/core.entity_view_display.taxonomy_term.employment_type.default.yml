@@ -1,0 +1,32 @@
+uuid: 9b025ee5-289f-49cb-9979-d5a66dbe84f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.employment_type.field_search_id
+    - taxonomy.vocabulary.employment_type
+  module:
+    - text
+id: taxonomy_term.employment_type.default
+targetEntityType: taxonomy_term
+bundle: employment_type
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_search_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

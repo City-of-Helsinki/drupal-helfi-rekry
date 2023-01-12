@@ -74,8 +74,8 @@ msgid "Practical training"
 msgstr "Harjoittelut"
 
 msgctxt "Job search"
-msgid "summer jobs and substitute vacancies"
-msgstr "Kesätyöt ja sijaisuudet"
+msgid "Summer jobs"
+msgstr "Kesätyöt ja kesäsijaisuudet"
 
 msgctxt "Job search"
 msgid "Summer jobs for young people"

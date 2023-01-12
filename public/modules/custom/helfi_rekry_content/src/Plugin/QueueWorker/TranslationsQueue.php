@@ -10,12 +10,12 @@ use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Queue worker for kob listing translations.
+ * Queue worker for job listing translations.
  *
  * @QueueWorker(
  *   id = "helfi_rekry_job_translations",
  *   title = @Translation("Job listing translations"),
- *   cron = {"time" = 60}
+ *   cron = {"time" = 900}
  * )
  */
 final class TranslationsQueue extends QueueWorkerBase implements ContainerFactoryPluginInterface {
@@ -86,25 +86,15 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
       return;
     }
 
-    $originalLangcode = $listing->get('langcode')->value;
+    $missingVersions = $this->getMissingVersions($listing);
 
-    foreach ($this->langcodes as $langcode) {
-      if ($langcode === $originalLangcode) {
-        continue;
-      }
+    if (count($missingVersions) < 1) {
+      return;
+    }
 
-      $existing = NULL;
-      $translated = $listing->hasTranslation($langcode);
-
-      if ($translated) {
-        $existing = $listing->getTranslation($langcode);
-      }
-
-      if ($existing && $this->shouldNotUpdate($existing)) {
-        return;
-      }
-
-      $translation = $existing ? $existing : $listing->addTranslation($langcode, array_merge($listing->toArray(), [
+    foreach ($missingVersions as $langcode) {
+      $originalLangcode = $listing->get('langcode')->value;
+      $translation = $listing->addTranslation($langcode, array_merge($listing->toArray(), [
         'field_copied' => [
           ['value' => TRUE],
         ],
@@ -113,9 +103,8 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
         ],
       ]));
 
-      // Publish the translation if needed.
       if ($listing->isPublished()) {
-        $translation->setPublished(TRUE);
+        $translation->setPublished();
       }
 
       $listing->save();
@@ -130,6 +119,25 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
     if ($translation->get('field_copied')->getValue() === FALSE) {
       return;
     }
+  }
+
+  /**
+   * Checks which translations need to be created.
+   *
+   * @param \Drupal\node\Entity\Node $node
+   *   Node entity to check for.
+   */
+  private function getMissingVersions(Node $node) {
+    $langcodes = ['fi', 'sv', 'en'];
+    $missing = [];
+
+    foreach ($langcodes as $langcode) {
+      if (!$node->hasTranslation($langcode)) {
+        $missing[] = $langcode;
+      }
+    }
+
+    return $missing;
   }
 
 }

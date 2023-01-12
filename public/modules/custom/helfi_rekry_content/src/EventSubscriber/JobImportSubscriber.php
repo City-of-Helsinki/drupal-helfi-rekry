@@ -27,17 +27,20 @@ class JobImportSubscriber implements EventSubscriberInterface {
    * Add created nodes to queue that creates translations for them.
    */
   public function postRowSave(MigratePostRowSaveEvent $event): void {
+    $migrationId = $event->getMigration()->id();
     // Return early if not jos listing migration.
-    if (!in_array($event->getMigration()->id(), $this->getJobMigrations())) {
+    if (!in_array($migrationId, $this->getJobMigrations())) {
       return;
     }
 
+    $langcode = $this->getMigrationLangcode($migrationId);
     $queue = \Drupal::service('queue')->get(TranslationsQueue::QUEUE_ID);
     $nids = $event->getDestinationIdValues();
 
     foreach ($nids as $nid) {
       $item = new \stdClass();
       $item->nid = $nid;
+      $item->langcode = $langcode;
       $queue->createItem($item);
     }
   }
@@ -58,6 +61,25 @@ class JobImportSubscriber implements EventSubscriberInterface {
       'helfi_rekry_jobs:changed_sv',
       'helfi_rekry_jobs:changed_en',
     ];
+  }
+
+  /**
+   * Get langcode from language specific migration ID.
+   *
+   * @param string $migrationId
+   *   The language specific migration ID.
+   *
+   * @return string
+   *   The langcode.
+   */
+  protected function getMigrationLangcode(string $migrationId): string {
+    if (str_contains($migrationId, '_sv')) {
+      return 'sv';
+    }
+    elseif (str_contains($migrationId, '_en')) {
+      return 'en';
+    }
+    return 'fi';
   }
 
 }

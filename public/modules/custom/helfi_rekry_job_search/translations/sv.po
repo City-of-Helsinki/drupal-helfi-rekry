@@ -39,11 +39,11 @@ msgstr "Alla typer av anställningsförhållande"
 
 msgctxt "Language filter label"
 msgid "Language"
-msgstr "Ilmoituksen kieli"
+msgstr "Annonsens språk"
 
 msgctxt "Language placeholder"
 msgid "All languages"
-msgstr "Kaikki kielet"
+msgstr "Alla språk"
 
 msgctxt "Organisation filter label"
 msgid "Organisation"
@@ -74,8 +74,8 @@ msgid "Practical training"
 msgstr "Praktik"
 
 msgctxt "Job search"
-msgid "summer jobs and substitute vacancies"
-msgstr "Sommarjobb och vikariat"
+msgid "Summer jobs"
+msgstr "Sommarjobb och sommarvikariat"
 
 msgctxt "Job search"
 msgid "Summer jobs for young people"

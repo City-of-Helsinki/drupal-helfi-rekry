@@ -1,23 +1,8 @@
+import { CustomIds } from '../enum/CustomTermIds';
 import Global from '../enum/Global';
 import IndexFields from '../enum/IndexFields';
 import { languageFilter, nodeFilter, publicationQuery } from '../query/queries';
 import URLParams from '../types/URLParams';
-
-/**
- * Dirty fix for combining results for multiple tids.
- * Combine results for public service / contractual employments.
- * (Virkasuhde / työsuhde)
- */
-const combineEmploymentTypes = (types: (number | string)[]) => {
-  if (types.includes(89) && !types.includes(88)) {
-    types.push(88);
-  }
-  if (types.includes(91) && !types.includes(90)) {
-    types.push(90);
-  }
-
-  return types;
-};
 
 const useQueryString = (urlParams: URLParams): string => {
   const { size, sortOptions } = Global;
@@ -30,6 +15,11 @@ const useQueryString = (urlParams: URLParams): string => {
       bool: {
         should: [
           {
+            match_phrase_prefix: {
+              [`${IndexFields.RECRUITMENT_ID}.keyword`]: urlParams.keyword.toString(),
+            },
+          },
+          {
             combined_fields: {
               query: urlParams.keyword.toString(),
               fields: [`${IndexFields.TITLE}^2`, IndexFields.EMPLOYMENT, IndexFields.ORGANIZATION_NAME],
@@ -37,7 +27,7 @@ const useQueryString = (urlParams: URLParams): string => {
           },
           {
             wildcard: {
-              [`${IndexFields.TITLE}.keyword`]: `*${urlParams.keyword}*`,
+              [`${IndexFields.TITLE}.keyword`]: `*${urlParams.keyword.toString()}*`,
             },
           },
         ],
@@ -65,7 +55,7 @@ const useQueryString = (urlParams: URLParams): string => {
           },
           {
             terms: {
-              [IndexFields.EMPLOYMENT_TYPE_ID]: combineEmploymentTypes(urlParams.employment),
+              [IndexFields.EMPLOYMENT_TYPE_ID]: urlParams.employment,
             },
           },
         ],
@@ -77,7 +67,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams.continuous) {
     should.push({
       term: {
-        [IndexFields.CONTINUOUS]: true,
+        [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.CONTINUOUS,
       },
     });
   }
@@ -85,7 +75,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams.internship) {
     should.push({
       term: {
-        [IndexFields.INTERNSHIP]: true,
+        [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.TRAINING,
       },
     });
   }
@@ -93,7 +83,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams.summer_jobs) {
     should.push({
       term: {
-        [IndexFields.SUMMER_JOB]: true,
+        [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.SUMMER_JOBS,
       },
     });
   }
@@ -101,7 +91,7 @@ const useQueryString = (urlParams: URLParams): string => {
   if (urlParams.youth_summer_jobs) {
     should.push({
       term: {
-        [IndexFields.YOUTH_SUMMER_JOB]: true,
+        [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.YOUTH_SUMMER_JOBS,
       },
     });
   }
