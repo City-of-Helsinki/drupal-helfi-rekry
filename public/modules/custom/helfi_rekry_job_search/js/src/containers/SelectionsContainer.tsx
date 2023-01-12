@@ -67,14 +67,14 @@ const SelectionsContainer = () => {
         )}
         {urlParams.continuous && (
           <CheckboxFilterPill
-            label={Drupal.t('Continuous', {}, { context: 'Job search' })}
+            label={Drupal.t('Open-ended vacancies', {}, { context: 'Job search' })}
             atom={continuousAtom}
             valueKey={SearchComponents.CONTINUOUS}
           />
         )}
         {urlParams.internship && (
           <CheckboxFilterPill
-            label={Drupal.t('Internships', {}, { context: 'Job search' })}
+            label={Drupal.t('Practical training', {}, { context: 'Job search' })}
             atom={internshipAtom}
             valueKey={SearchComponents.INTERNSHIPS}
           />
@@ -88,7 +88,7 @@ const SelectionsContainer = () => {
         )}
         {urlParams.youth_summer_jobs && (
           <CheckboxFilterPill
-            label={Drupal.t('Summer jobs for youth', {}, { context: 'Job search' })}
+            label={Drupal.t('Summer jobs for young people', {}, { context: 'Job search' })}
             atom={youthSummerJobsAtom}
             valueKey={SearchComponents.YOUTH_SUMMER_JOBS}
           />
