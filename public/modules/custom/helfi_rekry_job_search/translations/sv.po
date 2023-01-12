@@ -74,7 +74,7 @@ msgid "Practical training"
 msgstr "Praktik"
 
 msgctxt "Job search"
-msgid "summer jobs and substitute vacancies"
+msgid "Summer jobs"
 msgstr "Sommarjobb och sommarvikariat"
 
 msgctxt "Job search"

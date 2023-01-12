@@ -88,6 +88,12 @@ const FormContainer = () => {
 
   const isFullSearch = !drupalSettings?.helfi_rekry_job_search?.results_page_path;
 
+  const showContinuous = employmentSearchIdMap.get(CustomIds.CONTINUOUS);
+  const showInternships = employmentSearchIdMap.get(CustomIds.TRAINING);
+  const showSummerJobs = employmentSearchIdMap.get(CustomIds.SUMMER_JOBS);
+  const showYouthSummerJobs = employmentSearchIdMap.get(CustomIds.YOUTH_SUMMER_JOBS);
+  const showCheckboxes = showContinuous || showInternships || showSummerJobs || showYouthSummerJobs;
+
   return (
     <form className='job-search-form' onSubmit={handleSubmit} action={formAction}>
       <TextInput
@@ -205,12 +211,12 @@ const FormContainer = () => {
           </div>
         </div>
       )}
-      {isFullSearch && (
+      {isFullSearch && showCheckboxes && (
         <fieldset className='job-search-form__checkboxes'>
           <legend className='job-search-form__checkboxes-legend'>
             {Drupal.t('Filters', {}, { context: 'Checkbox filters heading' })}
           </legend>
-          {employmentSearchIdMap.get(CustomIds.CONTINUOUS) && (
+          {showContinuous && (
             <Checkbox
               className='job-search-form__checkbox'
               label={Drupal.t('Open-ended vacancies', {}, { context: 'Job search' })}
@@ -221,7 +227,7 @@ const FormContainer = () => {
               value={continuous.toString()}
             />
           )}
-          {employmentSearchIdMap.get(CustomIds.TRAINING) && (
+          {showInternships && (
             <Checkbox
               className='job-search-form__checkbox'
               label={Drupal.t('Practical training', {}, { context: 'Job search' })}
@@ -232,7 +238,7 @@ const FormContainer = () => {
               value={internship.toString()}
             />
           )}
-          {employmentSearchIdMap.get(CustomIds.SUMMER_JOBS) && (
+          {showSummerJobs && (
             <Checkbox
               className='job-search-form__checkbox'
               label={Drupal.t('Summer jobs', {}, { context: 'Job search' })}
@@ -243,7 +249,7 @@ const FormContainer = () => {
               value={summerJobs.toString()}
             />
           )}
-          {employmentSearchIdMap.get(CustomIds.YOUTH_SUMMER_JOBS) && (
+          {showYouthSummerJobs && (
             <Checkbox
               className='job-search-form__checkbox'
               label={Drupal.t('Summer jobs for young people', {}, { context: 'Job search' })}

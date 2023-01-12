@@ -113,6 +113,9 @@ export const EMPLOYMENT_FILTER_OPTIONS = {
       minimum_should_match: 1,
     },
   },
+  collapse: {
+    field: 'field_recruitment_id.keyword',
+  },
   sort: [alphabeticallySortTerms],
   size: 100,
 };
