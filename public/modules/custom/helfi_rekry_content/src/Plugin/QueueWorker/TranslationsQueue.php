@@ -94,7 +94,7 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
 
     foreach ($missingVersions as $langcode) {
       $originalLangcode = $listing->get('langcode')->value;
-      $listing->addTranslation($langcode, array_merge($listing->toArray(), [
+      $translation = $listing->addTranslation($langcode, array_merge($listing->toArray(), [
         'field_copied' => [
           ['value' => TRUE],
         ],
