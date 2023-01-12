@@ -82,12 +82,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
     foreach ($destinationIDs as $destinationId) {
       $node = $nodeStorage->load($destinationId['nid']);
 
-      // Use node translation if available.
-      // $migrationLangcode = $this->getMigrationLangcode($migrationId);
-      // if (!empty($node) && $node->hasTranslation($migrationLangcode)) {  
-      //   $node = $node->getTranslation($migrationLangcode);
-      // }
-
+      // Unpublish all translations.
       if ($node instanceof NodeInterface && $node->getType() == 'job_listing') {
         foreach (['fi', 'sv', 'en'] as $langcode) {
           // Unpublish the job listing node as it's still published, but it's

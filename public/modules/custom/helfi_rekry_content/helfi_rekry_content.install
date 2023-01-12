@@ -225,26 +225,26 @@ function helfi_rekry_content_update_9005() {
       'en' => 'Summer jobs and summer temporary posts',
       'fi' => 'Kesätyöt ja kesäsijaisuudet',
       'sv' => 'Sommarjobb',
-      'field_search_id' => 'summer_jobs'
+      'field_search_id' => 'summer_jobs',
     ],
     [
       'en' => 'Young summer workers aged 16-17',
       'fi' => 'Nuoret 16-17 -vuotiaat kesätyöntekijät',
       'sv' => 'Sommarjobb för unga (16-17 år)',
-      'field_search_id' => 'youth_summer_jobs'
+      'field_search_id' => 'youth_summer_jobs',
     ],
     [
       'en' => 'Siisti kesä! Project',
       'fi' => 'Siisti kesä -hanke',
       'sv' => 'Projektet En snygg sommar',
-      'field_search_id' => 'cool_summer_project'
+      'field_search_id' => 'cool_summer_project',
     ],
     [
       'en' => 'Open-ended vacancies',
       'fi' => 'Jatkuva haku',
       'sv' => 'Jatkuva haku',
-      'field_search_id' => 'continuous'
-    ]
+      'field_search_id' => 'continuous',
+    ],
   ];
 
   foreach ($employmentItems as $item) {
@@ -252,7 +252,7 @@ function helfi_rekry_content_update_9005() {
       'parent' => [],
       'name' => $item['en'],
       'vid' => 'employment',
-      'field_search_id' => $item['field_search_id']
+      'field_search_id' => $item['field_search_id'],
     ])->addTranslation('fi', [
       'name' => $item['fi'],
     ])->addTranslation('sv', [
