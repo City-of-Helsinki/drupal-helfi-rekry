@@ -96,6 +96,7 @@ export const EMPLOYMENT_FILTER_OPTIONS = {
     bool: {
       should: [
         { term: { 'field_search_id.keyword': CustomIds.FIXED_CONTRACTUAL } },
+        { term: { 'field_search_id.keyword': CustomIds.FIXED_SERVICE } },
         { term: { 'field_search_id.keyword': CustomIds.PERMANENT_CONTRACTUAL } },
         { term: { 'field_search_id.keyword': CustomIds.PERMANENT_SERVICE } },
         { term: { 'field_search_id.keyword': CustomIds.TRAINING } },
