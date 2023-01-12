@@ -95,26 +95,15 @@ export const EMPLOYMENT_FILTER_OPTIONS = {
   query: {
     bool: {
       should: [
-        {
-          // These match the tids in production
-          terms: {
-            field_search_id: [
-              CustomIds.FIXED_CONTRACTUAL,
-              CustomIds.FIXED_SERVICE,
-              CustomIds.PERMANENT_CONTRACTUAL,
-              CustomIds.PERMANENT_SERVICE,
-              CustomIds.TRAINING,
-              CustomIds.ALTERNATION,
-            ],
-          },
-        },
+        { term: { 'field_search_id.keyword': CustomIds.FIXED_CONTRACTUAL } },
+        { term: { 'field_search_id.keyword': CustomIds.PERMANENT_CONTRACTUAL } },
+        { term: { 'field_search_id.keyword': CustomIds.PERMANENT_SERVICE } },
+        { term: { 'field_search_id.keyword': CustomIds.TRAINING } },
+        { term: { 'field_search_id.keyword': CustomIds.ALTERNATION } },
       ],
-      filter: [languageFilter, { term: { [IndexFields.ENTITY_TYPE]: 'taxonomy_term' } }],
       minimum_should_match: 1,
+      filter: [languageFilter, { term: { [IndexFields.ENTITY_TYPE]: 'taxonomy_term' } }],
     },
-  },
-  collapse: {
-    field: 'field_recruitment_id.keyword',
   },
   sort: [alphabeticallySortTerms],
   size: 100,
@@ -151,7 +140,7 @@ export const TASK_AREA_OPTIONS = {
       filter: [
         {
           term: {
-            vid: 'task_area',
+            'vid.keyword': 'task_area',
           },
         },
         {
