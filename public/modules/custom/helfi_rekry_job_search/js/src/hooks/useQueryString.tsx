@@ -94,6 +94,11 @@ const useQueryString = (urlParams: URLParams): string => {
         [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.YOUTH_SUMMER_JOBS,
       },
     });
+    should.push({
+      term: {
+        [IndexFields.EMPLOYMENT_SEARCH_ID]: CustomIds.COOL_SUMMER_PROJECT,
+      },
+    });
   }
 
   const query: any = {
