@@ -16,7 +16,7 @@ const useQueryString = (urlParams: URLParams): string => {
         should: [
           {
             match_phrase_prefix: {
-              [`${IndexFields.RECRUITMENT_ID}.keyword`]: urlParams.keyword.toString(),
+              [IndexFields.RECRUITMENT_ID]: urlParams.keyword.toString(),
             },
           },
           {
