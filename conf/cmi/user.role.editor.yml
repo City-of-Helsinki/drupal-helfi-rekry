@@ -12,11 +12,12 @@ dependencies:
     - media.type.job_listing_image
     - media.type.remote_video
     - media.type.soundcloud
-    - node.type.job_listing
     - node.type.announcement
+    - node.type.job_listing
     - node.type.landing_page
     - node.type.page
     - taxonomy.vocabulary.keywords
+    - taxonomy.vocabulary.organization
   module:
     - content_translation
     - editoria11y
@@ -126,8 +127,9 @@ permissions:
   - 'edit paragraph library item'
   - 'edit remote entities'
   - 'edit terms in keywords'
-  - 'revert job_listing revisions'
+  - 'edit terms in organization'
   - 'revert announcement revisions'
+  - 'revert job_listing revisions'
   - 'revert landing_page revisions'
   - 'revert page revisions'
   - 'schedule publishing of nodes'
@@ -165,8 +167,3 @@ permissions:
   - 'view scheduled content'
   - 'view the administration theme'
   - 'view unpublished paragraphs'
-  - 'create hel_map media'
-  - 'delete any hel_map media'
-  - 'delete own hel_map media'
-  - 'edit any hel_map media'
-  - 'edit own hel_map media'

@@ -1,5 +1,5 @@
 const Global = {
-  size: 10,
+  size: 30,
   sortOptions: {
     closing: 'closing',
     newestFirst: 'newest_first',

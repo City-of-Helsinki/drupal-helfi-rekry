@@ -1,10 +1,11 @@
+import { CustomIds } from '../enum/CustomTermIds';
 import IndexFields from '../enum/IndexFields';
 
 const now = Math.floor(Date.now() / 1000);
 
 // Filter by current language
 export const languageFilter = {
-  term: { [`${IndexFields.LANGUAGE}.keyword`]: window.drupalSettings.path.currentLanguage || 'fi' },
+  term: { [IndexFields.LANGUAGE]: window.drupalSettings.path.currentLanguage || 'fi' },
 };
 
 // Match by current date within pub dates or pub date is null
@@ -74,9 +75,9 @@ export const AGGREGATIONS = {
         size: 100,
       },
     },
-    languages: {
+    employment_search_id: {
       terms: {
-        field: '_language.keyword',
+        field: 'employment_search_id.keyword',
         size: 100,
       },
     },
@@ -94,13 +95,15 @@ export const EMPLOYMENT_FILTER_OPTIONS = {
   query: {
     bool: {
       should: [
-        {
-          // These match the tids in production
-          terms: { tid: [89, 91, 86, 83] },
-        },
+        { term: { 'field_search_id.keyword': CustomIds.FIXED_CONTRACTUAL } },
+        { term: { 'field_search_id.keyword': CustomIds.FIXED_SERVICE } },
+        { term: { 'field_search_id.keyword': CustomIds.PERMANENT_CONTRACTUAL } },
+        { term: { 'field_search_id.keyword': CustomIds.PERMANENT_SERVICE } },
+        { term: { 'field_search_id.keyword': CustomIds.TRAINING } },
+        { term: { 'field_search_id.keyword': CustomIds.ALTERNATION } },
       ],
-      filter: [languageFilter, { term: { [IndexFields.ENTITY_TYPE]: 'taxonomy_term' } }],
       minimum_should_match: 1,
+      filter: [languageFilter, { term: { [IndexFields.ENTITY_TYPE]: 'taxonomy_term' } }],
     },
   },
   sort: [alphabeticallySortTerms],
@@ -129,7 +132,6 @@ export const LANGUAGE_OPTIONS = {
       ],
     },
   },
-  size: 10000,
 };
 
 // Get all task area options
@@ -139,7 +141,7 @@ export const TASK_AREA_OPTIONS = {
       filter: [
         {
           term: {
-            vid: 'task_area',
+            'vid.keyword': 'task_area',
           },
         },
         {
