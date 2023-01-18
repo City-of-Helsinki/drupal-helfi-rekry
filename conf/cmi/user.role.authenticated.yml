@@ -8,6 +8,9 @@ dependencies:
     - media
     - system
     - toolbar
+    - rest
+  config:
+    - rest.resource.helfi_global_mobile_menu
 _core:
   default_config_hash: dJ0L2DNSj5q6XVZAGsuVDpJTh5UeYkIPwKrUOOpr8YI
 id: authenticated
@@ -20,3 +23,4 @@ permissions:
   - 'display eu cookie compliance popup'
   - 'view media'
   - 'view remote entities'
+  - 'restful get helfi_global_mobile_menu'

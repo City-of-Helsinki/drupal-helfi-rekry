@@ -43,6 +43,7 @@ module:
   hdbt_admin_tools: 0
   hdbt_component_library: 0
   hdbt_content: 0
+  health_check: 0
   helfi_announcements: 0
   helfi_api_base: 0
   helfi_azure_fs: 0
@@ -56,6 +57,7 @@ module:
   helfi_media: 0
   helfi_media_map: 0
   helfi_media_map_config: 0
+  helfi_navigation: 0
   helfi_news_feed: 0
   helfi_platform_config: 0
   helfi_proxy: 0
@@ -103,11 +105,13 @@ module:
   readonly_field_widget: 0
   redirect: 0
   responsive_image: 0
+  rest: 0
   role_delegation: 0
   scheduler: 0
   search_api: 0
   select2: 0
   select2_icon: 0
+  serialization: 0
   simple_sitemap: 0
   social_media: 0
   sophron: 0

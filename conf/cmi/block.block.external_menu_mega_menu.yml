@@ -1,0 +1,23 @@
+uuid: 097b7710-fbf0-47c8-a558-4ec34a2db88a
+langcode: en
+status: true
+dependencies:
+  module:
+    - helfi_navigation
+  theme:
+    - hdbt_subtheme
+id: external_menu_mega_menu
+theme: hdbt_subtheme
+region: header_branding
+weight: 0
+provider: null
+plugin: external_menu_block_main_navigation
+settings:
+  id: external_menu_block_main_navigation
+  label: 'External - Mega menu'
+  label_display: ''
+  provider: helfi_navigation
+  level: 1
+  depth: 2
+  expand_all_items: true
+visibility: {  }
