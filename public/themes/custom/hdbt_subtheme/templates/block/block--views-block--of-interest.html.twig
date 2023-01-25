@@ -41,7 +41,7 @@
     {% block content %}
       {{ content }}
       {% set link_title %}
-        <span class="hds-button__label">{{ 'See all related jobs'|t }}</span>
+        <span class="hds-button__label">{{ 'Find open jobs'|t({}, {'context': 'Related jobs button'}) }}</span> 
       {% endset %}
       {% set link_attributes = {
         'class': [
