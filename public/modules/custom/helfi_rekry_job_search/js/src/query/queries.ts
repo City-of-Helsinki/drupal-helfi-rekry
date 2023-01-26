@@ -1,45 +1,9 @@
 import { CustomIds } from '../enum/CustomTermIds';
 import IndexFields from '../enum/IndexFields';
 
-const now = Math.floor(Date.now() / 1000);
-
 // Filter by current language
 export const languageFilter = {
-  term: { [IndexFields.LANGUAGE]: window.drupalSettings.path.currentLanguage || 'fi' },
-};
-
-// Match by current date within pub dates or pub date is null
-export const publicationQuery = {
-  bool: {
-    minimum_should_match: 1,
-    should: [
-      {
-        range: {
-          [IndexFields.UNPUBLISH_ON]: {
-            gte: now,
-          },
-        },
-      },
-      {
-        bool: {
-          must: [
-            {
-              term: {
-                status: true,
-              },
-            },
-          ],
-          must_not: [
-            {
-              exists: {
-                field: 'unpublish_on',
-              },
-            },
-          ],
-        },
-      },
-    ],
-  },
+  term: { [`${IndexFields.LANGUAGE}.keyword`]: window.drupalSettings.path.currentLanguage || 'fi' },
 };
 
 // Filter out taxonomy terms
@@ -84,7 +48,6 @@ export const AGGREGATIONS = {
   },
   query: {
     bool: {
-      ...publicationQuery.bool,
       filter: [languageFilter, nodeFilter],
     },
   },
@@ -121,7 +84,6 @@ export const LANGUAGE_OPTIONS = {
   },
   query: {
     bool: {
-      ...publicationQuery.bool,
       filter: [
         {
           term: {

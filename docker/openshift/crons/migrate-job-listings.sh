@@ -106,6 +106,6 @@ do
   # Never skip migrate after first time.
   SKIP_MIGRATE=
 
-  # Sleep for 6 hours.
-  sleep 21600
+  # Sleep for 3 hours.
+  sleep 10800
 done

@@ -103,8 +103,19 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
         ],
       ]));
 
-      if ($listing->isPublished()) {
+      $now = \Drupal::time()->getCurrentTime();
+      $publishOn = $listing->get('publish_on')->value;
+      $setPublished = $listing->isPublished() || !$publishOn ||($publishOn && $publishOn <= $now);
+
+      if ($setPublished) {
         $translation->setPublished();
+      }
+      elseif ($publishOn) {
+        $translation->set('publish_on', $publishOn);
+      }
+
+      if ($unpublishOn = $listing->get('unpublish_on')->value) {
+        $translation->set('unpublish_on', $unpublishOn);
       }
 
       $listing->save();

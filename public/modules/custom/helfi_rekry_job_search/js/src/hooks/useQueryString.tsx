@@ -1,7 +1,7 @@
 import { CustomIds } from '../enum/CustomTermIds';
 import Global from '../enum/Global';
 import IndexFields from '../enum/IndexFields';
-import { languageFilter, nodeFilter, publicationQuery } from '../query/queries';
+import { languageFilter, nodeFilter } from '../query/queries';
 import URLParams from '../types/URLParams';
 
 const useQueryString = (urlParams: URLParams): string => {
@@ -103,12 +103,11 @@ const useQueryString = (urlParams: URLParams): string => {
 
   const query: any = {
     bool: {
-      ...publicationQuery.bool,
       filter: [
         urlParams.language
           ? {
               term: {
-                [IndexFields.LANGUAGE]: urlParams.language.toString(),
+                [`${IndexFields.LANGUAGE}.keyword`]: urlParams.language.toString(),
               },
             }
           : languageFilter,
