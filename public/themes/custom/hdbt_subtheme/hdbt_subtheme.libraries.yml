@@ -13,7 +13,6 @@ global-scripting:
 
 siteimprove-analytics:
   version: 1.x
-  header: true
   js:
     dist/js/siteimprove_analytics.min.js: {}
   dependencies:

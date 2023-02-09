@@ -45,19 +45,19 @@ do
   reset_status
 
   echo "Running job listing:changed migrations: $(date)"
-  if run_migrate "helfi_rekry_jobs:all"; then
+  if run_migrate "helfi_rekry_jobs:changed"; then
     echo "Running job listing:changed migrations: $(date)"
-    drush migrate:import helfi_rekry_jobs:all --update
+    drush migrate:import helfi_rekry_jobs:changed --update
   fi
 
-  if run_migrate "helfi_rekry_jobs:all_sv"; then
+  if run_migrate "helfi_rekry_jobs:changed_sv"; then
     echo "Running job listing:changed migrations (sv): $(date)"
-    drush migrate:import helfi_rekry_jobs:all_sv --update
+    drush migrate:import helfi_rekry_jobs:changed_sv --update
   fi
 
-  if run_migrate "helfi_rekry_jobs:all_en"; then
+  if run_migrate "helfi_rekry_jobs:changed_en"; then
     echo "Running job listing:changed migrations (en): $(date)"
-    drush migrate:import helfi_rekry_jobs:all_en --update
+    drush migrate:import helfi_rekry_jobs:changed_en --update
   fi
 
   # Reset migrate status if migrate has been running for more
@@ -66,6 +66,6 @@ do
   # Never skip migrate after first time.
   SKIP_MIGRATE=
 
-  # Sleep for 1 hour.
-  sleep 3600
+  # Sleep for ½ hour.
+  sleep 1800
 done
