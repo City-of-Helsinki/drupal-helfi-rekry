@@ -1,6 +1,6 @@
 uuid: 72f1ed73-0fa9-4f47-a032-894ac76c4ab4
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - helfi_platform_config
@@ -11,7 +11,7 @@ _core:
 id: hdbt_subtheme_reactandshare
 theme: hdbt_subtheme
 region: after_content
-weight: -7
+weight: -12
 provider: null
 plugin: react_and_share
 settings:
