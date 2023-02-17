@@ -39,17 +39,17 @@ source:
 process:
   name: title
   field_media_oembed_video:
-    - 
+    -
       plugin: skip_on_empty
       method: row
       source: video
     -
       plugin: callback
-      callable: _helfi_rekry_check_video_existance
+      callable: _helfi_rekry_content_check_video_existance
       source: video
     -
       plugin: callback
-      callable: _helfi_rekry_check_video_url
+      callable: _helfi_rekry_content_get_video_url
       source: video
   langcode:
     plugin: default_value
