@@ -75,7 +75,6 @@ module:
   locale: 0
   media: 0
   media_entity_file_replace: 0
-  media_entity_soundcloud: 0
   media_library: 0
   menu_block_current_language: 0
   menu_link_attributes: 0
@@ -120,7 +119,6 @@ module:
   telephone: 0
   text: 0
   token: 0
-  token_filter: 0
   toolbar: 0
   translatable_menu_link_uri: 0
   twig_tweak: 0
