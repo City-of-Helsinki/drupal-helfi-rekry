@@ -178,7 +178,7 @@ process:
       source: link_to_presentation
     -
       plugin: callback
-      callable: _helfi_rekry_add_schema
+      callable: _helfi_rekry_content_add_schema
       source: link_to_presentation
   field_organization/target_id:
     plugin: entity_lookup
@@ -223,9 +223,9 @@ process:
     bundle: employment_type
     ignore_case: true
   field_employment:
-    - 
+    -
       plugin: callback
-      callable: _helfi_rekry_transform_employment
+      callable: _helfi_rekry_content_transform_employment
       source: employment
     -
       plugin: entity_lookup
@@ -239,7 +239,7 @@ process:
     default_value: job_listing
   # Skip if importing past date and job listing is already published.
   publish_on:
-    - 
+    -
       plugin: format_date
       from_format: 'Y-m-d\TH:i:s'
       to_format: 'U'

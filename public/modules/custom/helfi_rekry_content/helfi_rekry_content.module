@@ -93,7 +93,7 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
  * @return string|null
  *   Valid video url or null
  */
-function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
+function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
     $resolver = \Drupal::service('media.oembed.url_resolver');
     $validate = $resolver->getProviderByUrl($url);
@@ -113,7 +113,7 @@ function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
  *
  * @throws \Drupal\migrate\MigrateSkipRowException
  */
-function _helfi_rekry_check_video_existance(string|NULL $url = NULL): void {
+function _helfi_rekry_content_check_video_existance(string|NULL $url = NULL): void {
   if (_helfi_rekry_content_lookup_video_mid($url)) {
     throw new MigrateSkipRowException();
   }
@@ -176,7 +176,7 @@ function _helfi_rekry_content_lookup_job_nid(string $id): ?string {
  * @return string|null
  *   The resulting url or null
  */
-function _helfi_rekry_add_schema(string|NULL $url = NULL): ?string {
+function _helfi_rekry_content_add_schema(string|NULL $url = NULL): ?string {
   if ($url && parse_url($url, PHP_URL_SCHEME) === NULL) {
     return 'https://' . $url;
   }
@@ -286,7 +286,7 @@ function _helfi_rekry_content_lookup_task_area_tid($args) {
  * @return string
  *   The corrected value.
  */
-function _helfi_rekry_transform_employment($employment) {
+function _helfi_rekry_content_transform_employment($employment) {
   if ($employment === 'Vuorotteluvapaasijaisuus') {
     return 'Vuorotteluvapaan sijaisuus';
   }
