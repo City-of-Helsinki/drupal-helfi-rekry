@@ -132,7 +132,7 @@ function hdbt_subtheme_theme_suggestions_menu_alter(&$suggestions, $variables) {
  */
 function hdbt_subtheme_preprocess_page(&$variables) {
   // Handle sidebar visibility.
-  $entity = hdbt_content_get_page_entity();
+  $entity = hdbt_admin_tools_get_page_entity();
   if ($entity instanceof NodeInterface) {
 
     // Handle first and second sidebar visibility for the "Job listing"
