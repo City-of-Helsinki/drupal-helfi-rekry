@@ -73,11 +73,7 @@ class SettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $siteConfig = $this->config('helfi_rekry_content.job_listings');
-
-    $search_page_node = NULL;
-    if ($siteConfig->get('search_page')) {
-      $search_page_node = Node::load($siteConfig->get('search_page'));
-    }
+    $searchPage = Node::load($siteConfig->get('search_page'));
     $form['job_listings']['search_page'] = [
       '#type' => 'entity_autocomplete',
       '#target_type' => 'node',
@@ -85,7 +81,7 @@ class SettingsForm extends ConfigFormBase {
         'target_bundles' => ['landing_page', 'page'],
       ],
       '#title' => $this->t('Job search page'),
-      '#default_value' => $search_page_node,
+      '#default_value' => $searchPage,
       '#description' => $this->t('Displayed after the related jobs block, for example.'),
     ];
 
