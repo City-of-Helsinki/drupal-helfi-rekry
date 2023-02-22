@@ -6,19 +6,22 @@ dependencies:
     - filter.format.full_html
     - filter.format.minimal
     - media.type.file
+    - media.type.hel_map
     - media.type.helfi_chart
     - media.type.image
     - media.type.job_listing_image
     - media.type.remote_video
-    - media.type.soundcloud
+    - node.type.announcement
     - node.type.job_listing
     - node.type.landing_page
     - node.type.page
+    - rest.resource.helfi_debug_data
     - taxonomy.vocabulary.keywords
     - taxonomy.vocabulary.organization
   module:
     - block
     - config_translation
+    - content_lock
     - content_translation
     - editoria11y
     - eu_cookie_compliance
@@ -34,7 +37,9 @@ dependencies:
     - paragraphs_library
     - path
     - pathauto
+    - publication_date
     - redirect
+    - rest
     - role_delegation
     - scheduler
     - simple_sitemap
@@ -91,7 +96,6 @@ permissions:
   - 'create paragraph library item'
   - 'create remote entities'
   - 'create remote_video media'
-  - 'create soundcloud media'
   - 'create terms in keywords'
   - 'create url aliases'
   - 'delete all revisions'
@@ -105,7 +109,6 @@ permissions:
   - 'delete any media'
   - 'delete any page content'
   - 'delete any remote_video media'
-  - 'delete any soundcloud media'
   - 'delete content translations'
   - 'delete landing_page revisions'
   - 'delete media'
@@ -117,7 +120,6 @@ permissions:
   - 'delete own landing_page content'
   - 'delete own page content'
   - 'delete own remote_video media'
-  - 'delete own soundcloud media'
   - 'delete page revisions'
   - 'delete remote entities'
   - 'delete terms in keywords'
@@ -131,7 +133,6 @@ permissions:
   - 'edit any landing_page content'
   - 'edit any page content'
   - 'edit any remote_video media'
-  - 'edit any soundcloud media'
   - 'edit own announcement content'
   - 'edit own file media'
   - 'edit own hel_map media'
@@ -142,7 +143,6 @@ permissions:
   - 'edit own landing_page content'
   - 'edit own page content'
   - 'edit own remote_video media'
-  - 'edit own soundcloud media'
   - 'edit paragraph library item'
   - 'edit remote entities'
   - 'edit terms in keywords'
@@ -169,7 +169,6 @@ permissions:
   - 'translate menu_link_content'
   - 'translate page node'
   - 'translate remote_video media'
-  - 'translate soundcloud media'
   - 'update any media'
   - 'update content translations'
   - 'update media'
