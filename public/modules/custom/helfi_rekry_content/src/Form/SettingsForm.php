@@ -8,6 +8,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Path\PathValidatorInterface;
+use Drupal\node\Entity\Node;
 use Drupal\path_alias\AliasManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -73,6 +74,21 @@ class SettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $siteConfig = $this->config('helfi_rekry_content.job_listings');
 
+    $search_page_node = NULL;
+    if ($siteConfig->get('search_page')) {
+      $search_page_node = Node::load($siteConfig->get('search_page'));
+    }
+    $form['job_listings']['search_page'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'node',
+      '#selection_settings' => [
+        'target_bundles' => ['landing_page', 'page'],
+      ],
+      '#title' => $this->t('Job search page'),
+      '#default_value' => $search_page_node,
+      '#description' => $this->t('Displayed after the related jobs block, for example.'),
+    ];
+
     $form['job_listings']['redirect_403'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Unpublished job listing redirect page for anonymous users'),
@@ -118,6 +134,7 @@ class SettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('helfi_rekry_content.job_listings')
+      ->set('search_page', $form_state->getValue('search_page'))
       ->set('redirect_403', $form_state->getValue('redirect_403'))
       ->set('city_description_title', $form_state->getValue('city_description_title'))
       ->set('city_description_text', $form_state->getValue('city_description_text'))
