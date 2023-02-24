@@ -9,12 +9,12 @@
     "require": {
         "composer/installers": "^1.9",
         "cweagans/composer-patches": "^1.6.7",
+        "drupal/core": "^9.4",
         "drupal/core-composer-scaffold": "^9.4",
-        "drupal/core-recommended": "^9.4",
         "drupal/disable_field": "^3.0",
         "drupal/hdbt": "^4.0",
         "drupal/hdbt_admin": "^1.0",
-        "drupal/helfi_azure_fs": "^1.0",
+        "drupal/helfi_azure_fs": "^1.1",
         "drupal/helfi_drupal_tools": "dev-main",
         "drupal/helfi_navigation": "^2.0",
         "drupal/helfi_platform_config": "^2.0",
@@ -27,16 +27,16 @@
         "drush/drush": "^10.4 || ^11"
     },
     "require-dev": {
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
         "donatj/mock-webserver": "^2.4",
         "drupal/coder": "^8.3",
-        "drupal/core-dev": "^9.3",
+        "drupal/core-dev": "^9.5",
         "mglaman/phpstan-drupal": "^1.0",
         "phpspec/prophecy-phpunit": "^2",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.0",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "weitzman/drupal-test-traits": "^2.0"
     },
     "conflict": {
         "drupal/drupal": "*"
