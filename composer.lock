@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d832c80f5830ed766ee81b4e535be83e",
+    "content-hash": "422e775ae44ad1ca129686a55d1dbcbc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2715,6 +2715,10 @@
                     "role": "Maintainer"
                 },
                 {
+                    "name": "lhangea",
+                    "homepage": "https://www.drupal.org/user/2743803"
+                },
+                {
                     "name": "miro_dietiker",
                     "homepage": "https://www.drupal.org/user/227761"
                 },
@@ -3238,17 +3242,17 @@
         },
         {
             "name": "drupal/entity_usage",
-            "version": "2.0.0-beta10",
+            "version": "2.0.0-beta11",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/entity_usage.git",
-                "reference": "8.x-2.0-beta10"
+                "reference": "8.x-2.0-beta11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/entity_usage-8.x-2.0-beta10.zip",
-                "reference": "8.x-2.0-beta10",
-                "shasum": "4f92b703ee9e8e75e74a11e6623de258fedd025c"
+                "url": "https://ftp.drupal.org/files/projects/entity_usage-8.x-2.0-beta11.zip",
+                "reference": "8.x-2.0-beta11",
+                "shasum": "31b7248887c917a5aa85bb0c8251467b96d53110"
             },
             "require": {
                 "drupal/core": "^9.1 || ^10"
@@ -3268,8 +3272,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-2.0-beta10",
-                    "datestamp": "1675792917",
+                    "version": "8.x-2.0-beta11",
+                    "datestamp": "1676966168",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
@@ -4056,16 +4060,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "4.4.11",
+            "version": "4.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "9e7cc8a89e8792a1d3be6f6ce1e61983d097265b"
+                "reference": "195db3ee7aeb6fb383c1e96ceccac06257b71058"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/9e7cc8a89e8792a1d3be6f6ce1e61983d097265b",
-                "reference": "9e7cc8a89e8792a1d3be6f6ce1e61983d097265b",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/195db3ee7aeb6fb383c1e96ceccac06257b71058",
+                "reference": "195db3ee7aeb6fb383c1e96ceccac06257b71058",
                 "shasum": ""
             },
             "require": {
@@ -4080,10 +4084,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/4.4.11",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/4.4.15",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2023-02-15T14:06:00+00:00"
+            "time": "2023-02-24T07:04:56+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -4334,16 +4338,16 @@
         },
         {
             "name": "drupal/helfi_navigation",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation.git",
-                "reference": "1b1d2d85fb26662be5846b9df5bf391e74ec120e"
+                "reference": "e8a7a7e74cd2f77d322c352d0778276df2bd1be6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-navigation/zipball/1b1d2d85fb26662be5846b9df5bf391e74ec120e",
-                "reference": "1b1d2d85fb26662be5846b9df5bf391e74ec120e",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-navigation/zipball/e8a7a7e74cd2f77d322c352d0778276df2bd1be6",
+                "reference": "e8a7a7e74cd2f77d322c352d0778276df2bd1be6",
                 "shasum": ""
             },
             "require": {
@@ -4361,23 +4365,23 @@
             ],
             "description": "Helfi - Navigation",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/tree/2.0.2",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/tree/2.0.3",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/issues"
             },
-            "time": "2023-02-14T06:11:34+00:00"
+            "time": "2023-02-17T12:43:22+00:00"
         },
         {
             "name": "drupal/helfi_platform_config",
-            "version": "2.17.9",
+            "version": "2.17.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config.git",
-                "reference": "bccf32c0d1bb997a305312e806b85c67ba0f4128"
+                "reference": "9487709294a1c4f8626f344b8cbd51528838a1cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/bccf32c0d1bb997a305312e806b85c67ba0f4128",
-                "reference": "bccf32c0d1bb997a305312e806b85c67ba0f4128",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/9487709294a1c4f8626f344b8cbd51528838a1cd",
+                "reference": "9487709294a1c4f8626f344b8cbd51528838a1cd",
                 "shasum": ""
             },
             "require": {
@@ -4488,10 +4492,10 @@
             ],
             "description": "HELfi platform config",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/2.17.9",
+                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/2.17.12",
                 "issues": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/issues"
             },
-            "time": "2023-02-17T06:45:03+00:00"
+            "time": "2023-02-22T08:19:51+00:00"
         },
         {
             "name": "drupal/helfi_proxy",
