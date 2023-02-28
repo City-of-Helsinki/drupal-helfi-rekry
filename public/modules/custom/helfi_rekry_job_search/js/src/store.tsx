@@ -214,6 +214,7 @@ export const resetFormAtom = atom(null, (get, set) => {
   set(internshipAtom, false);
   set(summerJobsAtom, false);
   set(youthSummerJobsAtom, false);
+  set(employmentSelectionAtom, []);
   set(urlUpdateAtom, {});
   set(languageSelectionAtom, null);
 });
