@@ -36,10 +36,13 @@ process:
     source:
       - id
       - name
-  langcode: 
+  langcode:
     plugin: default_value
     default_value: fi
-  name: name
+  name:
+    plugin: callback
+    callable: trim
+    source: name
   field_external_id: id
 destination:
   plugin: 'entity:taxonomy_term'
