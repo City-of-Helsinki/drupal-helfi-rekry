@@ -73,6 +73,7 @@ class SettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $siteConfig = $this->config('helfi_rekry_content.job_listings');
+
     $searchPage = Node::load($siteConfig->get('search_page'));
     $form['job_listings']['search_page'] = [
       '#type' => 'entity_autocomplete',
@@ -85,12 +86,16 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Displayed after the related jobs block, for example.'),
     ];
 
-    $form['job_listings']['redirect_403'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Unpublished job listing redirect page for anonymous users'),
-      '#default_value' => $siteConfig->get('redirect_403'),
-      '#size' => 40,
-      '#description' => $this->t('This page is displayed for anonymous users when a job listing is unpublished. Redirect to page that contains information about old and removed job listings.'),
+    $redirectPage = Node::load($siteConfig->get('redirect_403_page'));
+    $form['job_listings']['redirect_403_page'] = [
+      '#type' => 'entity_autocomplete',
+      '#target_type' => 'node',
+      '#selection_settings' => [
+        'target_bundles' => ['landing_page', 'page'],
+      ],
+      '#title' => $this->t('Closed job listing redirect page'),
+      '#default_value' => $redirectPage,
+      '#description' => $this->t('Page where anonymous users will be redirected from unpublished job listings'),
     ];
 
     $form['job_listings_']['city_description_title'] = [
@@ -114,14 +119,6 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    if (!$form_state->isValueEmpty('redirect_403')) {
-      $form_state->setValueForElement($form['job_listings']['redirect_403'], $this->aliasManager->getPathByAlias($form_state->getValue('redirect_403')));
-    }
-    if (($value = $form_state->getValue('redirect_403')) && $value[0] !== '/') {
-      $form_state->setErrorByName('redirect_403',
-        $this->t("The path '%path' has to start with a slash.", ['%path' => $form_state->getValue('redirect_403')])
-      );
-    }
     parent::validateForm($form, $form_state);
   }
 
@@ -131,7 +128,7 @@ class SettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('helfi_rekry_content.job_listings')
       ->set('search_page', $form_state->getValue('search_page'))
-      ->set('redirect_403', $form_state->getValue('redirect_403'))
+      ->set('redirect_403_page', $form_state->getValue('redirect_403_page'))
       ->set('city_description_title', $form_state->getValue('city_description_title'))
       ->set('city_description_text', $form_state->getValue('city_description_text'))
       ->save();
