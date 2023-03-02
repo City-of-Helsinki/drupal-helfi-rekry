@@ -6,7 +6,7 @@ msgid "Eg. title, location, department"
 msgstr "Esim. nimike, toimipiste tai yksikkö"
 
 msgctxt "Job search results statline"
-msgid "open positions"
+msgid "open positions (@listings job listings)"
 msgstr "avointa työpaikkaa (@listings ilmoitusta)"
 
 msgctxt "HELfi Rekry job search"
