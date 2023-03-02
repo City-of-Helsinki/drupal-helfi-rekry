@@ -72,7 +72,12 @@ const ResultsContainer = () => {
           {!isNaN(jobs) && !isNaN(total) && (
             <Fragment>
               <span className='job-listing-search__count'>{jobs}</span>
-              {' ' + Drupal.t('open positions', { '@listings': total }, { context: 'Job search results statline' })}
+              {' ' +
+                Drupal.t(
+                  'open positions (@listings job listings)',
+                  { '@listings': total },
+                  { context: 'Job search results statline' }
+                )}
             </Fragment>
           )}
         </div>

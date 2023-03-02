@@ -5,3 +5,4 @@ ignored_config_entities:
   - hdbt_admin_tools.site_settings
   - 'system.site:page.front'
   - 'helfi_rekry_content.job_listings:search_page'
+  - 'helfi_rekry_content.job_listings:redirect_403_page'
