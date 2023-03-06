@@ -23,7 +23,7 @@ export const AGGREGATIONS = {
   aggs: {
     occupations: {
       terms: {
-        field: 'task_area_id',
+        field: 'task_area_external_id',
         size: 100,
       },
     },
