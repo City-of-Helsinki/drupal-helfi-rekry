@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.task_area.field_external_id
+    - field.field.taxonomy_term.task_area.field_metadata
     - taxonomy.vocabulary.task_area
   module:
     - path
@@ -24,6 +25,14 @@ content:
   field_external_id:
     type: string_textfield
     weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_metadata:
+    type: string_textfield
+    weight: 102
     region: content
     settings:
       size: 60
