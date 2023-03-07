@@ -9,7 +9,7 @@ dependencies:
 _core:
   default_config_hash: syTv0h1MUcZ35TjmApRsR9znnDRN-fk-wxfZjABkkbw
 id: read_only
-label: 'Read only'
+label: Lukija
 weight: 2
 is_admin: null
 permissions:
