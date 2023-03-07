@@ -6,8 +6,8 @@ msgid "Eg. title, location, department"
 msgstr "T.ex. titel, verksamhetsställe, enhet"
 
 msgctxt "Job search results statline"
-msgid "open positions"
-msgstr "lediga jobb"
+msgid "open positions (@listings job listings)"
+msgstr "lediga jobb (@listings annons)"
 
 msgctxt "HELfi Rekry job search"
 msgid "Sort by"

@@ -91,7 +91,8 @@ const FormContainer = () => {
   const showContinuous = employmentSearchIdMap.get(CustomIds.CONTINUOUS);
   const showInternships = employmentSearchIdMap.get(CustomIds.TRAINING);
   const showSummerJobs = employmentSearchIdMap.get(CustomIds.SUMMER_JOBS);
-  const showYouthSummerJobs = employmentSearchIdMap.get(CustomIds.YOUTH_SUMMER_JOBS);
+  const showYouthSummerJobs =
+    employmentSearchIdMap.get(CustomIds.YOUTH_SUMMER_JOBS) || employmentSearchIdMap.get(CustomIds.COOL_SUMMER_PROJECT);
   const showCheckboxes = showContinuous || showInternships || showSummerJobs || showYouthSummerJobs;
 
   return (
