@@ -4,93 +4,93 @@ links:
     priority: '1.0'
     changefreq: daily
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=32&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=32&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=33&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=33&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=34&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=34&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=35&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=35&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=36&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=36&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=37&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=37&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=240&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=240&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=241&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=241&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=242&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=242&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=253&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=253&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=255&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=255&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=256&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=256&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=257&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=257&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=258&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=258&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=982&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=982&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=984&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=984&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=985&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=985&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=986&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=986&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=987&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=987&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=981&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=981&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=1097&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=1097&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=1098&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=1098&page=1'
     priority: '1.0'
     changefreq: ''
   -
-    path: '/avoimet-tyopaikat/etsi-avoimia-tyopaikkoja?task_areas=1099&page=1'
+    path: '/etsi-avoimia-tyopaikkoja?task_areas=1099&page=1'
     priority: '1.0'
