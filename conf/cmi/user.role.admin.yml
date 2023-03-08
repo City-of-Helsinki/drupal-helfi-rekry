@@ -18,6 +18,7 @@ dependencies:
     - rest.resource.helfi_debug_data
     - taxonomy.vocabulary.keywords
     - taxonomy.vocabulary.organization
+    - taxonomy.vocabulary.task_area
   module:
     - block
     - config_translation
@@ -191,3 +192,5 @@ permissions:
   - 'view scheduled content'
   - 'view the administration theme'
   - 'view unpublished paragraphs'
+  - 'translate task_area taxonomy_term'
+  - 'edit terms in task_area'
