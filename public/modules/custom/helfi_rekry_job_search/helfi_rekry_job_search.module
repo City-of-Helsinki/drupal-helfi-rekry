@@ -40,6 +40,27 @@ function helfi_rekry_job_search_page_attachments_alter(array &$attachments) {
 
   $currentUri = \Drupal::request()->getUri();
   $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'task_area',
+    'field_external_id' => $queryParams['task_areas'],
+  ]);
+
+  $term = reset($term);
+  if ($term->hasTranslation($langcode)) {
+    $term = $term->getTranslation($langcode);
+  }
+
+  if ($term->hasField('field_meta_description') && !$term->get('field_meta_description')->isEmpty()) {
+    $description = [
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'description',
+        'content' => $term->get('field_meta_description')->getString(),
+      ],
+    ];
+
+    $attachments['#attached']['html_head'][] = [$description, 'description'];
+  }
 
   foreach ($attachments['#attached']['html_head'] as $key => $head) {
     switch ($head[1]) {
@@ -54,16 +75,6 @@ function helfi_rekry_job_search_page_attachments_alter(array &$attachments) {
 
       case 'og_title':
       case 'twitter_cards_title':
-        $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
-          'vid' => 'task_area',
-          'field_external_id' => $queryParams['task_areas'],
-        ]);
-
-        $term = reset($term);
-        if ($term->hasTranslation($langcode)) {
-          $term = $term->getTranslation($langcode);
-        }
-
         if ($term->hasField('field_metadata') && !$term->get('field_metadata')->isEmpty()) {
           $attachments['#attached']['html_head'][$key][0]['#attributes']['content'] = $term->get('field_metadata')->getString();
         }

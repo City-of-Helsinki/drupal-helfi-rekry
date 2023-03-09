@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.taxonomy_term.task_area.field_external_id
+    - field.field.taxonomy_term.task_area.field_meta_description
     - field.field.taxonomy_term.task_area.field_metadata
     - taxonomy.vocabulary.task_area
   module:
@@ -15,16 +16,24 @@ bundle: task_area
 mode: default
 content:
   description:
-    type: text_textfield
+    type: text_textarea
     weight: 0
     region: content
     settings:
-      size: 60
+      rows: 5
       placeholder: ''
     third_party_settings: {  }
   field_external_id:
     type: string_textfield
     weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_meta_description:
+    type: string_textfield
+    weight: 103
     region: content
     settings:
       size: 60
