@@ -3,7 +3,7 @@ import IndexFields from '../enum/IndexFields';
 
 // Filter by current language
 export const languageFilter = {
-  term: { [`${IndexFields.LANGUAGE}.keyword`]: window.drupalSettings.path.currentLanguage || 'fi' },
+  term: { [`${IndexFields.LANGUAGE}`]: window.drupalSettings.path.currentLanguage || 'fi' },
 };
 
 // Filter out taxonomy terms
@@ -13,7 +13,7 @@ export const nodeFilter = {
 
 // Alphabetical sort for terms
 const alphabeticallySortTerms = {
-  'name.keyword': {
+  name: {
     order: 'asc',
   },
 };
@@ -41,7 +41,7 @@ export const AGGREGATIONS = {
     },
     employment_search_id: {
       terms: {
-        field: 'employment_search_id.keyword',
+        field: 'employment_search_id',
         size: 100,
       },
     },
@@ -58,12 +58,12 @@ export const EMPLOYMENT_FILTER_OPTIONS = {
   query: {
     bool: {
       should: [
-        { term: { 'field_search_id.keyword': CustomIds.FIXED_CONTRACTUAL } },
-        { term: { 'field_search_id.keyword': CustomIds.FIXED_SERVICE } },
-        { term: { 'field_search_id.keyword': CustomIds.PERMANENT_CONTRACTUAL } },
-        { term: { 'field_search_id.keyword': CustomIds.PERMANENT_SERVICE } },
-        { term: { 'field_search_id.keyword': CustomIds.TRAINING } },
-        { term: { 'field_search_id.keyword': CustomIds.ALTERNATION } },
+        { term: { field_search_id: CustomIds.FIXED_CONTRACTUAL } },
+        { term: { field_search_id: CustomIds.FIXED_SERVICE } },
+        { term: { field_search_id: CustomIds.PERMANENT_CONTRACTUAL } },
+        { term: { field_search_id: CustomIds.PERMANENT_SERVICE } },
+        { term: { field_search_id: CustomIds.TRAINING } },
+        { term: { field_search_id: CustomIds.ALTERNATION } },
       ],
       minimum_should_match: 1,
       filter: [languageFilter, { term: { [IndexFields.ENTITY_TYPE]: 'taxonomy_term' } }],
@@ -78,7 +78,7 @@ export const LANGUAGE_OPTIONS = {
   aggs: {
     languages: {
       terms: {
-        field: '_language.keyword',
+        field: '_language',
       },
     },
   },
@@ -103,7 +103,7 @@ export const TASK_AREA_OPTIONS = {
       filter: [
         {
           term: {
-            'vid.keyword': 'task_area',
+            vid: 'task_area',
           },
         },
         {
