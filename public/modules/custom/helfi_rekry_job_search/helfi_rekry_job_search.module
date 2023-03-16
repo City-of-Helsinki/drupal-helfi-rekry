@@ -13,3 +13,72 @@ declare(strict_types = 1);
 function helfi_rekry_job_search_preprocess_paragraph__job_search(array &$variables) {
   $variables['#attached']['library'][] = 'helfi_rekry_job_search/job-search';
 }
+
+/**
+ * Implements hook_page_attachments_alter().
+ *
+ * Update job search's task area pages metadata.
+ */
+function helfi_rekry_job_search_page_attachments_alter(array &$attachments) {
+  $queryParams = \Drupal::request()->query->all();
+
+  if (!array_key_exists('task_areas', $queryParams)) {
+    return;
+  }
+
+  // Only task_area and page paramaters allowed.
+  foreach ($queryParams as $queryParam => $queryParamValue) {
+    if ($queryParam !== 'task_areas' && $queryParam !== 'page') {
+      return;
+    }
+  }
+
+  // Only one task_area category allowed.
+  if (substr_count(\Drupal::request()->getRequestUri(), 'task_areas') > 1) {
+    return;
+  }
+
+  $currentUri = \Drupal::request()->getUri();
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'task_area',
+    'field_external_id' => $queryParams['task_areas'],
+  ]);
+
+  $term = reset($term);
+  if ($term->hasTranslation($langcode)) {
+    $term = $term->getTranslation($langcode);
+  }
+
+  if ($term->hasField('field_meta_description') && !$term->get('field_meta_description')->isEmpty()) {
+    $description = [
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'description',
+        'content' => $term->get('field_meta_description')->getString(),
+      ],
+    ];
+
+    $attachments['#attached']['html_head'][] = [$description, 'description'];
+  }
+
+  foreach ($attachments['#attached']['html_head'] as $key => $head) {
+    switch ($head[1]) {
+      case 'canonical_url':
+        $attachments['#attached']['html_head'][$key][0]['#attributes']['href'] = $currentUri;
+        break;
+
+      case 'og_url':
+      case 'twitter_cards_page_url':
+        $attachments['#attached']['html_head'][$key][0]['#attributes']['content'] = $currentUri;
+        break;
+
+      case 'og_title':
+      case 'twitter_cards_title':
+        if ($term->hasField('field_metadata') && !$term->get('field_metadata')->isEmpty()) {
+          $attachments['#attached']['html_head'][$key][0]['#attributes']['content'] = $term->get('field_metadata')->getString();
+        }
+        break;
+    }
+  }
+}

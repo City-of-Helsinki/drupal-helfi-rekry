@@ -221,4 +221,47 @@ function hdbt_subtheme_preprocess_html(&$variables) {
   if ($environment === 'prod') {
     $variables['#attached']['library'][] = 'hdbt_subtheme/siteimprove-analytics';
   }
+
+  _update_job_search_task_area_page_title_tag($variables);
+}
+
+/**
+ * Set title tag for job search task area pages.
+ *
+ * @param array $variables
+ *   Variables array.
+ */
+function _update_job_search_task_area_page_title_tag(array &$variables) {
+  $query_params = \Drupal::request()->query->all();
+
+  if (!array_key_exists('task_areas', $query_params)) {
+    return;
+  }
+
+  // Only task_area and page paramaters allowed.
+  foreach ($query_params as $query_param => $query_param_value) {
+    if ($query_param !== 'task_areas' && $query_param !== 'page') {
+      return;
+    }
+  }
+
+  // Only one task_area category allowed.
+  if (substr_count(\Drupal::request()->getRequestUri(), 'task_areas') > 1) {
+    return;
+  }
+
+  $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'task_area',
+    'field_external_id' => $query_params['task_areas'],
+  ]);
+
+  $term = reset($term);
+  if ($term->hasTranslation($langcode)) {
+    $term = $term->getTranslation($langcode);
+  }
+
+  if ($term->hasField('field_metadata') && !$term->get('field_metadata')->isEmpty()) {
+    $variables['head_title']['title'] = html_entity_decode($term->get('field_metadata')->getString(), ENT_QUOTES);
+  }
 }

@@ -1,6 +1,3 @@
-import SearchComponents from '../enum/SearchComponents';
-import OptionType from './OptionType';
-
 type URLParams = {
   continuous?: boolean;
   employment?: string[];

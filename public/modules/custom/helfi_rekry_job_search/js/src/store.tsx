@@ -126,14 +126,14 @@ export const taskAreasAtom = atom<OptionType[]>((get) => {
 
   return options
     .map((option: Result<Term>) => {
-      const count = aggs.get(option._source.tid[0]) || 0;
+      const count = aggs.get(option._source.field_external_id[0]) || 0;
       const name = option._source.name;
 
       return {
         count: count,
         label: `${name} (${count})`,
         simpleLabel: name,
-        value: option._source.tid[0],
+        value: option._source.field_external_id[0],
       };
     })
     .sort((a: OptionType, b: OptionType) => sortOptions(a, b));

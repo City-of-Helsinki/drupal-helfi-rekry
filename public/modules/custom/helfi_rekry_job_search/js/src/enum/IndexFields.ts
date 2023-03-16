@@ -17,6 +17,7 @@ const IndexFields = {
   RECRUITMENT_TYPE: 'field_recruitment_type',
   TASK_AREA: 'field_task_area',
   TASK_AREA_ID: 'task_area_id',
+  TASK_AREA_EXTERNAL_ID: 'task_area_external_id',
   LANGCODE: 'langcode',
   SEARCH_ID: 'field_search_id',
   STATUS: 'status',
