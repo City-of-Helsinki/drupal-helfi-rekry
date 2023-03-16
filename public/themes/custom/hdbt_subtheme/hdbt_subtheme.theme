@@ -231,7 +231,7 @@ function hdbt_subtheme_preprocess_html(&$variables) {
  * @param array $variables
  *   Variables array.
  */
-function _update_job_search_task_area_page_title_tag(&$variables) {
+function _update_job_search_task_area_page_title_tag(array &$variables) {
   $query_params = \Drupal::request()->query->all();
 
   if (!array_key_exists('task_areas', $query_params)) {
