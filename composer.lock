@@ -4372,16 +4372,16 @@
         },
         {
             "name": "drupal/helfi_platform_config",
-            "version": "2.18.4",
+            "version": "2.18.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config.git",
-                "reference": "5deed4c697edfc1953b979c9b979de8d72687262"
+                "reference": "b24ebf48f798aa5785749537b94a852d0b5741b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/5deed4c697edfc1953b979c9b979de8d72687262",
-                "reference": "5deed4c697edfc1953b979c9b979de8d72687262",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/b24ebf48f798aa5785749537b94a852d0b5741b2",
+                "reference": "b24ebf48f798aa5785749537b94a852d0b5741b2",
                 "shasum": ""
             },
             "require": {
@@ -4493,10 +4493,10 @@
             ],
             "description": "HELfi platform config",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/2.18.4",
+                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/2.18.5",
                 "issues": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/issues"
             },
-            "time": "2023-03-16T08:12:10+00:00"
+            "time": "2023-03-16T11:19:20+00:00"
         },
         {
             "name": "drupal/helfi_proxy",
