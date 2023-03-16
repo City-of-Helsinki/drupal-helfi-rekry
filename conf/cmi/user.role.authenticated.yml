@@ -21,6 +21,6 @@ permissions:
   - 'access content'
   - 'access toolbar'
   - 'display eu cookie compliance popup'
+  - 'restful get helfi_global_mobile_menu'
   - 'view media'
   - 'view remote entities'
-  - 'restful get helfi_global_mobile_menu'
