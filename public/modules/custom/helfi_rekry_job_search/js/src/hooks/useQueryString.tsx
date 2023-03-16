@@ -15,14 +15,29 @@ const useQueryString = (urlParams: URLParams): string => {
       bool: {
         should: [
           {
-            match_phrase_prefix: {
+            term: {
               [IndexFields.RECRUITMENT_ID]: urlParams.keyword.toString(),
+            },
+          },
+          {
+            term: {
+              [IndexFields.RECRUITMENT_ID]: urlParams.keyword.toString().toUpperCase(),
             },
           },
           {
             combined_fields: {
               query: urlParams.keyword.toString(),
-              fields: [`${IndexFields.TITLE}^2`, IndexFields.EMPLOYMENT, IndexFields.ORGANIZATION_NAME],
+              fields: [`${IndexFields.TITLE}^2`],
+            },
+          },
+          {
+            term: {
+              [IndexFields.EMPLOYMENT]: urlParams.keyword.toString(),
+            },
+          },
+          {
+            term: {
+              [IndexFields.ORGANIZATION_NAME]: urlParams.keyword.toString(),
             },
           },
           {
@@ -107,7 +122,7 @@ const useQueryString = (urlParams: URLParams): string => {
         urlParams.language
           ? {
               term: {
-                [`${IndexFields.LANGUAGE}.keyword`]: urlParams.language.toString(),
+                [IndexFields.LANGUAGE]: urlParams.language.toString(),
               },
             }
           : languageFilter,
