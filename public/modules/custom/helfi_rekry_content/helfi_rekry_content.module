@@ -215,6 +215,15 @@ function helfi_rekry_content_preprocess_field(&$variables) {
 
   // Expose original language to field templates.
   $variables['original_language'] = $originalLanguage;
+  $inlineFields = [
+    'title',
+    'field_salary',
+  ];
+
+  // Use span instead of div for inline fields.
+  if ($variables['field_name'] && in_array($variables['field_name'], $inlineFields)) {
+    $variables['original_language_inline'] = TRUE;
+  }
 
   // Expose original language as an attribute for these fields.
   $wrappedFields = [
