@@ -221,7 +221,7 @@ function helfi_rekry_content_preprocess_field(&$variables) {
   ];
 
   // Use span instead of div for inline fields.
-  if ($variables['field_name'] && in_array($variables['field_name'], $inlineFields)) {
+  if (isset($variables['field_name']) && in_array($variables['field_name'], $inlineFields)) {
     $variables['original_language_inline'] = TRUE;
   }
 
@@ -231,7 +231,7 @@ function helfi_rekry_content_preprocess_field(&$variables) {
     'field_organization_name',
   ];
 
-  if ($variables['field_name'] && in_array($variables['field_name'], $wrappedFields)) {
+  if (isset($variables['field_name']) && in_array($variables['field_name'], $wrappedFields)) {
     foreach ($variables['items'] as $item) {
       $item['attributes']->setAttribute('lang', 'fi');
     }
