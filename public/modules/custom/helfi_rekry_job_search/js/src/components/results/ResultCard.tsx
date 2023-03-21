@@ -88,7 +88,9 @@ const ResultCard = ({
           <span className='hel-icon hel-icon--calendar ' aria-hidden='true'></span>
           {Drupal.t('Employment contract')}
         </span>
-        <span className='job-listing__metadata__content'>{field_job_duration || '-'}</span>
+        <span className='job-listing__metadata__content' {...customAtts}>
+          {field_job_duration || '-'}
+        </span>
       </div>
       <span className='hel-icon hel-icon--arrow-right' aria-hidden='true'></span>
     </div>
