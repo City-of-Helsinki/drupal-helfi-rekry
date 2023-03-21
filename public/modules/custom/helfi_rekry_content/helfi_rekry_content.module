@@ -218,6 +218,7 @@ function helfi_rekry_content_preprocess_field(&$variables) {
   $inlineFields = [
     'title',
     'field_salary',
+    'field_job_duration',
   ];
 
   // Use span instead of div for inline fields.
