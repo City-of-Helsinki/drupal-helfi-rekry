@@ -3,21 +3,21 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_original_language
-    - field.storage.node.field_task_area
-    - field.storage.taxonomy_term.field_external_id
-    - field.storage.node.field_copied
-    - field.storage.node.field_employment_type
     - field.storage.node.field_employment
     - field.storage.taxonomy_term.field_search_id
+    - field.storage.node.field_employment_type
+    - field.storage.node.field_copied
+    - field.storage.taxonomy_term.field_external_id
     - field.storage.node.field_job_duration
-    - field.storage.node.field_publication_starts
-    - field.storage.node.field_organization_name
-    - field.storage.node.field_organization
     - field.storage.node.field_jobs
+    - field.storage.node.field_organization
+    - field.storage.node.field_organization_name
+    - field.storage.node.field_original_language
     - field.storage.node.field_postal_area
+    - field.storage.node.field_publication_starts
     - field.storage.node.field_recruitment_id
     - field.storage.node.field_recruitment_type
+    - field.storage.node.field_task_area
     - search_api.server.elastic_rekry
   module:
     - taxonomy
@@ -76,7 +76,7 @@ field_settings:
     label: 'Employment » Taxonomy term » Name'
     datasource_id: 'entity:node'
     property_path: 'field_employment:entity:name'
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_employment
@@ -130,7 +130,7 @@ field_settings:
     label: 'Organization name'
     datasource_id: 'entity:node'
     property_path: field_organization_name
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_organization_name
@@ -162,7 +162,7 @@ field_settings:
     label: 'Recruitment ID'
     datasource_id: 'entity:node'
     property_path: field_recruitment_id
-    type: string
+    type: text
     dependencies:
       config:
         - field.storage.node.field_recruitment_id
@@ -314,6 +314,7 @@ processor_settings:
       - employment_search_id
       - field_organization_name
       - field_postal_area
+      - field_recruitment_id
       - field_search_id
       - langcode
       - title

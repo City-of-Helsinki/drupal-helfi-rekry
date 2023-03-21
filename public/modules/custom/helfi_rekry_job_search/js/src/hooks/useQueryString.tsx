@@ -15,34 +15,24 @@ const useQueryString = (urlParams: URLParams): string => {
       bool: {
         should: [
           {
-            term: {
+            match_phrase_prefix: {
               [IndexFields.RECRUITMENT_ID]: urlParams.keyword.toString(),
-            },
-          },
-          {
-            term: {
-              [IndexFields.RECRUITMENT_ID]: urlParams.keyword.toString().toUpperCase(),
             },
           },
           {
             combined_fields: {
               query: urlParams.keyword.toString(),
-              fields: [`${IndexFields.TITLE}^2`],
-            },
-          },
-          {
-            term: {
-              [IndexFields.EMPLOYMENT]: urlParams.keyword.toString(),
-            },
-          },
-          {
-            term: {
-              [IndexFields.ORGANIZATION_NAME]: urlParams.keyword.toString(),
+              fields: [
+                `${IndexFields.TITLE}^2`,
+                `${IndexFields.ORGANIZATION}^1.5`,
+                IndexFields.ORGANIZATION_NAME,
+                IndexFields.EMPLOYMENT,
+              ],
             },
           },
           {
             wildcard: {
-              [`${IndexFields.TITLE}.keyword`]: `*${urlParams.keyword.toString()}*`,
+              [`${IndexFields.TITLE}`]: `*${urlParams.keyword.toString()}*`,
             },
           },
         ],
