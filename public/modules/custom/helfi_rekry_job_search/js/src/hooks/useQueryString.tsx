@@ -144,18 +144,18 @@ const useQueryString = (urlParams: URLParams): string => {
     query.bool.minimum_should_match = 1;
   }
 
-  const sort =
-    urlParams?.sort === sortOptions.closing
-      ? {
-          [IndexFields.UNPUBLISH_ON]: {
-            order: 'asc',
-          },
-        }
-      : {
-          [IndexFields.PUBLICATION_STARTS]: {
-            order: 'desc',
-          },
-        };
+  const closing = {
+    [IndexFields.UNPUBLISH_ON]: {
+      order: 'asc',
+    },
+  };
+  const newest = {
+    [IndexFields.PUBLICATION_STARTS]: {
+      order: 'desc',
+    },
+  };
+
+  const sort = urlParams?.sort === sortOptions.newestFirst ? newest : closing;
 
   return JSON.stringify({
     aggs: {
