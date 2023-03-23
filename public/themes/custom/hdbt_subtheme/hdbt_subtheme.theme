@@ -257,11 +257,11 @@ function _update_job_search_task_area_page_title_tag(array &$variables) {
   ]);
 
   $term = reset($term);
-  if ($term->hasTranslation($langcode)) {
+  if ($term && $term->hasTranslation($langcode)) {
     $term = $term->getTranslation($langcode);
   }
 
-  if ($term->hasField('field_metadata') && !$term->get('field_metadata')->isEmpty()) {
+  if ($term && $term->hasField('field_metadata') && !$term->get('field_metadata')->isEmpty()) {
     $variables['head_title']['title'] = html_entity_decode($term->get('field_metadata')->getString(), ENT_QUOTES);
   }
 }
