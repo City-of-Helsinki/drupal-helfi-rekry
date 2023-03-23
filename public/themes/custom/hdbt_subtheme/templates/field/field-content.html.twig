@@ -1,7 +1,12 @@
 {# Set lang attributes if needed #}
+{% if original_language_inline %}
+  {% set original_language_wrapper = 'span' %}
+{% else %}
+  {% set original_language_wrapper = 'div' %}
+{% endif %}
 {% set content %}
   {% if original_language %}
-    <div lang="{{ original_language }}">
+    <{{original_language_wrapper}} lang="{{ original_language }}">
   {% endif %}
 
   {% for item in items %}
@@ -9,7 +14,7 @@
   {% endfor %}
 
   {% if original_language %}
-    </div>
+    </{{original_language_wrapper}}>
   {% endif %}
 {% endset %}
 

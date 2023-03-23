@@ -24,12 +24,12 @@ const ResultCard = ({
 
   let heading = title[0];
 
+  let jobs_amount = null;
   if (field_jobs[0] > 1) {
-    heading += ` (${field_jobs} ${Drupal.t('jobs')})`;
+    jobs_amount = ` (${field_jobs} ${Drupal.t('jobs')})`;
   }
 
   const customAtts: HTMLAttributes<HTMLHeadingElement | HTMLDivElement> = {};
-
   if (field_copied?.length && field_original_language?.length) {
     customAtts.lang = field_original_language[0];
   }
@@ -41,9 +41,10 @@ const ResultCard = ({
 
   return (
     <div role='article' className='node--type-job-listing node--view-mode-teaser'>
-      <h3 className='job-listing__title' {...customAtts}>
+      <h3 className='job-listing__title'>
         <a href={url[0]} rel='bookmark'>
-          {heading.charAt(0).toUpperCase() + heading.slice(1)}
+          <span {...customAtts}>{heading.charAt(0).toUpperCase() + heading.slice(1)}</span>
+          {jobs_amount && <span>{jobs_amount}</span>}
         </a>
       </h3>
       <section
@@ -87,7 +88,9 @@ const ResultCard = ({
           <span className='hel-icon hel-icon--calendar ' aria-hidden='true'></span>
           {Drupal.t('Employment contract')}
         </span>
-        <span className='job-listing__metadata__content'>{field_job_duration || '-'}</span>
+        <span className='job-listing__metadata__content' {...customAtts}>
+          {field_job_duration || '-'}
+        </span>
       </div>
       <span className='hel-icon hel-icon--arrow-right' aria-hidden='true'></span>
     </div>

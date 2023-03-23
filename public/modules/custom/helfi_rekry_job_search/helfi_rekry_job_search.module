@@ -46,11 +46,11 @@ function helfi_rekry_job_search_page_attachments_alter(array &$attachments) {
   ]);
 
   $term = reset($term);
-  if ($term->hasTranslation($langcode)) {
+  if ($term && $term->hasTranslation($langcode)) {
     $term = $term->getTranslation($langcode);
   }
 
-  if ($term->hasField('field_meta_description') && !$term->get('field_meta_description')->isEmpty()) {
+  if ($term && $term->hasField('field_meta_description') && !$term->get('field_meta_description')->isEmpty()) {
     $description = [
       '#tag' => 'meta',
       '#attributes' => [
