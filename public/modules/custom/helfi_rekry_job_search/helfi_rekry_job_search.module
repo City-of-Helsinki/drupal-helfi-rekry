@@ -75,7 +75,7 @@ function helfi_rekry_job_search_page_attachments_alter(array &$attachments) {
 
       case 'og_title':
       case 'twitter_cards_title':
-        if ($term->hasField('field_metadata') && !$term->get('field_metadata')->isEmpty()) {
+        if ($term && $term->hasField('field_metadata') && !$term->get('field_metadata')->isEmpty()) {
           $attachments['#attached']['html_head'][$key][0]['#attributes']['content'] = $term->get('field_metadata')->getString();
         }
         break;
