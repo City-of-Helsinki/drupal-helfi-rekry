@@ -5,7 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "date-fns": "2.29.3",
-    "hds-react": "2.6.0",
+    "hds-react": "^2.13.0",
     "jotai": "1.11.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
