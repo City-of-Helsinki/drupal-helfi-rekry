@@ -44,115 +44,70 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
+      columns: columns
+      list_of_links: list_of_links
       content_cards: content_cards
       content_liftup: content_liftup
-      columns: columns
       banner: banner
-      list_of_links: list_of_links
       liftup_with_image: liftup_with_image
-      map: map
       from_library: from_library
-      target_group_links: target_group_links
       chart: chart
       remote_video: remote_video
-      event_list: event_list
+      map: map
       news_list: news_list
-      popular_services: popular_services
-      job_search: job_search
+      event_list: event_list
       phasing: phasing
+      popular_services: popular_services
+      target_group_links: target_group_links
+      job_search: job_search
     negate: 0
     target_bundles_drag_drop:
-      accordion:
-        weight: -22
-        enabled: false
-      accordion_item:
-        weight: -21
-        enabled: false
       banner:
-        weight: -26
+        weight: 0
         enabled: true
       chart:
-        weight: 25
+        weight: 0
         enabled: true
       columns:
-        weight: -27
+        weight: 0
         enabled: true
-      contact_card:
-        weight: 37
-        enabled: false
-      contact_card_listing:
-        weight: 38
-        enabled: false
       content_cards:
-        weight: -33
+        weight: 0
         enabled: true
       content_liftup:
-        weight: -32
+        weight: 0
         enabled: true
       event_list:
-        weight: 30
+        weight: 0
         enabled: true
       from_library:
-        weight: 21
+        weight: 0
         enabled: true
-      gallery:
-        weight: -20
-        enabled: false
-      gallery_slide:
-        weight: -19
-        enabled: false
-      hero:
-        weight: -18
-        enabled: false
-      image:
-        weight: -17
-        enabled: false
       job_search:
-        weight: 47
+        weight: 0
         enabled: true
       liftup_with_image:
-        weight: -24
+        weight: 0
         enabled: true
       list_of_links:
-        weight: -25
+        weight: 0
         enabled: true
-      list_of_links_item:
-        weight: -16
-        enabled: false
       map:
-        weight: -20
+        weight: 0
         enabled: true
       news_list:
-        weight: 30
+        weight: 0
         enabled: true
       phasing:
-        weight: 50
+        weight: 0
         enabled: true
-      phasing_item:
-        weight: 30
-        enabled: false
-      popular_service_item:
-        weight: 56
-        enabled: false
       popular_services:
-        weight: 42
+        weight: 0
         enabled: true
       remote_video:
-        weight: 27
+        weight: 0
         enabled: true
-      sidebar_text:
-        weight: 58
-        enabled: false
-      social_media_link:
-        weight: 59
-        enabled: false
-      target_group_link_item:
-        weight: 45
-        enabled: false
       target_group_links:
-        weight: 24
+        weight: 0
         enabled: true
-      text:
-        weight: -15
-        enabled: false
 field_type: entity_reference_revisions

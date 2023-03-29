@@ -122,6 +122,7 @@ permissions:
   - 'edit remote entities'
   - 'edit terms in keywords'
   - 'edit terms in organization'
+  - 'mark as hidden in editoria11y'
   - 'revert announcement revisions'
   - 'revert job_listing revisions'
   - 'revert landing_page revisions'
