@@ -1,8 +1,8 @@
 settings:
   allowed_values:
     -
-      label: Notification
+      label: Notifikation
     -
-      label: Attention
+      label: Obs
     -
-      label: Alert
+      label: Varning

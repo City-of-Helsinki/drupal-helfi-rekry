@@ -1,0 +1,6 @@
+third_party_settings:
+  field_group:
+    group_default_description:
+      label: 'Oletuskuvaus'
+      format_settings:
+        description: 'Kuvauksen oletusarvot. Näitä käytetään varavaihtoehtona, jos migraatio ei tuo näitä arvoja.'

@@ -149,6 +149,7 @@ permissions:
   - 'edit terms in keywords'
   - 'edit terms in organization'
   - 'edit terms in task_area'
+  - 'mark as hidden in editoria11y'
   - 'restful get helfi_debug_data'
   - 'revert all revisions'
   - 'revert announcement revisions'
