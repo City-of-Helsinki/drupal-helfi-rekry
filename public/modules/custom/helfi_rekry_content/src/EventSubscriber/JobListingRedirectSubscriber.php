@@ -58,12 +58,12 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
     }
 
     $config = $this->configFactory->get('helfi_rekry_content.job_listings');
-    $redirectPath = trim($config->get('redirect_403'));
-    if (!$redirectPath) {
+    $redirectNode = $config->get('redirect_403_page');
+    if (!$redirectNode) {
       return;
     }
 
-    $url = Url::fromUserInput($redirectPath)->toString();
+    $url = Url::fromRoute('entity.node.canonical', ['node' => $redirectNode])->toString();
 
     // Set temporary redirect.
     $response = new RedirectResponse($url, 307);

@@ -1,0 +1,29 @@
+uuid: 2598503d-d25f-4ad5-8f63-06cf1b31f1f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_search_id
+    - taxonomy.vocabulary.employment
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: roles_enable
+    add_roles:
+      - admin
+    edit_disable: roles_enable
+    edit_roles:
+      - admin
+id: taxonomy_term.employment.field_search_id
+field_name: field_search_id
+entity_type: taxonomy_term
+bundle: employment
+label: 'Search ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,5 +1,8 @@
 export type OptionType = {
-  label?: string;
+  additionalValue?: string;
+  count?: number;
+  simpleLabel?: string;
+  label: string;
   value: string;
 };
 

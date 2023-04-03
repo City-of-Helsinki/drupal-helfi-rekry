@@ -1,0 +1,29 @@
+uuid: a2ff8bc2-41a9-4195-8e2d-cb5b405b30f8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_job_search_desc
+    - paragraphs.paragraphs_type.job_search
+  module:
+    - allowed_formats
+    - disable_field
+    - text
+third_party_settings:
+  allowed_formats:
+    allowed_formats: {  }
+  disable_field:
+    add_disable: none
+    edit_disable: none
+id: paragraph.job_search.field_job_search_desc
+field_name: field_job_search_desc
+entity_type: paragraph
+bundle: job_search
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

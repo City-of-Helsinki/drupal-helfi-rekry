@@ -10,12 +10,12 @@ use Drupal\node\Entity\Node;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Queue worker for kob listing translations.
+ * Queue worker for job listing translations.
  *
  * @QueueWorker(
  *   id = "helfi_rekry_job_translations",
  *   title = @Translation("Job listing translations"),
- *   cron = {"time" = 60}
+ *   cron = {"time" = 900}
  * )
  */
 final class TranslationsQueue extends QueueWorkerBase implements ContainerFactoryPluginInterface {
@@ -24,6 +24,17 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
    * Queue id.
    */
   public const QUEUE_ID = 'helfi_rekry_job_translations';
+
+  /**
+   * All possible langcode values.
+   *
+   * @var protectedarray
+   */
+  protected array $langcodes = [
+    'en' => 'en',
+    'fi' => 'fi',
+    'sv' => 'sv',
+  ];
 
   /**
    * Create a static instance.
@@ -59,16 +70,16 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
       return;
     }
 
-    $this->createTranslations($data->nid);
+    $this->handleTranslations($data->nid);
   }
 
   /**
-   * Create missing language versions.
+   * Create / update forced translations.
    *
    * @param string $id
    *   Job listing node id.
    */
-  public function createTranslations(string $id): void {
+  public function handleTranslations(string $id): void {
     $listing = Node::load($id);
 
     if (!$listing) {
@@ -83,7 +94,7 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
 
     foreach ($missingVersions as $langcode) {
       $originalLangcode = $listing->get('langcode')->value;
-      $listing->addTranslation($langcode, array_merge($listing->toArray(), [
+      $translation = $listing->addTranslation($langcode, array_merge($listing->toArray(), [
         'field_copied' => [
           ['value' => TRUE],
         ],
@@ -92,7 +103,32 @@ final class TranslationsQueue extends QueueWorkerBase implements ContainerFactor
         ],
       ]));
 
+      $now = \Drupal::time()->getCurrentTime();
+      $publishOn = $listing->get('publish_on')->value;
+      $setPublished = $listing->isPublished() || !$publishOn ||($publishOn && $publishOn <= $now);
+
+      if ($setPublished) {
+        $translation->setPublished();
+      }
+      elseif ($publishOn) {
+        $translation->set('publish_on', $publishOn);
+      }
+
+      if ($unpublishOn = $listing->get('unpublish_on')->value) {
+        $translation->set('unpublish_on', $unpublishOn);
+      }
+
       $listing->save();
+    }
+  }
+
+  /**
+   * Handle updating existing translations.
+   */
+  private function shouldNotUpdate(Node $translation) {
+    // Don't update listings that haver their own translation in Helbit.
+    if ($translation->get('field_copied')->getValue() === FALSE) {
+      return;
     }
   }
 

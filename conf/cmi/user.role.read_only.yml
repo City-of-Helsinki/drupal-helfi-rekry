@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - node
     - paragraphs
     - toolbar
     - view_unpublished
@@ -14,8 +15,9 @@ weight: 2
 is_admin: null
 permissions:
   - 'access toolbar'
-  - 'view any unpublished job_listing content'
   - 'view any unpublished announcement content'
+  - 'view any unpublished job_listing content'
   - 'view any unpublished landing_page content'
   - 'view any unpublished page content'
+  - 'view own unpublished content'
   - 'view unpublished paragraphs'

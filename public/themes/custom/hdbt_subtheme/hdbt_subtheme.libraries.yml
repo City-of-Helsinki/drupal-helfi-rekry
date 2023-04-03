@@ -10,3 +10,11 @@ global-scripting:
     dist/js/bundle.min.js: {}
   dependencies:
     - core/drupal
+
+siteimprove-analytics:
+  version: 1.x
+  js:
+    dist/js/siteimprove_analytics.min.js: {}
+  dependencies:
+  - core/drupal
+  - eu_cookie_compliance/eu_cookie_compliance

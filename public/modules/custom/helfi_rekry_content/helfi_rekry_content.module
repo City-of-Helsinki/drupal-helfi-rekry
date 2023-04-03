@@ -11,6 +11,7 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
 use Drupal\migrate\MigrateSkipRowException;
+use Drupal\paragraphs\ParagraphInterface;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -93,7 +94,7 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
  * @return string|null
  *   Valid video url or null
  */
-function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
+function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
     $resolver = \Drupal::service('media.oembed.url_resolver');
     $validate = $resolver->getProviderByUrl($url);
@@ -113,7 +114,7 @@ function _helfi_rekry_check_video_url(string|NULL $url = NULL): ?string {
  *
  * @throws \Drupal\migrate\MigrateSkipRowException
  */
-function _helfi_rekry_check_video_existance(string|NULL $url = NULL): void {
+function _helfi_rekry_content_check_video_existance(string|NULL $url = NULL): void {
   if (_helfi_rekry_content_lookup_video_mid($url)) {
     throw new MigrateSkipRowException();
   }
@@ -176,7 +177,7 @@ function _helfi_rekry_content_lookup_job_nid(string $id): ?string {
  * @return string|null
  *   The resulting url or null
  */
-function _helfi_rekry_add_schema(string|NULL $url = NULL): ?string {
+function _helfi_rekry_content_add_schema(string|NULL $url = NULL): ?string {
   if ($url && parse_url($url, PHP_URL_SCHEME) === NULL) {
     return 'https://' . $url;
   }
@@ -215,6 +216,17 @@ function helfi_rekry_content_preprocess_field(&$variables) {
 
   // Expose original language to field templates.
   $variables['original_language'] = $originalLanguage;
+  $inlineFields = [
+    'title',
+    'field_salary',
+    'field_job_duration',
+    'field_address',
+  ];
+
+  // Use span instead of div for inline fields.
+  if (isset($variables['field_name']) && in_array($variables['field_name'], $inlineFields)) {
+    $variables['original_language_inline'] = TRUE;
+  }
 
   // Expose original language as an attribute for these fields.
   $wrappedFields = [
@@ -222,7 +234,7 @@ function helfi_rekry_content_preprocess_field(&$variables) {
     'field_organization_name',
   ];
 
-  if ($variables['field_name'] && in_array($variables['field_name'], $wrappedFields)) {
+  if (isset($variables['field_name']) && in_array($variables['field_name'], $wrappedFields)) {
     foreach ($variables['items'] as $item) {
       $item['attributes']->setAttribute('lang', 'fi');
     }
@@ -246,42 +258,91 @@ function _helfi_rekry_content_lookup_organization_tid($external_id) {
 }
 
 /**
+ * Combine "task_area" term translations with external ID.
+ */
+function _helfi_rekry_content_lookup_task_area_tid($args) {
+
+  $external_id = $args[0];
+  $name = $args[1];
+
+  $query = \Drupal::entityQuery('taxonomy_term')
+    ->condition('vid', 'task_area')
+    ->condition('field_external_id', $external_id);
+
+  $ids = $query->execute();
+
+  if ($ids) {
+    return reset($ids);
+  }
+
+  // Since ext id mihgt not exist yet, try matching by name.
+  $fallbackQuery = \Drupal::entityQuery('taxonomy_term')
+    ->condition('vid', 'task_area')
+    ->condition('name', $name);
+
+  $ids = $fallbackQuery->execute();
+
+  if ($ids) {
+    return reset($ids);
+  }
+
+  return NULL;
+}
+
+/**
+ * Transform illegal values from api.
+ *
+ * @param string $employment
+ *   The original string.
+ *
+ * @return string
+ *   The corrected value.
+ */
+function _helfi_rekry_content_transform_employment($employment) {
+  if ($employment === 'Vuorotteluvapaasijaisuus') {
+    return 'Vuorotteluvapaan sijaisuus';
+  }
+
+  return $employment;
+}
+
+/**
  * Implements hook_preprocess_HOOK().
  */
 function helfi_rekry_content_preprocess_block(&$variables) {
-
-  if ($variables["plugin_id"] !== 'hero_block') {
+  if ($variables['plugin_id'] !== 'hero_block') {
     return;
   }
 
   // Get current entity and entity version.
-  $entity_matcher = \Drupal::service('hdbt_content.entity_version_matcher')->getType();
+  $entity_matcher = \Drupal::service('helfi_platform_config.entity_version_matcher')->getType();
 
   /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
   $entity = $entity_matcher['entity'];
 
-  // No need to continue if current entity doesn't have has_hero field.
+  // No need to continue if current entity doesn't have hero set.
   if (
     !$entity instanceof ContentEntityInterface ||
-    !$entity->hasField('field_has_hero')
+    !$entity->hasField('field_has_hero') ||
+    !(bool) $entity->get('field_has_hero')->value ||
+    $entity->get('field_content')->isEmpty()
   ) {
     return;
   }
+  $paragraph = $entity->get('field_content')->first()->get('entity')->getValue();
 
-  if ((bool) $entity->get('field_has_hero')->value) {
-    if (
-      in_array($entity->getType(), ['landing_page', 'page']) &&
-      isset($entity->get('field_content')->first()->entity)
-    ) {
+  if (
+    empty($paragraph) ||
+    !in_array($entity->getType(), ['landing_page', 'page']) ||
+    !$paragraph instanceof ParagraphInterface
+  ) {
+    return;
+  }
+  $first_paragraph_gray = &$variables['content']['hero_block']['#first_paragraph_grey'];
 
-      $first_paragraph_gray = &$variables['content']['hero_block']['#first_paragraph_grey'];
-
-      // Check if the content field first paragraph is Job listing search
-      // and add classes accordingly.
-      $paragraph = $entity->get('field_content')->first()->entity;
-      if (!empty($paragraph) && $paragraph->getType() === 'job_listing_search') {
-        $first_paragraph_gray = 'has-first-gray-bg-block';
-      }
-    }
+  // Check if the content field first paragraph is Job listing search
+  // and add classes accordingly.
+  if ($paragraph->getType() === 'job_listing_search') {
+    $first_paragraph_gray = 'has-first-gray-bg-block';
   }
 }

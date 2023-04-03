@@ -34,7 +34,6 @@ dependencies:
     - node.type.job_listing
   module:
     - datetime
-    - hdbt_admin_editorial
     - link
     - media_library
     - path

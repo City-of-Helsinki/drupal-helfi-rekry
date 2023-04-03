@@ -5,7 +5,6 @@
  * Contains install functions for HELfi Rekry Content module.
  */
 
-use Drupal\helfi_platform_config\ConfigHelper;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
 use Drupal\taxonomy\Entity\Term;
@@ -17,64 +16,10 @@ function helfi_rekry_content_install($is_syncing) {
   // Do not perform following steps if the module is being installed as part
   // of a configuration import.
   if (!$is_syncing && Drupal::moduleHandler()->moduleExists('update_helper')) {
-    helfi_rekry_content_update_9001();
-    helfi_rekry_content_update_9002();
     helfi_rekry_content_update_9003();
-  }
-}
-
-/**
- * HELfi Rekry Content initial configurations.
- */
-function helfi_rekry_content_update_9001() {
-  // Install config translations.
-  $configTranslationLocation = dirname(__FILE__) . '/config/language/';
-
-  $configurations = [
-    'field.field.taxonomy_term.organization.field_default_image',
-    'field.field.taxonomy_term.organization.field_external_id',
-    'taxonomy.vocabulary.organization',
-  ];
-
-  foreach ($configurations as $configuration) {
-    ConfigHelper::installNewConfigTranslation($configTranslationLocation, $configuration);
-  }
-}
-
-/**
- * HELfi Rekry content update 9002.
- */
-function helfi_rekry_content_update_9002() {
-  // Install config translations.
-  $configTranslationLocation = dirname(__FILE__) . '/config/language/';
-
-  $configurations = [
-    'field.field.node.job_listing.field_address.yml',
-    'field.field.node.job_listing.field_anonymous.yml',
-    'field.field.node.job_listing.field_contacts.yml',
-    'field.field.node.job_listing.field_image.yml',
-    'field.field.node.job_listing.field_job_duration.yml',
-    'field.field.node.job_listing.field_jobs.yml',
-    'field.field.node.job_listing.field_last_changed_remote.yml',
-    'field.field.node.job_listing.field_link_to_application.yml',
-    'field.field.node.job_listing.field_link_to_presentation.yml',
-    'field.field.node.job_listing.field_organization.yml',
-    'field.field.node.job_listing.field_organization_description.yml',
-    'field.field.node.job_listing.field_postal_area.yml',
-    'field.field.node.job_listing.field_postal_code.yml',
-    'field.field.node.job_listing.field_recruitment_id.yml',
-    'field.field.node.job_listing.field_recruitment_type.yml',
-    'field.field.node.job_listing.field_salary.yml',
-    'field.field.node.job_listing.field_salary_class.yml',
-    'field.field.node.job_listing.field_task_area.yml',
-    'field.field.node.job_listing.field_video.yml',
-    'field.field.node.job_listing.job_description.yml',
-    'node.type.job_listing.yml',
-    'taxonomy.vocabulary.task_area.yml',
-  ];
-
-  foreach ($configurations as $configuration) {
-    ConfigHelper::installNewConfigTranslation($configTranslationLocation, $configuration);
+    helfi_rekry_content_update_9004();
+    helfi_rekry_content_update_9005();
+    helfi_rekry_content_update_9006();
   }
 }
 
@@ -210,4 +155,101 @@ function helfi_rekry_content_update_9004() {
     $executable = new MigrateExecutable($migration, new MigrateMessage());
     $executable->rollback();
   }
+}
+
+/**
+ * HELfi rekry content update 9005.
+ */
+function helfi_rekry_content_update_9005() {
+
+  $employmentItems = [
+    [
+      'en' => 'Summer jobs and summer temporary posts',
+      'fi' => 'Kesätyöt ja kesäsijaisuudet',
+      'sv' => 'Sommarjobb',
+      'field_search_id' => 'summer_jobs',
+    ],
+    [
+      'en' => 'Young summer workers aged 16-17',
+      'fi' => 'Nuoret 16-17 -vuotiaat kesätyöntekijät',
+      'sv' => 'Sommarjobb för unga (16-17 år)',
+      'field_search_id' => 'youth_summer_jobs',
+    ],
+    [
+      'en' => 'Siisti kesä! Project',
+      'fi' => 'Siisti kesä -hanke',
+      'sv' => 'Projektet En snygg sommar',
+      'field_search_id' => 'cool_summer_project',
+    ],
+    [
+      'en' => 'Open-ended vacancies',
+      'fi' => 'Jatkuva haku',
+      'sv' => 'Jatkuva haku',
+      'field_search_id' => 'continuous',
+    ],
+  ];
+
+  foreach ($employmentItems as $item) {
+    $term = Term::create([
+      'parent' => [],
+      'name' => $item['en'],
+      'vid' => 'employment',
+      'field_search_id' => $item['field_search_id'],
+    ])->addTranslation('fi', [
+      'name' => $item['fi'],
+    ])->addTranslation('sv', [
+      'name' => $item['sv'],
+    ])->save();
+  }
+}
+
+/**
+ * HELfi rekry content update 9006.
+ */
+function helfi_rekry_content_update_9006() {
+  $query = \Drupal::entityQuery('taxonomy_term')
+    ->condition('vid', ['employment', 'employment_type'], 'IN')
+    ->notExists('field_search_id', '');
+
+  $ids = $query->execute();
+
+  if (count($ids) === 0) {
+    return;
+  }
+
+  $terms = Term::loadMultiple($ids);
+
+  foreach ($terms as $term) {
+    if (!$term->hasTranslation('en')) {
+      continue;
+    }
+
+    $translation = $term->getTranslation('en');
+    $name = $translation->getName();
+
+    $search_id = match ($name) {
+      'Summer jobs and summer temporary posts' => 'summer_jobs',
+      'Young summer workers aged 16-17' => 'youth_summer_jobs',
+      'Siisti kesä! Project' =>'cool_summer_project',
+      'Permanent contractual employment' =>'permanent_contractual',
+      'Permanent public service employment' =>'permanent_service',
+      'Fixed-term contractual employment' =>'fixed_contractual',
+      'Fixed-term public service employment' => 'fixed_service',
+      'Part-time employment' =>'part_time',
+      'Temporary position' =>'temporary',
+      'Job alternation leave substitute' =>'alternation',
+      'Project-type job' =>'project',
+      'Apprenticeship contract' =>'apprenticeship',
+      'Practical training' =>'training',
+      default => NULL
+    };
+
+    if (!$search_id) {
+      continue;
+    }
+
+    $term->set('field_search_id', $search_id);
+    $term->save();
+  }
+
 }

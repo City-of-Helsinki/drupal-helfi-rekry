@@ -1,0 +1,20 @@
+uuid: b824c58b-213f-426a-a59c-55b933f719d0
+langcode: en
+status: true
+dependencies:
+  module:
+    - helfi_navigation
+    - serialization
+    - user
+_core:
+  default_config_hash: Qf_SdgU-K7GNIk7gSZf5Q8I4bWcUHcbxUSl9KimR8J0
+id: helfi_global_mobile_menu
+plugin_id: helfi_global_mobile_menu
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - cookie

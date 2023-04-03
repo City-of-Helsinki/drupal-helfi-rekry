@@ -1,0 +1,25 @@
+uuid: 284ae7b5-54c6-492f-b028-25310d38aa58
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_meta_description
+    - taxonomy.vocabulary.task_area
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: none
+id: taxonomy_term.task_area.field_meta_description
+field_name: field_meta_description
+entity_type: taxonomy_term
+bundle: task_area
+label: 'Meta description'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

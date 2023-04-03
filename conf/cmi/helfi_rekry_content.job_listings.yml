@@ -1,3 +1,5 @@
-redirect_403: /job-listing-removed
+search_page: '2971'
+redirect_403_page: '2971'
 city_description_title: 'City of Helsinki'
 city_description_text: 'The City of Helsinki is actively promoting equality and non-discrimination and values the diversity of its personnel. We encourage applications from people of all ages and genders, as well as from people who belong to linguistic, cultural or other minorities.'
+redirect_403: /job-listing-removed

@@ -1,0 +1,41 @@
+uuid: 149c438b-d11b-4f83-b1d7-134e185309ed
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.job_search.field_job_search_desc
+    - field.field.paragraph.job_search.field_job_search_result_page
+    - field.field.paragraph.job_search.field_job_search_title
+    - paragraphs.paragraphs_type.job_search
+  module:
+    - text
+id: paragraph.job_search.default
+targetEntityType: paragraph
+bundle: job_search
+mode: default
+content:
+  field_job_search_desc:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_job_search_result_page:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_job_search_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

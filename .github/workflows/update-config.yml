@@ -11,11 +11,11 @@ jobs:
   update-config:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/city-of-helsinki/drupal-php-docker:8.0-alpine
+      image: ghcr.io/city-of-helsinki/drupal-php-docker:8.1-alpine
 
     services:
       db:
-        image: mariadb:10.7
+        image: mariadb
         env:
           MYSQL_USER: drupal
           MYSQL_PASSWORD: drupal
@@ -39,7 +39,7 @@ jobs:
         run: |
           composer install
           $(drush sql:connect) < latest.sql
-          drush cr && drush cim -y
+          drush deploy
           composer update drupal/helfi_* drupal/hdbt* -W
           drush cr && drush updb -y && drush cex -y
           # Update platform
@@ -52,6 +52,7 @@ jobs:
           author: actions-bot <actions-bot@users.noreply.github.com>
           commit-message: Update configuration
           title: Automatic update
+          labels: auto-update
           body: |
             - Updated active configuration.
             - Updated platform
