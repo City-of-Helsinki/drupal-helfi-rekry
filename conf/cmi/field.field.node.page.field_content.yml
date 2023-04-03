@@ -54,12 +54,12 @@ settings:
       content_liftup: content_liftup
       banner: banner
       event_list: event_list
+      news_list: news_list
       from_library: from_library
       phasing: phasing
       chart: chart
       remote_video: remote_video
       map: map
-      news_list: news_list
     negate: 0
     target_bundles_drag_drop:
       accordion:
