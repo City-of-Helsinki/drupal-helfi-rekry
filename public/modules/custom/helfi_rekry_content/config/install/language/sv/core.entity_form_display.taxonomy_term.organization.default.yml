@@ -1,0 +1,6 @@
+third_party_settings:
+  field_group:
+    group_default_description:
+      label: 'Standardbeskrivning'
+      format_settings:
+        description: 'Standardvärden för beskrivningsavsnittet. Används som reserv om dessa värden inte tillhandahålls av migreringen.'

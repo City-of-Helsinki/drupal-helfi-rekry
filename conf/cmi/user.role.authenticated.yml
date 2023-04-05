@@ -8,6 +8,7 @@ dependencies:
     - eu_cookie_compliance
     - helfi_api_base
     - media
+    - paragraphs
     - rest
     - system
     - toolbar
@@ -24,3 +25,4 @@ permissions:
   - 'restful get helfi_global_mobile_menu'
   - 'view media'
   - 'view remote entities'
+  - 'view unpublished paragraphs'
