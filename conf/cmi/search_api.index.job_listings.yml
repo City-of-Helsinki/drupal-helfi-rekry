@@ -312,7 +312,6 @@ processor_settings:
     all_fields: false
     fields:
       - employment_search_id
-      - field_organization_name
       - field_postal_area
       - field_recruitment_id
       - field_search_id
