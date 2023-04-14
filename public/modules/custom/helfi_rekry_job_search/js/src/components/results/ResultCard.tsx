@@ -65,7 +65,7 @@ const ResultCard = ({
         </ul>
       </section>
       <div className='job-listing__organization-name' {...customAtts}>
-        <span className='organization'>{field_organization_name && field_organization_name.length && field_organization_name[0]}</span>
+        <span className='organization'>{field_organization_name && field_organization_name.length > 0 && field_organization_name[0]}</span>
       </div>
       <div className='job-listing__metadata job-listing__metadata--application-ends'>
         <span className='job-listing__metadata__label'>
