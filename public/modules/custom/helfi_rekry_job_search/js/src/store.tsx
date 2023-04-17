@@ -106,7 +106,13 @@ export const configurationsAtom = atom(async () => {
     .then((res) => res.json())
     .then((json) => {
       // Simplify response for later use.
-      const [aggs, taskAreas, employmentOptions, languages] = json?.responses;
+      const responses = json?.responses;
+
+      if (!responses || !Array.isArray(responses)) {
+        return {};
+      }
+
+      const [aggs, taskAreas, employmentOptions, languages] = responses;
 
       return {
         taskAreaOptions: taskAreas?.hits?.hits || [],
