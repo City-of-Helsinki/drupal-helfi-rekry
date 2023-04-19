@@ -9,13 +9,14 @@ import ResultsSort from '../components/results/ResultsSort';
 import Global from '../enum/Global';
 import IndexFields from '../enum/IndexFields';
 import useQueryString from '../hooks/useQueryString';
-import { urlAtom } from '../store';
+import { configurationsAtom, urlAtom } from '../store';
 import type URLParams from '../types/URLParams';
 
 const ResultsContainer = () => {
   const { size } = Global;
   const urlParams: URLParams = useAtomValue(urlAtom);
   const queryString = useQueryString(urlParams);
+  const { error: initializationError } = useAtomValue(configurationsAtom);
   const fetcher = () => {
     const proxyUrl = drupalSettings?.helfi_rekry_job_search?.elastic_proxy_url;
     const url: string | undefined = proxyUrl || process.env.REACT_APP_ELASTIC_URL;
@@ -57,9 +58,13 @@ const ResultsContainer = () => {
   const pages = Math.floor(total / size);
   const addLastPage = total > size && total % size;
 
-  if (error) {
-    console.warn('Error loading data');
-    return null;
+  if (error || initializationError) {
+    console.warn('Error loading data. ' + (error || initializationError));
+    return (
+      <div className='job-search__results'>
+        {Drupal.t('The website encountered an unexpected error. Please try again later.')}
+      </div>
+    );
   }
 
   // Total number of available jobs
