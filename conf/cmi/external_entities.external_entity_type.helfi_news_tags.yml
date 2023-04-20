@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: wkWXjXpGr6lPWM3nZ-8RqlBCt7nsAuHiP7EC1Vh4oMc
+  default_config_hash: OdJNKJELJhbOjN4qCgGAHw_Ypudx5Kt3NqcwLn2qbx0
 id: helfi_news_tags
 label: 'Helfi: News tags'
 label_plural: 'Helfi: News tags'

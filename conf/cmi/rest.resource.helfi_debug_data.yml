@@ -20,3 +20,4 @@ configuration:
   authentication:
     - cookie
     - basic_auth
+    - basic_auth
