@@ -1,5 +1,5 @@
 uuid: fedaa5cf-0441-48c3-b107-b16085152c4b
-langcode: fi
+langcode: en
 status: true
 dependencies:
   config:
