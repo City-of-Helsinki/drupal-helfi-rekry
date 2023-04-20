@@ -106,9 +106,20 @@ export const configurationsAtom = atom(async () => {
     .then((res) => res.json())
     .then((json) => {
       // Simplify response for later use.
-      const [aggs, taskAreas, employmentOptions, languages] = json?.responses;
+      const responses = json?.responses;
+
+      if (!responses || !Array.isArray(responses)) {
+        return {
+          error: new Error(
+            'Initialization failed. Expected responses to be an array of data but got ' + typeof responses
+          ),
+        };
+      }
+
+      const [aggs, taskAreas, employmentOptions, languages] = responses;
 
       return {
+        error: null,
         taskAreaOptions: taskAreas?.hits?.hits || [],
         taskAreas: aggs?.aggregations?.occupations?.buckets || [],
         employment: aggs?.aggregations?.employment?.buckets || [],
@@ -121,10 +132,15 @@ export const configurationsAtom = atom(async () => {
 });
 
 export const taskAreasAtom = atom<OptionType[]>((get) => {
-  const aggs = bucketToMap(get(configurationsAtom)?.taskAreas);
-  const options = get(configurationsAtom)?.taskAreaOptions;
+  const { error, taskAreaOptions, taskAreas } = get(configurationsAtom);
 
-  return options
+  if (error) {
+    return [];
+  }
+
+  const aggs = bucketToMap(taskAreas);
+
+  return taskAreaOptions
     .map((option: Result<Term>) => {
       const count = aggs.get(option._source.field_external_id[0]) || 0;
       const name = option._source.name;
@@ -141,7 +157,12 @@ export const taskAreasAtom = atom<OptionType[]>((get) => {
 export const taskAreasSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 
 export const employmentAtom = atom<OptionType[]>((get) => {
-  const { employment, employmentOptions, employmentType } = get(configurationsAtom);
+  const { error, employment, employmentOptions, employmentType } = get(configurationsAtom);
+
+  if (error) {
+    return [];
+  }
+
   const combinedAggs = bucketToMap(employment.concat(employmentType));
 
   const visibleOptions = employmentOptions.filter(
@@ -191,11 +212,17 @@ export const employmentAtom = atom<OptionType[]>((get) => {
 export const employmentSelectionAtom = atom<OptionType[]>([] as OptionType[]);
 
 export const languagesAtom = atom<OptionType[]>((get) => {
-  const languages = bucketToMap(get(configurationsAtom)?.languages);
+  const { error, languages } = get(configurationsAtom);
+
+  if (error) {
+    return [];
+  }
+
+  const languageMap = bucketToMap(languages);
   const languageOptions = ['fi', 'sv', 'en'];
 
   return languageOptions.map((langcode: string) => ({
-    label: `${getLanguageLabel(langcode)} (${languages.get(langcode) || 0})`,
+    label: `${getLanguageLabel(langcode)} (${languageMap.get(langcode) || 0})`,
     simpleLabel: langcode,
     value: langcode,
   }));

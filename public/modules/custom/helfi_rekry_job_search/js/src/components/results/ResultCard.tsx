@@ -5,7 +5,6 @@ import Job from '../../types/Job';
 
 // @todo: Implement dom structure once https://helsinkisolutionoffice.atlassian.net/browse/UHF-7111 is done
 const ResultCard = ({
-  _language,
   title,
   field_copied,
   field_original_language,
@@ -14,7 +13,6 @@ const ResultCard = ({
   field_job_duration,
   field_jobs,
   field_organization_name,
-  field_publication_starts,
   unpublish_on,
   url,
 }: Job) => {
@@ -32,11 +30,6 @@ const ResultCard = ({
   const customAtts: HTMLAttributes<HTMLHeadingElement | HTMLDivElement> = {};
   if (field_copied?.length && field_original_language?.length) {
     customAtts.lang = field_original_language[0];
-  }
-
-  let organizationName;
-  if (field_organization_name && field_organization_name.length) {
-    organizationName = field_organization_name[0].charAt(0).toUpperCase() + field_organization_name[0].slice(1);
   }
 
   return (
@@ -72,7 +65,7 @@ const ResultCard = ({
         </ul>
       </section>
       <div className='job-listing__organization-name' {...customAtts}>
-        <span className='organization'>{organizationName}</span>
+        <span className='organization'>{field_organization_name && field_organization_name.length > 0 && field_organization_name[0]}</span>
       </div>
       <div className='job-listing__metadata job-listing__metadata--application-ends'>
         <span className='job-listing__metadata__label'>
