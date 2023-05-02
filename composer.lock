@@ -1643,17 +1643,17 @@
         },
         {
             "name": "drupal/admin_toolbar",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/admin_toolbar.git",
-                "reference": "3.3.0"
+                "reference": "3.3.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/admin_toolbar-3.3.0.zip",
-                "reference": "3.3.0",
-                "shasum": "8e61fba9c9d83a94a844cff96d00871878a7eb98"
+                "url": "https://ftp.drupal.org/files/projects/admin_toolbar-3.3.1.zip",
+                "reference": "3.3.1",
+                "shasum": "e1fabe5d1521b73bc07aa3dd37b770c7e895780c"
             },
             "require": {
                 "drupal/core": "^9.2 || ^10"
@@ -1664,8 +1664,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.3.0",
-                    "datestamp": "1669567837",
+                    "version": "3.3.1",
+                    "datestamp": "1682689348",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3806,16 +3806,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "5.0.21",
+            "version": "5.0.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "ccc8c1cb500df43c95e1f6b2c7fac42c8f954eea"
+                "reference": "13d33702af8cecf10e273790b2eb7cc6328d0328"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/ccc8c1cb500df43c95e1f6b2c7fac42c8f954eea",
-                "reference": "ccc8c1cb500df43c95e1f6b2c7fac42c8f954eea",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/13d33702af8cecf10e273790b2eb7cc6328d0328",
+                "reference": "13d33702af8cecf10e273790b2eb7cc6328d0328",
                 "shasum": ""
             },
             "require": {
@@ -3833,10 +3833,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/5.0.21",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/5.0.24",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2023-04-19T11:08:29+00:00"
+            "time": "2023-05-02T06:05:44+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -3924,16 +3924,16 @@
         },
         {
             "name": "drupal/helfi_api_base",
-            "version": "2.4.4",
+            "version": "2.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base.git",
-                "reference": "033bd8c3874487d0960c2ee1ba6f276aaf633d69"
+                "reference": "0673c4633847b50cc9861e61dcdf956062adcd03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-api-base/zipball/033bd8c3874487d0960c2ee1ba6f276aaf633d69",
-                "reference": "033bd8c3874487d0960c2ee1ba6f276aaf633d69",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-api-base/zipball/0673c4633847b50cc9861e61dcdf956062adcd03",
+                "reference": "0673c4633847b50cc9861e61dcdf956062adcd03",
                 "shasum": ""
             },
             "require": {
@@ -3957,10 +3957,10 @@
             ],
             "description": "Helfi - API Base",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base/tree/2.4.4",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base/tree/2.4.7",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base/issues"
             },
-            "time": "2023-04-20T10:53:37+00:00"
+            "time": "2023-04-29T15:04:17+00:00"
         },
         {
             "name": "drupal/helfi_azure_fs",
@@ -4022,16 +4022,16 @@
         },
         {
             "name": "drupal/helfi_navigation",
-            "version": "2.0.4",
+            "version": "2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation.git",
-                "reference": "a01a197d7dcef0dcd10935c41955b69c6d216385"
+                "reference": "b6269e6f0aa3ca80bc1f37d8845d89406fb00643"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-navigation/zipball/a01a197d7dcef0dcd10935c41955b69c6d216385",
-                "reference": "a01a197d7dcef0dcd10935c41955b69c6d216385",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-navigation/zipball/b6269e6f0aa3ca80bc1f37d8845d89406fb00643",
+                "reference": "b6269e6f0aa3ca80bc1f37d8845d89406fb00643",
                 "shasum": ""
             },
             "require": {
@@ -4049,10 +4049,10 @@
             ],
             "description": "Helfi - Navigation",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/tree/2.0.4",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/tree/2.0.5",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/issues"
             },
-            "time": "2023-04-04T08:26:28+00:00"
+            "time": "2023-05-02T05:58:43+00:00"
         },
         {
             "name": "drupal/helfi_platform_config",
@@ -6772,16 +6772,16 @@
         },
         {
             "name": "elasticsearch/elasticsearch",
-            "version": "v7.17.1",
+            "version": "v7.17.2",
             "source": {
                 "type": "git",
                 "url": "git@github.com:elastic/elasticsearch-php.git",
-                "reference": "f1b8918f411b837ce5f6325e829a73518fd50367"
+                "reference": "2d302233f2bb0926812d82823bb820d405e130fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/f1b8918f411b837ce5f6325e829a73518fd50367",
-                "reference": "f1b8918f411b837ce5f6325e829a73518fd50367",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/2d302233f2bb0926812d82823bb820d405e130fc",
+                "reference": "2d302233f2bb0926812d82823bb820d405e130fc",
                 "shasum": ""
             },
             "require": {
@@ -6794,7 +6794,7 @@
                 "ext-yaml": "*",
                 "ext-zip": "*",
                 "mockery/mockery": "^1.2",
-                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^9.3",
                 "squizlabs/php_codesniffer": "^3.4",
                 "symfony/finder": "~4.0"
@@ -6831,7 +6831,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2022-09-30T12:28:55+00:00"
+            "time": "2023-04-21T15:31:12+00:00"
         },
         {
             "name": "enlightn/security-checker",
@@ -8669,26 +8669,24 @@
         },
         {
             "name": "masterminds/html5",
-            "version": "2.7.6",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Masterminds/html5-php.git",
-                "reference": "897eb517a343a2281f11bc5556d6548db7d93947"
+                "reference": "3c5d5a56d56f48a1ca08a0670f0f80c1dad368f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/897eb517a343a2281f11bc5556d6548db7d93947",
-                "reference": "897eb517a343a2281f11bc5556d6548db7d93947",
+                "url": "https://api.github.com/repos/Masterminds/html5-php/zipball/3c5d5a56d56f48a1ca08a0670f0f80c1dad368f3",
+                "reference": "3c5d5a56d56f48a1ca08a0670f0f80c1dad368f3",
                 "shasum": ""
             },
             "require": {
-                "ext-ctype": "*",
                 "ext-dom": "*",
-                "ext-libxml": "*",
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35 || ^5.7.21 || ^6 || ^7"
+                "phpunit/phpunit": "^4.8.35 || ^5.7.21 || ^6 || ^7 || ^8"
             },
             "type": "library",
             "extra": {
@@ -8732,9 +8730,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Masterminds/html5-php/issues",
-                "source": "https://github.com/Masterminds/html5-php/tree/2.7.6"
+                "source": "https://github.com/Masterminds/html5-php/tree/2.8.0"
             },
-            "time": "2022-08-18T16:18:26+00:00"
+            "time": "2023-04-26T07:27:39+00:00"
         },
         {
             "name": "microsoft/azure-storage-blob",
@@ -10222,16 +10220,16 @@
         },
         {
             "name": "ruflin/elastica",
-            "version": "7.3.0",
+            "version": "7.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "75fca5bf2b6792d35dae6c5efeda2322bce914e4"
+                "reference": "7c61a630c3d456b00a5610960ae3a9bd29987469"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/75fca5bf2b6792d35dae6c5efeda2322bce914e4",
-                "reference": "75fca5bf2b6792d35dae6c5efeda2322bce914e4",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/7c61a630c3d456b00a5610960ae3a9bd29987469",
+                "reference": "7c61a630c3d456b00a5610960ae3a9bd29987469",
                 "shasum": ""
             },
             "require": {
@@ -10285,9 +10283,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ruflin/Elastica/issues",
-                "source": "https://github.com/ruflin/Elastica/tree/7.3.0"
+                "source": "https://github.com/ruflin/Elastica/tree/7.3.1"
             },
-            "time": "2022-11-30T14:21:43+00:00"
+            "time": "2023-04-21T09:04:46+00:00"
         },
         {
             "name": "sentry/sdk",
@@ -13237,16 +13235,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.4.22",
+            "version": "v5.4.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "e2edac9ce47e6df07e38143c7cfa6bdbc1a6dcc4"
+                "reference": "9a8a5b6d6508928174ded2109e29328a55342a42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e2edac9ce47e6df07e38143c7cfa6bdbc1a6dcc4",
-                "reference": "e2edac9ce47e6df07e38143c7cfa6bdbc1a6dcc4",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/9a8a5b6d6508928174ded2109e29328a55342a42",
+                "reference": "9a8a5b6d6508928174ded2109e29328a55342a42",
                 "shasum": ""
             },
             "require": {
@@ -13306,7 +13304,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v5.4.22"
+                "source": "https://github.com/symfony/var-dumper/tree/v5.4.23"
             },
             "funding": [
                 {
@@ -13322,7 +13320,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-25T09:27:28+00:00"
+            "time": "2023-04-18T09:26:27+00:00"
         },
         {
             "name": "symfony/yaml",
