@@ -1,6 +1,6 @@
 import { LoadingSpinner } from 'hds-react';
 import { useAtomValue } from 'jotai';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import useSWR from 'swr';
 
 import Pagination from '../components/results/Pagination';
@@ -33,6 +33,14 @@ const ResultsContainer = () => {
   const { data, error } = useSWR(queryString, fetcher, {
     revalidateOnFocus: false,
   });
+
+  useEffect(() => {
+    const el = document.getElementById('results-container');
+
+    if (el && window.location.search) {
+      el.scrollIntoView();
+    }
+  }, [data]);
 
   if (!data && !error) {
     return <LoadingSpinner />;
@@ -71,7 +79,7 @@ const ResultsContainer = () => {
   const jobs: number = data?.aggregations?.[IndexFields.NUMBER_OF_JOBS]?.value;
 
   return (
-    <div className='job-search__results'>
+    <div className='job-search__results' id='results-container'>
       <div className='job-search__results-stats'>
         <div className='job-listing-search__count-container'>
           {!isNaN(jobs) && !isNaN(total) && (
