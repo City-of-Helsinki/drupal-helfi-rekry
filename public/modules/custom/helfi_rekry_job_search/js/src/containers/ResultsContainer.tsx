@@ -38,7 +38,12 @@ const ResultsContainer = () => {
     const el = document.getElementById('results-container');
 
     if (el && window.location.search) {
-      el.scrollIntoView();
+      const titleEl = el.querySelector<HTMLElement>('.job-listing-search__count-container');
+      if (!titleEl) return;
+      titleEl.setAttribute('tabindex', '0');
+      titleEl.focus();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+      titleEl.setAttribute('tabindex', '-1');
     }
   }, [data]);
 
