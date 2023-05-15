@@ -9,7 +9,6 @@ declare(strict_types = 1);
 
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Render\Element;
-use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\Core\Url;
 
