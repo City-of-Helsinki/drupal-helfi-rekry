@@ -20,6 +20,7 @@ dependencies:
   module:
     - content_translation
     - editoria11y
+    - entity_usage
     - file
     - filter
     - helfi_api_base
@@ -47,6 +48,7 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access content overview'
+  - 'access entity usage statistics'
   - 'access files overview'
   - 'access media overview'
   - 'access remote entities overview'
