@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.job_listing.field_employment
     - field.field.node.job_listing.field_employment_type
     - field.field.node.job_listing.field_image
+    - field.field.node.job_listing.field_job_description_override
     - field.field.node.job_listing.field_job_duration
     - field.field.node.job_listing.field_jobs
     - field.field.node.job_listing.field_last_changed_remote
@@ -17,7 +18,9 @@ dependencies:
     - field.field.node.job_listing.field_link_to_presentation
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
+    - field.field.node.job_listing.field_organization_description_o
     - field.field.node.job_listing.field_organization_name
+    - field.field.node.job_listing.field_organization_override
     - field.field.node.job_listing.field_original_language
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
@@ -86,6 +89,13 @@ content:
     third_party_settings: {  }
     weight: 14
     region: content
+  field_job_description_override:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 21
+    region: content
   field_job_duration:
     type: string
     label: hidden
@@ -133,6 +143,13 @@ content:
     third_party_settings: {  }
     weight: 17
     region: content
+  field_organization_description_o:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 24
+    region: content
   field_organization_name:
     type: string
     label: hidden
@@ -140,6 +157,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_organization_override:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 23
     region: content
   field_postal_area:
     type: string

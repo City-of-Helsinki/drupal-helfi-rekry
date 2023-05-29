@@ -1,0 +1,31 @@
+uuid: c804b2b7-217d-4600-894d-edd34b441576
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_organization_description_o
+    - node.type.job_listing
+  module:
+    - allowed_formats
+    - disable_field
+    - text
+third_party_settings:
+  allowed_formats:
+    allowed_formats: {  }
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
+id: node.job_listing.field_organization_description_o
+field_name: field_organization_description_o
+entity_type: node
+bundle: job_listing
+label: 'Organization description override'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

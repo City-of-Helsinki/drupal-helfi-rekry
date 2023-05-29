@@ -1,0 +1,19 @@
+uuid: a27f2813-5323-468f-acae-255d316a7569
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_organization_description_o
+field_name: field_organization_description_o
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

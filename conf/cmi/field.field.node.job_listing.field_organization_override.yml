@@ -1,0 +1,37 @@
+uuid: 17d0cffa-1dba-4b6a-a66f-b604eb3476df
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_organization_override
+    - node.type.job_listing
+    - taxonomy.vocabulary.organization
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
+id: node.job_listing.field_organization_override
+field_name: field_organization_override
+entity_type: node
+bundle: job_listing
+label: 'Organization override'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      organization: organization
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
