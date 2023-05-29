@@ -57,9 +57,16 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
   $variables['content']['city_description_title'] = $job_listings_config->get('city_description_title');
   $variables['content']['city_description_text'] = $job_listings_config->get('city_description_text');
 
+  if (!empty($variables['elements']['field_organization_override']['#items'])) {
+    $organization_field = $variables['elements']['field_organization_override']['#items'];
+  }
+  else {
+    $organization_field = $variables["elements"]["field_organization"]["#items"];
+  }
+
   // Get organization.
-  if (!empty($variables["elements"]["field_organization"]["#items"])) {
-    $organization_id = $variables["elements"]["field_organization"]["#items"]->target_id;
+  if (!empty($organization_field)) {
+    $organization_id = $organization_field->target_id;
     $organization = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($organization_id);
   }
 
@@ -77,9 +84,12 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
 
   // Set organization description from taxonomy term if it's missing from node.
   if (!empty($organization) && $node = \Drupal::routeMatch()->getParameter('node')) {
-    if ($node->field_organization_description->isEmpty() && !empty($org_description = $organization->getDescription())) {
-      $variables['content']['field_organization_description'] = strip_tags($org_description);
+    if (!$node->field_organization_description_o->isEmpty()) {
+      $variables['content']['field_organization_description'] = $variables['content']['field_organization_description_o'];
     }
+    elseif ($node->field_organization_description->isEmpty() && !empty($org_description = $organization->getDescription())) {
+      $variables['content']['field_organization_description'] = strip_tags($org_description);
+    }    
   }
 }
 
