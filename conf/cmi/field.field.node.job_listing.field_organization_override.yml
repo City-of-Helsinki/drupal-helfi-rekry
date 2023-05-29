@@ -19,7 +19,7 @@ field_name: field_organization_override
 entity_type: node
 bundle: job_listing
 label: 'Organization override'
-description: ''
+description: 'Override job listing''s publishing organization.'
 required: false
 translatable: false
 default_value: {  }

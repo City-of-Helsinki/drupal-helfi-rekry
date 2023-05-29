@@ -22,7 +22,7 @@ field_name: field_organization_description_o
 entity_type: node
 bundle: job_listing
 label: 'Organization description override'
-description: ''
+description: 'Overrides the organization description. Concise description of the listing''s organization.'
 required: false
 translatable: true
 default_value: {  }
