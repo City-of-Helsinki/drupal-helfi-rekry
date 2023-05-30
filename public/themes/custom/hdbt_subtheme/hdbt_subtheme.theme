@@ -89,7 +89,7 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
     }
     elseif ($node->field_organization_description->isEmpty() && !empty($org_description = $organization->getDescription())) {
       $variables['content']['field_organization_description'] = strip_tags($org_description);
-    }    
+    }
   }
 }
 
