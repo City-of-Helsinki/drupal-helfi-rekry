@@ -114,7 +114,7 @@ content:
     third_party_settings: {  }
   field_job_description_override:
     type: text_textarea_with_summary
-    weight: 29
+    weight: 28
     region: content
     settings:
       rows: 9
@@ -161,7 +161,7 @@ content:
     third_party_settings: {  }
   field_organization:
     type: entity_reference_autocomplete
-    weight: 33
+    weight: 34
     region: content
     settings:
       match_operator: CONTAINS
@@ -171,7 +171,7 @@ content:
     third_party_settings: {  }
   field_organization_description:
     type: text_textarea
-    weight: 35
+    weight: 36
     region: content
     settings:
       rows: 5
@@ -179,7 +179,7 @@ content:
     third_party_settings: {  }
   field_organization_description_o:
     type: text_textarea
-    weight: 36
+    weight: 35
     region: content
     settings:
       rows: 5
@@ -195,7 +195,7 @@ content:
     third_party_settings: {  }
   field_organization_override:
     type: entity_reference_autocomplete
-    weight: 34
+    weight: 33
     region: content
     settings:
       match_operator: CONTAINS
@@ -294,7 +294,7 @@ content:
     third_party_settings: {  }
   job_description:
     type: text_textarea_with_summary
-    weight: 28
+    weight: 29
     region: content
     settings:
       rows: 9
