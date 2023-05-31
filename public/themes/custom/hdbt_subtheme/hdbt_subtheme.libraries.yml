@@ -4,13 +4,6 @@ global-styling:
     theme:
       dist/css/styles.min.css: {}
 
-global-scripting:
-  version: 1.x
-  js:
-    dist/js/bundle.min.js: {}
-  dependencies:
-    - core/drupal
-
 siteimprove-analytics:
   version: 1.x
   js:
