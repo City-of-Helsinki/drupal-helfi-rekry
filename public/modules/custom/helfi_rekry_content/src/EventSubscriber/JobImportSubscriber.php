@@ -10,7 +10,7 @@ use Drupal\migrate\Event\MigratePostRowSaveEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class for subscribing to image import events.
+ * Class for subscribing to job import events.
  */
 class JobImportSubscriber implements EventSubscriberInterface {
 

@@ -22,7 +22,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param Psr\Log\LoggerInterface $loggerFactory
+   * @param Psr\Log\LoggerInterface $logger
    *   The logger.
    */
   public function __construct(
@@ -80,7 +80,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
     $unpublishedCount = 0;
     foreach ($destinationIDs as $destinationId) {
       if (!isset($destinationId['nid'])) {
-        $this->logger->log(RfcLogLevel::NOTICE, "Trying to hide content without nid." );
+        $this->logger->log(RfcLogLevel::NOTICE, "Trying to hide content without nid.");
         continue;
       }
 
