@@ -80,6 +80,10 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
     $nodeStorage = $this->entityTypeManager->getStorage('node');
     $unpublishedCount = 0;
     foreach ($destinationIDs as $destinationId) {
+      if (!isset($destinationId['nid'])) {
+        continue;
+      }
+
       $node = $nodeStorage->load($destinationId['nid']);
 
       // Unpublish all translations.
