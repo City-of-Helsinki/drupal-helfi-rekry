@@ -10,7 +10,7 @@ use Drupal\migrate\Event\MigratePostRowSaveEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class for subscribing to job import events.
+ * EventSubscriber for marking newly created job nodes for translation.
  */
 class JobImportSubscriber implements EventSubscriberInterface {
 
