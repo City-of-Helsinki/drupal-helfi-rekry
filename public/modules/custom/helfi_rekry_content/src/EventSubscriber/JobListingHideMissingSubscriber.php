@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\NodeInterface;
 use Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent;
@@ -21,12 +22,12 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param Psr\Log\LoggerInterface $logger
+   * @param Drupal\Core\Logger\LoggerChannelInterface $logger
    *   The logger.
    */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
-    protected LoggerInterface $logger,
+    protected LoggerChannelInterface $logger,
   ) {}
 
   /**
