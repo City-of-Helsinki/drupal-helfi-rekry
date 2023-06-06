@@ -5,8 +5,6 @@ declare(strict_types = 1);
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\NodeInterface;
 use Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent;
@@ -23,12 +21,12 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
-   *   The logger channel factory.
+   * @param Psr\Log\LoggerInterface $logger
+   *   The logger.
    */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
-    protected LoggerChannelFactoryInterface $loggerFactory,
+    protected LoggerInterface $logger,
   ) {}
 
   /**
@@ -68,8 +66,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $this->loggerFactory->get('helfi_rekry_content')->log(RfcLogLevel::NOTICE,
-      $this->formatPlural(
+    $this->logger->notice($this->formatPlural(
         $missingCount,
         'Total 1 job listing is missing from source and will be checked.',
         'Total @count job listings are missing from source and will be checked.',
@@ -80,6 +77,11 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
     $nodeStorage = $this->entityTypeManager->getStorage('node');
     $unpublishedCount = 0;
     foreach ($destinationIDs as $destinationId) {
+      if (!isset($destinationId['nid'])) {
+        $this->logger->notice("Trying to hide content without nid.");
+        continue;
+      }
+
       $node = $nodeStorage->load($destinationId['nid']);
 
       // Unpublish all translations.
@@ -106,8 +108,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
       }
     }
 
-    $this->loggerFactory->get('helfi_rekry_content')->log(RfcLogLevel::NOTICE,
-      $this->formatPlural(
+    $this->logger->notice($this->formatPlural(
         $unpublishedCount,
         '1 missing item was published and is now unpublished.',
         '@count missing items were published and are now unpublished.',

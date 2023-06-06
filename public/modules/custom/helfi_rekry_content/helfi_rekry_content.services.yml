@@ -10,7 +10,7 @@ services:
       - { name: 'event_subscriber' }
   helfi_rekry_content.job_listing_hide_missing:
     class: Drupal\helfi_rekry_content\EventSubscriber\JobListingHideMissingSubscriber
-    arguments: [ '@entity_type.manager', '@logger.factory' ]
+    arguments: ['@entity_type.manager', '@logger.channel.helfi_rekry_content']
     tags:
       - { name: 'event_subscriber' }
   helfi_rekry_content.job_listing_redirect_subscriber:
@@ -22,3 +22,6 @@ services:
     class: Drupal\helfi_rekry_content\EventSubscriber\JobImportSubscriber
     tags:
       - { name: 'event_subscriber' }
+  logger.channel.helfi_rekry_content:
+    parent: logger.channel_base
+    arguments: ['helfi_rekry_content']
