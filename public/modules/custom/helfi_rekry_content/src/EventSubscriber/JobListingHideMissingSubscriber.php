@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\node\NodeInterface;
 use Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -21,8 +22,8 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param Psr\Log\LoggerInterface $logger
-   *   The logger.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   Logger channel.
    */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
