@@ -67,8 +67,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $this->logger->log(RfcLogLevel::NOTICE,
-      $this->formatPlural(
+    $this->logger->notice($this->formatPlural(
         $missingCount,
         'Total 1 job listing is missing from source and will be checked.',
         'Total @count job listings are missing from source and will be checked.',
@@ -80,7 +79,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
     $unpublishedCount = 0;
     foreach ($destinationIDs as $destinationId) {
       if (!isset($destinationId['nid'])) {
-        $this->logger->log(RfcLogLevel::NOTICE, "Trying to hide content without nid.");
+        $this->logger->notice("Trying to hide content without nid.");
         continue;
       }
 
@@ -110,8 +109,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
       }
     }
 
-    $this->logger->log(RfcLogLevel::NOTICE,
-      $this->formatPlural(
+    $this->logger->notice($this->formatPlural(
         $unpublishedCount,
         '1 missing item was published and is now unpublished.',
         '@count missing items were published and are now unpublished.',
