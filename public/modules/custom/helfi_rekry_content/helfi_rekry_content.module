@@ -23,7 +23,7 @@ function helfi_rekry_content_form_node_job_listing_edit_form_alter(array &$form,
   if (in_array('hr', $userRoles)) {
     $form['title']['#disabled'] = TRUE;
   }
-  
+
   // Fields that get data from TPR.
   $fields_from_tpr = [
     'field_salary_class',
@@ -56,10 +56,10 @@ function helfi_rekry_content_form_node_job_listing_edit_form_alter(array &$form,
   ];
 
   // Disable fields that get data from TPR.
-  foreach($fields_from_tpr as $field) {
+  foreach ($fields_from_tpr as $field) {
     $form[$field]['#disabled'] = TRUE;
   }
-  
+
 }
 
 /**
