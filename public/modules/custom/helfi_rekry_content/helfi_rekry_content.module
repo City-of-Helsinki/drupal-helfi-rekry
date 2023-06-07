@@ -73,10 +73,11 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
     return NULL;
   }
 
-  $entityQuery = \Drupal::entityQuery('media')
+  $ids = \Drupal::entityQuery('media')
     ->condition('bundle', 'job_listing_image')
-    ->condition('field_media_image.target_id', $fid);
-  $ids = $entityQuery->execute();
+    ->condition('field_media_image.target_id', $fid)
+    ->accessCheck(FALSE)
+    ->execute();
 
   if (!empty($ids)) {
     return reset($ids);
@@ -130,12 +131,13 @@ function _helfi_rekry_content_check_video_existance(string|NULL $url = NULL): vo
  *   The mid or null
  */
 function _helfi_rekry_content_lookup_video_mid(string $url): ?string {
-  $entityQuery = \Drupal::entityQuery('media')
+  $ids = \Drupal::entityQuery('media')
     ->condition('bundle', 'remote_video')
     ->condition('field_media_oembed_video', $url)
     ->range(0, 1)
-    ->latestRevision();
-  $ids = $entityQuery->execute();
+    ->latestRevision()
+    ->accessCheck(FALSE)
+    ->execute();
 
   if (!empty($ids)) {
     return reset($ids);
@@ -154,12 +156,13 @@ function _helfi_rekry_content_lookup_video_mid(string $url): ?string {
  *   The nid or null
  */
 function _helfi_rekry_content_lookup_job_nid(string $id): ?string {
-  $entityQuery = \Drupal::entityQuery('node')
+  $ids = \Drupal::entityQuery('node')
     ->condition('type', 'job_listing')
     ->condition('field_recruitment_id', $id)
     ->range(0, 1)
-    ->latestRevision();
-  $ids = $entityQuery->execute();
+    ->latestRevision()
+    ->accessCheck(FALSE)
+    ->execute();
 
   if (!empty($ids)) {
     return reset($ids);
@@ -248,6 +251,7 @@ function _helfi_rekry_content_lookup_organization_tid($external_id) {
   $ids = \Drupal::entityQuery('taxonomy_term')
     ->condition('vid', 'organization')
     ->condition('field_external_id', $external_id)
+    ->accessCheck(FALSE)
     ->execute();
 
   if (empty($ids)) {
@@ -265,22 +269,22 @@ function _helfi_rekry_content_lookup_task_area_tid($args) {
   $external_id = $args[0];
   $name = $args[1];
 
-  $query = \Drupal::entityQuery('taxonomy_term')
+  $ids = \Drupal::entityQuery('taxonomy_term')
     ->condition('vid', 'task_area')
-    ->condition('field_external_id', $external_id);
-
-  $ids = $query->execute();
+    ->condition('field_external_id', $external_id)
+    ->accessCheck(FALSE)
+    ->execute();
 
   if ($ids) {
     return reset($ids);
   }
 
-  // Since ext id mihgt not exist yet, try matching by name.
-  $fallbackQuery = \Drupal::entityQuery('taxonomy_term')
+  // Since ext id might not exist yet, try matching by name.
+  $ids = \Drupal::entityQuery('taxonomy_term')
     ->condition('vid', 'task_area')
-    ->condition('name', $name);
-
-  $ids = $fallbackQuery->execute();
+    ->condition('name', $name)
+    ->accessCheck(FALSE)
+    ->execute();
 
   if ($ids) {
     return reset($ids);
