@@ -37,6 +37,7 @@ dependencies:
     - node.type.job_listing
   module:
     - datetime
+    - field_group
     - hdbt_admin_tools
     - link
     - media_library
@@ -44,6 +45,25 @@ dependencies:
     - publication_date
     - scheduler
     - text
+third_party_settings:
+  field_group:
+    group_override_fields:
+      children:
+        - field_prevent_publishing
+        - field_job_description_override
+        - field_organization_override
+        - field_organization_description_o
+      label: 'Override fields'
+      region: content
+      parent_name: ''
+      weight: 15
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: false
 id: node.job_listing.default
 targetEntityType: node
 bundle: job_listing
@@ -57,7 +77,7 @@ content:
     third_party_settings: {  }
   field_address:
     type: string_textfield
-    weight: 24
+    weight: 25
     region: content
     settings:
       size: 60
@@ -65,14 +85,14 @@ content:
     third_party_settings: {  }
   field_anonymous:
     type: boolean_checkbox
-    weight: 17
+    weight: 18
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_contacts:
     type: text_textarea
-    weight: 31
+    weight: 32
     region: content
     settings:
       rows: 5
@@ -80,14 +100,14 @@ content:
     third_party_settings: {  }
   field_copied:
     type: boolean_checkbox
-    weight: 44
+    weight: 45
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_employment:
     type: entity_reference_autocomplete
-    weight: 19
+    weight: 20
     region: content
     settings:
       match_operator: CONTAINS
@@ -97,7 +117,7 @@ content:
     third_party_settings: {  }
   field_employment_type:
     type: entity_reference_autocomplete
-    weight: 18
+    weight: 19
     region: content
     settings:
       match_operator: CONTAINS
@@ -107,14 +127,14 @@ content:
     third_party_settings: {  }
   field_image:
     type: media_library_widget
-    weight: 32
+    weight: 33
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   field_job_description_override:
     type: text_textarea_with_summary
-    weight: 28
+    weight: 17
     region: content
     settings:
       rows: 9
@@ -124,7 +144,7 @@ content:
     third_party_settings: {  }
   field_job_duration:
     type: string_textfield
-    weight: 23
+    weight: 24
     region: content
     settings:
       size: 60
@@ -132,20 +152,20 @@ content:
     third_party_settings: {  }
   field_jobs:
     type: number
-    weight: 16
+    weight: 17
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_last_changed_remote:
     type: datetime_default
-    weight: 40
+    weight: 41
     region: content
     settings: {  }
     third_party_settings: {  }
   field_link_to_application:
     type: link_default
-    weight: 21
+    weight: 22
     region: content
     settings:
       placeholder_url: ''
@@ -153,7 +173,7 @@ content:
     third_party_settings: {  }
   field_link_to_presentation:
     type: link_default
-    weight: 41
+    weight: 42
     region: content
     settings:
       placeholder_url: ''
@@ -161,7 +181,7 @@ content:
     third_party_settings: {  }
   field_organization:
     type: entity_reference_autocomplete
-    weight: 34
+    weight: 35
     region: content
     settings:
       match_operator: CONTAINS
@@ -171,7 +191,7 @@ content:
     third_party_settings: {  }
   field_organization_description:
     type: text_textarea
-    weight: 36
+    weight: 37
     region: content
     settings:
       rows: 5
@@ -179,7 +199,7 @@ content:
     third_party_settings: {  }
   field_organization_description_o:
     type: text_textarea
-    weight: 35
+    weight: 19
     region: content
     settings:
       rows: 5
@@ -187,7 +207,7 @@ content:
     third_party_settings: {  }
   field_organization_name:
     type: string_textfield
-    weight: 20
+    weight: 21
     region: content
     settings:
       size: 60
@@ -195,7 +215,7 @@ content:
     third_party_settings: {  }
   field_organization_override:
     type: entity_reference_autocomplete
-    weight: 33
+    weight: 18
     region: content
     settings:
       match_operator: CONTAINS
@@ -205,46 +225,11 @@ content:
     third_party_settings: {  }
   field_original_language:
     type: options_select
-    weight: 45
+    weight: 46
     region: content
     settings: {  }
     third_party_settings: {  }
   field_postal_area:
-    type: string_textfield
-    weight: 26
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_postal_code:
-    type: string_textfield
-    weight: 25
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_prevent_publishing:
-    type: boolean_checkbox
-    weight: 15
-    region: content
-    settings:
-      display_label: true
-    third_party_settings: {  }
-  field_publication_ends:
-    type: datetime_default
-    weight: 43
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_publication_starts:
-    type: datetime_default
-    weight: 42
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_recruitment_id:
     type: string_textfield
     weight: 27
     region: content
@@ -252,16 +237,51 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_postal_code:
+    type: string_textfield
+    weight: 26
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_prevent_publishing:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_publication_ends:
+    type: datetime_default
+    weight: 44
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_publication_starts:
+    type: datetime_default
+    weight: 43
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_recruitment_id:
+    type: string_textfield
+    weight: 28
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_recruitment_type:
     type: number
-    weight: 38
+    weight: 39
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_salary:
     type: string_textfield
-    weight: 22
+    weight: 23
     region: content
     settings:
       size: 60
@@ -269,7 +289,7 @@ content:
     third_party_settings: {  }
   field_salary_class:
     type: string_textfield
-    weight: 30
+    weight: 31
     region: content
     settings:
       size: 60
@@ -277,7 +297,7 @@ content:
     third_party_settings: {  }
   field_task_area:
     type: entity_reference_autocomplete
-    weight: 39
+    weight: 40
     region: content
     settings:
       match_operator: CONTAINS
@@ -287,14 +307,14 @@ content:
     third_party_settings: {  }
   field_video:
     type: media_library_widget
-    weight: 37
+    weight: 38
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   job_description:
     type: text_textarea_with_summary
-    weight: 29
+    weight: 30
     region: content
     settings:
       rows: 9
