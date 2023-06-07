@@ -23,11 +23,43 @@ function helfi_rekry_content_form_node_job_listing_edit_form_alter(array &$form,
   if (in_array('hr', $userRoles)) {
     $form['title']['#disabled'] = TRUE;
   }
+  
+  // Fields that get data from TPR.
+  $fields_from_tpr = [
+    'field_salary_class',
+    'field_contacts',
+    'field_recruitment_id',
+    'field_last_changed_remote',
+    'field_recruitment_type',
+    'field_task_area',
+    'field_publication_ends',
+    'field_publication_starts',
+    'field_link_to_presentation',
+    'field_employment_type',
+    'job_description',
+    'field_organization_description',
+    'field_organization',
+    'field_jobs',
+    'field_organization_name',
+    'field_salary',
+    'field_job_duration',
+    'field_address',
+    'field_postal_code',
+    'field_postal_area',
+    'field_link_to_application',
+    'field_employment',
+    'field_image',
+    'field_video',
+    'field_copied',
+    'field_original_language',
+    'field_anonymous',
+  ];
 
-  // Make these fields disabled as they have separate override fields.
-  $form['field_organization']['#disabled'] = TRUE;
-  $form['field_organization_description']['#disabled'] = TRUE;
-  $form['job_description']['#disabled'] = TRUE;
+  // Disable fields that get data from TPR.
+  foreach($fields_from_tpr as $field) {
+    $form[$field]['#disabled'] = TRUE;
+  }
+  
 }
 
 /**
