@@ -9,12 +9,16 @@
     {% endif %}
   </div>
   <div class="job-listing__organization-information">
-    {% if content.field_organization|render %}
+    {% if content.field_organization|render or content.field_organization_override|render %}
       <h2 class="job-listing__organization">
-        {{ content.field_organization }}
+        {% if content.field_organization_override %}
+          {{ content.field_organization_override }}
+        {% else %}
+          {{ content.field_organization }}
+        {% endif %}
       </h2>
     {% endif %}
-    {% if content.field_organization_description|render %}
+    {% if content.field_organization_description|render or content.field_organization_description_o|render %}
       <div class="job-listing__organization-description">
         {{ content.field_organization_description }}
       </div>
