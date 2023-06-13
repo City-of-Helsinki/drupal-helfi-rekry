@@ -1,6 +1,6 @@
 name: 'HELfi Rekry Job Search'
 type: module
-core_version_requirement: '^8.9 || ^9'
+core_version_requirement: ^9 || ^10
 dependencies:
   - 'drupal:language'
 package: HELfi
