@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.job_listing.field_employment
     - field.field.node.job_listing.field_employment_type
     - field.field.node.job_listing.field_image
+    - field.field.node.job_listing.field_job_description_override
     - field.field.node.job_listing.field_job_duration
     - field.field.node.job_listing.field_jobs
     - field.field.node.job_listing.field_last_changed_remote
@@ -17,7 +18,9 @@ dependencies:
     - field.field.node.job_listing.field_link_to_presentation
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
+    - field.field.node.job_listing.field_organization_description_o
     - field.field.node.job_listing.field_organization_name
+    - field.field.node.job_listing.field_organization_override
     - field.field.node.job_listing.field_original_language
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
@@ -57,7 +60,7 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 12
+    weight: 13
     region: content
   field_employment:
     type: entity_reference_label
@@ -84,7 +87,14 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 14
+    weight: 15
+    region: content
+  field_job_description_override:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
     region: content
   field_job_duration:
     type: string
@@ -116,7 +126,7 @@ content:
       rel: '0'
       target: '0'
     third_party_settings: {  }
-    weight: 13
+    weight: 14
     region: content
   field_organization:
     type: entity_reference_label
@@ -124,14 +134,21 @@ content:
     settings:
       link: false
     third_party_settings: {  }
-    weight: 15
+    weight: 16
     region: content
   field_organization_description:
     type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 17
+    weight: 19
+    region: content
+  field_organization_description_o:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 20
     region: content
   field_organization_name:
     type: string
@@ -140,6 +157,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_organization_override:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 17
     region: content
   field_postal_area:
     type: string
@@ -164,7 +189,7 @@ content:
       timezone_override: ''
       format_type: publication_date_format
     third_party_settings: {  }
-    weight: 19
+    weight: 22
     region: content
   field_publication_starts:
     type: datetime_default
@@ -173,7 +198,7 @@ content:
       timezone_override: ''
       format_type: publication_date_format
     third_party_settings: {  }
-    weight: 18
+    weight: 21
     region: content
   field_recruitment_id:
     type: string
@@ -197,7 +222,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 11
+    weight: 12
     region: content
   field_video:
     type: entity_reference_entity_view
@@ -206,7 +231,7 @@ content:
       view_mode: default
       link: true
     third_party_settings: {  }
-    weight: 16
+    weight: 18
     region: content
   job_description:
     type: text_default

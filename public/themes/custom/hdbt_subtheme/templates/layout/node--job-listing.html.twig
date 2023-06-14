@@ -145,7 +145,11 @@
           {% include '@hdbt/misc/metadata-wrapper.twig' with { items: metadata }%}
         </div>
 
-        {{ content.job_description }}
+        {% if content.field_job_description_override|render %}
+          {{ content.field_job_description_override }}
+        {% else %}
+          {{ content.job_description }}
+        {% endif %}
         {{ content.field_salary_class }}
         {% if content.field_contacts|render or content.field_link_to_presentation|render %}
           <div class="job-listing__additional-information">

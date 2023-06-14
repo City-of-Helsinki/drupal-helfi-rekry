@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.job_listing.field_employment
     - field.field.node.job_listing.field_employment_type
     - field.field.node.job_listing.field_image
+    - field.field.node.job_listing.field_job_description_override
     - field.field.node.job_listing.field_job_duration
     - field.field.node.job_listing.field_jobs
     - field.field.node.job_listing.field_last_changed_remote
@@ -17,7 +18,9 @@ dependencies:
     - field.field.node.job_listing.field_link_to_presentation
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
+    - field.field.node.job_listing.field_organization_description_o
     - field.field.node.job_listing.field_organization_name
+    - field.field.node.job_listing.field_organization_override
     - field.field.node.job_listing.field_original_language
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
@@ -34,6 +37,7 @@ dependencies:
     - node.type.job_listing
   module:
     - datetime
+    - field_group
     - hdbt_admin_tools
     - link
     - media_library
@@ -41,6 +45,25 @@ dependencies:
     - publication_date
     - scheduler
     - text
+third_party_settings:
+  field_group:
+    group_override_fields:
+      children:
+        - field_prevent_publishing
+        - field_job_description_override
+        - field_organization_override
+        - field_organization_description_o
+      label: 'Override fields'
+      region: content
+      parent_name: ''
+      weight: 15
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: false
 id: node.job_listing.default
 targetEntityType: node
 bundle: job_listing
@@ -54,7 +77,7 @@ content:
     third_party_settings: {  }
   field_address:
     type: string_textfield
-    weight: 22
+    weight: 25
     region: content
     settings:
       size: 60
@@ -62,14 +85,14 @@ content:
     third_party_settings: {  }
   field_anonymous:
     type: boolean_checkbox
-    weight: 15
+    weight: 18
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_contacts:
     type: text_textarea
-    weight: 28
+    weight: 32
     region: content
     settings:
       rows: 5
@@ -77,14 +100,14 @@ content:
     third_party_settings: {  }
   field_copied:
     type: boolean_checkbox
-    weight: 39
+    weight: 45
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_employment:
     type: entity_reference_autocomplete
-    weight: 17
+    weight: 20
     region: content
     settings:
       match_operator: CONTAINS
@@ -94,7 +117,7 @@ content:
     third_party_settings: {  }
   field_employment_type:
     type: entity_reference_autocomplete
-    weight: 16
+    weight: 19
     region: content
     settings:
       match_operator: CONTAINS
@@ -104,14 +127,24 @@ content:
     third_party_settings: {  }
   field_image:
     type: media_library_widget
-    weight: 29
+    weight: 33
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
+  field_job_description_override:
+    type: text_textarea_with_summary
+    weight: 17
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
   field_job_duration:
     type: string_textfield
-    weight: 21
+    weight: 24
     region: content
     settings:
       size: 60
@@ -119,20 +152,20 @@ content:
     third_party_settings: {  }
   field_jobs:
     type: number
-    weight: 14
+    weight: 17
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_last_changed_remote:
     type: datetime_default
-    weight: 35
+    weight: 41
     region: content
     settings: {  }
     third_party_settings: {  }
   field_link_to_application:
     type: link_default
-    weight: 19
+    weight: 22
     region: content
     settings:
       placeholder_url: ''
@@ -140,7 +173,7 @@ content:
     third_party_settings: {  }
   field_link_to_presentation:
     type: link_default
-    weight: 36
+    weight: 42
     region: content
     settings:
       placeholder_url: ''
@@ -148,7 +181,7 @@ content:
     third_party_settings: {  }
   field_organization:
     type: entity_reference_autocomplete
-    weight: 30
+    weight: 35
     region: content
     settings:
       match_operator: CONTAINS
@@ -158,7 +191,15 @@ content:
     third_party_settings: {  }
   field_organization_description:
     type: text_textarea
-    weight: 31
+    weight: 37
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_organization_description_o:
+    type: text_textarea
+    weight: 19
     region: content
     settings:
       rows: 5
@@ -166,77 +207,29 @@ content:
     third_party_settings: {  }
   field_organization_name:
     type: string_textfield
+    weight: 21
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_organization_override:
+    type: entity_reference_autocomplete
     weight: 18
     region: content
     settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_original_language:
     type: options_select
-    weight: 40
+    weight: 46
     region: content
     settings: {  }
     third_party_settings: {  }
   field_postal_area:
-    type: string_textfield
-    weight: 24
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_postal_code:
-    type: string_textfield
-    weight: 23
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_prevent_publishing:
-    type: boolean_checkbox
-    weight: 13
-    region: content
-    settings:
-      display_label: true
-    third_party_settings: {  }
-  field_publication_ends:
-    type: datetime_default
-    weight: 38
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_publication_starts:
-    type: datetime_default
-    weight: 37
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_recruitment_id:
-    type: string_textfield
-    weight: 25
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_recruitment_type:
-    type: number
-    weight: 33
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_salary:
-    type: string_textfield
-    weight: 20
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_salary_class:
     type: string_textfield
     weight: 27
     region: content
@@ -244,9 +237,67 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_postal_code:
+    type: string_textfield
+    weight: 26
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_prevent_publishing:
+    type: boolean_checkbox
+    weight: 16
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_publication_ends:
+    type: datetime_default
+    weight: 44
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_publication_starts:
+    type: datetime_default
+    weight: 43
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_recruitment_id:
+    type: string_textfield
+    weight: 28
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_recruitment_type:
+    type: number
+    weight: 39
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_salary:
+    type: string_textfield
+    weight: 23
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_salary_class:
+    type: string_textfield
+    weight: 31
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_task_area:
     type: entity_reference_autocomplete
-    weight: 34
+    weight: 40
     region: content
     settings:
       match_operator: CONTAINS
@@ -256,14 +307,14 @@ content:
     third_party_settings: {  }
   field_video:
     type: media_library_widget
-    weight: 32
+    weight: 38
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   job_description:
     type: text_textarea_with_summary
-    weight: 26
+    weight: 30
     region: content
     settings:
       rows: 9
@@ -309,13 +360,13 @@ content:
     settings: {  }
     third_party_settings: {  }
   simple_sitemap:
-    weight: 10
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 11
+    weight: 13
     region: content
     settings:
       display_label: true
@@ -329,7 +380,7 @@ content:
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 12
+    weight: 14
     region: content
     settings:
       size: 60
@@ -357,7 +408,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   url_redirects:
-    weight: 10
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
