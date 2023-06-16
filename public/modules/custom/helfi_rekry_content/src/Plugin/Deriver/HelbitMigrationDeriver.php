@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace Drupal\helfi_rekry_content\Plugin\Deriver;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
-use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

@@ -9,8 +9,8 @@ declare(strict_types = 1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\node\NodeInterface;
 use Drupal\migrate\MigrateSkipRowException;
+use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 
 /**
