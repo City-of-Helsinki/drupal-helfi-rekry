@@ -19,7 +19,7 @@
       </h2>
     {% endif %}
     {% if content.field_organization_description|render or content.field_organization_description_o|render %}
-      <div class="job-listing__organization-description">
+      <div class="job-listing__organization-description user-edited-content">
         {{ content.field_organization_description }}
       </div>
     {% endif %}
@@ -29,7 +29,7 @@
       <h2 class="job-listing__city-description-title">
         {{  content.city_description_title }}
       </h2>
-      <div class="job-listing__city-description-text">
+      <div class="job-listing__city-description-text user-edited-content">
         {{ content.city_description_text|nl2br }}
       </div>
     </div>
