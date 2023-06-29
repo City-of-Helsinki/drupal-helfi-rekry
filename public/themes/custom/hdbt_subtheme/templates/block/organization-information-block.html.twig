@@ -11,7 +11,7 @@
   <div class="job-listing__organization-information">
     {% if content.field_organization|render or content.field_organization_override|render %}
       <h2 class="job-listing__organization">
-        {% if content.field_organization_override %}
+        {% if content.field_organization_override|render %}
           {{ content.field_organization_override }}
         {% else %}
           {{ content.field_organization }}
