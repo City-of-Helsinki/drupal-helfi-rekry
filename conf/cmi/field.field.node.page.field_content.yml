@@ -29,7 +29,7 @@ third_party_settings:
     add_disable: none
     edit_disable: none
 _core:
-  default_config_hash: QzPUvR7cSwVLlIv2Wkmjn6T9gEZ-WD6hRta4Y-AShcE
+  default_config_hash: G8uqVofIIeSPJSEW4FPnQrwefO2xMZGnwlbcHrbpZ48
 id: node.page.field_content
 field_name: field_content
 entity_type: node
