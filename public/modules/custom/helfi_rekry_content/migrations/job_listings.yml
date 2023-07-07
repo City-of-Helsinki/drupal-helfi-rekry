@@ -142,7 +142,13 @@ process:
   langcode:
     plugin: default_value
     default_value: fi
-  job_description/value: job_description
+  job_description/value:
+    plugin: callback
+    callable: _filter_autop
+    source: job_description
+  job_description/format:
+    plugin: default_value
+    default_value: full_html
   field_address: address
   field_anonymous: anonymous
   field_contacts: contacts
