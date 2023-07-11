@@ -17,6 +17,10 @@ msgctxt "Job search clear button aria label"
 msgid "Clear selection"
 msgstr "Tyhjennä kaikki valinnat"
 
+msgctxt "Job search clear selection label"
+msgid "Clear @label selection"
+msgstr "Tyhjennä @label valinnat"
+
 msgctxt "Job search remove item aria label"
 msgid "Remove item"
 msgstr "Poista valinta"
