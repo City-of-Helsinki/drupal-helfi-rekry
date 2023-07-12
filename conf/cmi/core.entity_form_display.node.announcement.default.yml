@@ -18,7 +18,7 @@ dependencies:
     - select2
     - text
 _core:
-  default_config_hash: zPc8iXjxhkMT4IwqHCVX0cz8mpKHcFCRHY7LvWp3t0c
+  default_config_hash: le2Wzlas0qZ9Bj-o6WlJbHDeisFrucs9F4B3VOK8t_w
 id: node.announcement.default
 targetEntityType: node
 bundle: announcement
