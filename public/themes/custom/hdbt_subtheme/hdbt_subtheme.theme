@@ -171,7 +171,7 @@ function hdbt_subtheme_preprocess_node(&$variables) {
 
     $publication_starts_value = $node->get('field_publication_starts')->value;
 
-    if (date('Y-m-d', strtotime($publication_starts_value)) == date('Y-m-d')) {
+    if ($publication_starts_value && date('Y-m-d', strtotime($publication_starts_value)) == date('Y-m-d')) {
       $variables['publication_starts_today'] = TRUE;
     }
   }

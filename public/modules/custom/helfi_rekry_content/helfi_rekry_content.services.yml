@@ -21,3 +21,6 @@ services:
   logger.channel.helfi_rekry_content:
     parent: logger.channel_base
     arguments: ['helfi_rekry_content']
+  helfi_rekry_content.job_listing_unpublish_worker:
+    class: Drupal\helfi_rekry_content\Plugin\QueueWorker
+    arguments: ['@entity_type.manager', '@logger.channel.helfi_rekry_content']
