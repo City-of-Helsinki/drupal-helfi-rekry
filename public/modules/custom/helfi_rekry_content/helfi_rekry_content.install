@@ -7,6 +7,9 @@
 
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
+use Drupal\search_api\Entity\Index;
+use Drupal\search_api\Event\ReindexScheduledEvent;
+use Drupal\search_api\Event\SearchApiEvents;
 use Drupal\taxonomy\Entity\Term;
 
 /**
@@ -252,4 +255,22 @@ function helfi_rekry_content_update_9006() {
     $term->save();
   }
 
+}
+
+/**
+ * HELfi rekry content update 9007.
+ */
+function helfi_rekry_content_update_9007() {
+  $jobIndex = Index::load('job_listings');
+
+  if (!$jobIndex) {
+    return;
+  }
+
+  // Ensure tracker works
+  $jobIndex->rebuildTracker();
+
+  // Mark index to require reindexing
+  $dispatcher = \Drupal::getContainer()->get('event_dispatcher');
+  $dispatcher->dispatch(new ReindexScheduledEvent($jobIndex, TRUE), SearchApiEvents::REINDEX_SCHEDULED);
 }
