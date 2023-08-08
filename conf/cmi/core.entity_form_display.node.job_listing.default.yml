@@ -25,6 +25,7 @@ dependencies:
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_prevent_publishing
+    - field.field.node.job_listing.field_promoted
     - field.field.node.job_listing.field_publication_ends
     - field.field.node.job_listing.field_publication_starts
     - field.field.node.job_listing.field_recruitment_id
@@ -56,7 +57,7 @@ third_party_settings:
       label: 'Override fields'
       region: content
       parent_name: ''
-      weight: 15
+      weight: 16
       format_type: fieldset
       format_settings:
         classes: ''
@@ -92,7 +93,7 @@ content:
     third_party_settings: {  }
   field_contacts:
     type: text_textarea
-    weight: 32
+    weight: 31
     region: content
     settings:
       rows: 5
@@ -100,7 +101,7 @@ content:
     third_party_settings: {  }
   field_copied:
     type: boolean_checkbox
-    weight: 45
+    weight: 42
     region: content
     settings:
       display_label: true
@@ -127,7 +128,7 @@ content:
     third_party_settings: {  }
   field_image:
     type: media_library_widget
-    weight: 33
+    weight: 32
     region: content
     settings:
       media_types: {  }
@@ -159,7 +160,7 @@ content:
     third_party_settings: {  }
   field_last_changed_remote:
     type: datetime_default
-    weight: 41
+    weight: 38
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -173,7 +174,7 @@ content:
     third_party_settings: {  }
   field_link_to_presentation:
     type: link_default
-    weight: 42
+    weight: 39
     region: content
     settings:
       placeholder_url: ''
@@ -181,7 +182,7 @@ content:
     third_party_settings: {  }
   field_organization:
     type: entity_reference_autocomplete
-    weight: 35
+    weight: 33
     region: content
     settings:
       match_operator: CONTAINS
@@ -191,7 +192,7 @@ content:
     third_party_settings: {  }
   field_organization_description:
     type: text_textarea
-    weight: 37
+    weight: 34
     region: content
     settings:
       rows: 5
@@ -225,7 +226,7 @@ content:
     third_party_settings: {  }
   field_original_language:
     type: options_select
-    weight: 46
+    weight: 43
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -252,15 +253,22 @@ content:
     settings:
       display_label: true
     third_party_settings: {  }
+  field_promoted:
+    type: boolean_checkbox
+    weight: 14
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_publication_ends:
     type: datetime_default
-    weight: 44
+    weight: 41
     region: content
     settings: {  }
     third_party_settings: {  }
   field_publication_starts:
     type: datetime_default
-    weight: 43
+    weight: 40
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -274,7 +282,7 @@ content:
     third_party_settings: {  }
   field_recruitment_type:
     type: number
-    weight: 39
+    weight: 36
     region: content
     settings:
       placeholder: ''
@@ -289,7 +297,7 @@ content:
     third_party_settings: {  }
   field_salary_class:
     type: string_textfield
-    weight: 31
+    weight: 30
     region: content
     settings:
       size: 60
@@ -297,7 +305,7 @@ content:
     third_party_settings: {  }
   field_task_area:
     type: entity_reference_autocomplete
-    weight: 40
+    weight: 37
     region: content
     settings:
       match_operator: CONTAINS
@@ -307,14 +315,14 @@ content:
     third_party_settings: {  }
   field_video:
     type: media_library_widget
-    weight: 38
+    weight: 35
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   job_description:
     type: text_textarea_with_summary
-    weight: 30
+    weight: 29
     region: content
     settings:
       rows: 9
@@ -380,7 +388,7 @@ content:
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 14
+    weight: 15
     region: content
     settings:
       size: 60

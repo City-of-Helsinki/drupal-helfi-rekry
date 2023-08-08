@@ -25,6 +25,7 @@ dependencies:
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_prevent_publishing
+    - field.field.node.job_listing.field_promoted
     - field.field.node.job_listing.field_publication_ends
     - field.field.node.job_listing.field_publication_starts
     - field.field.node.job_listing.field_recruitment_id
@@ -247,6 +248,7 @@ hidden:
   field_last_changed_remote: true
   field_original_language: true
   field_prevent_publishing: true
+  field_promoted: true
   field_recruitment_type: true
   field_task_area: true
   langcode: true
