@@ -6,7 +6,6 @@ namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\node\NodeInterface;
 use Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -60,62 +59,35 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
     }
 
     // Get destination ids for job listings that are missing from source.
-    $destinationIDs = $event->getDestinationIds();
+    $destinationIds = array_reduce(
+      $event->getDestinationIds(),
+      function ($values, $destinationValue) {
+        if (isset($destinationValue['nid'])) {
+          $value = $destinationValue['nid'];
+          $values[$value] = $value;
+        }
 
-    $missingCount = count($destinationIDs);
+        return $values;
+      },
+      []
+    );
+
+    $missingCount = count($destinationIds);
     if ($missingCount === 0) {
       return;
     }
 
-    $this->logger->notice($this->formatPlural(
-        $missingCount,
-        'Total 1 job listing is missing from source and will be checked.',
-        'Total @count job listings are missing from source and will be checked.',
-        [],
-        ['langcode' => 'en']
-      ));
+    // Query missing nodes that are still published.
+    $query = \Drupal::entityQuery('node')
+      ->condition('nid', $destinationIds, 'IN')
+      ->condition('status', 1)
+      ->notExists('unpublish_on');
+    $nids = $query->execute();
 
-    $nodeStorage = $this->entityTypeManager->getStorage('node');
-    $unpublishedCount = 0;
-    foreach ($destinationIDs as $destinationId) {
-      if (!isset($destinationId['nid'])) {
-        $this->logger->notice("Trying to hide content without nid.");
-        continue;
-      }
-
-      $node = $nodeStorage->load($destinationId['nid']);
-
-      // Unpublish all translations.
-      if ($node instanceof NodeInterface && $node->getType() == 'job_listing') {
-        foreach (['fi', 'sv', 'en'] as $langcode) {
-          // Unpublish the job listing node as it's still published, but it's
-          // no longer available at the source.
-          if (!$node->hasTranslation($langcode)) {
-            continue;
-          }
-
-          $translation = $node->getTranslation($langcode);
-          if ($translation->isPublished()) {
-            $translation->setUnpublished();
-            if ($translation->hasField('publish_on') && !empty($translation->get('publish_on')->getValue())) {
-              // Also clear the publish on date to make sure the translation is
-              // not going to be re-published.
-              $translation->set('publish_on', NULL);
-            }
-            $translation->save();
-            $unpublishedCount++;
-          }
-        }
-      }
+    foreach ($nids as $nid) {
+      $job = ['nid' => $nid];
+      \Drupal::queue('job_listing_unpublish_worker')->createItem($job);
     }
-
-    $this->logger->notice($this->formatPlural(
-        $unpublishedCount,
-        '1 missing item was published and is now unpublished.',
-        '@count missing items were published and are now unpublished.',
-        [],
-        ['langcode' => 'en']
-      ));
   }
 
   /**
