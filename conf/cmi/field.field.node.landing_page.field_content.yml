@@ -12,6 +12,7 @@ dependencies:
     - paragraphs.paragraphs_type.content_liftup
     - paragraphs.paragraphs_type.event_list
     - paragraphs.paragraphs_type.from_library
+    - paragraphs.paragraphs_type.hearings
     - paragraphs.paragraphs_type.job_search
     - paragraphs.paragraphs_type.liftup_with_image
     - paragraphs.paragraphs_type.list_of_links
@@ -60,6 +61,7 @@ settings:
       popular_services: popular_services
       target_group_links: target_group_links
       job_search: job_search
+      hearings: hearings
     negate: 0
     target_bundles_drag_drop:
       banner:
@@ -81,6 +83,9 @@ settings:
         weight: 0
         enabled: true
       from_library:
+        weight: 0
+        enabled: true
+      hearings:
         weight: 0
         enabled: true
       job_search:
