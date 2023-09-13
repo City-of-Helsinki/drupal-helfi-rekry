@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\EventSubscriber\HttpExceptionSubscriberBase;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Session\AccountInterface;
@@ -27,7 +28,8 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
    */
   public function __construct(
     protected ConfigFactoryInterface $configFactory,
-    protected AccountInterface $currentUser
+    protected AccountInterface $currentUser,
+    protected EntityTypeManager $entityTypeManager,
   ) {}
 
   /**
@@ -73,10 +75,10 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
   /**
    * If trying to access non-existing translation, redirect to existing one.
    *
-   * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event
+   * @param ExceptionEvent $event
    *   The Event to process.
    */
-  public function on404(ExceptionEvent $event) {
+  public function on404(ExceptionEvent $event) : void {
     $uri = $event->getRequest()->getRequestUri();
     $redirectFrom = 'avoimet-tyopaikat/avoimet-tyopaikat/';
     if (!str_contains($uri, $redirectFrom)) {
@@ -84,7 +86,7 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
     }
 
     $recruitmentId = array_reverse(explode('/', $uri))[0];
-    $nodes = \Drupal::entityTypeManager()
+    $nodes = $this->entityTypeManager
       ->getStorage('node')
       ->loadByProperties(['field_recruitment_id' => $recruitmentId]);
 
