@@ -70,4 +70,36 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
     $event->setResponse($response);
   }
 
+  /**
+   * If trying to access non-existing translation, redirect to existing one.
+   *
+   * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event
+   *   The Event to process.
+   */
+  public function on404(ExceptionEvent $event) {
+    $uri = $event->getRequest()->getRequestUri();
+    $redirectFrom = 'avoimet-tyopaikat/avoimet-tyopaikat/';
+    if (!str_contains($uri, $redirectFrom)) {
+      return;
+    }
+
+    $recruitmentId = array_reverse(explode('/', $uri))[0];
+    $nodes = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->loadByProperties(['field_recruitment_id' => $recruitmentId]);
+
+    if (!$nodes || !$node = reset($nodes)) {
+      return;
+    }
+
+    // Since we are listening to 404 exception,
+    // the node loaded is automatically existing translation.
+    // We can just redirect without worrying whether the translation exists.
+    $response = new RedirectResponse(
+      $node->toUrl('canonical', ['language' => $node->language()])->toString(),
+      302
+    );
+    $event->setResponse($response);
+  }
+
 }
