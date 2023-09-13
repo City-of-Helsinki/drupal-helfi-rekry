@@ -6,10 +6,10 @@ namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\EventSubscriber\HttpExceptionSubscriberBase;
+use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 /**
@@ -66,7 +66,7 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
     $url = Url::fromRoute('entity.node.canonical', ['node' => $redirectNode])->toString();
 
     // Set temporary redirect.
-    $response = new RedirectResponse($url, 307);
+    $response = new TrustedRedirectResponse($url, 307);
     $event->setResponse($response);
   }
 
@@ -95,9 +95,8 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
     // Since we are listening to 404 exception,
     // the node loaded is automatically existing translation.
     // We can just redirect without worrying whether the translation exists.
-    $response = new RedirectResponse(
+    $response = new TrustedRedirectResponse(
       $node->toUrl('canonical', ['language' => $node->language()])->toString(),
-      302
     );
     $event->setResponse($response);
   }
