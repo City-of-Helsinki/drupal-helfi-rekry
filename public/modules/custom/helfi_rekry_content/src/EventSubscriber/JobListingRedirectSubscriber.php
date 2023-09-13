@@ -95,9 +95,9 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
     // Since we are listening to 404 exception,
     // the node loaded is automatically existing translation.
     // We can just redirect without worrying whether the translation exists.
-    $response = new TrustedRedirectResponse(
-      $node->toUrl('canonical', ['language' => $node->language()])->toString(),
-    );
+    $url = $node->toUrl('canonical', ['language' => $node->language()])->toString();
+    $response = new TrustedRedirectResponse($url);
+    $response->addCacheableDependency($url);
     $event->setResponse($response);
   }
 
