@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\helfi_rekry_content\Tests\dtt\src\ExistingSite;
 
-
-
 use Drupal\Tests\helfi_api_base\Functional\ExistingSiteTestBase;
 
 /**
