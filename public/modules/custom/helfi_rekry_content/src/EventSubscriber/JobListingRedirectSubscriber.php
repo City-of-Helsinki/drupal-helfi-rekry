@@ -25,6 +25,8 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
    *   The configuration factory.
    * @param \Drupal\Core\Session\AccountInterface $currentUser
    *   The current user.
+   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
+   *   The entity type manager.
    */
   public function __construct(
     protected ConfigFactoryInterface $configFactory,
@@ -75,19 +77,19 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
   /**
    * If trying to access non-existing translation, redirect to existing one.
    *
-   * @param ExceptionEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event
    *   The Event to process.
    */
   public function on404(ExceptionEvent $event) : void {
     $uri = $event->getRequest()->getRequestUri();
     $redirectPaths = [
-      'avoimet-tyopaikat/avoimet-tyopaikat/',
-      'lediga-jobb/lediga-jobb/',
-      'open-jobs/open-jobs/',
+      'fi' => 'avoimet-tyopaikat/avoimet-tyopaikat/',
+      'sv' => 'lediga-jobb/lediga-jobb/',
+      'en' => 'open-jobs/open-jobs/',
     ];
 
     $redirectFrom = NULL;
-    foreach($redirectPaths as $path) {
+    foreach ($redirectPaths as $path) {
       if (str_contains($uri, $path)) {
         $redirectFrom = $path;
         break;
