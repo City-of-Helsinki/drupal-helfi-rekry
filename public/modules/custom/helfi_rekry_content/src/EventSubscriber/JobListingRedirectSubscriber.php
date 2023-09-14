@@ -80,8 +80,21 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
    */
   public function on404(ExceptionEvent $event) : void {
     $uri = $event->getRequest()->getRequestUri();
-    $redirectFrom = 'avoimet-tyopaikat/avoimet-tyopaikat/';
-    if (!str_contains($uri, $redirectFrom)) {
+    $redirectPaths = [
+      'avoimet-tyopaikat/avoimet-tyopaikat/',
+      'lediga-jobb/lediga-jobb/',
+      'open-jobs/open-jobs/',
+    ];
+
+    $redirectFrom = NULL;
+    foreach($redirectPaths as $path) {
+      if (str_contains($uri, $path)) {
+        $redirectFrom = $path;
+        break;
+      }
+    }
+
+    if (!$redirectFrom) {
       return;
     }
 
@@ -94,9 +107,6 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
       return;
     }
 
-    // Since we are listening to 404 exception,
-    // the node loaded is automatically existing translation.
-    // We can just redirect without worrying whether the translation exists.
     $url = $node->toUrl('canonical', ['language' => $node->language()])->toString();
     $response = new TrustedRedirectResponse($url);
     $response->addCacheableDependency($url);
