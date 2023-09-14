@@ -77,7 +77,7 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
   /**
    * The 404 exception listener.
    *
-   * #UHF-8946 External service's automation is only capable of creating links to
+   * #UHF8946 External service's automation is only capable of creating links to
    * finnish job listings. If finnish translation doesn't exist the user will be
    * automatically redirected to existing translation with matching job ID.
    *
