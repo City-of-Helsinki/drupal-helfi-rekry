@@ -14,7 +14,7 @@ use Drupal\node\NodeInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 /**
- * Redirect job listing 403s for anonymous users.
+ * Http exception event subscribers for job listings.
  */
 class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
 
@@ -75,7 +75,11 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
   }
 
   /**
-   * If trying to access non-existing translation, redirect to existing one.
+   * The 404 exception listener.
+   *
+   * #UHF-8946 External service's automation is only capable of creating links to
+   * finnish job listings. If finnish translation doesn't exist the user will be
+   * automatically redirected to existing translation with matching job ID.
    *
    * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event
    *   The Event to process.
