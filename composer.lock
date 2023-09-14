@@ -3970,10 +3970,6 @@
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base/issues"
             },
             "time": "2023-09-14T09:11:02+00:00"
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base/tree/2.5.3",
-                "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-api-base/issues"
-            },
-            "time": "2023-09-13T05:29:57+00:00"
         },
         {
             "name": "drupal/helfi_azure_fs",
