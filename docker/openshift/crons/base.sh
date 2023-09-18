@@ -27,6 +27,7 @@ exec "/crons/content-scheduler.sh" &
 # Job listing migration cron
 exec "/crons/migrate-job-listings.sh" &
 exec "/crons/migrate-changed-job-listings.sh" &
+exec "/crons/pubsub.sh" &
 
 while true
 do
