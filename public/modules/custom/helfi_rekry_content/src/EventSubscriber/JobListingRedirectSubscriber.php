@@ -69,8 +69,9 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
 
     $url = Url::fromRoute('entity.node.canonical', ['node' => $redirectNode])->toString();
 
-    // Set temporary redirect.
-    $response = new TrustedRedirectResponse($url, 307);
+    // Set status code to 410.
+    $response = new TrustedRedirectResponse($url);
+    $response->setStatusCode(410);
     $event->setResponse($response);
   }
 
