@@ -145,35 +145,36 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
 
   // Ticket #UHF-9069 in case of ResourceException, the url validation has failed.
   try {
+    // Use the same validation used in field validation.
     $resource_url = $resolver->getResourceUrl($url);
     $resource = \Drupal::service('media.oembed.resource_fetcher')
       ->fetchResource($resource_url);
+    return $url;
   }
   catch (ResourceException | ProviderException $e) {
-    if (!str_contains($provider->getName(), 'youtube')) {
+    // fetchResource fails, the link is no good.
+    if (!str_contains(strtolower($provider->getName()), 'youtube')) {
       \Drupal::logger('helfi_rekry_content')
         ->error('Bad video url rejected by oembed-validation: ' . $url);
       throw new MigrateSkipRowException();
     }
 
-    // remove all extra query parameters
-    $querystring = parse_url($url, PHP_URL_QUERY)['query'];
-    $queryStrings = [];
-    parse_str($querystring, $queryStrings);
-    if ($video = $queryStrings['v']) {
-      $base = parse_url($url, PHP_URL_SCHEME);
+    // Remove all extra query parameters from youtube link.
+    $querystring = parse_url($url, PHP_URL_QUERY);
+    $queryParameters = [];
+    parse_str($querystring, $queryParameters);
+    if ($video_id = $queryParameters['v']) {
+      $path = parse_url($url)['path'];
       $query = http_build_query([
-        'v' => $video,
+        'v' => $video_id,
       ]);
-      return sprintf('%s?%s', rtrim($base, '/'), $query);
+      return sprintf('%s?%s', rtrim($path, '/'), $query);
     }
 
     \Drupal::logger('helfi_rekry_content')
       ->error('Bad video url rejected by oembed-validation: ' . $url);
     throw new MigrateSkipRowException();
   }
-
-  return $url;
 }
 
 /**
