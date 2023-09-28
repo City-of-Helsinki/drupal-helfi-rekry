@@ -153,7 +153,7 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   }
   catch (ResourceException | ProviderException $e) {
     // fetchResource fails, the link is no good.
-    if (!str_contains(strtolower($provider->getName()), 'youtube') ) {
+    if (!str_contains(strtolower($provider->getName()), 'youtube')) {
       \Drupal::logger('helfi_rekry_content')
         ->error('Bad video url rejected by oembed-validation: ' . $url);
       throw new MigrateSkipRowException();
