@@ -9,6 +9,8 @@ declare(strict_types = 1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\media\OEmbed\ResourceException;
+use Drupal\media\OEmbed\ProviderException;
 use Drupal\migrate\MigrateSkipRowException;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
@@ -120,24 +122,58 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
 }
 
 /**
- * Get media entity by file id.
+ * Validate and return video url, used in migration.
  *
  * @param string|null $url
  *   The video url.
  *
  * @return string|null
  *   Valid video url or null
+ *
+ * @throws \Drupal\migrate\MigrateSkipRowException
  */
 function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
     $resolver = \Drupal::service('media.oembed.url_resolver');
-    $validate = $resolver->getProviderByUrl($url);
-    return $url;
+    /** @var \Drupal\media\OEmbed\Provider $provider */
+    $provider = $resolver->getProviderByUrl($url);
   }
   catch (\throwable $e) {
     \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
     throw new MigrateSkipRowException();
   }
+
+  // Ticket #UHF-9069 in case of ResourceException, the url validation has failed.
+  try {
+    $resource_url = $resolver->getResourceUrl($url);
+    $resource = \Drupal::service('media.oembed.resource_fetcher')
+      ->fetchResource($resource_url);
+  }
+  catch (ResourceException | ProviderException $e) {
+    if (!str_contains($provider->getName(), 'youtube')) {
+      \Drupal::logger('helfi_rekry_content')
+        ->error('Bad video url rejected by oembed-validation: ' . $url);
+      throw new MigrateSkipRowException();
+    }
+
+    // remove all extra query parameters
+    $querystring = parse_url($url, PHP_URL_QUERY)['query'];
+    $queryStrings = [];
+    parse_str($querystring, $queryStrings);
+    if ($video = $queryStrings['v']) {
+      $base = parse_url($url, PHP_URL_SCHEME);
+      $query = http_build_query([
+        'v' => $video,
+      ]);
+      return sprintf('%s?%s', rtrim($base, '/'), $query);
+    }
+
+    \Drupal::logger('helfi_rekry_content')
+      ->error('Bad video url rejected by oembed-validation: ' . $url);
+    throw new MigrateSkipRowException();
+  }
+
+  return $url;
 }
 
 /**
