@@ -39,7 +39,10 @@ function hdbt_subtheme_preprocess_block__views_block__of_interest(&$variables): 
   }
 
   if ($task_area_term = $node->get('field_task_area')?->first()?->get('entity')?->getValue()) {
-    $options = ['query' => ['task_areas' => $task_area_term->get('field_external_id')->value], 'absolute' => TRUE];
+    $options = [
+      'query' => ['task_areas' => $task_area_term->get('field_external_id')->value],
+      'absolute' => TRUE
+    ];
     $alias = Url::fromRoute('entity.node.canonical', ['node' => $search_page_nid], $options);
 
     if ($alias) {
@@ -188,18 +191,21 @@ function hdbt_subtheme_preprocess_node(&$variables): void {
     $variables['publication_starts_today'] = TRUE;
   }
 
-  if ($task_area_terms = $node->get('field_task_area')?->first()?->get('entity')?->getValue()) {
+  if ($task_area_term = $node->get('field_task_area')?->first()?->get('entity')?->getValue()) {
     $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
-    $variables['task_area_name'] = $task_area_terms->label();
+    $variables['task_area_name'] = $task_area_term->label();
 
-    if ($task_area_terms->hasTranslation($langcode)) {
-      $variables['task_area_name'] = $task_area_terms->getTranslation($langcode)->label();
+    if ($task_area_term->hasTranslation($langcode)) {
+      $variables['task_area_name'] = $task_area_term->getTranslation($langcode)->label();
     }
 
     // Get the search page nid from config.
     $config = \Drupal::config('helfi_rekry_content.job_listings');
     if ($search_page_nid = $config->get('search_page')) {
-      $options = ['query' => ['task_areas' => $task_area_terms->get('field_external_id')->value], 'absolute' => TRUE];
+      $options = [
+        'query' => ['task_areas' => $task_area_term->get('field_external_id')->value],
+        'absolute' => TRUE
+      ];
       $variables['task_area_rekry_search_url'] = Url::fromRoute('entity.node.canonical', ['node' => $search_page_nid], $options);
     }
   }
