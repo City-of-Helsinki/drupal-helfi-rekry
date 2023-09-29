@@ -42,5 +42,5 @@ msgstr[0] "työpaikkailmoitus"
 msgstr[1] "työpaikkailmoitusta"
 
 msgctxt "Related jobs button"
-msgid "Find open jobs"
-msgstr "Etsi avoimia paikkoja"
+msgid "See all task area jobs"
+msgstr "Katso kaikki ammattialan tehtävät"
