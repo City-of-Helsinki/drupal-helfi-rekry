@@ -15,7 +15,7 @@ use Drupal\node\NodeInterface;
 /**
  * Implements hook_preprocess_HOOK().
  */
-function hdbt_subtheme_preprocess_block(&$variables) {
+function hdbt_subtheme_preprocess_block(&$variables): void {
   if (isset($variables['elements']['#id'])) {
     $variables['content']['#attributes']['block_id'] = $variables['elements']['#id'];
   }
@@ -24,15 +24,27 @@ function hdbt_subtheme_preprocess_block(&$variables) {
 /**
  * Implements hook_preprocess_HOOK().
  */
-function hdbt_subtheme_preprocess_block__views_block__of_interest(&$variables) {
+function hdbt_subtheme_preprocess_block__views_block__of_interest(&$variables): void {
   // Get the search page nid from config.
   $config = \Drupal::config('helfi_rekry_content.job_listings');
   $search_page_nid = $config->get('search_page');
-  if ($search_page_nid) {
-    $alias = Url::fromRoute('entity.node.canonical', ['node' => $search_page_nid], ['absolute' => TRUE]);
+
+  if (!$search_page_nid) {
+    return;
   }
-  if ($alias) {
-    $variables['related_jobs_link'] = $alias;
+
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node->getType() !== 'job_listing') {
+    return;
+  }
+
+  if ($task_area_term = $node->get('field_task_area')?->first()?->get('entity')?->getValue()) {
+    $options = ['query' => ['task_areas' => $task_area_term->get('field_external_id')->value], 'absolute' => TRUE];
+    $alias = Url::fromRoute('entity.node.canonical', ['node' => $search_page_nid], $options);
+
+    if ($alias) {
+      $variables['related_jobs_link'] = $alias;
+    }
   }
 }
 
@@ -44,7 +56,7 @@ function hdbt_subtheme_preprocess_block__views_block__of_interest(&$variables) {
  * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
  * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
  */
-function hdbt_subtheme_preprocess_organization_information_block(array &$variables) : void {
+function hdbt_subtheme_preprocess_organization_information_block(array &$variables): void {
   $variables['view_mode'] = $variables['elements']['#view_mode'];
 
   // Helpful $content variable for template.
@@ -146,7 +158,7 @@ function hdbt_subtheme_theme_suggestions_menu_alter(&$suggestions, $variables) {
 /**
  * Implements hook_preprocess_HOOK().
  */
-function hdbt_subtheme_preprocess_page(&$variables) {
+function hdbt_subtheme_preprocess_page(&$variables): void {
   // Handle sidebar visibility.
   $entity = hdbt_admin_tools_get_page_entity();
   if ($entity instanceof NodeInterface) {
@@ -162,17 +174,33 @@ function hdbt_subtheme_preprocess_page(&$variables) {
 /**
  * Implements hook_preprocess_node().
  */
-function hdbt_subtheme_preprocess_node(&$variables) {
+function hdbt_subtheme_preprocess_node(&$variables): void {
   $node = $variables['node'];
 
-  if ($node->getType() == 'job_listing') {
-    // Check if job listing publication starts today.
-    $variables['publication_starts_today'] = FALSE;
+  if ($node->getType() !== 'job_listing') {
+    return;
+  }
+  // Check if job listing publication starts today.
+  $variables['publication_starts_today'] = FALSE;
+  $publication_starts_value = $node->get('field_publication_starts')->value;
 
-    $publication_starts_value = $node->get('field_publication_starts')->value;
+  if ($publication_starts_value && date('Y-m-d', strtotime($publication_starts_value)) == date('Y-m-d')) {
+    $variables['publication_starts_today'] = TRUE;
+  }
 
-    if ($publication_starts_value && date('Y-m-d', strtotime($publication_starts_value)) == date('Y-m-d')) {
-      $variables['publication_starts_today'] = TRUE;
+  if ($task_area_terms = $node->get('field_task_area')?->first()?->get('entity')?->getValue()) {
+    $langcode = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $variables['task_area_name'] = $task_area_terms->label();
+
+    if ($task_area_terms->hasTranslation($langcode)) {
+      $variables['task_area_name'] = $task_area_terms->getTranslation($langcode)->label();
+    }
+
+    // Get the search page nid from config.
+    $config = \Drupal::config('helfi_rekry_content.job_listings');
+    if ($search_page_nid = $config->get('search_page')) {
+      $options = ['query' => ['task_areas' => $task_area_terms->get('field_external_id')->value], 'absolute' => TRUE];
+      $variables['task_area_rekry_search_url'] = Url::fromRoute('entity.node.canonical', ['node' => $search_page_nid], $options);
     }
   }
 }
@@ -180,7 +208,7 @@ function hdbt_subtheme_preprocess_node(&$variables) {
 /**
  * Implements hook_preprocess_HOOK().
  */
-function hdbt_subtheme_preprocess_html(&$variables) {
+function hdbt_subtheme_preprocess_html(&$variables): void {
   /** @var \Drupal\helfi_api_base\Environment\EnvironmentResolver $resolver */
   $resolver = \Drupal::service('helfi_api_base.environment_resolver');
   /** @var \Drupal\helfi_api_base\Environment\Environment $environment */
