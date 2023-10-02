@@ -64,6 +64,8 @@
  *   is an administrator.
  * - publication_starts_today: Helper variable for displaying 'today' instead
  *   of the actual timestamp if the job listing is published today.
+ * - task_area_name: Task area name for Rekry search link.
+ * - task_area_rekry_search_url: Rekry search url with task area url query param.
  *
  * @see template_preprocess_node()
  *
@@ -136,8 +138,9 @@
           { label: 'Application period ends'|t, icon: 'clock', content: content.field_publication_ends },
           content.field_salary|render ? { label: 'Pay'|t, icon: 'glyph-euro', content: content.field_salary },
           { label: 'Employment contract'|t, icon: 'calendar', content: content.field_job_duration },
-          { label: 'Address'|t, icon: 'location', content: [content.field_address, content.field_postal_code, content.field_postal_area] },
           { label: 'Published'|t, icon: 'calendar-clock', content: publication_starts },
+          { label: 'Address'|t, icon: 'location', content: [content.field_address, content.field_postal_code, content.field_postal_area] },
+          task_area_name is defined ? { label: 'Task area'|t, icon: 'occupation', content: task_area_rekry_search_url is defined ? link(task_area_name, task_area_rekry_search_url) : task_area_name },
           { label: 'Job code'|t, icon: 'locate', content: content.field_recruitment_id },
         ] %}
 
