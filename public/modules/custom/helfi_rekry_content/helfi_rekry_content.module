@@ -159,6 +159,10 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
       throw new MigrateSkipRowException();
     }
 
+    if (strpos($url, "://") === FALSE) {
+      $url = "https://$url";
+    }
+
     // Remove all extra query parameters from youtube link.
     $querystring = parse_url($url, PHP_URL_QUERY);
     $queryParameters = [];
