@@ -42,5 +42,8 @@ msgstr[0] "öppet jobbannons"
 msgstr[1] "öppna jobbannonser"
 
 msgctxt "Related jobs button"
-msgid "Find open jobs"
-msgstr "Sök lediga jobb"
+msgid "See all task area jobs"
+msgstr "Se alla job i branchen"
+
+msgid "Task area"
+msgstr "Bransch"

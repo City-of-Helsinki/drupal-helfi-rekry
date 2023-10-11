@@ -9,6 +9,8 @@ declare(strict_types = 1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\media\OEmbed\ProviderException;
+use Drupal\media\OEmbed\ResourceException;
 use Drupal\migrate\MigrateSkipRowException;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
@@ -17,46 +19,50 @@ use Drupal\paragraphs\ParagraphInterface;
  * Implements hook_form_FORM_ID_alter().
  */
 function helfi_rekry_content_form_node_job_listing_edit_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
-  $userRoles = \Drupal::currentUser()->getRoles();
+  $user_edit_access = $form_state->getFormObject()
+    ->getEntity()
+    ->access('edit', \Drupal::currentUser());
 
-  if (!in_array('admin', $userRoles)) {
-    // Fields that get data from TPR.
-    $fields_from_tpr = [
-      'title',
-      'field_salary_class',
-      'field_contacts',
-      'field_recruitment_id',
-      'field_last_changed_remote',
-      'field_recruitment_type',
-      'field_task_area',
-      'field_publication_ends',
-      'field_publication_starts',
-      'field_link_to_presentation',
-      'field_employment_type',
-      'job_description',
-      'field_organization_description',
-      'field_organization',
-      'field_jobs',
-      'field_organization_name',
-      'field_salary',
-      'field_job_duration',
-      'field_address',
-      'field_postal_code',
-      'field_postal_area',
-      'field_link_to_application',
-      'field_employment',
-      'field_image',
-      'field_video',
-      'field_copied',
-      'field_original_language',
-      'field_anonymous',
-    ];
-
-    // Disable fields that get data from TPR.
-    foreach ($fields_from_tpr as $field) {
-      $form[$field]['#disabled'] = TRUE;
-    }
+  // If permitted to edit entity, do nothing.
+  if ($user_edit_access) {
+    return;
   }
+
+  $fields_from_tpr = [
+    'title',
+    'field_salary_class',
+    'field_contacts',
+    'field_recruitment_id',
+    'field_last_changed_remote',
+    'field_recruitment_type',
+    'field_task_area',
+    'field_publication_ends',
+    'field_publication_starts',
+    'field_link_to_presentation',
+    'field_employment_type',
+    'job_description',
+    'field_organization_description',
+    'field_organization',
+    'field_jobs',
+    'field_organization_name',
+    'field_salary',
+    'field_job_duration',
+    'field_address',
+    'field_postal_code',
+    'field_postal_area',
+    'field_link_to_application',
+    'field_employment',
+    'field_image',
+    'field_video',
+    'field_copied',
+    'field_original_language',
+    'field_anonymous',
+  ];
+
+  foreach ($fields_from_tpr as $field) {
+    $form[$field]['#disabled'] = TRUE;
+  }
+
 }
 
 /**
@@ -120,22 +126,69 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
 }
 
 /**
- * Get media entity by file id.
+ * Validate and return video url, used in migration.
  *
  * @param string|null $url
  *   The video url.
  *
  * @return string|null
  *   Valid video url or null
+ *
+ * @throws \Drupal\migrate\MigrateSkipRowException
  */
 function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
     $resolver = \Drupal::service('media.oembed.url_resolver');
-    $validate = $resolver->getProviderByUrl($url);
-    return $url;
+    /** @var \Drupal\media\OEmbed\Provider $provider */
+    $provider = $resolver->getProviderByUrl($url);
   }
   catch (\throwable $e) {
     \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
+    throw new MigrateSkipRowException();
+  }
+
+  // Ticket #UHF-9069 prevent migrating bad oembed links.
+  try {
+    // Use the same validation used in field validation.
+    $resource_url = $resolver->getResourceUrl($url);
+    $resource = \Drupal::service('media.oembed.resource_fetcher')
+      ->fetchResource($resource_url);
+    return $url;
+  }
+  catch (ResourceException | ProviderException $e) {
+    // fetchResource fails, the link is no good.
+    if (!str_contains(strtolower($provider->getName()), 'youtube')) {
+      \Drupal::logger('helfi_rekry_content')
+        ->error('Bad video url rejected by oembed-validation: ' . $url);
+      throw new MigrateSkipRowException();
+    }
+
+    if (strpos($url, "://") === FALSE) {
+      $url = "https://$url";
+    }
+
+    // Remove all extra query parameters from youtube link.
+    $querystring = parse_url($url, PHP_URL_QUERY);
+    $queryParameters = [];
+    parse_str($querystring, $queryParameters);
+    if ($video_id = $queryParameters['v']) {
+      $parts = parse_url($url);
+      $path = $parts['path'];
+      $host = $parts['host'];
+      $scheme = $parts['scheme'] ? "{$parts['scheme']}://" : '';
+      $query = http_build_query([
+        'v' => $video_id,
+      ]);
+      $new_url = sprintf('%s%s%s?%s', $scheme, $host, rtrim($path, '/'), $query);
+
+      \Drupal::logger('helfi_rekry_content')
+        ->notice('Updated remote video query parameters, new url: ' . $new_url);
+
+      return $new_url;
+    }
+
+    \Drupal::logger('helfi_rekry_content')
+      ->error('Bad video url rejected by oembed-validation: ' . $url);
     throw new MigrateSkipRowException();
   }
 }

@@ -52,6 +52,9 @@
             "drupal/core-composer-scaffold": true,
             "phpstan/extension-installer": true,
             "php-http/discovery": false
+        },
+        "audit": {
+            "abandoned": "report"
         }
     },
     "extra": {
