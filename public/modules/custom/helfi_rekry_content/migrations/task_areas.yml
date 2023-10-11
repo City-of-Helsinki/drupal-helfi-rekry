@@ -30,10 +30,20 @@ source:
     id:
       type: string
 process:
-  langcode: 
+  tid:
+    plugin: callback
+    callable: _helfi_rekry_content_lookup_task_area_tid
+    source:
+      - id
+      - name
+  langcode:
     plugin: default_value
     default_value: fi
-  name: name
+  name:
+    plugin: callback
+    callable: trim
+    source: name
+  field_external_id: id
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: task_area

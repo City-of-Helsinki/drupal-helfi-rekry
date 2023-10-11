@@ -13,7 +13,7 @@ dependencies:
     - field.field.node.page.field_sidebar_content
     - node.type.page
   module:
-    - hdbt_admin_editorial
+    - hdbt_admin_tools
     - media_library
     - metatag
     - paragraphs
@@ -21,7 +21,7 @@ dependencies:
     - publication_date
     - scheduler
 _core:
-  default_config_hash: DOmyO7EbPLR4QT_AFZyGKWuDjwDK_6cxtWsqZ0RI3qQ
+  default_config_hash: _RX52hwdyz48o4MBqyRPUVkop-Unt1rcPuPanpQ7ksk
 id: node.page.default
 targetEntityType: node
 bundle: page

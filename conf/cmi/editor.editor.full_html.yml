@@ -7,7 +7,7 @@ dependencies:
   module:
     - ckeditor
 _core:
-  default_config_hash: w_dt4BUk1J2csCeQd-yMvz54ANhBzvUDGbH_hpXw6pI
+  default_config_hash: mx77BnIuTY8Yrm6IkLsHnEOv6JJrHPMD_kKgjP0DVi4
 format: full_html
 editor: ckeditor
 settings:
@@ -57,11 +57,4 @@ settings:
     drupallink:
       linkit_enabled: true
       linkit_profile: helfi
-image_upload:
-  status: false
-  scheme: public
-  directory: inline-images
-  max_size: ''
-  max_dimensions:
-    width: null
-    height: null
+image_upload: {  }

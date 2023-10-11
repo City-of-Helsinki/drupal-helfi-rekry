@@ -10,19 +10,20 @@ dependencies:
     - media.type.helfi_chart
     - media.type.image
     - media.type.remote_video
-    - media.type.soundcloud
-    - node.type.job_listing
     - node.type.announcement
+    - node.type.job_listing
     - node.type.landing_page
     - node.type.page
     - taxonomy.vocabulary.keywords
   module:
     - content_translation
     - editoria11y
+    - entity_usage
     - file
     - filter
     - helfi_api_base
     - media
+    - menu_link_content
     - node
     - paragraphs
     - paragraphs_library
@@ -41,6 +42,7 @@ weight: 3
 is_admin: null
 permissions:
   - 'access content overview'
+  - 'access entity usage statistics'
   - 'access files overview'
   - 'access media overview'
   - 'access remote entities overview'
@@ -61,7 +63,6 @@ permissions:
   - 'create page content'
   - 'create paragraph library item'
   - 'create remote_video media'
-  - 'create soundcloud media'
   - 'create terms in keywords'
   - 'create url aliases'
   - 'delete media'
@@ -73,7 +74,6 @@ permissions:
   - 'delete own landing_page content'
   - 'delete own page content'
   - 'delete own remote_video media'
-  - 'delete own soundcloud media'
   - 'edit any announcement content'
   - 'edit any file media'
   - 'edit any hel_map media'
@@ -82,7 +82,6 @@ permissions:
   - 'edit any landing_page content'
   - 'edit any page content'
   - 'edit any remote_video media'
-  - 'edit any soundcloud media'
   - 'edit own announcement content'
   - 'edit own file media'
   - 'edit own hel_map media'
@@ -92,11 +91,11 @@ permissions:
   - 'edit own landing_page content'
   - 'edit own page content'
   - 'edit own remote_video media'
-  - 'edit own soundcloud media'
   - 'edit paragraph library item'
   - 'edit terms in keywords'
-  - 'revert job_listing revisions'
+  - 'mark as hidden in editoria11y'
   - 'revert announcement revisions'
+  - 'revert job_listing revisions'
   - 'revert landing_page revisions'
   - 'revert page revisions'
   - 'schedule publishing of nodes'
@@ -104,6 +103,11 @@ permissions:
   - 'set landing_page published on date'
   - 'set page published on date'
   - 'translate editable entities'
+  - 'translate file media'
+  - 'translate image media'
+  - 'translate landing_page node'
+  - 'translate menu_link_content'
+  - 'translate page node'
   - 'update media'
   - 'use text format full_html'
   - 'use text format minimal'
@@ -123,7 +127,3 @@ permissions:
   - 'view scheduled content'
   - 'view the administration theme'
   - 'view unpublished paragraphs'
-  - 'create hel_map media'
-  - 'delete own hel_map media'
-  - 'edit any hel_map media'
-  - 'edit own hel_map media'

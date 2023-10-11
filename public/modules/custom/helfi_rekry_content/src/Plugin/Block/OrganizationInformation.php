@@ -4,7 +4,7 @@ namespace Drupal\helfi_rekry_content\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
-use Drupal\hdbt_content\EntityVersionMatcher;
+use Drupal\helfi_platform_config\EntityVersionMatcher;
 use Drupal\node\Entity\Node;
 
 /**
@@ -21,7 +21,7 @@ class OrganizationInformation extends BlockBase {
    * {@inheritdoc}
    */
   public function getCacheTags() {
-    $matcher = \Drupal::service('hdbt_content.entity_version_matcher')->getType();
+    $matcher = \Drupal::service('helfi_platform_config.entity_version_matcher')->getType();
 
     if (
       !$matcher['entity'] ||
@@ -46,7 +46,7 @@ class OrganizationInformation extends BlockBase {
     $build = [];
 
     // Get current entity and entity version.
-    $entity_matcher = \Drupal::service('hdbt_content.entity_version_matcher')->getType();
+    $entity_matcher = \Drupal::service('helfi_platform_config.entity_version_matcher')->getType();
 
     /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
     $entity = $entity_matcher['entity'];

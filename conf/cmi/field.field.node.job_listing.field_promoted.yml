@@ -1,0 +1,37 @@
+uuid: aa0e086f-d0b7-4698-ae43-3eb943851389
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_promoted
+    - node.type.job_listing
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: roles_enable
+    add_roles:
+      - admin
+      - content_producer
+      - editor
+    edit_disable: roles_enable
+    edit_roles:
+      - admin
+      - content_producer
+      - editor
+id: node.job_listing.field_promoted
+field_name: field_promoted
+entity_type: node
+bundle: job_listing
+label: Promoted
+description: 'Turning this on will promote the job to the top of search results.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

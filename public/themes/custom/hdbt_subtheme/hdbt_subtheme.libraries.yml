@@ -4,9 +4,10 @@ global-styling:
     theme:
       dist/css/styles.min.css: {}
 
-global-scripting:
+siteimprove-analytics:
   version: 1.x
   js:
-    dist/js/bundle.min.js: {}
+    dist/js/siteimprove_analytics.min.js: {}
   dependencies:
-    - core/drupal
+  - core/drupal
+  - eu_cookie_compliance/eu_cookie_compliance

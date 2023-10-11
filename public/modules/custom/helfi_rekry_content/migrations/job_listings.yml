@@ -142,7 +142,13 @@ process:
   langcode:
     plugin: default_value
     default_value: fi
-  job_description/value: job_description
+  job_description/value:
+    plugin: callback
+    callable: _filter_autop
+    source: job_description
+  job_description/format:
+    plugin: default_value
+    default_value: full_html
   field_address: address
   field_anonymous: anonymous
   field_contacts: contacts
@@ -159,7 +165,13 @@ process:
       callable: _helfi_rekry_content_get_media_image
   field_job_duration: job_duration
   field_jobs: number_of_vacancies
-  field_last_changed_remote: last_changed_remote
+  field_last_changed_remote:
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s'
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: 'Europe/Helsinki'
+    to_timezone: 'UTC'
+    source: last_changed_remote
   field_link_to_application:
     plugin: concat
     source:
@@ -172,7 +184,7 @@ process:
       source: link_to_presentation
     -
       plugin: callback
-      callable: _helfi_rekry_add_schema
+      callable: _helfi_rekry_content_add_schema
       source: link_to_presentation
   field_organization/target_id:
     plugin: entity_lookup
@@ -216,26 +228,57 @@ process:
     bundle_key: vid
     bundle: employment_type
     ignore_case: true
-  field_employment/target_id:
-    plugin: entity_lookup
-    entity_type: taxonomy_term
-    value_key: name
-    source: employment
-    bundle_key: vid
-    bundle: employment
-    ignore_case: true
+  field_employment:
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_transform_employment
+      source: employment
+    -
+      plugin: entity_lookup
+      entity_type: taxonomy_term
+      value_key: name
+      bundle_key: vid
+      bundle: employment
+      ignore_case: true
   type:
     plugin: default_value
     default_value: job_listing
   # Skip if importing past date and job listing is already published.
   publish_on:
-    plugin: skip_past_date_for_published
-    source: publication_starts
+    -
+      plugin: format_date
+      from_format: 'Y-m-d\TH:i:s'
+      to_format: 'U'
+      from_timezone: 'Europe/Helsinki'
+      to_timezone: 'UTC'
+      source: publication_starts
+    -
+      plugin: skip_past_date_for_published
   unpublish_on:
-    plugin: callback
-    callable: strtotime
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s'
+    to_format: 'U'
+    from_timezone: 'Europe/Helsinki'
+    to_timezone: 'UTC'
     source: publication_ends
-  field_publication_starts: publication_starts
-  field_publication_ends: publication_ends
+  field_publication_starts:
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s'
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: 'Europe/Helsinki'
+    to_timezone: 'UTC'
+    source: publication_starts
+  field_publication_ends:
+    plugin: format_date
+    from_format: 'Y-m-d\TH:i:s'
+    to_format: 'Y-m-d\TH:i:s'
+    from_timezone: 'Europe/Helsinki'
+    to_timezone: 'UTC'
+    source: publication_ends
+  uid:
+    plugin: default_value
+    default_value: 1
 destination:
   plugin: 'entity:node'
+  default_values:
+    content_translation_uid: 1

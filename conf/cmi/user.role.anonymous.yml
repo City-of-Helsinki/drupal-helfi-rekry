@@ -2,10 +2,14 @@ uuid: d1fe6f3c-f915-49fc-b1e0-6971e477b06e
 langcode: en
 status: true
 dependencies:
+  config:
+    - rest.resource.helfi_global_mobile_menu
   module:
     - eu_cookie_compliance
+    - external_entities
     - helfi_api_base
     - media
+    - rest
     - system
 _core:
   default_config_hash: j5zLMOdJBqC0bMvSdth5UebkprJB8g_2FXHqhfpJzow
@@ -16,5 +20,11 @@ is_admin: false
 permissions:
   - 'access content'
   - 'display eu cookie compliance popup'
+  - 'restful get helfi_global_mobile_menu'
+  - 'view helfi_announcements external entity'
+  - 'view helfi_news external entity'
+  - 'view helfi_news_groups external entity'
+  - 'view helfi_news_neighbourhoods external entity'
+  - 'view helfi_news_tags external entity'
   - 'view media'
   - 'view remote entities'

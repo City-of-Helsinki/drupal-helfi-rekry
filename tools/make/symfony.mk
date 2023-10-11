@@ -1,6 +1,7 @@
 SF_FRESH_TARGETS := up build sf-cw sf-about sf-open
 FIX_TARGETS += fix-symfony
 LINT_PHP_TARGETS += lint-symfony
+CS_FIXER_INSTALLED := $(shell test -f $(COMPOSER_JSON_PATH)/vendor/bin/php-cs-fixer && echo yes || echo no)
 
 PHONY += encore-dev
 encore-dev: ## Do Encore development build
@@ -47,37 +48,31 @@ fresh: ## Build fresh development environment
 	@$(MAKE) $(SF_FRESH_TARGETS)
 
 PHONY += fix-symfony
-fix-symfony: tools/php-cs-fixer/vendor ## Fix Symfony code style
-	$(call step,Fix Symfony code style in ./src ...\n)
-	$(call docker_run_cmd,tools/php-cs-fixer/vendor/bin/php-cs-fixer --ansi -vvvv fix src)
+fix-symfony: ## Fix Symfony code style
+	$(call step,Fix Symfony code style...\n)
+	$(call cs_symfony,fix --ansi src)
 
 PHONY += lint-symfony
-lint-symfony: PATHS := src
 lint-symfony: ## Lint Symfony code style
 	$(call step,Lint Symfony code style...\n)
-	$(call cs_symfony,$(PATHS))
-
-tools/php-cs-fixer/vendor: COMPOSER_JSON_PATH := tools/php-cs-fixer
-tools/php-cs-fixer/vendor:
-	$(call step,Install php-cs-fixer...\n)
-	$(call composer,install)
+	$(call cs_symfony,fix --dry-run --diff --ansi --verbose src)
 
 ifeq ($(RUN_ON),docker)
 define sf_console
-	$(call docker_run_cmd,bin/console --ansi $(1))
+	$(call docker_compose_exec,bin/console $(1))
 endef
 else
 define sf_console
-	@bin/console --ansi $(1)
+	@bin/console $(1)
 endef
 endif
 
-ifeq ($(CS_INSTALLED),yes)
+ifeq ($(CS_FIXER_INSTALLED),yes)
 define cs_symfony
-$(call docker_run_cmd,vendor/bin/phpcs --ignore=node_modules $(1))
+$(call docker_compose_exec,vendor/bin/php-cs-fixer $(1))
 endef
 else
 define cs_symfony
-$(call warn,CodeSniffer is not installed!)
+$(call warn,PHP CS Fixer is not installed!)
 endef
 endif

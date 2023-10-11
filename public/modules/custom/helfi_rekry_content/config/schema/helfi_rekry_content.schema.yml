@@ -3,9 +3,12 @@ helfi_rekry_content.job_listings:
   type: config_object
   label: 'Job listings'
   mapping:
-    redirect_403:
-      type: path
-      label: 'Redirect 403 path'
+    search_page:
+      type: string
+      label: 'Search page node ID'
+    redirect_403_page:
+      type: string
+      label: 'Redirect 403 page'
     city_description_title:
       type: label
       label: 'City description title'

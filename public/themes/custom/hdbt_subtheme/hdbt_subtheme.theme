@@ -5,7 +5,11 @@
  * Functions to support theming in the HDBT Subtheme.
  */
 
+declare(strict_types = 1);
+
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
 
 /**
@@ -21,8 +25,15 @@ function hdbt_subtheme_preprocess_block(&$variables) {
  * Implements hook_preprocess_HOOK().
  */
 function hdbt_subtheme_preprocess_block__views_block__of_interest(&$variables) {
-  // @todo change to correct url
-  $variables['related_jobs_link'] = 'https://helfi-rekry.docker.so/';
+  // Get the search page nid from config.
+  $config = \Drupal::config('helfi_rekry_content.job_listings');
+  $search_page_nid = $config->get('search_page');
+  if ($search_page_nid) {
+    $alias = Url::fromRoute('entity.node.canonical', ['node' => $search_page_nid], ['absolute' => TRUE]);
+  }
+  if ($alias) {
+    $variables['related_jobs_link'] = $alias;
+  }
 }
 
 /**
@@ -46,9 +57,16 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
   $variables['content']['city_description_title'] = $job_listings_config->get('city_description_title');
   $variables['content']['city_description_text'] = $job_listings_config->get('city_description_text');
 
+  if (!empty($variables['elements']['field_organization_override']['#items'])) {
+    $organization_field = $variables['elements']['field_organization_override']['#items'];
+  }
+  else {
+    $organization_field = $variables["elements"]["field_organization"]["#items"];
+  }
+
   // Get organization.
-  if (!empty($variables["elements"]["field_organization"]["#items"])) {
-    $organization_id = $variables["elements"]["field_organization"]["#items"]->target_id;
+  if (!empty($organization_field)) {
+    $organization_id = $organization_field->target_id;
     $organization = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($organization_id);
   }
 
@@ -66,7 +84,10 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
 
   // Set organization description from taxonomy term if it's missing from node.
   if (!empty($organization) && $node = \Drupal::routeMatch()->getParameter('node')) {
-    if ($node->field_organization_description->isEmpty() && !empty($org_description = $organization->getDescription())) {
+    if (!$node->field_organization_description_o->isEmpty()) {
+      $variables['content']['field_organization_description'] = $variables['content']['field_organization_description_o'];
+    }
+    elseif ($node->field_organization_description->isEmpty() && !empty($org_description = $organization->getDescription())) {
       $variables['content']['field_organization_description'] = strip_tags($org_description);
     }
   }
@@ -107,34 +128,18 @@ function hdbt_subtheme_theme_suggestions_block_alter(&$suggestions) {
 
 /**
  * Implements hook_theme_suggestions_HOOK_alter().
- *
- * Provide block based menu suggestions.
  */
 function hdbt_subtheme_theme_suggestions_menu_alter(&$suggestions, $variables) {
   if (isset($variables['attributes']['block_id'])) {
     $block_id = str_replace('hdbt_subtheme_', '', $variables['attributes']['block_id']);
 
-    switch ($block_id) {
-      case 'mobile_navigation':
-        $suggestions[] = 'menu__mobile';
-        break;
-
-      case 'mainnavigation':
-        $suggestions[] = 'menu__main__desktop';
-        break;
-
-      case 'main_navigation_level_2':
-        $suggestions[] = 'menu__main__sidebar';
-        break;
-
-      case 'brandingnavigation':
-        $suggestions[] = 'menu__main__branding';
-        break;
-
-      default:
-        $suggestions[] = 'menu__' . $variables['attributes']['block_id'];
-        break;
-    }
+    $suggestions[] = match ($block_id) {
+      'mobile_navigation' => 'menu__mobile',
+      'mainnavigation' => 'menu__main__desktop',
+      'main_navigation_level_2' => 'menu__main__sidebar',
+      'brandingnavigation' => 'menu__main__branding',
+      default => 'menu__' . $variables['attributes']['block_id'],
+    };
   }
 }
 
@@ -143,7 +148,7 @@ function hdbt_subtheme_theme_suggestions_menu_alter(&$suggestions, $variables) {
  */
 function hdbt_subtheme_preprocess_page(&$variables) {
   // Handle sidebar visibility.
-  $entity = hdbt_content_get_page_entity();
+  $entity = hdbt_admin_tools_get_page_entity();
   if ($entity instanceof NodeInterface) {
 
     // Handle first and second sidebar visibility for the "Job listing"
@@ -166,7 +171,7 @@ function hdbt_subtheme_preprocess_node(&$variables) {
 
     $publication_starts_value = $node->get('field_publication_starts')->value;
 
-    if (date('Y-m-d', strtotime($publication_starts_value)) == date('Y-m-d')) {
+    if ($publication_starts_value && date('Y-m-d', strtotime($publication_starts_value)) == date('Y-m-d')) {
       $variables['publication_starts_today'] = TRUE;
     }
   }
@@ -175,20 +180,58 @@ function hdbt_subtheme_preprocess_node(&$variables) {
 /**
  * Implements hook_preprocess_HOOK().
  */
-function hdbt_subtheme_preprocess_paragraph__job_search(array &$variables) {
-  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
-  $paragraph = $variables['paragraph'];
-  $paragraph_type = $paragraph->getType();
+function hdbt_subtheme_preprocess_html(&$variables) {
+  /** @var \Drupal\helfi_api_base\Environment\EnvironmentResolver $resolver */
+  $resolver = \Drupal::service('helfi_api_base.environment_resolver');
+  /** @var \Drupal\helfi_api_base\Environment\Environment $environment */
+  $environment = $resolver->getActiveEnvironment()->getEnvironmentName();
 
-  if ($paragraph_type == 'job_search') {
-    if ($search_result_page_nid = $paragraph->get('field_job_search_result_page')->getString()) {
-      $search_result_page_path_alias = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $search_result_page_nid);
-      $variables['#attached']['drupalSettings']['helfi_rekry_job_search']['results_page_path'] = $search_result_page_path_alias;
+  if ($environment === 'prod') {
+    $variables['#attached']['library'][] = 'hdbt_subtheme/siteimprove-analytics';
+  }
+
+  _update_job_search_task_area_page_title_tag($variables);
+}
+
+/**
+ * Set title tag for job search task area pages.
+ *
+ * @param array $variables
+ *   Variables array.
+ */
+function _update_job_search_task_area_page_title_tag(array &$variables) {
+  $query_params = \Drupal::request()->query->all();
+
+  if (!array_key_exists('task_areas', $query_params)) {
+    return;
+  }
+
+  // Only task_area and page paramaters allowed.
+  foreach ($query_params as $query_param => $query_param_value) {
+    if ($query_param !== 'task_areas' && $query_param !== 'page') {
+      return;
     }
   }
 
-  $config = \Drupal::config('elastic_proxy.settings');
-  if ($config->get('elastic_proxy_url')) {
-    $variables['#attached']['drupalSettings']['helfi_rekry_job_search']['elastic_proxy_url'] = $config->get('elastic_proxy_url');
+  // Only one task_area category allowed.
+  if (substr_count(\Drupal::request()->getRequestUri(), 'task_areas') > 1) {
+    return;
+  }
+
+  $langcode = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+    ->getId();
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'task_area',
+    'field_external_id' => $query_params['task_areas'],
+  ]);
+
+  $term = reset($term);
+  if ($term && $term->hasTranslation($langcode)) {
+    $term = $term->getTranslation($langcode);
+  }
+
+  if ($term && $term->hasField('field_metadata') && !$term->get('field_metadata')->isEmpty()) {
+    $variables['head_title']['title'] = html_entity_decode($term->get('field_metadata')->getString(), ENT_QUOTES);
   }
 }

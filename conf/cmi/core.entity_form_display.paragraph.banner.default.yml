@@ -11,11 +11,13 @@ dependencies:
     - field.field.paragraph.banner.field_icon
     - paragraphs.paragraphs_type.banner
   module:
-    - hdbt_admin_editorial
-    - select2_icon
+    - hdbt_admin_tools
     - text
+  enforced:
+    module:
+      - hdbt_admin_tools
 _core:
-  default_config_hash: 4k3Vv4YhxAg7eoc4j06MIAQ-EsUX6P3BnCOtc0oAn9k
+  default_config_hash: dW34Ba__f5zlIB6OaYxFRW0itQBA98RdooSTUnqW2RE
 id: paragraph.banner.default
 targetEntityType: paragraph
 bundle: banner
@@ -40,12 +42,8 @@ content:
     weight: 4
     region: content
     settings:
-      placeholder_url: ''
-      placeholder_title: ''
-      linkit_profile: tpr_content
-      linkit_auto_link_text: 0
-      link_target: ''
-      icon: ''
+      linkit_profile: helfi
+      linkit_auto_link_text: false
     third_party_settings: {  }
   field_banner_link_design:
     type: design_field_widget
@@ -62,7 +60,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_icon:
-    type: select2_icon_widget
+    type: select_icon_widget
     weight: 2
     region: content
     settings: {  }

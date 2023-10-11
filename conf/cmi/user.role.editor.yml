@@ -11,15 +11,16 @@ dependencies:
     - media.type.image
     - media.type.job_listing_image
     - media.type.remote_video
-    - media.type.soundcloud
-    - node.type.job_listing
     - node.type.announcement
+    - node.type.job_listing
     - node.type.landing_page
     - node.type.page
     - taxonomy.vocabulary.keywords
+    - taxonomy.vocabulary.organization
   module:
     - content_translation
     - editoria11y
+    - entity_usage
     - file
     - filter
     - helfi_api_base
@@ -47,6 +48,7 @@ is_admin: null
 permissions:
   - 'access administration pages'
   - 'access content overview'
+  - 'access entity usage statistics'
   - 'access files overview'
   - 'access media overview'
   - 'access remote entities overview'
@@ -72,7 +74,6 @@ permissions:
   - 'create paragraph library item'
   - 'create remote entities'
   - 'create remote_video media'
-  - 'create soundcloud media'
   - 'create terms in keywords'
   - 'create url aliases'
   - 'delete announcement revisions'
@@ -85,7 +86,6 @@ permissions:
   - 'delete any media'
   - 'delete any page content'
   - 'delete any remote_video media'
-  - 'delete any soundcloud media'
   - 'delete content translations'
   - 'delete landing_page revisions'
   - 'delete media'
@@ -97,7 +97,6 @@ permissions:
   - 'delete own landing_page content'
   - 'delete own page content'
   - 'delete own remote_video media'
-  - 'delete own soundcloud media'
   - 'delete page revisions'
   - 'delete remote entities'
   - 'delete terms in keywords'
@@ -111,7 +110,6 @@ permissions:
   - 'edit any landing_page content'
   - 'edit any page content'
   - 'edit any remote_video media'
-  - 'edit any soundcloud media'
   - 'edit own announcement content'
   - 'edit own file media'
   - 'edit own hel_map media'
@@ -122,12 +120,13 @@ permissions:
   - 'edit own landing_page content'
   - 'edit own page content'
   - 'edit own remote_video media'
-  - 'edit own soundcloud media'
   - 'edit paragraph library item'
   - 'edit remote entities'
   - 'edit terms in keywords'
-  - 'revert job_listing revisions'
+  - 'edit terms in organization'
+  - 'mark as hidden in editoria11y'
   - 'revert announcement revisions'
+  - 'revert job_listing revisions'
   - 'revert landing_page revisions'
   - 'revert page revisions'
   - 'schedule publishing of nodes'
@@ -145,7 +144,6 @@ permissions:
   - 'translate menu_link_content'
   - 'translate page node'
   - 'translate remote_video media'
-  - 'translate soundcloud media'
   - 'update any media'
   - 'update content translations'
   - 'update media'
@@ -165,8 +163,3 @@ permissions:
   - 'view scheduled content'
   - 'view the administration theme'
   - 'view unpublished paragraphs'
-  - 'create hel_map media'
-  - 'delete any hel_map media'
-  - 'delete own hel_map media'
-  - 'edit any hel_map media'
-  - 'edit own hel_map media'

@@ -1,7 +1,6 @@
 .DEFAULT_GOAL := help
 
 BUILD_TARGETS :=
-CLEAN_EXCLUDE := .idea dump.sql .env.local
 COMPOSER_JSON_PATH ?= .
 DRUIDFI_TOOLS_MAKE_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 ENV := dev
@@ -12,23 +11,6 @@ UNAME_S := $(shell uname -s)
 UPDATE_SCRIPT_URL := https://git.io/JP10q
 WEBROOT ?= public
 
-# Detect app
-IS_DRUPAL ?= $(shell test -f $(WEBROOT)/sites/default/settings.php && echo yes || echo no)
-IS_SYMFONY ?= $(shell test -f config/bundles.php && echo yes || echo no)
-IS_WP ?= $(shell (test -f $(WEBROOT)/wp-settings.php || test -f conf/wp-config.php) && echo yes || echo no)
-
-# Detect additional tooling
-LAGOON := $(shell test -f .lagoon.yml && echo yes || echo no)
-WODBY := $(shell test -f wodby.yml && echo yes || echo no)
-
-ifeq ($(LAGOON),yes)
-	SYSTEM := LAGOON
-else ifeq ($(WODBY),yes)
-	SYSTEM := WODBY
-else
-	SYSTEM := WHOKNOWS
-endif
-
 include $(DRUIDFI_TOOLS_MAKE_DIR)utils.mk
 
 # Include druidfi/tools make files
@@ -36,13 +18,12 @@ include $(DRUIDFI_TOOLS_MAKE_DIR)include.mk
 
 PHONY += debug
 debug: ## Show debug information
-	@printf "\n${YELLOW}Debug starts:${NO_COLOR}\n\n"
+	@printf "\n$(YELLOW)Debug starts:$(NO_COLOR)\n\n"
 	$(call dbg,DOCKER,$(call has,docker))
-	$(call dbg,DOCKER_PROJECT_ROOT,${DOCKER_PROJECT_ROOT})
-	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,${DOCKER_COMPOSE_YML_EXISTS})
-	$(call dbg,DOCKER_COMPOSE,${DOCKER_COMPOSE})
-	$(call dbg,CLI_SERVICE,${CLI_SERVICE})
-	$(call dbg,CLI_USER,${CLI_USER})
+	$(call dbg,DOCKER_PROJECT_ROOT,$(DOCKER_PROJECT_ROOT))
+	$(call dbg,DOCKER_COMPOSE_YML_EXISTS,$(DOCKER_COMPOSE_YML_EXISTS))
+	$(call dbg,CLI_SERVICE,$(CLI_SERVICE))
+	$(call dbg,CLI_USER,$(if $(CLI_USER),$(CLI_USER),default user from CLI image))
 	$(call dbg,CLI_SHELL,${CLI_SHELL})
 	$(call dbg,ENV,${ENV})
 	$(call dbg,PHP on host,$(call has,php))
