@@ -37,10 +37,28 @@ function helfi_rekry_structured_data_page_attachments(array &$attachments) {
     $job_description = $entity->get('job_description')->value;
   }
 
-  if ($entity->get('field_job_description_override')->value) {
-    $job_description = $entity->get('field_job_description_override')->value;
+  if ($entity->get('field_organization_override')->first()->target_id) {
+    $organization_entity = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($entity->get('field_organization_override')->first()->target_id);
+    if ($organization_entity->hasTranslation($entity->get('langcode')->value)) {
+      $translated_organization_entity = $organization_entity->getTranslation($entity->get('langcode')->value);
+      $organization_name = $translated_organization_entity->getName();
+    } else {
+      $organization_name = $organization_entity->getName();
+    }
   } else {
-    $job_description = $entity->get('job_description')->value;
+    $organization_name = $entity->get('field_organization_name')->value;
+  }
+
+  if ($entity->get('field_employment_type')->first()->target_id) {
+    $employment_type_entity = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($entity->get('field_employment_type')->first()->target_id);
+    if ($employment_type_entity->hasTranslation($entity->get('langcode')->value)) {
+      $translated_employment_type_entity = $employment_type_entity->getTranslation($entity->get('langcode')->value);
+      $employment_type = $translated_employment_type_entity->getName();
+    } else {
+      $employment_type = $employment_type_entity->getName();
+    }
+  } else {
+    $employment_type = '';
   }
 
   $structured_data = json_encode([
@@ -51,14 +69,14 @@ function helfi_rekry_structured_data_page_attachments(array &$attachments) {
     'identifier' => [
       '@type' => 'PropertyValue',
       'name' => t('City of Helsinki'),
-      'value' => $entity->get('field_organization')->value,
+      'value' => $entity->get('field_recruitment_id')->value,
     ],
     'datePosted' => $publication_starts_formatted,
     'validThrough' =>  $entity->get('field_publication_ends')->value,
-    'employmentType' => $entity->get('field_employment_type')->value,
+    'employmentType' => $employment_type,
     'hiringOrganization' => [
       '@type' => 'Organization',
-      'name' => t('City of Helsinki'),
+      'name' =>  $organization_name,
       'sameAs' => 'https://hel.fi/',
       'logo' => 'https://stplattaprod.blob.core.windows.net/strategiatalousprod/styles/original_l/azure/Helsinki_kehystunnus_1.png?itok=kHL18HKe'
     ],
