@@ -9,6 +9,8 @@ declare(strict_types = 1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\image\Entity\ImageStyle;
 use Drupal\media\OEmbed\ProviderException;
 use Drupal\media\OEmbed\ResourceException;
 use Drupal\migrate\MigrateSkipRowException;
@@ -434,5 +436,123 @@ function helfi_rekry_content_preprocess_block(&$variables) {
   // and add classes accordingly.
   if ($paragraph->getType() === 'job_listing_search') {
     $first_paragraph_gray = 'has-first-gray-bg-block';
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function helfi_rekry_content_page_attachments(array &$attachments) {
+
+  // Get current entity and entity version.
+  $entity_matcher = \Drupal::service('helfi_platform_config.entity_version_matcher')->getType();
+
+  /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
+  $entity = $entity_matcher['entity'];
+
+  // No need to continue if current entity doesn't have hero set.
+  if (
+    !$entity instanceof ContentEntityInterface ||
+    $entity->getType() !== 'job_listing'
+  ) {
+    return;
+  }
+  /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_formatter */
+  $date_formatter = Drupal::service('date.formatter');
+
+  $publication_starts_datetime = $entity->get('field_publication_starts')->date->getTimestamp();
+  $publication_starts_formatted = $date_formatter->format($publication_starts_datetime, 'html_date');
+
+  /** @var Drupal\Core\Extension\ThemeHandler $theme_handler */
+  $theme_handler = Drupal::service('theme_handler');
+
+  // Get the default share image as structured data logo.
+  if ($theme_handler->themeExists('hdbt')) {
+    $theme = $theme_handler->getTheme('hdbt');
+    $current_language = \Drupal::languageManager()
+      ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+    $logo_file_name = $current_language === 'sv' ? 'og-global-sv.png' : 'og-global.png';
+
+    /** @var \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator */
+    $file_url_generator = \Drupal::service('file_url_generator');
+    global $base_url;
+    $logo_image = $file_url_generator->generate("{$theme->getPath()}/src/images/{$logo_file_name}")
+      ->toString(TRUE)
+      ->getGeneratedUrl();
+    $image_style = ImageStyle::load('og_image');
+    $logo_image_url = $base_url . $image_style->buildUrl($logo_image);
+  }
+
+  if ($entity->get('field_job_description_override')->value) {
+    $job_description = $entity->get('field_job_description_override')->value;
+  } else {
+    $job_description = $entity->get('job_description')->value;
+  }
+
+  if ($entity->get('field_organization_override')->first()) {
+    $organization_entity = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($entity->get('field_organization_override')->first()->target_id);
+    if ($organization_entity->hasTranslation($entity->get('langcode')->value)) {
+      $translated_organization_entity = $organization_entity->getTranslation($entity->get('langcode')->value);
+      $organization_name = $translated_organization_entity->getName();
+    } else {
+      $organization_name = $organization_entity->getName();
+    }
+  } else {
+    $organization_name = $entity->get('field_organization_name')->value;
+  }
+
+  if ($entity->get('field_employment_type')->first()) {
+    $employment_type_entity = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($entity->get('field_employment_type')->first()->target_id);
+    if ($employment_type_entity->hasTranslation($entity->get('langcode')->value)) {
+      $translated_employment_type_entity = $employment_type_entity->getTranslation($entity->get('langcode')->value);
+      $employment_type = $translated_employment_type_entity->getName();
+    } else {
+      $employment_type = $employment_type_entity->getName();
+    }
+  } else {
+    $employment_type = '';
+  }
+
+  $structured_data = json_encode([
+    '@context' => 'https://schema.org/',
+    '@type' => 'JobPosting',
+    'title' => $entity->getTitle(),
+    'description' => $job_description,
+    'identifier' => [
+      '@type' => 'PropertyValue',
+      'name' => t('City of Helsinki'),
+      'value' => $entity->get('field_recruitment_id')->value,
+    ],
+    'datePosted' => $publication_starts_formatted,
+    'validThrough' =>  $entity->get('field_publication_ends')->value,
+    'employmentType' => $employment_type,
+    'hiringOrganization' => [
+      '@type' => 'Organization',
+      'name' =>  $organization_name,
+      'sameAs' => 'https://hel.fi/',
+      'logo' => $logo_image_url,
+    ],
+    'jobLocation' => [
+      '@type' => 'Place',
+      'address' => [
+        '@type' => 'PostalAddress',
+        'streetAddress' => $entity->get('field_address')->value,
+        'addressRegion' => $entity->get('field_postal_area')->value,
+        'postalCode' => $entity->get('field_postal_code')->value,
+        'addressCountry' => t('Finland'),
+      ]
+    ]
+  ]);
+
+  if (array_key_exists('#attached', $attachments)) {
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#tag' => 'script',
+        '#attributes' => [
+          'type' => 'application/ld+json',
+        ],
+        '#value' => $structured_data,
+      ],
+    ];
   }
 }

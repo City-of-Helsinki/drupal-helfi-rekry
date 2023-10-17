@@ -1,6 +1,0 @@
-name: 'HELfi Rekry Structured data'
-type: module
-core_version_requirement: ^9 || ^10
-#dependencies:
-#  - 'drupal:language'
-package: HELfi
