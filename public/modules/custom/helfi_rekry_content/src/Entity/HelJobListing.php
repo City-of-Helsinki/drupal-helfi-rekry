@@ -8,7 +8,21 @@ use Drupal\node\Entity\Node;
  * Bundle class for hel_map paragraph.
  */
 class HelJobListing extends Node {
-
+  /**
+   * Constructor.
+   *
+   * @param array $values
+   *   Values that the entity contains.
+   * @param $entity_type
+   *   Entity type.
+   * @param $bundle
+   *   Entity bundle.
+   * @param $translations
+   *   Entity translations.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
   public function __construct(array $values, $entity_type, $bundle = FALSE, $translations = []) {
     parent::__construct($values, $entity_type, $bundle, $translations);
 

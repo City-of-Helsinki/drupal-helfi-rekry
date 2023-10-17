@@ -27,7 +27,6 @@ function helfi_rekry_content_entity_bundle_info_alter(array &$bundles): void {
   }
 }
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */
@@ -509,11 +508,11 @@ function helfi_rekry_content_page_attachments(array &$attachments) {
       'value' => $job_listing->get('field_recruitment_id')->value,
     ],
     'datePosted' => $publication_starts_formatted,
-    'validThrough' =>  $job_listing->get('field_publication_ends')->value,
+    'validThrough' => $job_listing->get('field_publication_ends')->value,
     'employmentType' => $job_listing->getEmploymentType(),
     'hiringOrganization' => [
       '@type' => 'Organization',
-      'name' =>  $job_listing->getOrganizationName(),
+      'name' => $job_listing->getOrganizationName(),
       'sameAs' => 'https://hel.fi/',
       'logo' => $logo_image_url,
     ],
@@ -525,8 +524,8 @@ function helfi_rekry_content_page_attachments(array &$attachments) {
         'addressRegion' => $job_listing->get('field_postal_area')->value,
         'postalCode' => $job_listing->get('field_postal_code')->value,
         'addressCountry' => t('Finland'),
-      ]
-    ]
+      ],
+    ],
   ]);
 
   if (array_key_exists('#attached', $attachments)) {
