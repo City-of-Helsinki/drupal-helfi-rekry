@@ -37,7 +37,7 @@ function helfi_rekry_structured_data_page_attachments(array &$attachments) {
     $job_description = $entity->get('job_description')->value;
   }
 
-  if ($entity->get('field_organization_override')->first()->target_id) {
+  if ($entity->get('field_organization_override')->first()) {
     $organization_entity = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($entity->get('field_organization_override')->first()->target_id);
     if ($organization_entity->hasTranslation($entity->get('langcode')->value)) {
       $translated_organization_entity = $organization_entity->getTranslation($entity->get('langcode')->value);
@@ -49,7 +49,7 @@ function helfi_rekry_structured_data_page_attachments(array &$attachments) {
     $organization_name = $entity->get('field_organization_name')->value;
   }
 
-  if ($entity->get('field_employment_type')->first()->target_id) {
+  if ($entity->get('field_employment_type')->first()) {
     $employment_type_entity = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($entity->get('field_employment_type')->first()->target_id);
     if ($employment_type_entity->hasTranslation($entity->get('langcode')->value)) {
       $translated_employment_type_entity = $employment_type_entity->getTranslation($entity->get('langcode')->value);
