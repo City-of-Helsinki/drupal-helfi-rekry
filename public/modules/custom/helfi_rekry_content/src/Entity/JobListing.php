@@ -7,28 +7,7 @@ use Drupal\node\Entity\Node;
 /**
  * Bundle class for hel_map paragraph.
  */
-class HelJobListing extends Node {
-  /**
-   * Constructor.
-   *
-   * @param array $values
-   *   Values that the entity contains.
-   * @param $entity_type
-   *   Entity type.
-   * @param $bundle
-   *   Entity bundle.
-   * @param $translations
-   *   Entity translations.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   */
-  public function __construct(array $values, $entity_type, $bundle = FALSE, $translations = []) {
-    parent::__construct($values, $entity_type, $bundle, $translations);
-
-    $this->storage = \Drupal::entityTypeManager()
-      ->getStorage('taxonomy_term');
-  }
+class JobListing extends Node {
 
   /**
    * Get job description or override value.
@@ -55,7 +34,10 @@ class HelJobListing extends Node {
       return $this->get('field_organization_name')->value;
     }
 
-    $organization_entity = $this->storage->load($this->get('field_organization_override')->first()->target_id);
+    $storage = $this->entityTypeManager()
+      ->getStorage('taxonomy_term');
+
+    $organization_entity = $storage->load($this->get('field_organization_override')->first()->target_id);
 
     if (!$organization_entity->hasTranslation($this->get('langcode')->value)) {
       return $organization_entity->getName();
@@ -80,7 +62,10 @@ class HelJobListing extends Node {
       return '';
     }
 
-    $employment_type_entity = $this->storage->load($this->get('field_employment_type')->first()->target_id);
+    $storage = $this->entityTypeManager()
+      ->getStorage('taxonomy_term');
+
+    $employment_type_entity = $storage->load($this->get('field_employment_type')->first()->target_id);
 
     if (!$employment_type_entity->hasTranslation($this->get('langcode')->value)) {
       return $employment_type_entity->getName();

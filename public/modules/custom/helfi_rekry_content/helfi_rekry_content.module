@@ -10,7 +10,7 @@ declare(strict_types = 1);
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\helfi_rekry_content\Entity\HelJobListing;
+use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\media\OEmbed\ProviderException;
 use Drupal\media\OEmbed\ResourceException;
@@ -23,7 +23,7 @@ use Drupal\paragraphs\ParagraphInterface;
  */
 function helfi_rekry_content_entity_bundle_info_alter(array &$bundles): void {
   if (isset($bundles['node']['job_listing'])) {
-    $bundles['node']['job_listing']['class'] = HelJobListing::class;
+    $bundles['node']['job_listing']['class'] = JobListing::class;
   }
 }
 
@@ -452,7 +452,7 @@ function helfi_rekry_content_preprocess_block(&$variables) {
 /**
  * Implements hook_page_attachments().
  */
-function helfi_rekry_content_page_attachments(array &$attachments) {
+function helfi_rekry_content_page_attachments(array &$attachments) : void {
 
   // Get current entity and entity version.
   $entity_matcher = \Drupal::service('helfi_platform_config.entity_version_matcher')->getType();
@@ -468,7 +468,7 @@ function helfi_rekry_content_page_attachments(array &$attachments) {
     return;
   }
 
-  /** @var \Drupal\helfi_rekry_content\Entity\HelJobListing $job_listing */
+  /** @var \Drupal\helfi_rekry_content\Entity\JobListing $job_listing */
   $job_listing = $entity;
 
   /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_formatter */
