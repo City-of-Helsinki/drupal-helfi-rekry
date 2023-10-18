@@ -530,6 +530,7 @@ function helfi_rekry_content_page_attachments(array &$attachments) : void {
         ],
         '#value' => $structured_data,
       ],
+      'structured_job_listing_data',
     ];
   }
 }
