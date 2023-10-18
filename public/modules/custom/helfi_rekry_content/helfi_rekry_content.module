@@ -439,7 +439,14 @@ function helfi_rekry_content_preprocess_block(&$variables) {
   }
 }
 
+/**
+ * Implements hook_views_query_alter().
+ */
 function helfi_rekry_content_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  if ($view->id() !== 'job_listing_search') {
+    return;
+  }
+
   $task_area_external_id = $query
     ->where[0]["conditions"][0]["value"][":node__field_task_area_field_task_area_target_id"];
 
