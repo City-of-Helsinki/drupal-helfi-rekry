@@ -460,11 +460,8 @@ function helfi_rekry_content_page_attachments(array &$attachments) : void {
   /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
   $entity = $entity_matcher['entity'];
 
-  // No need to continue if current entity doesn't have hero set.
-  if (
-    !$entity instanceof ContentEntityInterface ||
-    $entity->getType() !== 'job_listing'
-  ) {
+  // No need to continue if entity is not job listing.
+  if (!$entity instanceof JobListing) {
     return;
   }
 
@@ -489,12 +486,9 @@ function helfi_rekry_content_page_attachments(array &$attachments) : void {
 
     /** @var \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator */
     $file_url_generator = \Drupal::service('file_url_generator');
-    global $base_url;
-    $logo_image = $file_url_generator->generate("{$theme->getPath()}/src/images/{$logo_file_name}")
-      ->toString(TRUE)
-      ->getGeneratedUrl();
-    $image_style = ImageStyle::load('og_image');
-    $logo_image_url = $base_url . $image_style->buildUrl($logo_image);
+    $logo_image_url = $file_url_generator->generate("{$theme->getPath()}/src/images/{$logo_file_name}")
+      ->setAbsolute()
+      ->toString();
   }
 
   $structured_data = json_encode([
