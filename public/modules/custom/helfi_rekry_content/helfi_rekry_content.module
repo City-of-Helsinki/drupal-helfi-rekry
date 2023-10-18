@@ -447,6 +447,10 @@ function helfi_rekry_content_views_query_alter(ViewExecutable $view, QueryPlugin
     return;
   }
 
+  if (!isset($query->where[0]["conditions"][0])) {
+    return;
+  }
+
   $task_area_external_id = $query
     ->where[0]["conditions"][0]["value"][":node__field_task_area_field_task_area_target_id"];
 
