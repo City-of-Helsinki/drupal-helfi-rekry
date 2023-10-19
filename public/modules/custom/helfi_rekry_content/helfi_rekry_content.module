@@ -480,7 +480,7 @@ function helfi_rekry_content_views_query_alter(ViewExecutable $view, QueryPlugin
   $term = reset($terms);
   $query->where[0]["conditions"][0]["value"][":node__field_task_area_field_task_area_target_id"] = $term->id();
 }
- 
+
 /**
  * Implements hook_page_attachments().
  */
