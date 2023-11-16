@@ -68,7 +68,6 @@ function helfi_rekry_content_form_node_job_listing_edit_form_alter(array &$form,
     'field_employment',
     'field_image',
     'field_video',
-    'field_copied',
     'field_original_language',
     'field_anonymous',
   ];
@@ -309,7 +308,6 @@ function helfi_rekry_content_preprocess_field(&$variables) {
   if (
     !$node instanceof NodeInterface ||
     $node->getType() !== 'job_listing' ||
-    ($node->hasField('field_copied') && $node->get('field_copied')->isEmpty()) ||
     ($node->hasField('field_original_language') && $node->get('field_original_language')->isEmpty())
   ) {
     return;
