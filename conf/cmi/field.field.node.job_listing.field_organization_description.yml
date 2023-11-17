@@ -22,7 +22,7 @@ field_name: field_organization_description
 entity_type: node
 bundle: job_listing
 label: 'Organization description'
-description: 'Concise description of the  listing''s organization. If empty, use fallback from the organization taxonomy.'
+description: "Concise description of the  listing's organization. If empty, use fallback from the organization taxonomy."
 required: false
 translatable: true
 default_value: {  }
