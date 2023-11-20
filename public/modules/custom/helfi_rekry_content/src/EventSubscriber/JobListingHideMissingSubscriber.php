@@ -79,6 +79,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
 
     // Query missing nodes that are still published.
     $query = \Drupal::entityQuery('node')
+      ->accessCheck(FALSE)
       ->condition('nid', $destinationIds, 'IN')
       ->condition('status', 1)
       ->notExists('unpublish_on');
