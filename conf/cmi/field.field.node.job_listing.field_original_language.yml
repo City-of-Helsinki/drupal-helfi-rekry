@@ -17,7 +17,7 @@ field_name: field_original_language
 entity_type: node
 bundle: job_listing
 label: 'Original language'
-description: 'Indicates what language is the original one for this node. Use in tandem with the ''Copied from another language'' field.'
+description: "Indicates what language is the original one for this node. Use in tandem with the 'Copied from another language' field."
 required: false
 translatable: true
 default_value: {  }
