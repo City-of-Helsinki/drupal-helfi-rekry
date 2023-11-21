@@ -3,22 +3,21 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_original_language
-    - field.storage.node.field_task_area
-    - field.storage.taxonomy_term.field_external_id
-    - field.storage.node.field_copied
-    - field.storage.node.field_employment_type
     - field.storage.node.field_employment
     - field.storage.taxonomy_term.field_search_id
+    - field.storage.node.field_employment_type
+    - field.storage.taxonomy_term.field_external_id
     - field.storage.node.field_job_duration
-    - field.storage.node.field_publication_starts
-    - field.storage.node.field_organization_name
-    - field.storage.node.field_organization
     - field.storage.node.field_jobs
+    - field.storage.node.field_organization
+    - field.storage.node.field_organization_name
+    - field.storage.node.field_original_language
     - field.storage.node.field_postal_area
     - field.storage.node.field_promoted
+    - field.storage.node.field_publication_starts
     - field.storage.node.field_recruitment_id
     - field.storage.node.field_recruitment_type
+    - field.storage.node.field_task_area
     - search_api.server.elastic_rekry
   module:
     - taxonomy
@@ -66,14 +65,6 @@ field_settings:
     label: 'Entity type'
     property_path: search_api_entity_type
     type: string
-  field_copied:
-    label: 'Copied from another language'
-    datasource_id: 'entity:node'
-    property_path: field_copied
-    type: boolean
-    dependencies:
-      config:
-        - field.storage.node.field_copied
   field_employment:
     label: 'Employment » Taxonomy term » Name'
     datasource_id: 'entity:node'

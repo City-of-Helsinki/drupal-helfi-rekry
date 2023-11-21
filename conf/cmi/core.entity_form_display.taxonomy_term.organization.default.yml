@@ -28,7 +28,7 @@ third_party_settings:
         classes: ''
         show_empty_fields: false
         id: ''
-        description: 'Default values for the description section. To be used as a fallback, if these values aren''t provided by the migration.'
+        description: "Default values for the description section. To be used as a fallback, if these values aren't provided by the migration."
         required_fields: true
 _core:
   default_config_hash: 65qHo87IfHIjBiM_kvZxv8m6M4NGwnmkaC5tC3MDGTk

@@ -211,6 +211,7 @@ function helfi_rekry_content_update_9005() {
  */
 function helfi_rekry_content_update_9006() {
   $query = \Drupal::entityQuery('taxonomy_term')
+    ->accessCheck(FALSE)
     ->condition('vid', ['employment', 'employment_type'], 'IN')
     ->notExists('field_search_id', '');
 

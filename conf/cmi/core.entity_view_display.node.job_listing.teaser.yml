@@ -7,7 +7,6 @@ dependencies:
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
-    - field.field.node.job_listing.field_copied
     - field.field.node.job_listing.field_employment
     - field.field.node.job_listing.field_employment_type
     - field.field.node.job_listing.field_image
@@ -77,7 +76,6 @@ hidden:
   field_address: true
   field_anonymous: true
   field_contacts: true
-  field_copied: true
   field_employment: true
   field_image: true
   field_job_description_override: true
