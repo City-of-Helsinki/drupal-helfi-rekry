@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent;
 use Psr\Log\LoggerInterface;
@@ -27,6 +28,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
     protected LoggerInterface $logger,
+    protected QueueFactory $queueFactory,
   ) {}
 
   /**
@@ -78,7 +80,8 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
     }
 
     // Query missing nodes that are still published.
-    $query = \Drupal::entityQuery('node')
+    $query = $this->entityTypeManager->getStorage('node')
+      ->getQuery()
       ->accessCheck(FALSE)
       ->condition('nid', $destinationIds, 'IN')
       ->condition('status', 1)
@@ -87,7 +90,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
 
     foreach ($nids as $nid) {
       $job = ['nid' => $nid];
-      \Drupal::queue('job_listing_unpublish_worker')->createItem($job);
+      $this->queueFactory->get('job_listing_unpublish_worker')->createItem($job);
     }
   }
 

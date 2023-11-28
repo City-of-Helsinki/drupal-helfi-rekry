@@ -47,8 +47,8 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
-    return new static(
+  public static function create(ContainerInterface $container) : self {
+    return new self(
       $container->get('config.factory'),
       $container->get('path_alias.manager'),
     );
