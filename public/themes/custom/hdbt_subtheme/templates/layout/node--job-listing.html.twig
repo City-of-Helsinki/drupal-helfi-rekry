@@ -125,8 +125,18 @@
             {% endblock content %}
           {% endembed %}
         {% endif %}
-        {{ content.field_organization_name }}
-        {{ content.field_link_to_application }}
+
+        {% if content.field_organization_name|render %}
+          <div class="job-listing__organization-name job-listing__item">
+            {{ content.field_organization_name }}
+          </div>
+        {% endif %}
+
+        {% if content.field_link_to_application|render %}
+          <div class="job-listing__link-wrapper job-listing__item">
+            {{ content.field_link_to_application }}
+          </div>
+        {% endif %}
 
         {% if publication_starts_today == true %}
           {% set publication_starts = 'today'|t %}
@@ -144,18 +154,28 @@
           { label: 'Job code'|t, icon: 'locate', content: content.field_recruitment_id },
         ] %}
 
-        <div class="job-listing__metadata-wrapper">
+        <div class="job-listing__metadata-wrapper job-listing__item">
           {% include '@hdbt/misc/metadata-wrapper.twig' with { items: metadata }%}
         </div>
 
         {% if content.field_job_description_override|render %}
-          {{ content.field_job_description_override }}
-        {% else %}
-          {{ content.job_description }}
+          <div class="job-listing__job-description job-listing__item user-edited-content">
+            {{ content.field_job_description_override }}
+          </div>
+        {% elseif content.job_description|render %}
+          <div class="job-listing__job-description job-listing__item user-edited-content">
+            {{ content.job_description }}
+          </div>
         {% endif %}
-        {{ content.field_salary_class }}
+
+        {% if content.field_salary_class|render %}
+          <div class="job-listing__salary-class job-listing__item">
+            {{ content.field_salary_class }}
+          </div>
+        {% endif %}
+
         {% if content.field_contacts|render or content.field_link_to_presentation|render %}
-          <div class="job-listing__additional-information">
+          <div class="job-listing__additional-information job-listing__item">
             <h2 class="job-listing__additional-information__title">{{ 'Additional information'|t }}</h2>
             <div class="job-listing__additional-information__content user-edited-content">
               {{ content.field_contacts }}
@@ -163,12 +183,21 @@
             </div>
           </div>
         {% endif %}
+
         {% if content.field_video|render %}
-          {% include '@hdbt/component/remote-video.twig' with {
-            video: content.field_video,
-          }%}
+          <div class="job-listing__video job-listing__item">
+            {% include '@hdbt/component/remote-video.twig' with {
+              video: content.field_video,
+            }%}
+          </div>
         {% endif %}
-        {{ content.field_link_to_application }}
+
+        {% if content.field_link_to_application|render %}
+          <div class="job-listing__link-wrapper job-listing__link-wrapper--last job-listing__item">
+            {{ content.field_link_to_application }}
+          </div>
+        {% endif %}
+
         {{ drupal_block('helfi_platform_config_social_sharing_block') }}
       {% endblock component_content %}
     {% endembed %}
