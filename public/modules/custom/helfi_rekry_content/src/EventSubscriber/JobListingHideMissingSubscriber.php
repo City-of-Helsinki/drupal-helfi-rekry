@@ -24,6 +24,8 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
    *   The entity type manager.
    * @param \Psr\Log\LoggerInterface $logger
    *   Logger channel.
+   * @param \Drupal\Core\Queue\QueueFactory $queueFactory
+   *   The queue factory.
    */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,

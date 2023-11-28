@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Drupal\helfi_rekry_content\Plugin\migrate_plus\data_parser;
 
-use Drupal\migrate_plus\DataParserPluginBase;
 use Drupal\migrate_plus\Plugin\migrate_plus\data_parser\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

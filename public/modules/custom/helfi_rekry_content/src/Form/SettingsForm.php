@@ -74,6 +74,7 @@ class SettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $siteConfig = $this->config('helfi_rekry_content.job_listings');
 
+    // phpcs:ignore
     $searchPage = Node::load($siteConfig->get('search_page'));
     $form['job_listings']['search_page'] = [
       '#type' => 'entity_autocomplete',
@@ -86,6 +87,7 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Displayed after the related jobs block, for example.'),
     ];
 
+    // phpcs:ignore
     $redirectPage = Node::load($siteConfig->get('redirect_403_page'));
     $form['job_listings']['redirect_403_page'] = [
       '#type' => 'entity_autocomplete',

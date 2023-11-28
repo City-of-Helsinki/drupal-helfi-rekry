@@ -167,7 +167,7 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
     // Use the same validation used in field validation.
     $resource_url = $resolver->getResourceUrl($url);
-    $resource = \Drupal::service('media.oembed.resource_fetcher')
+    \Drupal::service('media.oembed.resource_fetcher')
       ->fetchResource($resource_url);
     return $url;
   }
