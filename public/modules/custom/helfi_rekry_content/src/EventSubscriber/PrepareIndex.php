@@ -24,7 +24,7 @@ class PrepareIndex implements EventSubscriberInterface {
   /**
    * Method to prepare index.
    *
-   * @param Drupal\elasticsearch_connector\Event\PrepareIndexEvent $event
+   * @param \Drupal\elasticsearch_connector\Event\PrepareIndexEvent $event
    *   The PrepareIndex event.
    */
   public function prepareIndices(PrepareIndexEvent $event) {
@@ -33,6 +33,7 @@ class PrepareIndex implements EventSubscriberInterface {
       'job_listings',
     ];
     if (in_array($indexName, $finnishIndices)) {
+      /** @var array $indexConfig */
       $indexConfig = $event->getIndexConfig();
       $indexConfig['body']['settings']['analysis']['analyzer']['default']['type'] = 'finnish';
       $event->setIndexConfig($indexConfig);

@@ -8,6 +8,7 @@
 declare(strict_types = 1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\helfi_platform_config\DTO\ParagraphTypeCollection;
@@ -33,7 +34,9 @@ function helfi_rekry_content_entity_bundle_info_alter(array &$bundles): void {
  * Implements hook_form_FORM_ID_alter().
  */
 function helfi_rekry_content_form_node_job_listing_edit_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
-  $user_edit_access = $form_state->getFormObject()
+  $formObject = $form_state->getFormObject();
+  assert($formObject instanceof EntityFormInterface);
+  $user_edit_access = $formObject
     ->getEntity()
     ->access('edit', \Drupal::currentUser());
 
@@ -164,7 +167,7 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
     // Use the same validation used in field validation.
     $resource_url = $resolver->getResourceUrl($url);
-    $resource = \Drupal::service('media.oembed.resource_fetcher')
+    \Drupal::service('media.oembed.resource_fetcher')
       ->fetchResource($resource_url);
     return $url;
   }
@@ -435,7 +438,7 @@ function helfi_rekry_content_preprocess_block(&$variables) {
 
   if (
     empty($paragraph) ||
-    !in_array($entity->getType(), ['landing_page', 'page']) ||
+    !in_array($entity->bundle(), ['landing_page', 'page']) ||
     !$paragraph instanceof ParagraphInterface
   ) {
     return;
@@ -468,7 +471,6 @@ function helfi_rekry_content_views_query_alter(ViewExecutable $view, QueryPlugin
     return;
   }
 
-  /** @var \Drupal\taxonomy\Entity\Term $term */
   $terms = \Drupal::entityTypeManager()
     ->getStorage('taxonomy_term')
     ->loadByProperties(['field_external_id' => $task_area_external_id]);
@@ -476,6 +478,7 @@ function helfi_rekry_content_views_query_alter(ViewExecutable $view, QueryPlugin
     return;
   }
 
+  /** @var \Drupal\taxonomy\Entity\Term $term */
   $term = reset($terms);
   $query->where[0]["conditions"][0]["value"][":node__field_task_area_field_task_area_target_id"] = $term->id();
 }
@@ -502,12 +505,14 @@ function helfi_rekry_content_page_attachments(array &$attachments) : void {
   /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_formatter */
   $date_formatter = Drupal::service('date.formatter');
 
+  // @phpstan-ignore-next-line
   $publication_starts_datetime = $job_listing->get('field_publication_starts')->date->getTimestamp();
   $publication_starts_formatted = $date_formatter->format($publication_starts_datetime, 'html_date');
 
   /** @var Drupal\Core\Extension\ThemeHandler $theme_handler */
   $theme_handler = Drupal::service('theme_handler');
 
+  $logo_image_url = '';
   // Get the default share image as structured data logo.
   if ($theme_handler->themeExists('hdbt')) {
     $theme = $theme_handler->getTheme('hdbt');

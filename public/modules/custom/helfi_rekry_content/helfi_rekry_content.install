@@ -60,7 +60,7 @@ function helfi_rekry_content_update_9003() {
   ];
 
   foreach ($employmentTypeItems as $item) {
-    $term = Term::create([
+    Term::create([
       'parent' => [],
       'name' => $item['en'],
       'vid' => 'employment_type',
@@ -100,7 +100,7 @@ function helfi_rekry_content_update_9003() {
   ];
 
   foreach ($employmentItems as $item) {
-    $term = Term::create([
+    Term::create([
       'parent' => [],
       'name' => $item['en'],
       'vid' => 'employment',
@@ -193,7 +193,7 @@ function helfi_rekry_content_update_9005() {
   ];
 
   foreach ($employmentItems as $item) {
-    $term = Term::create([
+    Term::create([
       'parent' => [],
       'name' => $item['en'],
       'vid' => 'employment',

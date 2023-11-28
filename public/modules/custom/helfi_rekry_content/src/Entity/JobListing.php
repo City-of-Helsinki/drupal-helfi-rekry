@@ -37,6 +37,7 @@ class JobListing extends Node {
     $storage = $this->entityTypeManager()
       ->getStorage('taxonomy_term');
 
+    // @phpstan-ignore-next-line
     $organization_entity = $storage->load($this->get('field_organization_override')->first()->target_id);
 
     if (!$organization_entity->hasTranslation($this->get('langcode')->value)) {
@@ -65,6 +66,7 @@ class JobListing extends Node {
     $storage = $this->entityTypeManager()
       ->getStorage('taxonomy_term');
 
+    // @phpstan-ignore-next-line
     $employment_type_entity = $storage->load($this->get('field_employment_type')->first()->target_id);
 
     if (!$employment_type_entity->hasTranslation($this->get('langcode')->value)) {

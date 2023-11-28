@@ -1,6 +1,6 @@
 services:
   Drupal\helfi_rekry_content\EventSubscriber\ImageImportSubscriber:
-    arguments: ['@file_system', '@config.factory']
+    arguments: ['@file_system', '@config.factory', '@current_user']
     tags:
       - { name: 'event_subscriber' }
   Drupal\helfi_rekry_content\Plugin\Deriver:
@@ -10,7 +10,7 @@ services:
       - { name: 'event_subscriber' }
   helfi_rekry_content.job_listing_hide_missing:
     class: Drupal\helfi_rekry_content\EventSubscriber\JobListingHideMissingSubscriber
-    arguments: ['@entity_type.manager', '@logger.channel.helfi_rekry_content']
+    arguments: ['@entity_type.manager', '@logger.channel.helfi_rekry_content', '@queue']
     tags:
       - { name: 'event_subscriber' }
   helfi_rekry_content.job_listing_redirect_subscriber:
