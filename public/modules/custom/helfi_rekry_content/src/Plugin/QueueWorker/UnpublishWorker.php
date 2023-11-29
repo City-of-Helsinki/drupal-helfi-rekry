@@ -45,21 +45,10 @@ class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryPluginI
   }
 
   /**
-   * Creates instance of the plugin.
-   *
-   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-   *   The container.
-   * @param array $configuration
-   *   Configuration array.
-   * @param mixed $plugin_id
-   *   The plugin id.
-   * @param mixed $plugin_definition
-   *   The plugin definition.
-   *
-   * @return static
+   * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) : self {
+    return new self(
     $configuration,
     $plugin_id,
     $plugin_definition,

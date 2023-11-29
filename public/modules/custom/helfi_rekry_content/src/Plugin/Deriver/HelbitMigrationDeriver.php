@@ -18,7 +18,7 @@ class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriverInte
   /**
    * Constructs a new instance.
    *
-   * @param Drupal\Core\Config\ConfigFactory $config
+   * @param \Drupal\Core\Config\ConfigFactory $config
    *   The settings service.
    */
   public function __construct(private ConfigFactory $config) {
@@ -27,8 +27,8 @@ class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriverInte
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, $base_plugin_id) {
-    return new static($container->get('config.factory'));
+  public static function create(ContainerInterface $container, $base_plugin_id) : self {
+    return new self($container->get('config.factory'));
   }
 
   /**
