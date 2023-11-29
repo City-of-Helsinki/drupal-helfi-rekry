@@ -69,7 +69,7 @@ class HelbitJson extends Json {
       return [];
     }
 
-    $this->logger->error($this->t('Failed retrieving data from Helbit. Request failed with code: @status_code'), [
+    $this->logger->error('Failed retrieving data from Helbit. Request failed with code: @status_code', [
       '@status_code' => $source_data['status'],
     ]);
 
