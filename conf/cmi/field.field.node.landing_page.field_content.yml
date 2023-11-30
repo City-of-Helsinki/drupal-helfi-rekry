@@ -23,12 +23,7 @@ dependencies:
     - paragraphs.paragraphs_type.remote_video
     - paragraphs.paragraphs_type.target_group_links
   module:
-    - disable_field
     - entity_reference_revisions
-third_party_settings:
-  disable_field:
-    add_disable: none
-    edit_disable: none
 _core:
   default_config_hash: zEXoDFJnyArUOiL2ZrtDuq4YDWKyn6ung9JndPk_Ntg
 id: node.landing_page.field_content
@@ -60,8 +55,8 @@ settings:
       phasing: phasing
       popular_services: popular_services
       target_group_links: target_group_links
-      job_search: job_search
       hearings: hearings
+      job_search: job_search
     negate: 0
     target_bundles_drag_drop:
       banner:
