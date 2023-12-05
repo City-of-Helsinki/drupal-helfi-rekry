@@ -87,7 +87,7 @@
     {{ link(label, node_url, link_attributes) }}
   </h3>
   {% if content.field_employment_type|render or content.field_employment|render %}
-    {% embed '@hdbt/misc/tag-list.twig' with { type: 'static' }%}
+    {% embed '@hdbt/misc/tag-list.twig' with { type: 'static', tag_container_class: 'content-tags--card' }%}
       {% block content %}
         {% if content.field_employment_type|render %}
             {% include '@hdbt/misc/tag.twig' with {
@@ -102,7 +102,9 @@
       {% endblock content %}
     {% endembed %}
   {% endif %}
-  {{ content.field_organization_name }}
+  <div class="job-listing__organization-name">
+    {{ content.field_organization_name }}
+  </div>
   <div class="job-listing__metadata job-listing__metadata--application-ends">
     <span class="job-listing__metadata__label">{% include '@hdbt/misc/icon.twig' with {icon: 'clock'} only %}{{ 'Application period ends'|t }}</span>
     <span class="job-listing__metadata__content">
