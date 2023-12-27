@@ -122,14 +122,25 @@ final class JobListingCleaner {
    *   Job listings entity ids.
    */
   private function findExpiredJobListings(): array {
-    return $this->storage
+    $query = $this->storage
       ->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'job_listing')
       // Only consider unpublished.
-      ->condition('status', 0)
-      // Only entities that have been unpublished before the threshold.
+      ->condition('status', 0);
+
+    $legacy = $query->andConditionGroup()
+      // Delete legacy listings that do not have all the required fields.
+      ->condition('field_publication_ends', NULL, 'IS NULL')
+      ->condition('changed', strtotime('-1 year'), '<');
+
+    $thresholdOrLegacy = $query->orConditionGroup()
+      // Entities that have been unpublished before the threshold.
       ->condition('field_publication_ends', $this->getExpiredThreshold(), '<')
+      ->condition($legacy);
+
+    return $query
+      ->condition($thresholdOrLegacy)
       ->range(0, JobListingCleaner::BATCH_SIZE)
       ->sort('field_publication_ends', 'ASC')
       ->execute();
