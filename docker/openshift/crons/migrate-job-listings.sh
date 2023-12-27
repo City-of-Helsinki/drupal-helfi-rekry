@@ -16,6 +16,9 @@ do
     drush migrate:import helfi_rekry_jobs:all --reset-threshold 43200 --interval 5400
     drush migrate:import helfi_rekry_jobs:all_sv --reset-threshold 43200 --interval 5400
     drush migrate:import helfi_rekry_jobs:all_en --reset-threshold 43200 --interval 5400
+
+    drush helfi-rekry-content:clean-expired-listings
+
   # Sleep for 3 hours.
   sleep 10800
 done
