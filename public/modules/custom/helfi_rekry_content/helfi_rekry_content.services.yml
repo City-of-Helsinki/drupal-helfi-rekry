@@ -24,3 +24,24 @@ services:
   helfi_rekry_content.job_listing_unpublish_worker:
     class: Drupal\helfi_rekry_content\Plugin\QueueWorker
     arguments: ['@entity_type.manager', '@logger.channel.helfi_rekry_content']
+
+  Drupal\helfi_rekry_content\Helbit\SettingsFactory:
+    class: Drupal\helfi_rekry_content\Helbit\SettingsFactory
+    arguments:
+      - '@config.factory'
+  Drupal\helfi_rekry_content\Helbit\Settings:
+    class: Drupal\helfi_rekry_content\Helbit\Settings
+    factory:
+      - '@Drupal\helfi_rekry_content\Helbit\SettingsFactory'
+      - 'create'
+  Drupal\helfi_rekry_content\Helbit\HelbitClient:
+    class: Drupal\helfi_rekry_content\Helbit\HelbitClient
+    arguments:
+      - '@logger.channel.helfi_rekry_content'
+      - '@http_client'
+      - '@Drupal\helfi_rekry_content\Helbit\Settings'
+  Drupal\helfi_rekry_content\Service\JobListingCleaner:
+    class: Drupal\helfi_rekry_content\Service\JobListingCleaner
+    arguments:
+      - '@Drupal\helfi_rekry_content\Helbit\HelbitClient'
+      - '@entity_type.manager'
