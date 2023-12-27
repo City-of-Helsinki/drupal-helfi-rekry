@@ -44,4 +44,5 @@ services:
     class: Drupal\helfi_rekry_content\Service\JobListingCleaner
     arguments:
       - '@Drupal\helfi_rekry_content\Helbit\HelbitClient'
+      - '@content_lock'
       - '@entity_type.manager'
