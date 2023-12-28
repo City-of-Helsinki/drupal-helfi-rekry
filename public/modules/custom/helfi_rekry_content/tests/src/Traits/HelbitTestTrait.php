@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\helfi_rekry_content\Traits;
 
 use Drupal\Tests\helfi_api_base\Traits\ApiTestTrait;
