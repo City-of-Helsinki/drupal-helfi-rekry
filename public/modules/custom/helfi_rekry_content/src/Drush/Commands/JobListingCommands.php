@@ -34,7 +34,7 @@ final class JobListingCommands extends DrushCommands implements ContainerInjecti
   }
 
   /**
-   * Command description here.
+   * Command for removing expired job listings.
    */
   #[CLI\Command(name: 'helfi-rekry-content:clean-expired-listings')]
   #[CLI\Usage(name: 'helfi-rekry-content:clean-expired-listings', description: 'Remove expired job listings')]
