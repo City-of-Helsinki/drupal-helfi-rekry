@@ -651,7 +651,7 @@ function helfi_rekry_content_helfi_paragraph_types() : array {
     'node' => [
       'landing_page' => [
         'field_content' => [
-          'job_search',
+          'job_search' => 15,
         ],
       ],
     ],
@@ -661,8 +661,8 @@ function helfi_rekry_content_helfi_paragraph_types() : array {
   foreach ($entities as $entityTypeId => $bundles) {
     foreach ($bundles as $bundle => $fields) {
       foreach ($fields as $field => $paragraphTypes) {
-        foreach ($paragraphTypes as $paragraphType) {
-          $enabled[] = new ParagraphTypeCollection($entityTypeId, $bundle, $field, $paragraphType);
+        foreach ($paragraphTypes as $paragraphType => $weight) {
+          $enabled[] = new ParagraphTypeCollection($entityTypeId, $bundle, $field, $paragraphType, $weight);
         }
       }
     }
