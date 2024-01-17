@@ -55,8 +55,8 @@
   <div class="job-listing-search__results">
     <div class="job-listing-search__result-actions">
       <span class="job-listing-search__count-container">
-        <span class="job-listing-search__count">{{ total_rows }}</span>
-        {% trans with {'context': 'Job listing search count'}%}open job listing{% plural total_rows %}open job listings{% endtrans %}
+        <span class="job-listing-search__count">{{ total_rows ?? 0 }}</span>
+        {% trans with {'context': 'Job listing search count'}%}open job listing{% plural total_rows ?? 0 %}open job listings{% endtrans %}
       </span>
     </div>
     <div class="job-listing-search__result--list">
