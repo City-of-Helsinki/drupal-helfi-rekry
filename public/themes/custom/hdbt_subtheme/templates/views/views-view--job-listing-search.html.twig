@@ -36,6 +36,7 @@
   'views--' ~ id|clean_class,
   'views--' ~ display_id|clean_class,
   dom_id ? 'js-view-dom-id-' ~ dom_id,
+  'unit-search__content'
 ]
 %}
 <div{{attributes.addClass(classes)}}>
@@ -52,20 +53,22 @@
   {{ exposed }}
   {{ attachment_before }}
 
-  <div class="job-listing-search__results">
-    <div class="job-listing-search__result-actions">
-      <span class="job-listing-search__count-container">
-        <span class="job-listing-search__count">{{ total_rows ?? 0 }}</span>
-        {% trans with {'context': 'Job listing search count'}%}open job listing{% plural total_rows ?? 0 %}open job listings{% endtrans %}
-      </span>
-    </div>
-    <div class="job-listing-search__result--list">
-      {{ rows }}
-    </div>
-  </div>
+  <div class="unit-search__results" data-id-number="{{ dom_id }}">
+    <h3 class="unit-search__count-container">
+      {%- if total_rows -%}
+        {{ total_rows }} {% trans with {'context': 'Job listing search count'}%}open job listing{% plural total_rows ?? 0 %}open job listings{% endtrans %}
+      {%- else -%}
+        {{ 'No results'|t({}, {'context' : 'Unit search no results title'}) }}
+      {%- endif -%}
+    </h3>
 
-  {{ empty }}
-  {{ pager }}
+    {%- if empty -%}
+      <p>{{ 'No results were found for the criteria you entered. Try changing your search criteria.'|t({}, {'context' : 'Unit search no results text'}) }}</p>
+    {%- endif -%}
+
+    {{ rows }}
+    {{ pager }}
+  </div>
 
   {{ attachment_after }}
   {{ more }}
