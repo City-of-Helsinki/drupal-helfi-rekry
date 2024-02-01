@@ -159,7 +159,9 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
     $provider = $resolver->getProviderByUrl($url);
   }
   catch (\throwable $e) {
-    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
+    \Drupal::logger('helfi_rekry_content')
+      ->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
+
     throw new MigrateSkipRowException();
   }
 
@@ -177,10 +179,6 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
       \Drupal::logger('helfi_rekry_content')
         ->error('Bad video url rejected by oembed-validation: ' . $url);
       throw new MigrateSkipRowException();
-    }
-
-    if (!str_contains($url, "://")) {
-      $url = "https://$url";
     }
 
     // Remove all extra query parameters from youtube link.
@@ -202,6 +200,8 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
         \Drupal::logger('helfi_rekry_content')
           ->notice('Updated remote video query parameters, new url: ' . $new_url);
 
+        // @fixme modifying the url here breaks lookup in helfi_rekry_jobs
+        // migration.
         return $new_url;
       }
     }
@@ -210,6 +210,32 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
       ->error('Bad video url rejected by oembed-validation: ' . $url);
     throw new MigrateSkipRowException();
   }
+}
+
+/**
+ * Sanitize video url.
+ *
+ * @param string $url
+ *   Previous video url.
+ *
+ * @returns string
+ *   New video url.
+ */
+function _helfi_rekry_content_sanitize_video_url(string $url): string {
+  if (!$url || !($url = trim($url))) {
+    return $url;
+  }
+
+  if (!str_contains($url, "://")) {
+    $url = "https://$url";
+  }
+
+  // OEmbed does not accept YouTube embed links.
+  if (preg_match("/youtube\.com\/embed\/([\w\-_]+)$/", $url, $matches)) {
+    $url = sprintf("https://youtube.com/watch?v=%s", $matches[1]);
+  }
+
+  return $url;
 }
 
 /**
