@@ -155,8 +155,7 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
 function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
     $resolver = \Drupal::service('media.oembed.url_resolver');
-    /** @var \Drupal\media\OEmbed\Provider $provider */
-    $provider = $resolver->getProviderByUrl($url);
+    $resolver->getProviderByUrl($url);
   }
   catch (\throwable $e) {
     \Drupal::logger('helfi_rekry_content')
@@ -175,39 +174,9 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   }
   catch (ResourceException | ProviderException $e) {
     // fetchResource fails, the link is no good.
-    if (!str_contains(strtolower($provider->getName()), 'youtube')) {
-      \Drupal::logger('helfi_rekry_content')
-        ->error('Bad video url rejected by oembed-validation: ' . $url);
-      throw new MigrateSkipRowException();
-    }
-
-    // Remove all extra query parameters from youtube link.
-    $queryParameters = [];
-    $querystring = parse_url($url, PHP_URL_QUERY);
-    if ($querystring) {
-      parse_str($querystring, $queryParameters);
-
-      if ($video_id = $queryParameters['v']) {
-        $parts = parse_url($url);
-        $path = $parts['path'];
-        $host = $parts['host'];
-        $scheme = $parts['scheme'] ? "{$parts['scheme']}://" : '';
-        $query = http_build_query([
-          'v' => $video_id,
-        ]);
-        $new_url = sprintf('%s%s%s?%s', $scheme, $host, rtrim($path, '/'), $query);
-
-        \Drupal::logger('helfi_rekry_content')
-          ->notice('Updated remote video query parameters, new url: ' . $new_url);
-
-        // @fixme modifying the url here breaks lookup in helfi_rekry_jobs
-        // migration.
-        return $new_url;
-      }
-    }
-
     \Drupal::logger('helfi_rekry_content')
       ->error('Bad video url rejected by oembed-validation: ' . $url);
+
     throw new MigrateSkipRowException();
   }
 }
