@@ -1,12 +1,12 @@
 <?php
 
-$config['helfi_proxy.settings']['tunnistamo_return_url'] = '/fi/test-avoimet-tyopaikat/openid-connect/tunnistamo';
-$config['helfi_proxy.settings']['asset_path'] = 'test-rekry-assets';
+$config['helfi_proxy.settings']['tunnistamo_return_url'] = '/fi/avoimet-tyopaikat/openid-connect/tunnistamo';
+$config['helfi_proxy.settings']['asset_path'] = 'rekry-assets';
 
 $config['helfi_proxy.settings']['prefixes'] = [
-  'en' => 'test-open-jobs',
-  'fi' => 'test-avoimet-tyopaikat',
-  'sv' => 'test-lediga-jobb',
-  'ru' => 'test-open-jobs',
-  'zxx' => 'test-open-jobs',
+  'en' => 'open-jobs',
+  'fi' => 'avoimet-tyopaikat',
+  'sv' => 'lediga-jobb',
+  'ru' => 'open-jobs',
+  'zxx' => 'open-jobs',
 ];
