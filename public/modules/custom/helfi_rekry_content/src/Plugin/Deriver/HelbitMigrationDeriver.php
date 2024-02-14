@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Deriver for Helbit migrations.
  */
-class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriverInterface {
+final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriverInterface {
 
   /**
    * Constructs a new instance.
