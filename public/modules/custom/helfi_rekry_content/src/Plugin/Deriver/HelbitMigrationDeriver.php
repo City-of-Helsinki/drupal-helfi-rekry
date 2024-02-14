@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Plugin\Deriver;
 
@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Deriver for Helbit migrations.
  */
-class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriverInterface {
+final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriverInterface {
 
   /**
    * Constructs a new instance.
