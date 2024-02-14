@@ -196,9 +196,13 @@ process:
     plugin: default_value
     default_value: null
   field_video/target_id:
-    plugin: callback
-    callable: _helfi_rekry_content_lookup_video_mid
-    source: video
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_sanitize_video_url
+      source: video
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_lookup_video_mid
   field_organization_name: organization_name
   field_postal_area: postal_area
   field_postal_code: postal_code

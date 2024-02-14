@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Plugin\migrate\process;
 
@@ -30,7 +30,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   source: publication_starts
  * @endcode
  */
-class SkipPastDateForPublished extends ProcessPluginBase implements ContainerFactoryPluginInterface {
+final class SkipPastDateForPublished extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**
    * Constructs a skip_past_date_for_published process plugin.

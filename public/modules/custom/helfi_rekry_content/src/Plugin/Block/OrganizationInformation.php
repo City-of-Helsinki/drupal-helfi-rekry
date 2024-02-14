@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("Organization information block"),
  * )
  */
-class OrganizationInformation extends BlockBase implements ContainerFactoryPluginInterface {
+final class OrganizationInformation extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * Constructs a new instance.

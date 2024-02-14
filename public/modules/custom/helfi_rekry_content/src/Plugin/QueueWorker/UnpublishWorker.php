@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   cron = {"time" = 60}
  * )
  */
-class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
+final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
   /**
    * Constructs a new UnpublishWorker object.

@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   title = @Translation("Helbit JSON")
  * )
  */
-class HelbitJson extends Json {
+final class HelbitJson extends Json {
 
   /**
    * The logger.
