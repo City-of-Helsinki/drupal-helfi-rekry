@@ -115,11 +115,13 @@
               {% if content.field_employment_type|render %}
                   {% include '@hdbt/misc/tag.twig' with {
                     tag: content.field_employment_type,
+                    addSpan: true,
                   }%}
               {% endif %}
               {% if content.field_employment|render %}
                 {% include '@hdbt/misc/tag.twig' with {
                   tag: content.field_employment,
+                  addSpan: true,
                 }%}
               {% endif %}
             {% endblock content %}
