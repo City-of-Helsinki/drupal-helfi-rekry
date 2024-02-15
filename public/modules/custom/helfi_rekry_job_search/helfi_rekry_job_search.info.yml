@@ -1,8 +1,4 @@
-name: 'HELfi Rekry Job Search'
+name: 'HELfi Rekry job search'
 type: module
-core_version_requirement: '^8.9 || ^9'
-dependencies:
-  - 'drupal:language'
+core_version_requirement: ^9 || ^10
 package: HELfi
-'interface translation project': helfi_rekry_job_search
-'interface translation server pattern': modules/custom/helfi_rekry_job_search/translations/%language.po

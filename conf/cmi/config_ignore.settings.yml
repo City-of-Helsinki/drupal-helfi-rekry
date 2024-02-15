@@ -1,7 +1,9 @@
 _core:
   default_config_hash: UVH1aJ4b44UM-VdPVN7hNNuuVqfReJxwfVeDQH1Hvsk
+mode: simple
 ignored_config_entities:
-  - 'system.site:page.front'
+  - 'easy_breadcrumb.settings:home_segment_title'
   - 'hdbt_admin_tools.site_settings:site_settings'
-  - 'helfi_rekry_content.job_listings:search_page'
   - 'helfi_rekry_content.job_listings:redirect_403_page'
+  - 'helfi_rekry_content.job_listings:search_page'
+  - 'system.site:page.front'

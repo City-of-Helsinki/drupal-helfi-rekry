@@ -6,7 +6,6 @@ dependencies:
     - field.storage.node.field_employment
     - field.storage.taxonomy_term.field_search_id
     - field.storage.node.field_employment_type
-    - field.storage.node.field_copied
     - field.storage.taxonomy_term.field_external_id
     - field.storage.node.field_job_duration
     - field.storage.node.field_jobs
@@ -14,6 +13,8 @@ dependencies:
     - field.storage.node.field_organization_name
     - field.storage.node.field_original_language
     - field.storage.node.field_postal_area
+    - field.storage.node.field_postal_code
+    - field.storage.node.field_promoted
     - field.storage.node.field_publication_starts
     - field.storage.node.field_recruitment_id
     - field.storage.node.field_recruitment_type
@@ -24,6 +25,7 @@ dependencies:
     - node
     - scheduler
     - search_api
+    - helfi_react_search
 id: job_listings
 name: 'Job listings'
 description: ''
@@ -64,14 +66,6 @@ field_settings:
     label: 'Entity type'
     property_path: search_api_entity_type
     type: string
-  field_copied:
-    label: 'Copied from another language'
-    datasource_id: 'entity:node'
-    property_path: field_copied
-    type: boolean
-    dependencies:
-      config:
-        - field.storage.node.field_copied
   field_employment:
     label: 'Employment » Taxonomy term » Name'
     datasource_id: 'entity:node'
@@ -150,6 +144,22 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_postal_area
+  field_postal_code:
+    label: Postinumero
+    datasource_id: 'entity:node'
+    property_path: field_postal_code
+    type: string
+    dependencies:
+      config:
+        - field.storage.node.field_postal_code
+  field_promoted:
+    label: Promoted
+    datasource_id: 'entity:node'
+    property_path: field_promoted
+    type: boolean
+    dependencies:
+      config:
+        - field.storage.node.field_promoted
   field_publication_starts:
     label: 'Julkaisun alkaminen'
     datasource_id: 'entity:node'
@@ -208,6 +218,14 @@ field_settings:
     dependencies:
       module:
         - taxonomy
+  nid:
+    label: ID
+    datasource_id: 'entity:node'
+    property_path: nid
+    type: integer
+    dependencies:
+      module:
+        - node
   status:
     label: Published
     datasource_id: 'entity:node'
@@ -250,7 +268,6 @@ field_settings:
     datasource_id: 'entity:node'
     property_path: title
     type: text
-    boost: !!float 2
     dependencies:
       module:
         - node
@@ -306,32 +323,23 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  district_image_absolute_url: {  }
   entity_status: {  }
   entity_type: {  }
   ignorecase:
     all_fields: false
     fields:
       - employment_search_id
-      - field_organization_name
       - field_postal_area
       - field_recruitment_id
       - field_search_id
       - langcode
-      - title
   language_with_fallback: {  }
-  number_field_boost:
-    weights:
-      preprocess_index: 0
-    boosts: {  }
+  project_execution_schedule: {  }
+  project_image_absolute_url: {  }
+  project_plan_schedule: {  }
   rendered_item: {  }
   reverse_entity_references: {  }
-  tokenizer:
-    all_fields: false
-    fields: {  }
-    spaces: ''
-    ignored: ._-
-    overlap_cjk: 1
-    minimum_word_size: '3'
 tracker_settings:
   default:
     indexing_order: fifo

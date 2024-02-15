@@ -4,11 +4,11 @@ module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
   allowed_formats: 0
+  basic_auth: 0
   block: 0
   breakpoint: 0
-  ckeditor: 0
+  ckeditor5: 0
   config: 0
-  config_filter: 0
   config_ignore: 0
   config_rewrite: 0
   config_translation: 0
@@ -16,7 +16,6 @@ module:
   content_lock_timeout: 0
   crop: 0
   datetime: 0
-  dblog: 0
   diff: 0
   disable_field: 0
   dynamic_page_cache: 0
@@ -35,7 +34,6 @@ module:
   file_mdm: 0
   filter: 0
   flysystem: 0
-  flysystem_azure: 0
   focal_point: 0
   gin_toolbar: 0
   hdbt_admin_tools: 0
@@ -51,7 +49,6 @@ module:
   helfi_media_chart: 0
   helfi_media_map: 0
   helfi_media_remote_video: 0
-  helfi_navigation: 0
   helfi_node_announcement: 0
   helfi_node_landing_page: 0
   helfi_node_page: 0
@@ -61,6 +58,7 @@ module:
   helfi_paragraphs_columns: 0
   helfi_paragraphs_contact_card_listing: 0
   helfi_paragraphs_content_cards: 0
+  helfi_paragraphs_hearings: 0
   helfi_paragraphs_hero: 0
   helfi_paragraphs_image: 0
   helfi_paragraphs_liftup_with_image: 0
@@ -78,7 +76,6 @@ module:
   helfi_proxy: 0
   helfi_react_search: 0
   helfi_rekry_content: 0
-  helfi_rekry_job_search: 0
   helfi_toc: 0
   helfi_tunnistamo: 0
   helfi_user_roles: 0
@@ -86,6 +83,8 @@ module:
   image_style_quality: 0
   imagecache_external: 0
   imagemagick: 0
+  jquery_ui: 0
+  jquery_ui_draggable: 0
   language: 0
   link: 0
   linkit: 0
@@ -107,11 +106,11 @@ module:
   oembed_providers: 0
   openid_connect: 0
   options: 0
-  page_cache: 0
   paragraphs_asymmetric_translation_widgets: 0
   paragraphs_library: 0
   path: 0
   path_alias: 0
+  phpass: 0
   purge: 0
   purge_drush: 0
   purge_processor_cron: 0
@@ -131,6 +130,7 @@ module:
   simple_sitemap: 0
   social_media: 0
   sophron: 0
+  stomp: 0
   system: 0
   taxonomy: 0
   telephone: 0
@@ -147,6 +147,7 @@ module:
   views_bulk_edit: 0
   views_bulk_operations: 0
   views_ui: 0
+  helfi_navigation: 1
   pathauto: 1
   content_translation: 10
   externalauth: 10

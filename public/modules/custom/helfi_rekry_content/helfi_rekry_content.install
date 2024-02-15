@@ -7,6 +7,9 @@
 
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
+use Drupal\search_api\Entity\Index;
+use Drupal\search_api\Event\ReindexScheduledEvent;
+use Drupal\search_api\Event\SearchApiEvents;
 use Drupal\taxonomy\Entity\Term;
 
 /**
@@ -57,7 +60,7 @@ function helfi_rekry_content_update_9003() {
   ];
 
   foreach ($employmentTypeItems as $item) {
-    $term = Term::create([
+    Term::create([
       'parent' => [],
       'name' => $item['en'],
       'vid' => 'employment_type',
@@ -97,7 +100,7 @@ function helfi_rekry_content_update_9003() {
   ];
 
   foreach ($employmentItems as $item) {
-    $term = Term::create([
+    Term::create([
       'parent' => [],
       'name' => $item['en'],
       'vid' => 'employment',
@@ -190,7 +193,7 @@ function helfi_rekry_content_update_9005() {
   ];
 
   foreach ($employmentItems as $item) {
-    $term = Term::create([
+    Term::create([
       'parent' => [],
       'name' => $item['en'],
       'vid' => 'employment',
@@ -208,6 +211,7 @@ function helfi_rekry_content_update_9005() {
  */
 function helfi_rekry_content_update_9006() {
   $query = \Drupal::entityQuery('taxonomy_term')
+    ->accessCheck(FALSE)
     ->condition('vid', ['employment', 'employment_type'], 'IN')
     ->notExists('field_search_id', '');
 
@@ -252,4 +256,22 @@ function helfi_rekry_content_update_9006() {
     $term->save();
   }
 
+}
+
+/**
+ * HELfi rekry content update 9007.
+ */
+function helfi_rekry_content_update_9007() {
+  $jobIndex = Index::load('job_listings');
+
+  if (!$jobIndex) {
+    return;
+  }
+
+  // Ensure tracker works.
+  $jobIndex->rebuildTracker();
+
+  // Mark index to require reindexing.
+  $dispatcher = \Drupal::getContainer()->get('event_dispatcher');
+  $dispatcher->dispatch(new ReindexScheduledEvent($jobIndex, TRUE), SearchApiEvents::REINDEX_SCHEDULED);
 }

@@ -1,6 +1,6 @@
 services:
   Drupal\helfi_rekry_content\EventSubscriber\ImageImportSubscriber:
-    arguments: ['@file_system', '@config.factory']
+    arguments: ['@file_system', '@config.factory', '@current_user']
     tags:
       - { name: 'event_subscriber' }
   Drupal\helfi_rekry_content\Plugin\Deriver:
@@ -10,15 +10,39 @@ services:
       - { name: 'event_subscriber' }
   helfi_rekry_content.job_listing_hide_missing:
     class: Drupal\helfi_rekry_content\EventSubscriber\JobListingHideMissingSubscriber
-    arguments: [ '@entity_type.manager', '@logger.factory' ]
+    arguments: ['@entity_type.manager', '@logger.channel.helfi_rekry_content', '@queue']
     tags:
       - { name: 'event_subscriber' }
   helfi_rekry_content.job_listing_redirect_subscriber:
     class: Drupal\helfi_rekry_content\EventSubscriber\JobListingRedirectSubscriber
-    arguments: ['@config.factory', '@current_user']
+    arguments: ['@config.factory', '@current_user', '@entity_type.manager']
     tags:
       - { name: 'event_subscriber' }
-  helfi_rekry_content.job_import_subscriber:
-    class: Drupal\helfi_rekry_content\EventSubscriber\JobImportSubscriber
-    tags:
-      - { name: 'event_subscriber' }
+  logger.channel.helfi_rekry_content:
+    parent: logger.channel_base
+    arguments: ['helfi_rekry_content']
+  helfi_rekry_content.job_listing_unpublish_worker:
+    class: Drupal\helfi_rekry_content\Plugin\QueueWorker
+    arguments: ['@entity_type.manager', '@logger.channel.helfi_rekry_content']
+
+  Drupal\helfi_rekry_content\Helbit\SettingsFactory:
+    class: Drupal\helfi_rekry_content\Helbit\SettingsFactory
+    arguments:
+      - '@config.factory'
+  Drupal\helfi_rekry_content\Helbit\Settings:
+    class: Drupal\helfi_rekry_content\Helbit\Settings
+    factory:
+      - '@Drupal\helfi_rekry_content\Helbit\SettingsFactory'
+      - 'create'
+  Drupal\helfi_rekry_content\Helbit\HelbitClient:
+    class: Drupal\helfi_rekry_content\Helbit\HelbitClient
+    arguments:
+      - '@logger.channel.helfi_rekry_content'
+      - '@http_client'
+      - '@Drupal\helfi_rekry_content\Helbit\Settings'
+  Drupal\helfi_rekry_content\Service\JobListingCleaner:
+    class: Drupal\helfi_rekry_content\Service\JobListingCleaner
+    arguments:
+      - '@Drupal\helfi_rekry_content\Helbit\HelbitClient'
+      - '@content_lock'
+      - '@entity_type.manager'

@@ -1,0 +1,5 @@
+label: 'Nosta tulosten kärkeen'
+description: 'Valitsemalla tämän tulos nostetaan automaattisesti hakutuloslistauksen kärkeen.'
+settings:
+  on_label: Päällä
+  off_label: Pois

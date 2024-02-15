@@ -27,21 +27,31 @@
   }
 }
 
-.job-listing__link {
+.job-listing__item {
+  @include component-side-padding;
+}
+
+.job-listing__link-wrapper {
   margin-top: $spacing;
-  width: 100%;
 
   @include breakpoint($breakpoint-m) {
     margin-top: $spacing-and-half;
-    width: auto;
   }
 
-  &:last-of-type {
+  &.job-listing__link-wrapper--last {
     margin-top: $spacing-double;
 
     @include breakpoint($breakpoint-m) {
       margin-top: $spacing-triple;
     }
+  }
+}
+
+.job-listing__link {
+  width: 100%;
+
+  @include breakpoint($breakpoint-m) {
+    width: auto;
   }
 }
 

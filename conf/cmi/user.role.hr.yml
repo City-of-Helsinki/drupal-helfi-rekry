@@ -7,6 +7,7 @@ dependencies:
     - filter.format.minimal
     - node.type.job_listing
   module:
+    - file
     - filter
     - node
     - scheduler
@@ -22,6 +23,7 @@ permissions:
   - 'administer nodes'
   - 'cancel account'
   - 'change own username'
+  - 'delete own files'
   - 'edit any job_listing content'
   - 'schedule publishing of nodes'
   - 'use text format full_html'

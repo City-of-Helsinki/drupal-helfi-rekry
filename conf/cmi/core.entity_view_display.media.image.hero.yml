@@ -11,7 +11,7 @@ dependencies:
   module:
     - responsive_image
 _core:
-  default_config_hash: yOUJJysrNA6OZUaL8EmXsFBPwpyOzsnC0fsXT9QGHU4
+  default_config_hash: UX2CrJYBdnGTpSaqiYid65d46ihnZEmWEBJbdXJZQ7g
 id: media.image.hero
 targetEntityType: media
 bundle: image
@@ -23,6 +23,8 @@ content:
     settings:
       responsive_image_style: hero__left_right
       image_link: ''
+      image_loading:
+        attribute: eager
     third_party_settings: {  }
     weight: 0
     region: content

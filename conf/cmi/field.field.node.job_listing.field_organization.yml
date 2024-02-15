@@ -21,7 +21,7 @@ field_name: field_organization
 entity_type: node
 bundle: job_listing
 label: Organization
-description: 'Job listing''s publishing organization.'
+description: "Job listing's publishing organization."
 required: false
 translatable: false
 default_value: {  }

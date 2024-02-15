@@ -9,7 +9,7 @@ dependencies:
   module:
     - entity_reference_revisions
 _core:
-  default_config_hash: QHbMutsxDDQ1YAxKNp1M0uOFZpE9bAsgCJWUZx_571w
+  default_config_hash: ZqgrD2xFyv-VKitZqJ7VFPkatRSGyeyOgLwnW-C1Hss
 id: paragraph.contact_card.field_contact_social_media
 field_name: field_contact_social_media
 entity_type: paragraph

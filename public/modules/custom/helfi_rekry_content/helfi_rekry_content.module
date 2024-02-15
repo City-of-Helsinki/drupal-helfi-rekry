@@ -5,25 +5,80 @@
  * Functions for helfi_rekry_content module.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\node\NodeInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\helfi_platform_config\DTO\ParagraphTypeCollection;
+use Drupal\helfi_rekry_content\Entity\JobListing;
+use Drupal\media\OEmbed\ProviderException;
+use Drupal\media\OEmbed\ResourceException;
 use Drupal\migrate\MigrateSkipRowException;
+use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
+use Drupal\views\Plugin\views\query\QueryPluginBase;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_entity_bundle_info_alter().
+ */
+function helfi_rekry_content_entity_bundle_info_alter(array &$bundles): void {
+  if (isset($bundles['node']['job_listing'])) {
+    $bundles['node']['job_listing']['class'] = JobListing::class;
+  }
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
- *
- * Disables title field for HR role when editing job listing node.
  */
 function helfi_rekry_content_form_node_job_listing_edit_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
-  $userRoles = \Drupal::currentUser()->getRoles();
+  $formObject = $form_state->getFormObject();
+  assert($formObject instanceof EntityFormInterface);
+  $user_edit_access = $formObject
+    ->getEntity()
+    ->access('edit', \Drupal::currentUser());
 
-  if (in_array('hr', $userRoles)) {
-    $form['title']['#disabled'] = TRUE;
+  // If permitted to edit entity, do nothing.
+  if ($user_edit_access) {
+    return;
   }
+
+  $fields_from_tpr = [
+    'title',
+    'field_salary_class',
+    'field_contacts',
+    'field_recruitment_id',
+    'field_last_changed_remote',
+    'field_recruitment_type',
+    'field_task_area',
+    'field_publication_ends',
+    'field_publication_starts',
+    'field_link_to_presentation',
+    'field_employment_type',
+    'job_description',
+    'field_organization_description',
+    'field_organization',
+    'field_jobs',
+    'field_organization_name',
+    'field_salary',
+    'field_job_duration',
+    'field_address',
+    'field_postal_code',
+    'field_postal_area',
+    'field_link_to_application',
+    'field_employment',
+    'field_image',
+    'field_video',
+    'field_original_language',
+    'field_anonymous',
+  ];
+
+  foreach ($fields_from_tpr as $field) {
+    $form[$field]['#disabled'] = TRUE;
+  }
+
 }
 
 /**
@@ -73,10 +128,11 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
     return NULL;
   }
 
-  $entityQuery = \Drupal::entityQuery('media')
+  $ids = \Drupal::entityQuery('media')
     ->condition('bundle', 'job_listing_image')
-    ->condition('field_media_image.target_id', $fid);
-  $ids = $entityQuery->execute();
+    ->condition('field_media_image.target_id', $fid)
+    ->accessCheck(FALSE)
+    ->execute();
 
   if (!empty($ids)) {
     return reset($ids);
@@ -86,24 +142,69 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
 }
 
 /**
- * Get media entity by file id.
+ * Validate and return video url, used in migration.
  *
  * @param string|null $url
  *   The video url.
  *
  * @return string|null
  *   Valid video url or null
+ *
+ * @throws \Drupal\migrate\MigrateSkipRowException
  */
 function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
     $resolver = \Drupal::service('media.oembed.url_resolver');
-    $validate = $resolver->getProviderByUrl($url);
-    return $url;
+    $resolver->getProviderByUrl($url);
   }
   catch (\throwable $e) {
-    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
+    \Drupal::logger('helfi_rekry_content')
+      ->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
+
     throw new MigrateSkipRowException();
   }
+
+  // Ticket #UHF-9069 prevent migrating bad oembed links.
+  try {
+    // Use the same validation used in field validation.
+    $resource_url = $resolver->getResourceUrl($url);
+    \Drupal::service('media.oembed.resource_fetcher')
+      ->fetchResource($resource_url);
+    return $url;
+  }
+  catch (ResourceException | ProviderException $e) {
+    // fetchResource fails, the link is no good.
+    \Drupal::logger('helfi_rekry_content')
+      ->error('Bad video url rejected by oembed-validation: ' . $url);
+
+    throw new MigrateSkipRowException();
+  }
+}
+
+/**
+ * Sanitize video url.
+ *
+ * @param string $url
+ *   Previous video url.
+ *
+ * @returns string
+ *   New video url.
+ */
+function _helfi_rekry_content_sanitize_video_url(string $url): string {
+  if (!$url || !($url = trim($url))) {
+    return $url;
+  }
+
+  if (!str_contains($url, "://")) {
+    $url = "https://$url";
+  }
+
+  // OEmbed does not accept YouTube embed links.
+  if (preg_match("/youtube\.com\/embed\/([\w\-_]+)$/", $url, $matches)) {
+    $url = sprintf("https://youtube.com/watch?v=%s", $matches[1]);
+  }
+
+  return $url;
 }
 
 /**
@@ -130,12 +231,13 @@ function _helfi_rekry_content_check_video_existance(string|NULL $url = NULL): vo
  *   The mid or null
  */
 function _helfi_rekry_content_lookup_video_mid(string $url): ?string {
-  $entityQuery = \Drupal::entityQuery('media')
+  $ids = \Drupal::entityQuery('media')
     ->condition('bundle', 'remote_video')
     ->condition('field_media_oembed_video', $url)
     ->range(0, 1)
-    ->latestRevision();
-  $ids = $entityQuery->execute();
+    ->latestRevision()
+    ->accessCheck(FALSE)
+    ->execute();
 
   if (!empty($ids)) {
     return reset($ids);
@@ -154,12 +256,13 @@ function _helfi_rekry_content_lookup_video_mid(string $url): ?string {
  *   The nid or null
  */
 function _helfi_rekry_content_lookup_job_nid(string $id): ?string {
-  $entityQuery = \Drupal::entityQuery('node')
+  $ids = \Drupal::entityQuery('node')
     ->condition('type', 'job_listing')
     ->condition('field_recruitment_id', $id)
     ->range(0, 1)
-    ->latestRevision();
-  $ids = $entityQuery->execute();
+    ->latestRevision()
+    ->accessCheck(FALSE)
+    ->execute();
 
   if (!empty($ids)) {
     return reset($ids);
@@ -206,7 +309,6 @@ function helfi_rekry_content_preprocess_field(&$variables) {
   if (
     !$node instanceof NodeInterface ||
     $node->getType() !== 'job_listing' ||
-    ($node->hasField('field_copied') && $node->get('field_copied')->isEmpty()) ||
     ($node->hasField('field_original_language') && $node->get('field_original_language')->isEmpty())
   ) {
     return;
@@ -248,6 +350,7 @@ function _helfi_rekry_content_lookup_organization_tid($external_id) {
   $ids = \Drupal::entityQuery('taxonomy_term')
     ->condition('vid', 'organization')
     ->condition('field_external_id', $external_id)
+    ->accessCheck(FALSE)
     ->execute();
 
   if (empty($ids)) {
@@ -265,22 +368,22 @@ function _helfi_rekry_content_lookup_task_area_tid($args) {
   $external_id = $args[0];
   $name = $args[1];
 
-  $query = \Drupal::entityQuery('taxonomy_term')
+  $ids = \Drupal::entityQuery('taxonomy_term')
     ->condition('vid', 'task_area')
-    ->condition('field_external_id', $external_id);
-
-  $ids = $query->execute();
+    ->condition('field_external_id', $external_id)
+    ->accessCheck(FALSE)
+    ->execute();
 
   if ($ids) {
     return reset($ids);
   }
 
-  // Since ext id mihgt not exist yet, try matching by name.
-  $fallbackQuery = \Drupal::entityQuery('taxonomy_term')
+  // Since ext id might not exist yet, try matching by name.
+  $ids = \Drupal::entityQuery('taxonomy_term')
     ->condition('vid', 'task_area')
-    ->condition('name', $name);
-
-  $ids = $fallbackQuery->execute();
+    ->condition('name', $name)
+    ->accessCheck(FALSE)
+    ->execute();
 
   if ($ids) {
     return reset($ids);
@@ -333,7 +436,7 @@ function helfi_rekry_content_preprocess_block(&$variables) {
 
   if (
     empty($paragraph) ||
-    !in_array($entity->getType(), ['landing_page', 'page']) ||
+    !in_array($entity->bundle(), ['landing_page', 'page']) ||
     !$paragraph instanceof ParagraphInterface
   ) {
     return;
@@ -345,4 +448,232 @@ function helfi_rekry_content_preprocess_block(&$variables) {
   if ($paragraph->getType() === 'job_listing_search') {
     $first_paragraph_gray = 'has-first-gray-bg-block';
   }
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function helfi_rekry_content_views_query_alter(ViewExecutable $view, QueryPluginBase $query) {
+  if ($view->id() !== 'job_listing_search') {
+    return;
+  }
+
+  if (!isset($query->where[0]["conditions"][0])) {
+    return;
+  }
+
+  $task_area_external_id = $query
+    ->where[0]["conditions"][0]["value"][":node__field_task_area_field_task_area_target_id"];
+
+  if (!$task_area_external_id) {
+    return;
+  }
+
+  $terms = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->loadByProperties(['field_external_id' => $task_area_external_id]);
+  if (!$terms) {
+    return;
+  }
+
+  /** @var \Drupal\taxonomy\Entity\Term $term */
+  $term = reset($terms);
+  $query->where[0]["conditions"][0]["value"][":node__field_task_area_field_task_area_target_id"] = $term->id();
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function helfi_rekry_content_page_attachments(array &$attachments) : void {
+
+  // Get current entity and entity version.
+  $entity_matcher = \Drupal::service('helfi_platform_config.entity_version_matcher')->getType();
+
+  /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
+  $entity = $entity_matcher['entity'];
+
+  // No need to continue if entity is not job listing.
+  if (!$entity instanceof JobListing) {
+    return;
+  }
+
+  /** @var \Drupal\helfi_rekry_content\Entity\JobListing $job_listing */
+  $job_listing = $entity;
+
+  /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_formatter */
+  $date_formatter = Drupal::service('date.formatter');
+
+  // @phpstan-ignore-next-line
+  $publication_starts_datetime = $job_listing->get('field_publication_starts')->date->getTimestamp();
+  $publication_starts_formatted = $date_formatter->format($publication_starts_datetime, 'html_date');
+
+  /** @var Drupal\Core\Extension\ThemeHandler $theme_handler */
+  $theme_handler = Drupal::service('theme_handler');
+
+  $logo_image_url = '';
+  // Get the default share image as structured data logo.
+  if ($theme_handler->themeExists('hdbt')) {
+    $theme = $theme_handler->getTheme('hdbt');
+    $current_language = \Drupal::languageManager()
+      ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+    $logo_file_name = $current_language === 'sv' ? 'og-global-sv.png' : 'og-global.png';
+
+    /** @var \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator */
+    $file_url_generator = \Drupal::service('file_url_generator');
+    $logo_image_url = $file_url_generator->generate("{$theme->getPath()}/src/images/{$logo_file_name}")
+      ->setAbsolute()
+      ->toString();
+  }
+
+  $structured_data = json_encode([
+    '@context' => 'https://schema.org/',
+    '@type' => 'JobPosting',
+    'title' => $job_listing->getTitle(),
+    'description' => $job_listing->getJobDescription(),
+    'identifier' => [
+      '@type' => 'PropertyValue',
+      'name' => t('City of Helsinki'),
+      'value' => $job_listing->get('field_recruitment_id')->value,
+    ],
+    'datePosted' => $publication_starts_formatted,
+    'validThrough' => $job_listing->get('field_publication_ends')->value,
+    'employmentType' => $job_listing->getEmploymentType(),
+    'hiringOrganization' => [
+      '@type' => 'Organization',
+      'name' => $job_listing->getOrganizationName(),
+      'sameAs' => 'https://hel.fi/',
+      'logo' => $logo_image_url,
+    ],
+    'jobLocation' => [
+      '@type' => 'Place',
+      'address' => [
+        '@type' => 'PostalAddress',
+        'streetAddress' => $job_listing->get('field_address')->value,
+        'addressRegion' => $job_listing->get('field_postal_area')->value,
+        'postalCode' => $job_listing->get('field_postal_code')->value,
+        'addressCountry' => t('Finland'),
+      ],
+    ],
+  ]);
+
+  if (array_key_exists('#attached', $attachments)) {
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#tag' => 'script',
+        '#attributes' => [
+          'type' => 'application/ld+json',
+        ],
+        '#value' => $structured_data,
+      ],
+      'structured_job_listing_data',
+    ];
+  }
+}
+
+/**
+ * Implements hook_page_attachments_alter().
+ *
+ * Update job search's task area pages metadata.
+ */
+function helfi_rekry_content_page_attachments_alter(array &$attachments) {
+  $queryParams = \Drupal::request()->query->all();
+
+  if (!array_key_exists('task_areas', $queryParams)) {
+    return;
+  }
+
+  // Only task_area and page paramaters allowed.
+  foreach ($queryParams as $queryParam => $queryParamValue) {
+    if ($queryParam !== 'task_areas' && $queryParam !== 'page') {
+      return;
+    }
+  }
+
+  // Only one task_area category allowed.
+  if (substr_count(\Drupal::request()->getRequestUri(), 'task_areas') > 1) {
+    return;
+  }
+
+  $currentUri = \Drupal::request()->getUri();
+  $langcode = \Drupal::languageManager()
+    ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+    ->getId();
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+    'vid' => 'task_area',
+    'field_external_id' => $queryParams['task_areas'],
+  ]);
+
+  $term = reset($term);
+  if ($term && $term->hasTranslation($langcode)) {
+    $term = $term->getTranslation($langcode);
+  }
+
+  if ($term && $term->hasField('field_meta_description') && !$term->get('field_meta_description')->isEmpty()) {
+    $description = [
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'description',
+        'content' => $term->get('field_meta_description')->getString(),
+      ],
+    ];
+
+    $attachments['#attached']['html_head'][] = [$description, 'description'];
+  }
+
+  foreach ($attachments['#attached']['html_head'] as $key => $head) {
+    switch ($head[1]) {
+      case 'canonical_url':
+        $attachments['#attached']['html_head'][$key][0]['#attributes']['href'] = $currentUri;
+        break;
+
+      case 'og_url':
+      case 'twitter_cards_page_url':
+        $attachments['#attached']['html_head'][$key][0]['#attributes']['content'] = $currentUri;
+        break;
+
+      case 'og_title':
+      case 'twitter_cards_title':
+        if ($term && $term->hasField('field_metadata') && !$term->get('field_metadata')->isEmpty()) {
+          $attachments['#attached']['html_head'][$key][0]['#attributes']['content'] = $term->get('field_metadata')->getString();
+        }
+        break;
+    }
+  }
+}
+
+/**
+ * Implements hook_helfi_paragraph_types().
+ */
+function helfi_rekry_content_helfi_paragraph_types() : array {
+  // @todo UHF-9511 Remove the content liftup paragraph type.
+  $entities = [
+    'node' => [
+      'landing_page' => [
+        'field_content' => [
+          'content_liftup' => 11,
+          'job_search' => 15,
+        ],
+      ],
+      'page' => [
+        'field_content' => [
+          'content_liftup' => 12,
+        ],
+        'field_lower_content' => [
+          'content_liftup' => 12,
+        ],
+      ],
+    ],
+  ];
+
+  $enabled = [];
+  foreach ($entities as $entityTypeId => $bundles) {
+    foreach ($bundles as $bundle => $fields) {
+      foreach ($fields as $field => $paragraphTypes) {
+        foreach ($paragraphTypes as $paragraphType => $weight) {
+          $enabled[] = new ParagraphTypeCollection($entityTypeId, $bundle, $field, $paragraphType, $weight);
+        }
+      }
+    }
+  }
+  return $enabled;
 }

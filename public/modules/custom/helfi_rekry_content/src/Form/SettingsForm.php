@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Form;
 
@@ -47,8 +47,8 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
-    return new static(
+  public static function create(ContainerInterface $container) : self {
+    return new self(
       $container->get('config.factory'),
       $container->get('path_alias.manager'),
     );
@@ -74,6 +74,7 @@ class SettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $siteConfig = $this->config('helfi_rekry_content.job_listings');
 
+    // phpcs:ignore
     $searchPage = Node::load($siteConfig->get('search_page'));
     $form['job_listings']['search_page'] = [
       '#type' => 'entity_autocomplete',
@@ -86,6 +87,7 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Displayed after the related jobs block, for example.'),
     ];
 
+    // phpcs:ignore
     $redirectPage = Node::load($siteConfig->get('redirect_403_page'));
     $form['job_listings']['redirect_403_page'] = [
       '#type' => 'entity_autocomplete',

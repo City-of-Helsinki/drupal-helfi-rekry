@@ -12,6 +12,7 @@ dependencies:
     - paragraphs.paragraphs_type.content_liftup
     - paragraphs.paragraphs_type.event_list
     - paragraphs.paragraphs_type.from_library
+    - paragraphs.paragraphs_type.hearings
     - paragraphs.paragraphs_type.job_search
     - paragraphs.paragraphs_type.liftup_with_image
     - paragraphs.paragraphs_type.list_of_links
@@ -22,14 +23,9 @@ dependencies:
     - paragraphs.paragraphs_type.remote_video
     - paragraphs.paragraphs_type.target_group_links
   module:
-    - disable_field
     - entity_reference_revisions
-third_party_settings:
-  disable_field:
-    add_disable: none
-    edit_disable: none
 _core:
-  default_config_hash: D7s90vFMq6Tjc-ThXp4s3q8tO6lTN1lBPY3e63U8chU
+  default_config_hash: zEXoDFJnyArUOiL2ZrtDuq4YDWKyn6ung9JndPk_Ntg
 id: node.landing_page.field_content
 field_name: field_content
 entity_type: node
@@ -59,55 +55,59 @@ settings:
       phasing: phasing
       popular_services: popular_services
       target_group_links: target_group_links
+      hearings: hearings
       job_search: job_search
     negate: 0
     target_bundles_drag_drop:
       banner:
-        weight: 0
+        weight: 2
         enabled: true
       chart:
-        weight: 0
+        weight: 10
         enabled: true
       columns:
-        weight: 0
+        weight: 6
         enabled: true
       content_cards:
-        weight: 0
+        weight: 1
         enabled: true
       content_liftup:
-        weight: 0
+        weight: 11
         enabled: true
       event_list:
-        weight: 0
+        weight: 13
         enabled: true
       from_library:
-        weight: 0
+        weight: 5
+        enabled: true
+      hearings:
+        weight: 14
         enabled: true
       job_search:
-        weight: 0
+        weight: 15
         enabled: true
       liftup_with_image:
-        weight: 0
+        weight: 3
         enabled: true
       list_of_links:
         weight: 0
         enabled: true
       map:
-        weight: 0
+        weight: 8
         enabled: true
       news_list:
-        weight: 0
+        weight: 14
         enabled: true
       phasing:
-        weight: 0
+        weight: 7
         enabled: true
       popular_services:
-        weight: 0
+        weight: 4
         enabled: true
       remote_video:
-        weight: 0
+        weight: 9
         enabled: true
       target_group_links:
-        weight: 0
+        weight: 12
         enabled: true
 field_type: entity_reference_revisions

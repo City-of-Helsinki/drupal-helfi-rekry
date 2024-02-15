@@ -1,110 +1,23 @@
 #!/bin/bash
 
 echo "Starting job listing migrations: $(date)"
-
-function populate_variables {
-  # Generate variables used to control which migrates needs
-  # to be reset and which ones needs to be skipped based on
-  # migrate status
-  MIGRATE_STATUS=$(drush migrate:status --format=json)
-  php ./docker/openshift/crons/migrate-status.php \
-    helfi_rekry_images:all,helfi_rekry_videos:all,helfi_rekry_task_areas:all,helfi_rekry_organizations:all,helfi_rekry_jobs:all,helfi_rekry_jobs:all_sv,helfi_rekry_jobs:all_en \
-    "$MIGRATE_STATUS" > /tmp/migrate-job-listings-source.sh \
-    $1
-
-  # Contains variables:
-  # - $RESET_STATUS
-  # - $SKIP_MIGRATE
-  # Both contains a space separated list of migrates
-  source /tmp/migrate-job-listings-source.sh
-}
-
-function reset_status {
-  # Reset status of stuck migrations.
-  for ID in $RESET_STATUS; do
-    drush migrate:reset-status $ID
-  done
-}
-
-function run_migrate {
-  for ID in $SKIP_MIGRATE; do
-    if [ "$ID" == "$1" ]; then
-      return 1
-    fi
-  done
-  return 0
-}
-
-# Populate variables for the first run after deploy and
-# default migrate interval to 6 hours.
-populate_variables 21600
-
 while true
 do
-  # Reset stuck migrations.
-  reset_status
-
-  if run_migrate "helfi_rekry_images:all"; then
-    echo "Running job listing image migrations: $(date)"
-    drush migrate:import helfi_rekry_images:all
-  fi
-
-  if run_migrate "helfi_rekry_videos:all"; then
-    echo "Running job listing video migrations: $(date)"
-    drush migrate:import helfi_rekry_videos:all
-  fi
-
-  if run_migrate "helfi_rekry_task_areas:all"; then
-    echo "Running job listing task area migrations: $(date)"
-    drush migrate:import helfi_rekry_task_areas:all
-  fi
-
-  if run_migrate "helfi_rekry_task_areas:all_sv"; then
-    echo "Running job listing task area migrations (sv): $(date)"
-    drush migrate:import helfi_rekry_task_areas:all_sv
-  fi
-
-  if run_migrate "helfi_rekry_task_areas:all_en"; then
-    echo "Running job listing task area migrations (en): $(date)"
-    drush migrate:import helfi_rekry_task_areas:all_en
-  fi
-
-  if run_migrate "helfi_rekry_organizations:all"; then
-    echo "Running job listing organization migrations: $(date)"
-    drush migrate:import helfi_rekry_organizations:all --update
-  fi
-
-  if run_migrate "helfi_rekry_organizations:all_sv"; then
-    echo "Running job listing organization migrations (sv): $(date)"
-    drush migrate:import helfi_rekry_organizations:all_sv --update
-  fi
-
-  if run_migrate "helfi_rekry_organizations:all_en"; then
-    echo "Running job listing organization migrations (en): $(date)"
-    drush migrate:import helfi_rekry_organizations:all_en --update
-  fi
-
   echo "Running job listing migrations: $(date)"
-  if run_migrate "helfi_rekry_jobs:all"; then
-    echo "Running job listing migrations: $(date)"
-    drush migrate:import helfi_rekry_jobs:all
-  fi
+  # Allow migrations to be run every 1.5 hours, reset stuck migrations every 12 hours.
+  drush migrate:import helfi_rekry_images:all --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_videos:all --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_task_areas:all --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_task_areas:all_sv --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_task_areas:all_en --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_organizations:all --update --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_organizations:all_sv --update --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_organizations:all_en --update --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_jobs:all --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_jobs:all_sv --reset-threshold 43200 --interval 5400 --no-progress
+  drush migrate:import helfi_rekry_jobs:all_en --reset-threshold 43200 --interval 5400 --no-progress
 
-  if run_migrate "helfi_rekry_jobs:all_sv"; then
-    echo "Running job listing migrations (sv): $(date)"
-    drush migrate:import helfi_rekry_jobs:all_sv
-  fi
-
-  if run_migrate "helfi_rekry_jobs:all_en"; then
-    echo "Running job listing migrations (en): $(date)"
-    drush migrate:import helfi_rekry_jobs:all_en
-  fi
-
-  # Reset migrate status if migrate has been running for more
-  # than 12 hours.
-  populate_variables 43200
-  # Never skip migrate after first time.
-  SKIP_MIGRATE=
+  drush helfi-rekry-content:clean-expired-listings
 
   # Sleep for 3 hours.
   sleep 10800

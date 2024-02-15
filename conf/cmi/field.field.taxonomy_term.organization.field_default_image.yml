@@ -14,7 +14,7 @@ field_name: field_default_image
 entity_type: taxonomy_term
 bundle: organization
 label: 'Default image'
-description: 'Provide a default image for the organization. This image is shown in the organization''s description.'
+description: "Provide a default image for the organization. This image is shown in the organization's description."
 required: false
 translatable: false
 default_value: {  }

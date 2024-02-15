@@ -5,6 +5,8 @@ declare(strict_types = 1);
 namespace Drupal\helfi_rekry_content\Plugin\migrate_plus\data_parser;
 
 use Drupal\migrate_plus\Plugin\migrate_plus\data_parser\Json;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Obtain JSON data for migration from Helbit.
@@ -14,7 +16,30 @@ use Drupal\migrate_plus\Plugin\migrate_plus\data_parser\Json;
  *   title = @Translation("Helbit JSON")
  * )
  */
-class HelbitJson extends Json {
+final class HelbitJson extends Json {
+
+  /**
+   * The logger.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  protected LoggerInterface $logger;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(
+    ContainerInterface $container,
+    array $configuration,
+    $plugin_id,
+    $plugin_definition
+  ): self {
+    /** @var self $instance */
+    $instance = parent::create($container, $configuration, $plugin_id,
+      $plugin_definition);
+    $instance->logger = $container->get('logger.factory')->get('helfi_rekry_content');
+    return $instance;
+  }
 
   /**
    * Get source data from Api.
@@ -44,7 +69,7 @@ class HelbitJson extends Json {
       return [];
     }
 
-    \Drupal::logger('helfi_rekry_content')->error(t('Failed retrieving data from Helbit. Request failed with code: @status_code'), [
+    $this->logger->error('Failed retrieving data from Helbit. Request failed with code: @status_code', [
       '@status_code' => $source_data['status'],
     ]);
 

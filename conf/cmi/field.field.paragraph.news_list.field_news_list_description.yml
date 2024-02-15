@@ -13,7 +13,7 @@ third_party_settings:
     allowed_formats:
       - minimal
 _core:
-  default_config_hash: EIpWpSFct6BBIBWOTpd87zJbnbSe0QLPeFLW9-LP1-o
+  default_config_hash: 7yDWmbqqH_qTaQ4iyJ6QTLaEcqUnL0oVp-t1huDnK_g
 id: paragraph.news_list.field_news_list_description
 field_name: field_news_list_description
 entity_type: paragraph
@@ -24,5 +24,6 @@ required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings: {  }
+settings:
+  allowed_formats: {  }
 field_type: text_long

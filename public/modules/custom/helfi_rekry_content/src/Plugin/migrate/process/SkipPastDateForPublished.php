@@ -1,9 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Plugin\migrate\process;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\migrate\MigrateExecutableInterface;
@@ -29,14 +30,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   source: publication_starts
  * @endcode
  */
-class SkipPastDateForPublished extends ProcessPluginBase implements ContainerFactoryPluginInterface {
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected EntityTypeManagerInterface $entityTypeManager;
+final class SkipPastDateForPublished extends ProcessPluginBase implements ContainerFactoryPluginInterface {
 
   /**
    * Constructs a skip_past_date_for_published process plugin.
@@ -47,23 +41,31 @@ class SkipPastDateForPublished extends ProcessPluginBase implements ContainerFac
    *   The plugin ID.
    * @param array $plugin_definition
    *   The plugin definition.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
+   * @param \Drupal\Component\Datetime\TimeInterface $time
+   *   The time interface.
    */
-  public function __construct(array $configuration, $plugin_id, array $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    array $plugin_definition,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected TimeInterface $time,
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) : static {
-    return new static(
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) : self {
+    return new self(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('datetime.time'),
     );
   }
 
@@ -75,7 +77,7 @@ class SkipPastDateForPublished extends ProcessPluginBase implements ContainerFac
    * @throws \Drupal\migrate\MigrateSkipProcessException
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) : string {
-    if ((int) $value && (int) $value <= \Drupal::time()->getCurrentTime() && !empty($nid = $row->getDestinationProperty('nid'))) {
+    if ((int) $value && (int) $value <= $this->time->getCurrentTime() && !empty($nid = $row->getDestinationProperty('nid'))) {
       $node = $this->entityTypeManager->getStorage('node')->load($nid);
       if (!empty($node) && $node->isPublished()) {
         // Value is in the past, node exists, and the node is already published.

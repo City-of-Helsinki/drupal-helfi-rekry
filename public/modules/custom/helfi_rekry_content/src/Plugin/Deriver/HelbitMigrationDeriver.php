@@ -1,24 +1,24 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Plugin\Deriver;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
-use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Deriver for Helbit migrations.
  */
-class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriverInterface {
+final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriverInterface {
 
   /**
    * Constructs a new instance.
    *
-   * @param Drupal\Core\Config\ConfigFactory $config
+   * @param \Drupal\Core\Config\ConfigFactory $config
    *   The settings service.
    */
   public function __construct(private ConfigFactory $config) {
@@ -27,8 +27,8 @@ class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriverInte
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, $base_plugin_id) {
-    return new static($container->get('config.factory'));
+  public static function create(ContainerInterface $container, $base_plugin_id) : self {
+    return new self($container->get('config.factory'));
   }
 
   /**

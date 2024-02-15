@@ -7,10 +7,10 @@ dependencies:
     - field.field.node.job_listing.field_address
     - field.field.node.job_listing.field_anonymous
     - field.field.node.job_listing.field_contacts
-    - field.field.node.job_listing.field_copied
     - field.field.node.job_listing.field_employment
     - field.field.node.job_listing.field_employment_type
     - field.field.node.job_listing.field_image
+    - field.field.node.job_listing.field_job_description_override
     - field.field.node.job_listing.field_job_duration
     - field.field.node.job_listing.field_jobs
     - field.field.node.job_listing.field_last_changed_remote
@@ -18,11 +18,14 @@ dependencies:
     - field.field.node.job_listing.field_link_to_presentation
     - field.field.node.job_listing.field_organization
     - field.field.node.job_listing.field_organization_description
+    - field.field.node.job_listing.field_organization_description_o
     - field.field.node.job_listing.field_organization_name
+    - field.field.node.job_listing.field_organization_override
     - field.field.node.job_listing.field_original_language
     - field.field.node.job_listing.field_postal_area
     - field.field.node.job_listing.field_postal_code
     - field.field.node.job_listing.field_prevent_publishing
+    - field.field.node.job_listing.field_promoted
     - field.field.node.job_listing.field_publication_ends
     - field.field.node.job_listing.field_publication_starts
     - field.field.node.job_listing.field_recruitment_id
@@ -44,13 +47,13 @@ content:
     type: entity_reference_label
     label: above
     settings:
-      link: true
+      link: false
     third_party_settings: {  }
     weight: 1
     region: content
   field_job_duration:
     type: string
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
@@ -73,19 +76,22 @@ hidden:
   field_address: true
   field_anonymous: true
   field_contacts: true
-  field_copied: true
   field_employment: true
   field_image: true
+  field_job_description_override: true
   field_jobs: true
   field_last_changed_remote: true
   field_link_to_application: true
   field_link_to_presentation: true
   field_organization: true
   field_organization_description: true
+  field_organization_description_o: true
+  field_organization_override: true
   field_original_language: true
   field_postal_area: true
   field_postal_code: true
   field_prevent_publishing: true
+  field_promoted: true
   field_publication_ends: true
   field_publication_starts: true
   field_recruitment_id: true

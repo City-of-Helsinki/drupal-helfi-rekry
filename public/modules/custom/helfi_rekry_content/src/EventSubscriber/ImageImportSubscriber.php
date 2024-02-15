@@ -1,11 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\File\FileSystem;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\media\Entity\Media;
 use Drupal\migrate\Event\MigrateEvents;
 use Drupal\migrate\Event\MigrateImportEvent;
@@ -22,10 +23,16 @@ class ImageImportSubscriber implements EventSubscriberInterface {
    *
    * @param \Drupal\Core\File\FileSystem $fileSystem
    *   The file system service.
-   * @param Drupal\Core\Config\ConfigFactory $config
+   * @param \Drupal\Core\Config\ConfigFactory $config
    *   The settings service.
+   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
+   *   The current user.
    */
-  public function __construct(private FileSystem $fileSystem, private ConfigFactory $config) {
+  public function __construct(
+    private FileSystem $fileSystem,
+    private ConfigFactory $config,
+    private AccountProxyInterface $currentUser
+  ) {
   }
 
   /**
@@ -52,7 +59,8 @@ class ImageImportSubscriber implements EventSubscriberInterface {
 
     $row = $event->getRow();
     $title = $row->getSourceProperty('title');
-    $fileId = reset($event->getDestinationIdValues());
+    $destinationIdValues = $event->getDestinationIdValues();
+    $fileId = reset($destinationIdValues);
 
     if ($mid = _helfi_rekry_content_get_media_image($fileId)) {
       $media = Media::load($mid);
@@ -61,13 +69,13 @@ class ImageImportSubscriber implements EventSubscriberInterface {
           'target_id' => $fileId,
           'alt' => $title,
         ])
-        ->setPublished(TRUE)
+        ->setPublished()
         ->save();
     }
     else {
       $media = Media::create([
         'bundle' => 'job_listing_image',
-        'uid' => \Drupal::currentUser()->id(),
+        'uid' => $this->currentUser->id(),
         'name' => $title,
         'field_media_image' => [
           'target_id' => $fileId,
@@ -76,7 +84,7 @@ class ImageImportSubscriber implements EventSubscriberInterface {
       ]);
 
       $media->setName(basename($row->getDestinationProperty('destination_filename')))
-        ->setPublished(TRUE)
+        ->setPublished()
         ->save();
     }
   }

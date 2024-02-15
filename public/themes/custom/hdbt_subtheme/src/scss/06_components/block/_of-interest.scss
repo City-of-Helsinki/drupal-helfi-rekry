@@ -17,11 +17,7 @@ $-block--of-interes-padding-top-and-bottom: 80px;
     margin-top: 0;
   }
 
-  .views-row:not(:first-of-type) {
-    margin-top: $spacing;
-  }
-
-  .views-row:last-of-type {
-    margin-bottom: $spacing;
+  .block--of-interest__more-link {
+    margin-top: $spacing-triple;
   }
 }

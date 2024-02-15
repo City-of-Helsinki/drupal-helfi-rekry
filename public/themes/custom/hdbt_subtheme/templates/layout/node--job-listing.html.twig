@@ -64,6 +64,8 @@
  *   is an administrator.
  * - publication_starts_today: Helper variable for displaying 'today' instead
  *   of the actual timestamp if the job listing is published today.
+ * - task_area_name: Task area name for Rekry search link.
+ * - task_area_rekry_search_url: Rekry search url with task area url query param.
  *
  * @see template_preprocess_node()
  *
@@ -125,8 +127,18 @@
             {% endblock content %}
           {% endembed %}
         {% endif %}
-        {{ content.field_organization_name }}
-        {{ content.field_link_to_application }}
+
+        {% if content.field_organization_name|render %}
+          <div class="job-listing__organization-name job-listing__item">
+            {{ content.field_organization_name }}
+          </div>
+        {% endif %}
+
+        {% if content.field_link_to_application|render %}
+          <div class="job-listing__link-wrapper job-listing__item">
+            {{ content.field_link_to_application }}
+          </div>
+        {% endif %}
 
         {% if publication_starts_today == true %}
           {% set publication_starts = 'today'|t %}
@@ -138,32 +150,56 @@
           { label: 'Application period ends'|t, icon: 'clock', content: content.field_publication_ends },
           content.field_salary|render ? { label: 'Pay'|t, icon: 'glyph-euro', content: content.field_salary },
           { label: 'Employment contract'|t, icon: 'calendar', content: content.field_job_duration },
-          { label: 'Address'|t, icon: 'location', content: [content.field_address, content.field_postal_code, content.field_postal_area] },
           { label: 'Published'|t, icon: 'calendar-clock', content: publication_starts },
+          { label: 'Address'|t, icon: 'location', content: [content.field_address, content.field_postal_code, content.field_postal_area] },
+          task_area_name is defined ? { label: 'Task area'|t, icon: 'occupation', content: task_area_rekry_search_url is defined ? link(task_area_name, task_area_rekry_search_url) : task_area_name },
           { label: 'Job code'|t, icon: 'locate', content: content.field_recruitment_id },
         ] %}
 
-        <div class="job-listing__metadata-wrapper">
+        <div class="job-listing__metadata-wrapper job-listing__item">
           {% include '@hdbt/misc/metadata-wrapper.twig' with { items: metadata }%}
         </div>
 
-        {{ content.job_description }}
-        {{ content.field_salary_class }}
+        {% if content.field_job_description_override|render %}
+          <div class="job-listing__job-description job-listing__item user-edited-content">
+            {{ content.field_job_description_override }}
+          </div>
+        {% elseif content.job_description|render %}
+          <div class="job-listing__job-description job-listing__item user-edited-content">
+            {{ content.job_description }}
+          </div>
+        {% endif %}
+
+        {% if content.field_salary_class|render %}
+          <div class="job-listing__salary-class job-listing__item">
+            {{ content.field_salary_class }}
+          </div>
+        {% endif %}
+
         {% if content.field_contacts|render or content.field_link_to_presentation|render %}
-          <div class="job-listing__additional-information">
+          <div class="job-listing__additional-information job-listing__item">
             <h2 class="job-listing__additional-information__title">{{ 'Additional information'|t }}</h2>
-            <div class="job-listing__additional-information__content">
+            <div class="job-listing__additional-information__content user-edited-content">
               {{ content.field_contacts }}
               {{ content.field_link_to_presentation }}
             </div>
           </div>
         {% endif %}
+
         {% if content.field_video|render %}
-          {% include '@hdbt/component/remote-video.twig' with {
-            video: content.field_video,
-          }%}
+          <div class="job-listing__video job-listing__item">
+            {% include '@hdbt/component/remote-video.twig' with {
+              video: content.field_video,
+            }%}
+          </div>
         {% endif %}
-        {{ content.field_link_to_application }}
+
+        {% if content.field_link_to_application|render %}
+          <div class="job-listing__link-wrapper job-listing__link-wrapper--last job-listing__item">
+            {{ content.field_link_to_application }}
+          </div>
+        {% endif %}
+
         {{ drupal_block('helfi_platform_config_social_sharing_block') }}
       {% endblock component_content %}
     {% endembed %}

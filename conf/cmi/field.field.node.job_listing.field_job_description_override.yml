@@ -1,0 +1,34 @@
+uuid: 1d14aeec-cf74-4570-9ecc-380d33707c42
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_job_description_override
+    - node.type.job_listing
+  module:
+    - allowed_formats
+    - disable_field
+    - text
+third_party_settings:
+  allowed_formats:
+    allowed_formats: {  }
+  disable_field:
+    add_disable: none
+    edit_disable: roles
+    edit_roles:
+      - hr
+id: node.job_listing.field_job_description_override
+field_name: field_job_description_override
+entity_type: node
+bundle: job_listing
+label: 'Job description override'
+description: 'Override the job description.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary
