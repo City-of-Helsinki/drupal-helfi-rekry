@@ -30,14 +30,13 @@
  * @see template_preprocess_views_view()
  */
 #}
-{%
-  set classes = [
+{% set classes = [
   'views',
   'views--' ~ id|clean_class,
   'views--' ~ display_id|clean_class,
   dom_id ? 'js-view-dom-id-' ~ dom_id,
-]
-%}
+] %}
+
 <div{{attributes.addClass(classes)}}>
   {{ title_prefix }}
   {{ title }}

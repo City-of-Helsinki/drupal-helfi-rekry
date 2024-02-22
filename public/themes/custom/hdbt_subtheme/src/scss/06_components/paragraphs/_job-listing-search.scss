@@ -31,12 +31,12 @@ $sort-minimum-width: 283px;
   @include font('lead');
   margin-bottom: $spacing;
 
-  .job-listing-search__count {
-    font-weight: $font-weight-bold;
-  }
-
   @include breakpoint($breakpoint-l) {
     margin-bottom: 0;
+  }
+
+  .job-listing-search__count {
+    font-weight: $font-weight-bold;
   }
 }
 
@@ -89,16 +89,13 @@ $sort-minimum-width: 283px;
 
 // Override some fieldset default styles here
 .job-search-form__checkboxes {
-  @include breakpoint($breakpoint-l) {
-    display: flex;
-    flex: wrap;
-  }
   border: none;
   margin-bottom: $spacing-double;
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
+  padding: 0;
+
+  @include breakpoint($breakpoint-l) {
+    display: flex;
+  }
 }
 
 // Use specific selectors here to override HDS styles
@@ -107,11 +104,12 @@ fieldset .job-search-form__checkbox {
 }
 
 fieldset .job-search-form__checkbox:not(:first-of-type) {
+  margin-top: $spacing-double;
+
   @include breakpoint($breakpoint-l) {
     margin-left: $spacing;
     margin-top: 0;
   }
-  margin-top: $spacing-double;
 }
 
 .job-search-form__checkboxes-legend,
@@ -122,12 +120,6 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
 
 // Use specific selector to override HDS styles
 button.job-search-form__submit-button {
-  @include breakpoint($breakpoint-l) {
-    padding-left: $spacing-quadruple;
-    padding-right: $spacing-quadruple;
-    width: auto;
-  }
-
   // Set state-specific colors for submit button
   --background-color: var(--hdbt-color-black);
   --background-color-hover: var(--hdbt-text-color);
@@ -144,6 +136,12 @@ button.job-search-form__submit-button {
   --focus-outline-color: var(--hdbt-color-black);
   margin-bottom: $spacing;
   width: 100%;
+
+  @include breakpoint($breakpoint-l) {
+    padding-left: $spacing-quadruple;
+    padding-right: $spacing-quadruple;
+    width: auto;
+  }
 }
 
 .job-search-form__selections-container {
@@ -160,10 +158,7 @@ button.job-search-form__remove-selection-button:not(:disabled) {
 
 // Neagate HDS-defined paddings for span-element inside button
 .job-search-form__remove-selection-button span {
-  padding-bottom: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
+  padding: 0;
 }
 
 // Negate HDS-defined margin for icon inside remove button
