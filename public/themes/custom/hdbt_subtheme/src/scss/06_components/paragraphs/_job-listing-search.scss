@@ -134,7 +134,7 @@ button.job-search-form__submit-button {
   --color-focus: var(--hdbt-color-black);
   --color-hover-focus: var(--hdbt-color-black);
   --focus-outline-color: var(--hdbt-color-black);
-  margin-bottom: $spacing;
+  margin-bottom: $spacing-double;
   width: 100%;
 
   @include breakpoint($breakpoint-l) {
