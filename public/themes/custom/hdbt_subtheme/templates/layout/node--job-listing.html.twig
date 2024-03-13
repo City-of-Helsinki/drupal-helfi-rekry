@@ -186,7 +186,7 @@
           </div>
         {% endif %}
 
-        {% if content.field_video|render and not unsupported_video %}
+        {% if content.field_video|render %}
           <div class="job-listing__video job-listing__item">
             {% include '@hdbt/component/remote-video.twig' with {
               video: content.field_video,

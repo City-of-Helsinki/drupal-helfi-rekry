@@ -5,6 +5,7 @@
  * Contains install functions for HELfi Rekry Content module.
  */
 
+use Drupal\media\Entity\Media;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
 use Drupal\search_api\Entity\Index;
@@ -274,4 +275,45 @@ function helfi_rekry_content_update_9007() {
   // Mark index to require reindexing.
   $dispatcher = \Drupal::getContainer()->get('event_dispatcher');
   $dispatcher->dispatch(new ReindexScheduledEvent($jobIndex, TRUE), SearchApiEvents::REINDEX_SCHEDULED);
+}
+
+/**
+ * UHF-9764 Remove all videos with dreambroker provider.
+ */
+function helfi_rekry_content_update_9008() {
+  $query = \Drupal::entityQuery('media')
+    ->accessCheck(FALSE)
+    ->condition('bundle','remote_video');
+
+  $ids = $query->execute();
+
+  if (count($ids) === 0) {
+    return;
+  }
+
+  $medias = Media::loadMultiple($ids);
+  $storage_handler = \Drupal::entityTypeManager()->getStorage("media");
+
+  foreach ($medias as $media) {
+    $url = $media->get('field_media_oembed_video')->value;
+
+    if (str_contains($url, 'dreambroker')) {
+      $query = \Drupal::entityQuery('node')
+        ->accessCheck(FALSE)
+        ->condition('type','job_listing')
+        ->condition('field_video', '', '<>');
+
+      $job_listing_nodes = $query->execute();
+
+      foreach ($job_listing_nodes as $job_listing_node) {
+        $node = \Drupal::entityTypeManager()->getStorage('node')->load($job_listing_node);
+        $referenced_id = $node->get('field_video')?->first()?->get('entity')?->getValue()->id();
+
+        if ($referenced_id === $media->id()) {
+          $node->set('field_video', []);
+        }
+      }
+      $storage_handler->delete([$media]);
+    }
+  }
 }
