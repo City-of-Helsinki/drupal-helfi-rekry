@@ -283,7 +283,7 @@ function helfi_rekry_content_update_9007() {
 function helfi_rekry_content_update_9008() {
   $query = \Drupal::entityQuery('media')
     ->accessCheck(FALSE)
-    ->condition('bundle','remote_video');
+    ->condition('bundle', 'remote_video');
 
   $ids = $query->execute();
 
@@ -291,7 +291,6 @@ function helfi_rekry_content_update_9008() {
     return;
   }
 
-  $medias = Media::loadMultiple($ids);
   $storage_handler = \Drupal::entityTypeManager()->getStorage("media");
 
   foreach ($ids as $id) {
@@ -301,7 +300,7 @@ function helfi_rekry_content_update_9008() {
     if (str_contains($url, 'dreambroker')) {
       $query = \Drupal::entityQuery('node')
         ->accessCheck(FALSE)
-        ->condition('type','job_listing')
+        ->condition('type', 'job_listing')
         ->condition('field_video', '', '<>');
 
       $job_listing_nodes = $query->execute();
