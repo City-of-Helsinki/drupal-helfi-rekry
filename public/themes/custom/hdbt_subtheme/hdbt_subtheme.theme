@@ -209,6 +209,13 @@ function hdbt_subtheme_preprocess_node(&$variables): void {
       $variables['task_area_rekry_search_url'] = Url::fromRoute('entity.node.canonical', ['node' => $search_page_nid], $options);
     }
   }
+
+  if ($video = $node->get('field_video')?->first()?->get('entity')?->getValue()) {
+    $url = $video->get('field_media_oembed_video')->value;
+    if (str_contains($url, 'dreambroker')) {
+      $variables['unsupported_video'] = TRUE;
+    }
+  }
 }
 
 /**
