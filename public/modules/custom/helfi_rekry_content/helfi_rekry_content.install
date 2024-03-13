@@ -294,7 +294,8 @@ function helfi_rekry_content_update_9008() {
   $medias = Media::loadMultiple($ids);
   $storage_handler = \Drupal::entityTypeManager()->getStorage("media");
 
-  foreach ($medias as $media) {
+  foreach ($ids as $id) {
+    $media = Media::load($id);
     $url = $media->get('field_media_oembed_video')->value;
 
     if (str_contains($url, 'dreambroker')) {
