@@ -49,13 +49,6 @@ process:
       source: video
     -
       plugin: callback
-      callable: _helfi_rekry_content_check_video_existance
-    -
-      plugin: callback
-      callable: _helfi_rekry_content_sanitize_video_url
-      source: video
-    -
-      plugin: callback
       callable: _helfi_rekry_content_get_video_url
   langcode:
     plugin: default_value
