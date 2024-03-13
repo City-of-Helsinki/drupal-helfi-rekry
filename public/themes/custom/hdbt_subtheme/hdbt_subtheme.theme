@@ -210,7 +210,7 @@ function hdbt_subtheme_preprocess_node(&$variables): void {
     }
   }
 
-  // Check if there is dreambroker urls on the media referred on the field video.
+  // Check if there are dreambroker urls on the referred media.
   if ($video = $node->get('field_video')?->first()?->get('entity')?->getValue()) {
     $url = $video->get('field_media_oembed_video')->value;
     if (str_contains($url, 'dreambroker')) {
