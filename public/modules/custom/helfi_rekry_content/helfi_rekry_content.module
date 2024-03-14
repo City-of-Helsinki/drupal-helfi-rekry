@@ -154,10 +154,16 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
  */
 function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
+    /** @var \Drupal\media\OEmbed\UrlResolverInterface $resolver */
     $resolver = \Drupal::service('media.oembed.url_resolver');
-    $resolver->getProviderByUrl($url);
+
+    $provider = $resolver->getProviderByUrl($url);
+
+    if (!in_array($provider->getName(), ['YouTube', 'Icareus Suite'])) {
+      throw new MigrateSkipRowException();
+    }
   }
-  catch (\throwable $e) {
+  catch (ResourceException | ProviderException $e) {
     \Drupal::logger('helfi_rekry_content')
       ->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
 
@@ -205,20 +211,6 @@ function _helfi_rekry_content_sanitize_video_url(string $url): string {
   }
 
   return $url;
-}
-
-/**
- * Get media entity by file id.
- *
- * @param string|null $url
- *   The video url.
- *
- * @throws \Drupal\migrate\MigrateSkipRowException
- */
-function _helfi_rekry_content_check_video_existance(string|NULL $url = NULL): void {
-  if (_helfi_rekry_content_lookup_video_mid($url)) {
-    throw new MigrateSkipRowException();
-  }
 }
 
 /**
