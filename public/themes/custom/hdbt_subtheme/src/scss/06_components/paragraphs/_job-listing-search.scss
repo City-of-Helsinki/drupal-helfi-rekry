@@ -90,7 +90,7 @@ $sort-minimum-width: 283px;
 // Override some fieldset default styles here
 .job-search-form__checkboxes {
   border: none;
-  margin-bottom: $spacing-double;
+  margin-bottom: $spacing;
   padding: 0;
 
   @include breakpoint($breakpoint-l) {
@@ -116,32 +116,6 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
 .job-search__no-results__heading {
   @include font(h6);
   margin-bottom: $spacing;
-}
-
-// Use specific selector to override HDS styles
-button.job-search-form__submit-button {
-  // Set state-specific colors for submit button
-  --background-color: var(--hdbt-color-black);
-  --background-color-hover: var(--hdbt-text-color);
-  --background-color-focus: var(--hdbt-text-color);
-  --background-color-hover-focus: var(--hdbt-text-color);
-  --border-color: var(--hdbt-color-black);
-  --border-color-hover: var(--hdbt-color-black);
-  --border-color-focus: var(--hdbt-color-black);
-  --border-color-hover-focus: var(--hdbt-color-black);
-  --color: var(--hdbt-text-color);
-  --color-hover: var(--hdbt-color-black);
-  --color-focus: var(--hdbt-color-black);
-  --color-hover-focus: var(--hdbt-color-black);
-  --focus-outline-color: var(--hdbt-color-black);
-  margin-bottom: $spacing;
-  width: 100%;
-
-  @include breakpoint($breakpoint-l) {
-    padding-left: $spacing-quadruple;
-    padding-right: $spacing-quadruple;
-    width: auto;
-  }
 }
 
 .job-search-form__selections-container {
