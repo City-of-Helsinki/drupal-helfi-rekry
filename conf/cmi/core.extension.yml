@@ -77,7 +77,6 @@ module:
   helfi_proxy: 0
   helfi_react_search: 0
   helfi_rekry_content: 0
-  helfi_rekry_config: 0
   helfi_toc: 0
   helfi_tunnistamo: 0
   helfi_user_roles: 0
