@@ -6,7 +6,19 @@ display:
           group_info:
             group_items:
               7:
-                title: '300 Multiple Choices'
+                title: '300 Useita valintoja'
+              1:
+                title: '300 Useita valintoja'
+              2:
+                title: '301 Pysyvästi siirretty'
+              3:
+                title: '302 Löydetty'
+              4:
+                title: '303 Kts. toinen'
+              5:
+                title: '304 Muuttamaton'
+              6:
+                title: '305 Käytä proxyä'
             label: Tilakoodi
           expose:
             label: Tilakoodi

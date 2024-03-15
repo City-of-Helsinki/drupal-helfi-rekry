@@ -1,0 +1,9 @@
+display:
+  default:
+    display_options:
+      filters:
+        provided_languages_value:
+          group_info:
+            group_items:
+              1:
+                title: 'Visa endast de verksamhetsställen där man får betjäning på svenska.'
