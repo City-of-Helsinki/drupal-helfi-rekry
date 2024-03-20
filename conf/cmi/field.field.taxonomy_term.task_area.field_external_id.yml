@@ -1,5 +1,5 @@
 uuid: d77ef25c-bd68-4fe7-8284-a30898dd9a93
-langcode: fi
+langcode: en
 status: true
 dependencies:
   config:
@@ -15,7 +15,7 @@ id: taxonomy_term.task_area.field_external_id
 field_name: field_external_id
 entity_type: taxonomy_term
 bundle: task_area
-label: 'Ulkopuolinen ID'
+label: 'External ID'
 description: ''
 required: true
 translatable: false
