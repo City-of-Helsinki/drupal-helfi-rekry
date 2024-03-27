@@ -30,6 +30,7 @@ exec "/crons/content-scheduler.sh" &
 exec "/crons/migrate-job-listings.sh" &
 exec "/crons/migrate-changed-job-listings.sh" &
 exec "/crons/pubsub.sh" &
+exec "/crons/linked-events.sh" &
 
 while true
 do
