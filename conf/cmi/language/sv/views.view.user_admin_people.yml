@@ -19,10 +19,14 @@ display:
           label: Roller
         created:
           label: 'Medlem i'
+          settings:
+            future_format: '@interval'
+            past_format: '@interval'
         access:
           label: 'Senast åtkomst'
           settings:
             past_format: '@interval sedan'
+            future_format: '@interval därav'
         operations:
           label: Funktioner
         mail:
