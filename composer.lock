@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "492706418e2eb18c62efa55339ab01f5",
+    "content-hash": "70525280e5fcf97c1602aca3cbb7d265",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3814,16 +3814,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "6.5.0",
+            "version": "dev-UHF-9978",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "2fb76db289a31c99ff4d3bc992d5d53a3ab28010"
+                "reference": "c1ef47404486aa2f64fc7df3133dc24dd044103a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/2fb76db289a31c99ff4d3bc992d5d53a3ab28010",
-                "reference": "2fb76db289a31c99ff4d3bc992d5d53a3ab28010",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/c1ef47404486aa2f64fc7df3133dc24dd044103a",
+                "reference": "c1ef47404486aa2f64fc7df3133dc24dd044103a",
                 "shasum": ""
             },
             "require": {
@@ -3841,10 +3841,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.5.0",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/UHF-9978",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2024-04-12T11:25:31+00:00"
+            "time": "2024-04-17T12:17:52+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -4103,26 +4103,26 @@
         },
         {
             "name": "drupal/helfi_navigation",
-            "version": "2.2.1",
+            "version": "dev-UHF-9978",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation.git",
-                "reference": "69ab951f8dc3bbd2c2916f67f3d9b597ab0b5bef"
+                "reference": "4b2c768596f2f408c9aca9685916c41fd8b73339"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-navigation/zipball/69ab951f8dc3bbd2c2916f67f3d9b597ab0b5bef",
-                "reference": "69ab951f8dc3bbd2c2916f67f3d9b597ab0b5bef",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-navigation/zipball/4b2c768596f2f408c9aca9685916c41fd8b73339",
+                "reference": "4b2c768596f2f408c9aca9685916c41fd8b73339",
                 "shasum": ""
             },
             "require": {
                 "drupal/helfi_api_base": "*",
+                "drupal/menu_block_current_language": "^2.0",
                 "php": "^8.1"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-                "drupal/coder": "^8.3",
-                "drupal/menu_block_current_language": "^2.0"
+                "drupal/coder": "^8.3"
             },
             "type": "drupal-module",
             "license": [
@@ -4130,10 +4130,10 @@
             ],
             "description": "Helfi - Navigation",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/tree/2.2.1",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/tree/UHF-9978",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/issues"
             },
-            "time": "2024-03-20T15:55:31+00:00"
+            "time": "2024-04-17T12:16:40+00:00"
         },
         {
             "name": "drupal/helfi_platform_config",
@@ -18937,7 +18937,9 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/helfi_drupal_tools": 20
+        "drupal/hdbt": 20,
+        "drupal/helfi_drupal_tools": 20,
+        "drupal/helfi_navigation": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
