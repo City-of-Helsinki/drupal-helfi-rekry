@@ -38,6 +38,10 @@ $config['openid_connect.client.tunnistamo']['settings']['ad_roles'] = [
     'ad_role' => 'Drupal_Helfi_Rekry_sisallontuottajat_suppea',
     'roles' => ['content_producer'],
   ],
+  [
+    'ad_role' => '947058f4-697e-41bb-baf5-f69b49e5579a',
+    'roles' => ['super_administrator'],
+  ],
 ];
 
 $additionalEnvVars = [
