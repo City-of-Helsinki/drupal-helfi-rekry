@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Plugin\migrate_plus\data_parser;
 
@@ -32,7 +32,7 @@ final class HelbitJson extends Json {
     ContainerInterface $container,
     array $configuration,
     $plugin_id,
-    $plugin_definition
+    $plugin_definition,
   ): self {
     /** @var self $instance */
     $instance = parent::create($container, $configuration, $plugin_id,
