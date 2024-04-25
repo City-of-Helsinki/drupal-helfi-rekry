@@ -31,7 +31,7 @@ class ImageImportSubscriber implements EventSubscriberInterface {
   public function __construct(
     private FileSystem $fileSystem,
     private ConfigFactory $config,
-    private AccountProxyInterface $currentUser
+    private AccountProxyInterface $currentUser,
   ) {
   }
 
