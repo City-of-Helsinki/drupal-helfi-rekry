@@ -65,7 +65,7 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
         $build['confirmation'] = [
           '#type' => 'html_tag',
           '#tag' => 'p',
-          '#value' => $this->t('Hakuvahtitilaus vahvistettu.'),
+          '#value' => $this->t('Saved search confirmed.'),
           '#attributes' => [
             'class' => ['page-title'],
           ],
@@ -74,7 +74,7 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
         $build['confirmation'] = [
           '#type' => 'html_tag',
           '#tag' => 'p',
-          '#value' => $this->t('Hakuvahtitilauksen vahvistus epäonnistui. Yritä uudelleen.'),
+          '#value' => $this->t('Confirming saved search failed. Please try again.'),
           '#attributes' => [
             'class' => ['page-title'],
           ],
@@ -95,12 +95,12 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
       $build['form']['paragraph'] = [
         '#type' => 'html_tag',
         '#tag' => 'p',
-        '#value' => $this->t('Vahvista hakuvahdin tilaus alla olevasta painikkeesta.'),
+        '#value' => $this->t('Please confirm the saved search to receive notifications. Click on the button below.'),
       ];
 
       $build['form']['button'] = [
         '#type' => 'submit',
-        '#value' => $this->t('Vahvista hakuvahti'),
+        '#value' => $this->t('Confirm saved search'),
         '#attributes' => [
           'class' => ['my-button'],
         ],

@@ -12,7 +12,8 @@ use GuzzleHttp\Client;
 use Drupal\Core\Utility\Token;
 use Drupal\Core\Session\AccountInterface;
 
-final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
+final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
+{
 
   /**
    * The http client.
@@ -40,23 +41,26 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
    *
    * @var \Drupal\Core\Session\AccountInterface
    */
-  protected $user;  
+  protected $user;
 
-  public function __construct(ClientInterface $http_client, RequestStack $request_stack, Token $token_service, AccountInterface $user) {
+  public function __construct(ClientInterface $http_client, RequestStack $request_stack, Token $token_service, AccountInterface $user)
+  {
     $this->httpClient = $http_client;
     $this->requestStack = $request_stack;
     $this->tokenService = $token_service;
-    $this->user = $user;    
+    $this->user = $user;
   }
 
-  public function getFormId() {
+  public function getFormId()
+  {
     return 'hakuvahti_unsubscribe_form';
   }
 
   /**
    * Builds the response.
    */
-  public function __invoke(): array {
+  public function __invoke(): array
+  {
     $build = [];
 
     $request = $this->requestStack->getCurrentRequest();
@@ -64,24 +68,42 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
     $subscription = $request->query->get('subscription');
 
     if ($this->isFormSubmitted()) {
-      if($this->sendUnsubscribeRequest($hash, $subscription)) {
+      if ($this->sendUnsubscribeRequest($hash, $subscription)) {
         $build['confirmation'] = [
+          '#title' => $this->t('Saved search deleted'),
+        ];
+
+        $build['confirmation']['paragraph'] = [
           '#type' => 'html_tag',
           '#tag' => 'p',
-          '#value' => $this->t('Hakuvahtitilaus peruutettu.'),
+          '#value' => $this->t('The saved search has been deleted'),
+          '#attributes' => [
+            'class' => ['page-title'],
+          ],          
+        ];
+        $build['confirmation']['paragraph2'] = [
+          '#type' => 'html_tag',
+          '#tag' => 'p',
+          '#value' => $this->t('You can save more searches at any time.'),
           '#attributes' => [
             'class' => ['page-title'],
           ],
-          ];
+        ];  
+        $build['confirmation']['link'] = [
+          '#type' => 'link',
+          '#tag' => 'a',
+          '#title' => $this->t('Return to open jobs front page'),
+          '#url' => '/',
+        ];
       } else {
-        $build['confirmation'] = [
+        $build['form']['paragraph'] = [
           '#type' => 'html_tag',
           '#tag' => 'p',
-          '#value' => $this->t('Hakuvahtitilauksen peruutus epäonnistui. Yritä uudelleen.'),
+          '#value' => $this->t('Deleting saved search failed. Please try again.'),
           '#attributes' => [
             'class' => ['page-title'],
           ],
-          ];
+        ];
       }
     } else {
       $build['form'] = [
@@ -98,12 +120,13 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
       $build['form']['paragraph'] = [
         '#type' => 'html_tag',
         '#tag' => 'p',
-        '#value' => $this->t('Vahvista hakuvahdin peruutus alla olevasta painikkeesta.'),
+        '#value' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved
+        on the City website, this link will not delete them.'),
       ];
 
       $build['form']['button'] = [
         '#type' => 'submit',
-        '#value' => $this->t('Peruuta hakuvahti'),
+        '#value' => $this->t('Delete saved search'),
         '#attributes' => [
           'class' => ['my-button'],
         ],
@@ -114,16 +137,19 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   }
 
 
-  protected function getFormActionUrl(): string {
+  protected function getFormActionUrl(): string
+  {
     return $this->requestStack->getCurrentRequest()->getUri();
-  }  
+  }
 
-  protected function isFormSubmitted(): bool {
+  protected function isFormSubmitted(): bool
+  {
     $request = $this->requestStack->getCurrentRequest();
     return $request->isMethod('POST');
   }
 
-  protected function sendUnsubscribeRequest($hash, $subscription): bool {
+  protected function sendUnsubscribeRequest($hash, $subscription): bool
+  {
     $expectedToken = \Drupal::service('csrf_token')->get('session');
 
     $httpClient = new Client();
@@ -135,7 +161,7 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
     ];
 
     $hakuvahtiServer = getenv('HAKUVAHTI_URL') ? getenv('HAKUVAHTI_URL') : 'http://helfi-rekry.docker.so:3000';
-  
+
     try {
       $target_url = $hakuvahtiServer . '/subscription/delete/' . $subscription . '/' . $hash;
       $response = $httpClient->delete($target_url, $options);
@@ -144,12 +170,10 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
       error_log($responseBody);
 
       return true;
-    }
-    catch (RequestException $exception) {
+    } catch (RequestException $exception) {
       error_log($exception->getMessage());
     }
 
     return false;
   }
-
 }
