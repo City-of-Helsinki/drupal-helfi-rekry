@@ -1,0 +1,8 @@
+id: helfi_hakuvahti_subscribe_config
+plugin_id: helfi_hakuvahti_subscribe
+granularity: method
+configuration:
+  POST:
+    supported_formats:
+      - json
+

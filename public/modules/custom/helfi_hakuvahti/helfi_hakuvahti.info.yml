@@ -1,0 +1,14 @@
+name: 'HELfi Hakuvahti'
+type: module
+description: 'Drupal-integraatio hakuvahtiin.'
+package: 'Custom'
+core_version_requirement: ^10
+# admin:
+#  helfi_hakuvahti_settings:
+#    parent: 'admin'
+#    weight: 10
+#    title: 'Helfi Hakuvahti'
+#    form:
+#      id: helfi_hakuvahti.settings_form
+#      class: Drupal\helfi_hakuvahti\Form\HelfiHakuvahtiSettingsForm
+#    path: 'admin/helfi_hakuvahti/settings'
