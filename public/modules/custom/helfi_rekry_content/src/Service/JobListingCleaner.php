@@ -46,7 +46,7 @@ final class JobListingCleaner {
   public function __construct(
     private readonly HelbitClient $client,
     private readonly ContentLock $contentLock,
-    EntityTypeManagerInterface $entityTypeManager
+    EntityTypeManagerInterface $entityTypeManager,
   ) {
     $this->storage = $entityTypeManager->getStorage('node');
   }
