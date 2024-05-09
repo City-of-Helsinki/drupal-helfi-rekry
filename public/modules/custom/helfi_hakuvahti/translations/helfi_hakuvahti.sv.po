@@ -1,0 +1,49 @@
+# Swedish translations of City of Helsinki Hakuvahti
+#
+# Use this translation file for missing translations that are not found in
+# localize.drupal.org.
+#
+msgid ""
+msgstr ""
+
+msgid "Saved search deleted"
+msgstr ""
+
+msgid "The saved search has been deleted"
+msgstr ""
+
+msgid "You can save more searches at any time."
+msgstr ""
+
+msgid "Return to open jobs front page"
+msgstr ""
+
+msgid "Deleting saved search failed. Please try again."
+msgstr ""
+
+msgid "Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them."
+msgstr ""
+
+msgid "Delete saved search"
+msgstr ""
+
+msgid "Saved search confirmed."
+msgstr ""
+
+msgid "Confirming saved search failed. Please try again."
+msgstr ""
+
+msgid "Please confirm the saved search to receive notifications. Click on the button below."
+msgstr ""
+
+msgid "Confirm saved search"
+msgstr ""
+
+msgid "Subscribe"
+msgstr ""
+
+msgid "Confirm saved search"
+msgstr "Bekräfta sökvakten"
+
+msgid "Are you sure you wish to delete the saved search?"
+msgstr ""

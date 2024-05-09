@@ -1,0 +1,49 @@
+# Finnish translations of City of Helsinki Hakuvahti
+#
+# Use this translation file for missing translations that are not found in
+# localize.drupal.org.
+#
+msgid ""
+msgstr ""
+
+msgid "Saved search deleted"
+msgstr "Hakuvahti on poistettu"
+
+msgid "The saved search has been deleted"
+msgstr "Hakuvahti on poistettu"
+
+msgid "You can save more searches at any time."
+msgstr "Voit koska tahansa tilata uusia hakuvahteja."
+
+msgid "Return to open jobs front page"
+msgstr "Palaa avoimien työpaikkojen etusivulle."
+
+msgid "Deleting saved search failed. Please try again."
+msgstr "Hakuvahdin poisto epäonnistui. Yritä uudelleen."
+
+msgid "Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them."
+msgstr "Vahvista, että haluat poistaa tämän hakuvahdin. Jos olet tehnyt muita hakuvahteja kaupungin verkkosivustolla, tämä ei poista niitä."
+
+msgid "Delete saved search"
+msgstr "Poista hakuvahti"
+
+msgid "Saved search confirmed."
+msgstr "Hakuvahti vahvistettu."
+
+msgid "Confirming saved search failed. Please try again."
+msgstr "Hakuvahdin vahvistus epäonnistui. Yritä uudelleen."
+
+msgid "Please confirm the saved search to receive notifications. Click on the button below."
+msgstr "Vahvista hakuvahdin tilaus klikkaamalla alla olevaa painiketta."
+
+msgid "Confirm saved search"
+msgstr "Vahvista hakuvahti"
+
+msgid "Subscribe"
+msgstr ""
+
+msgid "Confirm saved search"
+msgstr "Vahvista hakuvahti"
+
+msgid "Are you sure you wish to delete the saved search?"
+msgstr "Haluatko varmasti poistaa hakuvahdin?"
