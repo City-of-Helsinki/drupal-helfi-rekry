@@ -120,8 +120,7 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
       $build['form']['paragraph'] = [
         '#type' => 'html_tag',
         '#tag' => 'p',
-        '#value' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved
-        on the City website, this link will not delete them.'),
+        '#value' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them.'),
       ];
 
       $build['form']['button'] = [
