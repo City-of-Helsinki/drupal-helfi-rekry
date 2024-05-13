@@ -120,33 +120,26 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
     return $request->isMethod('POST');
   }
 
-  protected function sendConfirmationRequest($hash, $subscription): bool {
+  protected function sendConfirmationRequest(string $subscriptionHash, string $subscriptionId): bool
+  {
     $expectedToken = \Drupal::service('csrf_token')->get('session');
-
-    $httpClient = new Client();
-    $options = [
+    $httpClient = new Client([
       'headers' => [
         'Content-Type' => 'application/json',
-        'token' => $expectedToken
+        'token' => $expectedToken,
       ],
-    ];
+    ]);
 
-    $hakuvahtiServer = getenv('HAKUVAHTI_URL') ? getenv('HAKUVAHTI_URL') : 'http://helfi-rekry.docker.so:3000';
-  
+    $hakuvahtiServer = getenv('HAKUVAHTI_URL') ?: 'http://helfi-rekry.docker.so:3000';
+    $targetUrl = $hakuvahtiServer . '/subscription/confirm/' . $subscriptionId . '/' . $subscriptionHash;
+
     try {
-      $target_url = $hakuvahtiServer . '/subscription/confirm/' . $subscription . '/' . $hash;
-      $response = $httpClient->get($target_url, $options);
-      $responseBody = $response->getBody()->getContents();
-
-      error_log($responseBody);
-
-      return true;
+      $response = $httpClient->get($targetUrl);
+      return $response->getBody()->getContents() !== '';
+    } catch (RequestException $exception) {
+      return false;
     }
-    catch (RequestException $exception) {
-      error_log($exception->getMessage());
-    }
-
-    return false;
   }
+
 
 }

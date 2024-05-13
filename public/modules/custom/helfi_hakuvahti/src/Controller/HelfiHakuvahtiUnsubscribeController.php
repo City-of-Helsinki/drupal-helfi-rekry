@@ -135,7 +135,6 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
     return $build;
   }
 
-
   protected function getFormActionUrl(): string
   {
     return $this->requestStack->getCurrentRequest()->getUri();
@@ -147,7 +146,7 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
     return $request->isMethod('POST');
   }
 
-  protected function sendUnsubscribeRequest($hash, $subscription): bool
+  protected function sendUnsubscribeRequest(string $hash, string $subscription): bool
   {
     $expectedToken = \Drupal::service('csrf_token')->get('session');
 
@@ -164,15 +163,10 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
     try {
       $target_url = $hakuvahtiServer . '/subscription/delete/' . $subscription . '/' . $hash;
       $response = $httpClient->delete($target_url, $options);
-      $responseBody = $response->getBody()->getContents();
 
-      error_log($responseBody);
-
-      return true;
+      return $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
     } catch (RequestException $exception) {
-      error_log($exception->getMessage());
+      return false;
     }
-
-    return false;
   }
 }
