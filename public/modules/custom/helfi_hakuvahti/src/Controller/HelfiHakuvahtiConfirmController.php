@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use GuzzleHttp\ClientInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Client;
-use Drupal\Core\Utility\Token;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Utility\Token;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class HelfiHakuvahtiConfirmController extends ControllerBase {
 
   /**
    * The http client.
-   * 
+   *
    * @var \GuzzleHttp\ClientInterface
    */
   protected $httpClient;
 
   /**
    * The request stack.
-   * 
+   *
    * @var \Symfony\Component\HttpFoundation\RequestStack
    */
   protected $requestStack;
@@ -40,13 +40,13 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
    *
    * @var \Drupal\Core\Session\AccountInterface
    */
-  protected $user;  
+  protected $user;
 
   public function __construct(ClientInterface $http_client, RequestStack $request_stack, Token $token_service, AccountInterface $user) {
     $this->httpClient = $http_client;
     $this->requestStack = $request_stack;
     $this->tokenService = $token_service;
-    $this->user = $user;    
+    $this->user = $user;
   }
 
   public function getFormId() {
@@ -61,7 +61,7 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
     $subscription = $request->query->get('subscription');
 
     if ($this->isFormSubmitted()) {
-      if($this->sendConfirmationRequest($hash, $subscription)) {
+      if ($this->sendConfirmationRequest($hash, $subscription)) {
         $build['confirmation'] = [
           '#type' => 'html_tag',
           '#tag' => 'p',
@@ -69,8 +69,9 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
           '#attributes' => [
             'class' => ['page-title'],
           ],
-          ];
-      } else {
+        ];
+      }
+      else {
         $build['confirmation'] = [
           '#type' => 'html_tag',
           '#tag' => 'p',
@@ -78,9 +79,10 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
           '#attributes' => [
             'class' => ['page-title'],
           ],
-          ];
+        ];
       }
-    } else {
+    }
+    else {
       $build['form'] = [
         '#type' => 'form',
         '#attributes' => [
@@ -110,18 +112,16 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
     return $build;
   }
 
-
   protected function getFormActionUrl(): string {
     return $this->requestStack->getCurrentRequest()->getUri();
-  }  
+  }
 
   protected function isFormSubmitted(): bool {
     $request = $this->requestStack->getCurrentRequest();
     return $request->isMethod('POST');
   }
 
-  protected function sendConfirmationRequest(string $subscriptionHash, string $subscriptionId): bool
-  {
+  protected function sendConfirmationRequest(string $subscriptionHash, string $subscriptionId): bool {
     $expectedToken = \Drupal::service('csrf_token')->get('session');
     $httpClient = new Client([
       'headers' => [
@@ -136,10 +136,10 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
     try {
       $response = $httpClient->get($targetUrl);
       return $response->getBody()->getContents() !== '';
-    } catch (RequestException $exception) {
-      return false;
+    }
+    catch (RequestException $exception) {
+      return FALSE;
     }
   }
-
 
 }

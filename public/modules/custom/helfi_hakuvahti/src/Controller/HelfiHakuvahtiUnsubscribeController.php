@@ -5,26 +5,25 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use GuzzleHttp\ClientInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Client;
-use Drupal\Core\Utility\Token;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Utility\Token;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
-{
+final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
 
   /**
    * The http client.
-   * 
+   *
    * @var \GuzzleHttp\ClientInterface
    */
   protected $httpClient;
 
   /**
    * The request stack.
-   * 
+   *
    * @var \Symfony\Component\HttpFoundation\RequestStack
    */
   protected $requestStack;
@@ -43,24 +42,21 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
    */
   protected $user;
 
-  public function __construct(ClientInterface $http_client, RequestStack $request_stack, Token $token_service, AccountInterface $user)
-  {
+  public function __construct(ClientInterface $http_client, RequestStack $request_stack, Token $token_service, AccountInterface $user) {
     $this->httpClient = $http_client;
     $this->requestStack = $request_stack;
     $this->tokenService = $token_service;
     $this->user = $user;
   }
 
-  public function getFormId()
-  {
+  public function getFormId() {
     return 'hakuvahti_unsubscribe_form';
   }
 
   /**
    * Builds the response.
    */
-  public function __invoke(): array
-  {
+  public function __invoke(): array {
     $build = [];
 
     $request = $this->requestStack->getCurrentRequest();
@@ -79,7 +75,7 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
           '#value' => $this->t('The saved search has been deleted'),
           '#attributes' => [
             'class' => ['page-title'],
-          ],          
+          ],
         ];
         $build['confirmation']['paragraph2'] = [
           '#type' => 'html_tag',
@@ -88,14 +84,15 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
           '#attributes' => [
             'class' => ['page-title'],
           ],
-        ];  
+        ];
         $build['confirmation']['link'] = [
           '#type' => 'link',
           '#tag' => 'a',
           '#title' => $this->t('Return to open jobs front page'),
           '#url' => '/',
         ];
-      } else {
+      }
+      else {
         $build['form']['paragraph'] = [
           '#type' => 'html_tag',
           '#tag' => 'p',
@@ -105,7 +102,8 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
           ],
         ];
       }
-    } else {
+    }
+    else {
       $build['form'] = [
         '#type' => 'form',
         '#attributes' => [
@@ -135,26 +133,23 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
     return $build;
   }
 
-  protected function getFormActionUrl(): string
-  {
+  protected function getFormActionUrl(): string {
     return $this->requestStack->getCurrentRequest()->getUri();
   }
 
-  protected function isFormSubmitted(): bool
-  {
+  protected function isFormSubmitted(): bool {
     $request = $this->requestStack->getCurrentRequest();
     return $request->isMethod('POST');
   }
 
-  protected function sendUnsubscribeRequest(string $hash, string $subscription): bool
-  {
+  protected function sendUnsubscribeRequest(string $hash, string $subscription): bool {
     $expectedToken = \Drupal::service('csrf_token')->get('session');
 
     $httpClient = new Client();
     $options = [
       'headers' => [
         'Content-Type' => 'application/json',
-        'token' => $expectedToken
+        'token' => $expectedToken,
       ],
     ];
 
@@ -165,8 +160,10 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase
       $response = $httpClient->delete($target_url, $options);
 
       return $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
-    } catch (RequestException $exception) {
-      return false;
+    }
+    catch (RequestException $exception) {
+      return FALSE;
     }
   }
+
 }

@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use \Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
-use stdClass;
 
 /**
  * Returns responses for Hakuvahti routes.
@@ -26,7 +25,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    * @var \Drupal\Core\Language\LanguageManagerInterface
    */
   protected $languageManager;
- 
+
   public function __construct(RequestStack $requestStack, LanguageManagerInterface $languageManager) {
     $this->requestStack = $requestStack;
     $this->languageManager = $languageManager;
@@ -34,7 +33,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
   public function post(): JsonResponse {
     $request = $this->requestStack->getCurrentRequest();
-    $body = $request->getContent(false);
+    $body = $request->getContent(FALSE);
     $bodyObj = json_decode($body);
     $bodyObj->lang = $this->languageManager->getCurrentLanguage()->getId();
 
@@ -54,9 +53,10 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $statusCode = $response->getStatusCode();
 
     if ($statusCode >= 200 && $statusCode < 300) {
-      return new JsonResponse(['success' => true], Response::HTTP_OK);
-    } else {
-      return new JsonResponse(['success' => false, 'error' => $response->getBody()->getContents()], Response::HTTP_INTERNAL_SERVER_ERROR);
+      return new JsonResponse(['success' => TRUE], Response::HTTP_OK);
+    }
+    else {
+      return new JsonResponse(['success' => FALSE, 'error' => $response->getBody()->getContents()], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
   }
 
