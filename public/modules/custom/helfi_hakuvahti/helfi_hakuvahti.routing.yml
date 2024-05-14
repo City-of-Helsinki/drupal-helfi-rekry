@@ -19,10 +19,3 @@ helfi_hakuvahti.unsubscribe:
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiUnsubscribeController'
   requirements:
     _permission: 'access content'
-# helfi_hakuvahti.confirm_form:
-#  path: '/hakuvahti/confirm-form'
-#  defaults:
-#    _controller: '\Drupal\helfi_hakuvahti\Form\HelfiHakuvahtiConfirmForm'
-#    _title: 'Vahvista hakuvahti'
-#  requirements:
-#    _permission: 'access content'
