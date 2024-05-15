@@ -8,6 +8,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Language\LanguageManagerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,14 +33,24 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
   protected $languageManager;
 
   /**
+   * The CSRF token service.
+   *
+   * @var \Drupal\Core\CsrfToken\CsrfTokenManagerInterface
+   */
+  protected $csrfTokenService;
+
+  /**
    * Constructor for the HelfiHakuvahtiSubscribeController class.
    *
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   *   The container.
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
    * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
    *   The language manager.
    */
-  public function __construct(RequestStack $requestStack, LanguageManagerInterface $languageManager) {
+  public function __construct(ContainerInterface $container, RequestStack $requestStack, LanguageManagerInterface $languageManager) {
+    $this->csrfTokenService = $container->get('csrf_token');
     $this->requestStack = $requestStack;
     $this->languageManager = $languageManager;
   }
@@ -57,6 +68,13 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $bodyObj->lang = $this->languageManager->getCurrentLanguage()->getId();
     $token = $request->headers->get('token');
 
+    // FIXME: somehow, we would need to validate token from
+    // /session/token from react
+    // side, but there's just no way to match it at backend?!
+    // $expectedToken = $this->csrfTokenService->get('session');
+    // if ($this->csrfTokenService->validate($token, 'session') === FALSE) {
+    //
+    // }.
     $client = new Client();
     $hakuvahtiServer = getenv('HAKUVAHTI_URL') ?: 'http://helfi-rekry.docker.so:3000';
     $response = $client->request('POST', $hakuvahtiServer . '/subscription', [
