@@ -211,7 +211,7 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
       ],
     ];
 
-    $hakuvahtiServer = getenv('HAKUVAHTI_URL') ? getenv('HAKUVAHTI_URL') : 'http://helfi-rekry.docker.so:3000';
+    $hakuvahtiServer = getenv('HAKUVAHTI_URL');
 
     try {
       $target_url = $hakuvahtiServer . '/subscription/delete/' . $subscription . '/' . $hash;

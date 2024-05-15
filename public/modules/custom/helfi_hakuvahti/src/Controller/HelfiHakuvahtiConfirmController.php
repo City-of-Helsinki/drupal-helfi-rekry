@@ -198,7 +198,7 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
       ],
     ]);
 
-    $hakuvahtiServer = getenv('HAKUVAHTI_URL') ?: 'http://helfi-rekry.docker.so:3000';
+    $hakuvahtiServer = getenv('HAKUVAHTI_URL');
     $targetUrl = $hakuvahtiServer . '/subscription/confirm/' . $subscriptionId . '/' . $subscriptionHash;
 
     try {

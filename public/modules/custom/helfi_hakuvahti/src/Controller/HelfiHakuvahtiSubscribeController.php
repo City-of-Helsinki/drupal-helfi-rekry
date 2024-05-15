@@ -55,6 +55,12 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $this->languageManager = $languageManager;
   }
 
+  private function getSearchDescriptionTaxonomies(string $elastic_query): string {
+    error_log($elastic_query);
+
+    return "";
+  }
+
   /**
    * A method to handle the POST request for subscription.
    *
@@ -66,6 +72,8 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $body = $request->getContent(FALSE);
     $bodyObj = json_decode($body);
     $bodyObj->lang = $this->languageManager->getCurrentLanguage()->getId();
+    $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj->elastic_query);
+
     $token = $request->headers->get('token');
 
     // FIXME: somehow, we would need to validate token from
@@ -76,7 +84,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     //
     // }.
     $client = new Client();
-    $hakuvahtiServer = getenv('HAKUVAHTI_URL') ?: 'http://helfi-rekry.docker.so:3000';
+    $hakuvahtiServer = getenv('HAKUVAHTI_URL');
     $response = $client->request('POST', $hakuvahtiServer . '/subscription', [
       RequestOptions::JSON => $bodyObj,
       RequestOptions::HEADERS => [
