@@ -12,6 +12,9 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Unsubscribes from a subscription.
+ */
 final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
 
   /**
@@ -42,6 +45,14 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
    */
   protected $user;
 
+  /**
+   * Constructor for the class.
+   *
+   * @param ClientInterface $http_client The HTTP client.
+   * @param RequestStack $request_stack The request stack.
+   * @param Token $token_service The token service.
+   * @param AccountInterface $user The current user.
+   */
   public function __construct(ClientInterface $http_client, RequestStack $request_stack, Token $token_service, AccountInterface $user) {
     $this->httpClient = $http_client;
     $this->requestStack = $request_stack;
@@ -49,12 +60,19 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
     $this->user = $user;
   }
 
+  /**
+   * Returns the form ID for unsubscribing from a subscription.
+   *
+   * @return string
+   */
   public function getFormId() {
     return 'hakuvahti_unsubscribe_form';
   }
 
   /**
-   * Builds the response.
+   * Builds the response for unsubscribing from a subscription.
+   *
+   * @return array
    */
   public function __invoke(): array {
     $build = [];
@@ -133,15 +151,33 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
     return $build;
   }
 
+  /**
+   * Returns the URL for the current form action.
+   *
+   * @return string The URL for the current form action.
+   */
   protected function getFormActionUrl(): string {
     return $this->requestStack->getCurrentRequest()->getUri();
   }
 
+  /**
+   * Checks if the form is submitted via the POST method.
+   *
+   * @return bool Whether the form is submitted via the POST method.
+   */
   protected function isFormSubmitted(): bool {
     $request = $this->requestStack->getCurrentRequest();
     return $request->isMethod('POST');
   }
 
+  /**
+   * Sends an unsubscribe request to the server.
+   *
+   * @param string $hash The hash of the subscription.
+   * @param string $subscription The subscription ID.
+   * @throws RequestException Description of the request exception.
+   * @return bool Returns TRUE if the request is successful, FALSE otherwise.
+   */
   protected function sendUnsubscribeRequest(string $hash, string $subscription): bool {
     $expectedToken = \Drupal::service('csrf_token')->get('session');
 

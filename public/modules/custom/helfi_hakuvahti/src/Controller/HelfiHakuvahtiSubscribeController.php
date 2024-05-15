@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Returns responses for Hakuvahti routes.
+ * Creates new subscription.
  */
 final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
@@ -26,11 +26,22 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    */
   protected $languageManager;
 
+  /**
+   * Constructor for the HelfiHakuvahtiSubscribeController class.
+   *
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack The request stack.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager The language manager.
+   */
   public function __construct(RequestStack $requestStack, LanguageManagerInterface $languageManager) {
     $this->requestStack = $requestStack;
     $this->languageManager = $languageManager;
   }
 
+  /**
+   * A method to handle the POST request for subscription.
+   *
+   * @return JsonResponse The JSON response based on the subscription request.
+   */
   public function post(): JsonResponse {
     $request = $this->requestStack->getCurrentRequest();
     $body = $request->getContent(FALSE);
