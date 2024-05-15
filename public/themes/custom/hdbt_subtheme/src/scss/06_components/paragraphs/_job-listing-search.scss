@@ -160,6 +160,7 @@ button.job-search-form__remove-selection-button:not(:disabled) {
 }
 
 .job-search-form__search-monitor {
+  border-top: 1px solid var(--color-black-20);
   margin-bottom: $spacing-double;
 
   div[role=heading] {
