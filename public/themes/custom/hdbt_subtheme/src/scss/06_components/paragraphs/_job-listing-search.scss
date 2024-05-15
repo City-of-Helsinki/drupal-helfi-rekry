@@ -159,6 +159,14 @@ button.job-search-form__remove-selection-button:not(:disabled) {
   --focus-outline-color: var(--hdbt-color-black);
 }
 
+.job-search-form__search-monitor {
+  margin-bottom: $spacing-double;
+
+  div[role=heading] {
+    flex: 0 1 auto;
+  }
+}
+
 .job-search__results-stats {
   margin-bottom: $spacing-double;
   margin-left: $spacing;
