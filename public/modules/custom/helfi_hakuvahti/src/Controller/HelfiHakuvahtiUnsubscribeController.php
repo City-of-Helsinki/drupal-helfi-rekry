@@ -10,6 +10,7 @@ use Drupal\Core\Utility\Token;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -46,15 +47,29 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   protected $user;
 
   /**
+   * The CSRF token service.
+   *
+   * @var \Drupal\Core\CsrfToken\CsrfTokenManagerInterface
+   */
+  protected $csrfTokenService;
+
+  /**
    * Constructor for the class.
    *
-   * @param ClientInterface $http_client The HTTP client.
-   * @param RequestStack $request_stack The request stack.
-   * @param Token $token_service The token service.
-   * @param AccountInterface $user The current user.
+   * @param \GuzzleHttp\ClientInterface $http_client
+   *   The HTTP client.
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   *   The container.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   The request stack.
+   * @param \App\Services\Token $token_service
+   *   The token service.
+   * @param \App\Interfaces\AccountInterface $user
+   *   The current user.
    */
-  public function __construct(ClientInterface $http_client, RequestStack $request_stack, Token $token_service, AccountInterface $user) {
+  public function __construct(ClientInterface $http_client, ContainerInterface $container, RequestStack $request_stack, Token $token_service, AccountInterface $user) {
     $this->httpClient = $http_client;
+    $this->csrfTokenService = $container->get('csrf_token');
     $this->requestStack = $request_stack;
     $this->tokenService = $token_service;
     $this->user = $user;
@@ -64,6 +79,7 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
    * Returns the form ID for unsubscribing from a subscription.
    *
    * @return string
+   *   The Form name
    */
   public function getFormId() {
     return 'hakuvahti_unsubscribe_form';
@@ -73,6 +89,7 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
    * Builds the response for unsubscribing from a subscription.
    *
    * @return array
+   *   The form
    */
   public function __invoke(): array {
     $build = [];
@@ -154,7 +171,8 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   /**
    * Returns the URL for the current form action.
    *
-   * @return string The URL for the current form action.
+   * @return string
+   *   The URL for the current form action.
    */
   protected function getFormActionUrl(): string {
     return $this->requestStack->getCurrentRequest()->getUri();
@@ -163,7 +181,8 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   /**
    * Checks if the form is submitted via the POST method.
    *
-   * @return bool Whether the form is submitted via the POST method.
+   * @return bool
+   *   Whether the form is submitted via the POST method.
    */
   protected function isFormSubmitted(): bool {
     $request = $this->requestStack->getCurrentRequest();
@@ -173,13 +192,16 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   /**
    * Sends an unsubscribe request to the server.
    *
-   * @param string $hash The hash of the subscription.
-   * @param string $subscription The subscription ID.
-   * @throws RequestException Description of the request exception.
-   * @return bool Returns TRUE if the request is successful, FALSE otherwise.
+   * @param string $hash
+   *   The hash of the subscription.
+   * @param string $subscription
+   *   The subscription ID.
+   *
+   * @return bool
+   *   Returns TRUE if the request is successful, FALSE otherwise.
    */
   protected function sendUnsubscribeRequest(string $hash, string $subscription): bool {
-    $expectedToken = \Drupal::service('csrf_token')->get('session');
+    $expectedToken = $this->csrfTokenService->get('session');
 
     $httpClient = new Client();
     $options = [
