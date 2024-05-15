@@ -17,6 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
+  /**
+   * The request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
   protected $requestStack;
 
   /**
@@ -29,8 +34,10 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
   /**
    * Constructor for the HelfiHakuvahtiSubscribeController class.
    *
-   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack The request stack.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager The language manager.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   *   The request stack.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   The language manager.
    */
   public function __construct(RequestStack $requestStack, LanguageManagerInterface $languageManager) {
     $this->requestStack = $requestStack;
@@ -40,15 +47,14 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
   /**
    * A method to handle the POST request for subscription.
    *
-   * @return JsonResponse The JSON response based on the subscription request.
+   * @return \Symfony\Component\HttpFoundation\JsonResponse
+   *   The JSON response based on the subscription request.
    */
   public function post(): JsonResponse {
     $request = $this->requestStack->getCurrentRequest();
     $body = $request->getContent(FALSE);
     $bodyObj = json_decode($body);
     $bodyObj->lang = $this->languageManager->getCurrentLanguage()->getId();
-
-    $json = json_encode($bodyObj, JSON_THROW_ON_ERROR);
     $token = $request->headers->get('token');
 
     $client = new Client();

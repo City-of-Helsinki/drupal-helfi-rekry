@@ -10,6 +10,7 @@ use Drupal\Core\Utility\Token;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -46,10 +47,19 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
   protected $user;
 
   /**
+   * The CSRF token service.
+   *
+   * @var \Drupal\Core\CsrfToken\CsrfTokenManagerInterface
+   */
+  protected $csrfTokenService;
+
+  /**
    * Constructor for HelfiHakuvahtiConfirmController.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
    *   The HTTP client.
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+   *   The container.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack.
    * @param \Drupal\Core\Utility\Token $token_service
@@ -57,8 +67,15 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
    * @param \Drupal\Core\Session\AccountInterface $user
    *   The user account.
    */
-  public function __construct(ClientInterface $http_client, RequestStack $request_stack, Token $token_service, AccountInterface $user) {
+  public function __construct(
+    ClientInterface $http_client,
+    ContainerInterface $container,
+    RequestStack $request_stack,
+    Token $token_service,
+    AccountInterface $user,
+  ) {
     $this->httpClient = $http_client;
+    $this->csrfTokenService = $container->get('csrf_token');
     $this->requestStack = $request_stack;
     $this->tokenService = $token_service;
     $this->user = $user;
@@ -68,6 +85,7 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
    * Returns the form ID for the confirmation form.
    *
    * @return string
+   *   The Form name
    */
   public function getFormId() {
     return 'hakuvahti_confirm_form';
@@ -76,7 +94,9 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
   /**
    * Executes the confirmation process for a saved search.
    *
-   * @return array The build array containing the confirmation form or the saved search form.
+   * @return array
+   *   The build array containing the confirmation form or the
+   *   saved search form.
    */
   public function __invoke(): array {
     $build = [];
@@ -140,7 +160,8 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
   /**
    * Retrieves the form action URL from the current request.
    *
-   * @return string The URL of the current request.
+   * @return string
+   *   The URL of the current request.
    */
   protected function getFormActionUrl(): string {
     return $this->requestStack->getCurrentRequest()->getUri();
@@ -150,6 +171,7 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
    * Checks if the form is submitted via POST method.
    *
    * @return bool
+   *   Whether the form is submitted via POST method.
    */
   protected function isFormSubmitted(): bool {
     $request = $this->requestStack->getCurrentRequest();
@@ -159,13 +181,16 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
   /**
    * Sends a confirmation request to the Hakuvahti server.
    *
-   * @param string $subscriptionHash The subscription hash.
-   * @param string $subscriptionId The subscription ID.
-   * @throws Some_Exception_Class Description of the exception.
-   * @return bool Returns TRUE if the confirmation request is successful, FALSE otherwise.
+   * @param string $subscriptionHash
+   *   The subscription hash.
+   * @param string $subscriptionId
+   *   The subscription ID.
+   *
+   * @return bool
+   *   Returns TRUE if the confirmation request is successful, FALSE otherwise.
    */
   protected function sendConfirmationRequest(string $subscriptionHash, string $subscriptionId): bool {
-    $expectedToken = \Drupal::service('csrf_token')->get('session');
+    $expectedToken = $this->csrfTokenService->get('session');
     $httpClient = new Client([
       'headers' => [
         'Content-Type' => 'application/json',
