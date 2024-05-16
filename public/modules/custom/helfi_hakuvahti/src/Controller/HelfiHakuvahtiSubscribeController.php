@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\taxonomy\Entity\Term;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Drupal\taxonomy\Entity\Term;
 
 /**
  * Creates new subscription.
@@ -27,29 +27,31 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   The request stack.
    */
   public function __construct(
-    protected ContainerInterface $container, 
+    protected ContainerInterface $container,
     protected RequestStack $requestStack
-  ) { }
+  ) {}
 
   /**
    * Retrieves search description taxonomies from the provided object.
    *
-   * @param mixed $obj The object containing elastic query data.
-   * @return string The concatenated search description taxonomies.
+   * @param mixed $obj
+   *   The object containing elastic query data.
+   *
+   * @return string
+   *   The concatenated search description taxonomies.
    */
-  private function getSearchDescriptionTaxonomies($obj): string
-  {
+  private function getSearchDescriptionTaxonomies($obj): string {
     $terms = [];
     $taxonomyIds = [];
 
     $elasticQuery = base64_decode($obj->elastic_query);
     $elasticQueryObject = json_decode($elasticQuery);
 
-    // Free text search
-    $query = $elasticQueryObject->query->bool->must[1]->bool->should[1]->combined_fields->query ?? null;
-    // Task area
+    // Free text search.
+    $query = $elasticQueryObject->query->bool->must[1]->bool->should[1]->combined_fields->query ?? NULL;
+    // Task area.
     $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[2]->terms->task_area_external_id ?? []);
-    // Type of employment
+    // Type of employment.
     $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[3]->bool->should[1]->terms->employment_type_id ?? []);
 
     if (!empty($taxonomyIds)) {
