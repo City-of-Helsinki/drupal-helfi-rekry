@@ -101,29 +101,18 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
     if ($this->isFormSubmitted()) {
       if ($this->sendUnsubscribeRequest($hash, $subscription)) {
         $build['confirmation'] = [
-          '#title' => $this->t('Saved search deleted'),
+          '#title' => $this->t('The saved search has been deleted', [], ['context' => 'Hakuvahti']),
         ];
 
         $build['confirmation']['paragraph'] = [
           '#type' => 'html_tag',
           '#tag' => 'p',
-          '#value' => $this->t('The saved search has been deleted'),
-          '#attributes' => [
-            'class' => ['page-title'],
-          ],
-        ];
-        $build['confirmation']['paragraph2'] = [
-          '#type' => 'html_tag',
-          '#tag' => 'p',
-          '#value' => $this->t('You can save more searches at any time.'),
-          '#attributes' => [
-            'class' => ['page-title'],
-          ],
+          '#value' => $this->t('You can save more searches at any time.', [], ['context' => 'Hakuvahti']),
         ];
         $build['confirmation']['link'] = [
           '#type' => 'link',
           '#tag' => 'a',
-          '#title' => $this->t('Return to open jobs front page'),
+          '#title' => $this->t('Return to open jobs front page', [], ['context' => 'Hakuvahti']),
           '#url' => '/',
         ];
       }
@@ -131,19 +120,13 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
         $build['form']['paragraph'] = [
           '#type' => 'html_tag',
           '#tag' => 'p',
-          '#value' => $this->t('Deleting saved search failed. Please try again.'),
-          '#attributes' => [
-            'class' => ['page-title'],
-          ],
+          '#value' => $this->t('Deleting saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
         ];
       }
     }
     else {
       $build['form'] = [
         '#type' => 'form',
-        '#attributes' => [
-          'class' => ['page-title'],
-        ],
         '#id' => $this->getFormId(),
         '#form_id' => $this->getFormId(),
         '#action' => $this->getFormActionUrl(),
@@ -153,15 +136,12 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
       $build['form']['paragraph'] = [
         '#type' => 'html_tag',
         '#tag' => 'p',
-        '#value' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them.'),
+        '#value' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them.', [], ['context' => 'Hakuvahti']),
       ];
 
       $build['form']['button'] = [
         '#type' => 'submit',
-        '#value' => $this->t('Delete saved search'),
-        '#attributes' => [
-          'class' => ['my-button'],
-        ],
+        '#value' => $this->t('Delete saved search', [], ['context' => 'Hakuvahti']),
       ];
     }
 

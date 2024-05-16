@@ -1,8 +1,3 @@
-# Swedish translations of City of Helsinki Hakuvahti
-#
-# Use this translation file for missing translations that are not found in
-# localize.drupal.org.
-#
 msgid ""
 msgstr ""
 
