@@ -19,27 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
   /**
-   * The request stack.
-   *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
-   */
-  protected $requestStack;
-
-  /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
-   * The CSRF token service.
-   *
-   * @var \Drupal\Core\CsrfToken\CsrfTokenManagerInterface
-   */
-  protected $csrfTokenService;
-
-  /**
    * Constructor for the HelfiHakuvahtiSubscribeController class.
    *
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
@@ -49,16 +28,15 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
    *   The language manager.
    */
-  public function __construct(ContainerInterface $container, RequestStack $requestStack, LanguageManagerInterface $languageManager) {
-    $this->csrfTokenService = $container->get('csrf_token');
-    $this->requestStack = $requestStack;
-    $this->languageManager = $languageManager;
-  }
+  public function __construct(
+    protected ContainerInterface $container, 
+    protected RequestStack $requestStack, 
+    protected LanguageManagerInterface $languageManager
+  ) { }
 
-  private function getSearchDescriptionTaxonomies(string $elastic_query): string {
-    error_log($elastic_query);
+  private function getSearchDescriptionTaxonomies($obj): string {
 
-    return "";
+    return "-";
   }
 
   /**
@@ -72,14 +50,15 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $body = $request->getContent(FALSE);
     $bodyObj = json_decode($body);
     $bodyObj->lang = $this->languageManager->getCurrentLanguage()->getId();
-    $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj->elastic_query);
+    $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj);
 
     $token = $request->headers->get('token');
 
     // FIXME: somehow, we would need to validate token from
     // /session/token from react
     // side, but there's just no way to match it at backend?!
-    // $expectedToken = $this->csrfTokenService->get('session');
+    // $csrfTokenService = $this->container->get('csrf_token');
+    // $expectedToken = $csrfTokenService->get('session');
     // if ($this->csrfTokenService->validate($token, 'session') === FALSE) {
     //
     // }.

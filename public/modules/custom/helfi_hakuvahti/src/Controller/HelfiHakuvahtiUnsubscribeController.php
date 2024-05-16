@@ -19,41 +19,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
 
   /**
-   * The http client.
-   *
-   * @var \GuzzleHttp\ClientInterface
-   */
-  protected $httpClient;
-
-  /**
-   * The request stack.
-   *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
-   */
-  protected $requestStack;
-
-  /**
-   * The token service.
-   *
-   * @var \Drupal\Core\Utility\Token
-   */
-  protected $tokenService;
-
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $user;
-
-  /**
-   * The CSRF token service.
-   *
-   * @var \Drupal\Core\CsrfToken\CsrfTokenManagerInterface
-   */
-  protected $csrfTokenService;
-
-  /**
    * Constructor for the class.
    *
    * @param \GuzzleHttp\ClientInterface $http_client
@@ -67,13 +32,13 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
    * @param \App\Interfaces\AccountInterface $user
    *   The current user.
    */
-  public function __construct(ClientInterface $http_client, ContainerInterface $container, RequestStack $request_stack, Token $token_service, AccountInterface $user) {
-    $this->httpClient = $http_client;
-    $this->csrfTokenService = $container->get('csrf_token');
-    $this->requestStack = $request_stack;
-    $this->tokenService = $token_service;
-    $this->user = $user;
-  }
+  public function __construct(
+      protected ClientInterface $httpClient, 
+      protected ContainerInterface $container, 
+      protected RequestStack $requestStack, 
+      protected Token $tokenService, 
+      protected AccountInterface $user
+  ) { }
 
   /**
    * Returns the form ID for unsubscribing from a subscription.
@@ -201,7 +166,8 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
    *   Returns TRUE if the request is successful, FALSE otherwise.
    */
   protected function sendUnsubscribeRequest(string $hash, string $subscription): bool {
-    $expectedToken = $this->csrfTokenService->get('session');
+    $csrfTokenService = $this->container->get('csrf_token');
+    $expectedToken = $csrfTokenService->get('session');
 
     $httpClient = new Client();
     $options = [
