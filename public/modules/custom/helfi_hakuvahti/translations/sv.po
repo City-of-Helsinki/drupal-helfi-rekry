@@ -43,4 +43,4 @@ msgstr "Bekräfta beställningen av sökvakten genom att klicka på knappen neda
 
 msgctxt "Hakuvahti"
 msgid "Confirm saved search"
-msgstr "Bekräfta beställningen av en sökvakt"
+msgstr "Bekräfta sökvakten"
