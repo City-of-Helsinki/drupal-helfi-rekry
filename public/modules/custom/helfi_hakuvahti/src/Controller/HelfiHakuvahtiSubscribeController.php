@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Language\LanguageManagerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,13 +24,10 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   The container.
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
-   *   The language manager.
    */
   public function __construct(
     protected ContainerInterface $container, 
-    protected RequestStack $requestStack, 
-    protected LanguageManagerInterface $languageManager
+    protected RequestStack $requestStack
   ) { }
 
   private function getSearchDescriptionTaxonomies($obj): string {
@@ -49,7 +45,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $request = $this->requestStack->getCurrentRequest();
     $body = $request->getContent(FALSE);
     $bodyObj = json_decode($body);
-    $bodyObj->lang = $this->languageManager->getCurrentLanguage()->getId();
+    $bodyObj->lang = substr($bodyObj->query, 1, 2);
     $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj);
 
     $token = $request->headers->get('token');
