@@ -178,3 +178,7 @@ button.job-search-form__remove-selection-button:not(:disabled) {
     justify-content: space-between;
   }
 }
+
+.job-search-form__search-monitor__content[aria-hidden='true'] {
+  display: none;
+}
