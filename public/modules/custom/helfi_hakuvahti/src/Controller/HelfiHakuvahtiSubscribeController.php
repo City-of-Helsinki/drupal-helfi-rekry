@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Creates new subscription.
@@ -30,9 +31,41 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     protected RequestStack $requestStack
   ) { }
 
-  private function getSearchDescriptionTaxonomies($obj): string {
+  /**
+   * Retrieves search description taxonomies from the provided object.
+   *
+   * @param mixed $obj The object containing elastic query data.
+   * @return string The concatenated search description taxonomies.
+   */
+  private function getSearchDescriptionTaxonomies($obj): string
+  {
+    $terms = [];
+    $taxonomyIds = [];
 
-    return "-";
+    $elasticQuery = base64_decode($obj->elastic_query);
+    $elasticQueryObject = json_decode($elasticQuery);
+
+    // Free text search
+    $query = $elasticQueryObject->query->bool->must[1]->bool->should[1]->combined_fields->query ?? null;
+    // Task area
+    $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[2]->terms->task_area_external_id ?? []);
+    // Type of employment
+    $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[3]->bool->should[1]->terms->employment_type_id ?? []);
+
+    if (!empty($taxonomyIds)) {
+      $terms = array_map(function ($term) {
+        return $term->label();
+      }, Term::loadMultiple($taxonomyIds));
+    }
+
+    // We need to send just *something* if nothing is selected in filters.
+    if (empty($terms) && empty($query)) {
+      $terms[] = '*';
+    }
+
+    array_unshift($terms, $query);
+
+    return implode(', ', array_filter($terms));
   }
 
   /**
