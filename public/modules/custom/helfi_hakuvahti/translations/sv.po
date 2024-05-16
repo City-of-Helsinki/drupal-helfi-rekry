@@ -1,44 +1,46 @@
 msgid ""
 msgstr ""
 
-msgid "Saved search deleted"
-msgstr ""
-
+msgctxt "Hakuvahti"
 msgid "The saved search has been deleted"
-msgstr ""
+msgstr "Sökvakten har raderats"
 
+msgctxt "Hakuvahti"
 msgid "You can save more searches at any time."
-msgstr ""
+msgstr "Du kan när som helst beställa nya sökvakter."
 
+msgctxt "Hakuvahti"
 msgid "Return to open jobs front page"
-msgstr ""
+msgstr "Gå tillbaka till startsidan för lediga jobb."
 
+msgctxt "Hakuvahti"
 msgid "Deleting saved search failed. Please try again."
 msgstr ""
 
+msgctxt "Hakuvahti"
 msgid "Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them."
-msgstr ""
+msgstr "Bekräfta att du vill ta bort den här sökvakten. Om du har skapat andra sökvakter på stadens webbplats tar denna åtgärd inte bort dem."
 
+msgctxt "Hakuvahti"
 msgid "Delete saved search"
-msgstr ""
+msgstr "Radera sökvakten"
 
-msgid "Saved search confirmed."
-msgstr ""
+msgctxt "Hakuvahti"
+msgid "Search saved successfully"
+msgstr "Beställningen av sökvakten lyckades"
 
+msgctxt "Hakuvahti"
+msgid "You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages."
+msgstr "Du får e-post om sökvaktens nya träffar. Du kan ta bort sökvakten via avbeställningslänkarna i e-postmeddelandena."
+
+msgctxt "Hakuvahti"
 msgid "Confirming saved search failed. Please try again."
 msgstr ""
 
-msgid "Please confirm the saved search to receive notifications. Click on the button below."
-msgstr ""
+msgctxt "Hakuvahti"
+msgid "Please confirm the saved search to receive notifications. Click on the button below:"
+msgstr "Bekräfta beställningen av sökvakten genom att klicka på knappen nedan:"
 
+msgctxt "Hakuvahti"
 msgid "Confirm saved search"
-msgstr ""
-
-msgid "Subscribe"
-msgstr ""
-
-msgid "Confirm saved search"
-msgstr "Bekräfta sökvakten"
-
-msgid "Are you sure you wish to delete the saved search?"
-msgstr ""
+msgstr "Bekräfta beställningen av en sökvakt"
