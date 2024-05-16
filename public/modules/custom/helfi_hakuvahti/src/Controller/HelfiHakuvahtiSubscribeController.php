@@ -53,7 +53,12 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[3]->bool->should[1]->terms->employment_type_id ?? []);
 
     if (!empty($taxonomyIds)) {
-      $terms = array_map(function ($term) {
+      $language = $obj->lang;
+      $terms = array_map(function ($term) use ($language) {
+        if ($term->hasTranslation($language)) {
+          $translated_term = $term->getTranslation($language);
+          return $translated_term->label();
+        }
         return $term->label();
       }, Term::loadMultiple($taxonomyIds));
     }
