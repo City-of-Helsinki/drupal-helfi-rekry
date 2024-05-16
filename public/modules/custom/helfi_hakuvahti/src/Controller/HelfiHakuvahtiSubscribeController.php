@@ -71,7 +71,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $request = $this->requestStack->getCurrentRequest();
     $body = $request->getContent(FALSE);
     $bodyObj = json_decode($body);
-    $bodyObj->lang = $this->languageManager->getCurrentLanguage()->getId();
+    $bodyObj->lang = substr($bodyObj->query, 1, 2);
     $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj->elastic_query);
 
     $token = $request->headers->get('token');
