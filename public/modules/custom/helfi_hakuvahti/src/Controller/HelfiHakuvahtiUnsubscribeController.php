@@ -6,6 +6,7 @@ namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
 use Drupal\Core\Utility\Token;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -21,24 +22,24 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   /**
    * Constructor for the class.
    *
-   * @param \GuzzleHttp\ClientInterface $http_client
+   * @param \GuzzleHttp\ClientInterface $httpClient
    *   The HTTP client.
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
    *   The container.
-   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
-   * @param \App\Services\Token $token_service
+   * @param \App\Services\Token $tokenService
    *   The token service.
    * @param \App\Interfaces\AccountInterface $user
    *   The current user.
    */
   public function __construct(
-      protected ClientInterface $httpClient, 
-      protected ContainerInterface $container, 
-      protected RequestStack $requestStack, 
-      protected Token $tokenService, 
+      protected ClientInterface $httpClient,
+      protected ContainerInterface $container,
+      protected RequestStack $requestStack,
+      protected Token $tokenService,
       protected AccountInterface $user
-  ) { }
+  ) {}
 
   /**
    * Returns the form ID for unsubscribing from a subscription.
@@ -51,84 +52,140 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   }
 
   /**
-   * Builds the response for unsubscribing from a subscription.
+   * Executes the confirmation process for a saved search.
    *
    * @return array
-   *   The form
+   *   The build array containing the confirmation form or the
+   *   saved search form.
    */
   public function __invoke(): array {
-    $build = [];
-
     $request = $this->requestStack->getCurrentRequest();
     $hash = $request->query->get('hash');
     $subscription = $request->query->get('subscription');
 
     if ($this->isFormSubmitted()) {
-      if ($this->sendUnsubscribeRequest($hash, $subscription)) {
-        $build['confirmation'] = [
-          '#title' => $this->t('Saved search deleted'),
-        ];
-
-        $build['confirmation']['paragraph'] = [
-          '#type' => 'html_tag',
-          '#tag' => 'p',
-          '#value' => $this->t('The saved search has been deleted'),
-          '#attributes' => [
-            'class' => ['page-title'],
-          ],
-        ];
-        $build['confirmation']['paragraph2'] = [
-          '#type' => 'html_tag',
-          '#tag' => 'p',
-          '#value' => $this->t('You can save more searches at any time.'),
-          '#attributes' => [
-            'class' => ['page-title'],
-          ],
-        ];
-        $build['confirmation']['link'] = [
-          '#type' => 'link',
-          '#tag' => 'a',
-          '#title' => $this->t('Return to open jobs front page'),
-          '#url' => '/',
-        ];
-      }
-      else {
-        $build['form']['paragraph'] = [
-          '#type' => 'html_tag',
-          '#tag' => 'p',
-          '#value' => $this->t('Deleting saved search failed. Please try again.'),
-          '#attributes' => [
-            'class' => ['page-title'],
-          ],
-        ];
-      }
+      return $this->handleFormSubmission($hash, $subscription);
     }
-    else {
-      $build['form'] = [
-        '#type' => 'form',
-        '#attributes' => [
-          'class' => ['page-title'],
-        ],
-        '#id' => $this->getFormId(),
-        '#form_id' => $this->getFormId(),
-        '#action' => $this->getFormActionUrl(),
-        '#method' => 'POST',
-      ];
 
-      $build['form']['paragraph'] = [
-        '#type' => 'html_tag',
-        '#tag' => 'p',
-        '#value' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them.'),
-      ];
+    return $this->buildForm();
+  }
 
-      $build['form']['button'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Delete saved search'),
-        '#attributes' => [
-          'class' => ['my-button'],
-        ],
-      ];
+  /**
+   * Handles the form submission for unsubscribing from a subscription.
+   *
+   * @param string $hash
+   *   Description of the hash parameter.
+   * @param string $subscription
+   *   Description of the subscription parameter.
+   *
+   * @return array
+   *   The build array containing the confirmation form
+   *   or the failed submission form.
+   */
+  private function handleFormSubmission(string $hash, string $subscription): array {
+    if ($this->sendUnsubscribeRequest($hash, $subscription)) {
+      return $this->buildConfirmation();
     }
+
+    return $this->buildFailedSubmission();
+  }
+
+  /**
+   * Builds the form for deleting a saved search.
+   *
+   * @return array
+   *   The build array containing the form
+   *   structure for deleting a saved search.
+   */
+  private function buildForm(): array {
+    $build = [];
+
+    $build['form'] = [
+      '#type' => 'form',
+      '#attributes' => [
+        'class' => ['page-title'],
+      ],
+      '#id' => $this->getFormId(),
+      '#form_id' => $this->getFormId(),
+      '#action' => $this->getFormActionUrl(),
+      '#method' => 'POST',
+    ];
+
+    $build['form']['paragraph'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them.'),
+    ];
+
+    $build['form']['button'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Delete saved search'),
+      '#attributes' => [
+        'class' => ['my-button'],
+      ],
+    ];
+
+    return $build;
+  }
+
+  /**
+   * Builds the confirmation array for the saved search deletion.
+   *
+   * @return array
+   *   The build array containing the confirmation details.
+   */
+  private function buildConfirmation(): array {
+    $build = [];
+
+    $build['confirmation'] = [
+      '#title' => $this->t('Saved search deleted'),
+    ];
+
+    $build['confirmation']['paragraph'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => $this->t('The saved search has been deleted'),
+      '#attributes' => [
+        'class' => ['page-title'],
+      ],
+    ];
+
+    $build['confirmation']['paragraph2'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => $this->t('You can save more searches at any time.'),
+      '#attributes' => [
+        'class' => ['page-title'],
+      ],
+    ];
+
+    $build['confirmation']['link'] = [
+      '#type' => 'link',
+      '#tag' => 'a',
+      '#title' => $this->t('Return to open jobs front page'),
+      '#url' => Url::fromUri('internal:/'),
+    ];
+
+    return $build;
+  }
+
+  /**
+   * Builds the form for a failed submission when deleting a saved search.
+   *
+   * @return array
+   *   The build array containing the form structure for a failed submission.
+   */
+  private function buildFailedSubmission(): array {
+    $build = [];
+
+    $build['form']['paragraph'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => $this->t('Deleting saved search failed. Please try again.'),
+      '#attributes' => [
+        'class' => ['page-title'],
+      ],
+    ];
 
     return $build;
   }
