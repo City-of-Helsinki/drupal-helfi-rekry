@@ -44,3 +44,12 @@ msgstr "Vahvista hakuvahdin tilaus klikkaamalla alla olevaa painiketta:"
 msgctxt "Hakuvahti"
 msgid "Confirm saved search"
 msgstr "Vahvista hakuvahti"
+
+msgid "Subscribe saved search"
+msgstr "Tilaa hakuvahti"
+
+msgid "Confirm saved search"
+msgstr "Vahvista hakuvahti"
+
+msgid "Are you sure you wish to delete the saved search?"
+msgstr "Haluatko varmasti poistaa hakuvahdin?"
