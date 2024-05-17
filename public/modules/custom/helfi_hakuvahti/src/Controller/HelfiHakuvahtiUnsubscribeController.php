@@ -28,9 +28,9 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
    *   The container.
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
-   * @param \App\Services\Token $tokenService
+   * @param \Drupal\Core\Utility\Token $tokenService
    *   The token service.
-   * @param \App\Interfaces\AccountInterface $user
+   * @param \Drupal\Core\Session\AccountInterface $user
    *   The current user.
    */
   public function __construct(
