@@ -28,7 +28,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    */
   public function __construct(
     protected ContainerInterface $container,
-    protected RequestStack $requestStack
+    protected RequestStack $requestStack,
   ) {}
 
   /**

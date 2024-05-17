@@ -34,11 +34,11 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
    *   The current user.
    */
   public function __construct(
-      protected ClientInterface $httpClient,
-      protected ContainerInterface $container,
-      protected RequestStack $requestStack,
-      protected Token $tokenService,
-      protected AccountInterface $user
+    protected ClientInterface $httpClient,
+    protected ContainerInterface $container,
+    protected RequestStack $requestStack,
+    protected Token $tokenService,
+    protected AccountInterface $user
   ) {}
 
   /**
