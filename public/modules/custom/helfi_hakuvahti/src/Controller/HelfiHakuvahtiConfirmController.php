@@ -19,67 +19,26 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class HelfiHakuvahtiConfirmController extends ControllerBase {
 
   /**
-   * The http client.
-   *
-   * @var \GuzzleHttp\ClientInterface
-   */
-  protected $httpClient;
-
-  /**
-   * The request stack.
-   *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
-   */
-  protected $requestStack;
-
-  /**
-   * The token service.
-   *
-   * @var \Drupal\Core\Utility\Token
-   */
-  protected $tokenService;
-
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $user;
-
-  /**
-   * The CSRF token service.
-   *
-   * @var \Drupal\Core\CsrfToken\CsrfTokenManagerInterface
-   */
-  protected $csrfTokenService;
-
-  /**
    * Constructor for HelfiHakuvahtiConfirmController.
    *
-   * @param \GuzzleHttp\ClientInterface $http_client
+   * @param \GuzzleHttp\ClientInterface $httpClient
    *   The HTTP client.
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
    *   The container.
-   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
-   * @param \Drupal\Core\Utility\Token $token_service
+   * @param \Drupal\Core\Utility\Token $tokenService
    *   The token service.
    * @param \Drupal\Core\Session\AccountInterface $user
    *   The user account.
    */
   public function __construct(
-    ClientInterface $http_client,
-    ContainerInterface $container,
-    RequestStack $request_stack,
-    Token $token_service,
-    AccountInterface $user,
-  ) {
-    $this->httpClient = $http_client;
-    $this->csrfTokenService = $container->get('csrf_token');
-    $this->requestStack = $request_stack;
-    $this->tokenService = $token_service;
-    $this->user = $user;
-  }
+    protected ClientInterface $httpClient,
+    protected ContainerInterface $container,
+    protected RequestStack $requestStack,
+    protected Token $tokenService,
+    protected AccountInterface $user,
+  ) {}
 
   /**
    * Returns the form ID for the confirmation form.
@@ -99,52 +58,106 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
    *   saved search form.
    */
   public function __invoke(): array {
-    $build = [];
-
     $request = $this->requestStack->getCurrentRequest();
     $hash = $request->query->get('hash');
     $subscription = $request->query->get('subscription');
 
     if ($this->isFormSubmitted()) {
-      if ($this->sendConfirmationRequest($hash, $subscription)) {
-        $build['confirmation'] = [
-          '#title' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
-        ];
-
-        $build['confirmation']['paragraph'] = [
-          '#type' => 'html_tag',
-          '#tag' => 'p',
-          '#value' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
-        ];
-      }
-      else {
-        $build['confirmation'] = [
-          '#type' => 'html_tag',
-          '#tag' => 'p',
-          '#value' => $this->t('Confirming saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
-        ];
-      }
+      return $this->handleFormSubmission($hash, $subscription);
     }
-    else {
-      $build['form'] = [
-        '#type' => 'form',
-        '#id' => $this->getFormId(),
-        '#form_id' => $this->getFormId(),
-        '#action' => $this->getFormActionUrl(),
-        '#method' => 'POST',
-      ];
 
-      $build['form']['paragraph'] = [
-        '#type' => 'html_tag',
-        '#tag' => 'p',
-        '#value' => $this->t('Please confirm the saved search to receive notifications. Click on the button below:', [], ['context' => 'Hakuvahti']),
-      ];
+    return $this->buildForm();
+  }
 
-      $build['form']['button'] = [
-        '#type' => 'submit',
-        '#value' => $this->t('Confirm saved search', [], ['context' => 'Hakuvahti']),
-      ];
+  /**
+   * Handles the form submission for confirming a subscription.
+   *
+   * @param mixed $hash
+   *   The hash parameter.
+   * @param mixed $subscription
+   *   The subscription parameter.
+   *
+   * @return array
+   *   The build array containing the confirmation success or failure.
+   */
+  private function handleFormSubmission($hash, $subscription): array {
+    if ($this->sendConfirmationRequest($hash, $subscription)) {
+      return $this->buildConfirmationSuccess();
     }
+
+    return $this->buildConfirmationFailure();
+  }
+
+  /**
+   * Builds the form for confirming a saved search.
+   *
+   * @return array
+   *   The build array containing the form structure
+   *   for confirming a saved search.
+   */
+  private function buildForm(): array {
+    $build = [];
+
+    $build['form'] = [
+      '#type' => 'form',
+      '#id' => $this->getFormId(),
+      '#form_id' => $this->getFormId(),
+      '#action' => $this->getFormActionUrl(),
+      '#method' => 'POST',
+    ];
+
+    $build['form']['paragraph'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => $this->t('Please confirm the saved search to receive notifications. Click on the button below:', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['form']['button'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Confirm saved search', [], ['context' => 'Hakuvahti']),
+    ];
+
+    return $build;
+  }
+
+  /**
+   * Builds the confirmation array for a successful saved search confirmation.
+   *
+   * @return array
+   *   Success form
+   */
+  private function buildConfirmationSuccess(): array {
+    $build = [];
+
+    $build['confirmation'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['confirmation']['paragraph'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
+    ];
+
+    return $build;
+  }
+
+  /**
+   * Builds the confirmation array for a failed saved search confirmation.
+   *
+   * @return array
+   *   Failure form
+   */
+  private function buildConfirmationFailure(): array {
+    $build = [];
+
+    $build['confirmation'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => $this->t('Confirming saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
+    ];
 
     return $build;
   }
@@ -182,7 +195,8 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
    *   Returns TRUE if the confirmation request is successful, FALSE otherwise.
    */
   protected function sendConfirmationRequest(string $subscriptionHash, string $subscriptionId): bool {
-    $expectedToken = $this->csrfTokenService->get('session');
+    $csrfTokenService = $this->container->get('csrf_token');
+    $expectedToken = $csrfTokenService->get('session');
     $httpClient = new Client([
       'headers' => [
         'Content-Type' => 'application/json',

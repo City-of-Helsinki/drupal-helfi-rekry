@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\taxonomy\Entity\Term;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,46 +19,60 @@ use Symfony\Component\HttpFoundation\Response;
 final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
   /**
-   * The request stack.
-   *
-   * @var \Symfony\Component\HttpFoundation\RequestStack
-   */
-  protected $requestStack;
-
-  /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
-   * The CSRF token service.
-   *
-   * @var \Drupal\Core\CsrfToken\CsrfTokenManagerInterface
-   */
-  protected $csrfTokenService;
-
-  /**
    * Constructor for the HelfiHakuvahtiSubscribeController class.
    *
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
    *   The container.
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
-   *   The language manager.
    */
-  public function __construct(ContainerInterface $container, RequestStack $requestStack, LanguageManagerInterface $languageManager) {
-    $this->csrfTokenService = $container->get('csrf_token');
-    $this->requestStack = $requestStack;
-    $this->languageManager = $languageManager;
-  }
+  public function __construct(
+    protected ContainerInterface $container,
+    protected RequestStack $requestStack,
+  ) {}
 
-  private function getSearchDescriptionTaxonomies(string $elastic_query): string {
-    error_log($elastic_query);
+  /**
+   * Retrieves search description taxonomies from the provided object.
+   *
+   * @param mixed $obj
+   *   The object containing elastic query data.
+   *
+   * @return string
+   *   The concatenated search description taxonomies.
+   */
+  private function getSearchDescriptionTaxonomies($obj): string {
+    $terms = [];
+    $taxonomyIds = [];
 
-    return "";
+    $elasticQuery = base64_decode($obj->elastic_query);
+    $elasticQueryObject = json_decode($elasticQuery);
+
+    // Free text search.
+    $query = $elasticQueryObject->query->bool->must[1]->bool->should[1]->combined_fields->query ?? NULL;
+    // Task area.
+    $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[2]->terms->task_area_external_id ?? []);
+    // Type of employment.
+    $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[3]->bool->should[1]->terms->employment_type_id ?? []);
+
+    if (!empty($taxonomyIds)) {
+      $language = $obj->lang;
+      $terms = array_map(function ($term) use ($language) {
+        if ($term->hasTranslation($language)) {
+          $translated_term = $term->getTranslation($language);
+          return $translated_term->label();
+        }
+        return $term->label();
+      }, Term::loadMultiple($taxonomyIds));
+    }
+
+    // We need to send just *something* if nothing is selected in filters.
+    if (empty($terms) && empty($query)) {
+      $terms[] = '*';
+    }
+
+    array_unshift($terms, $query);
+
+    return implode(', ', array_filter($terms));
   }
 
   /**
@@ -72,14 +86,15 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $body = $request->getContent(FALSE);
     $bodyObj = json_decode($body);
     $bodyObj->lang = substr($bodyObj->query, 1, 2);
-    $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj->elastic_query);
+    $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj);
 
     $token = $request->headers->get('token');
 
     // FIXME: somehow, we would need to validate token from
     // /session/token from react
     // side, but there's just no way to match it at backend?!
-    // $expectedToken = $this->csrfTokenService->get('session');
+    // $csrfTokenService = $this->container->get('csrf_token');
+    // $expectedToken = $csrfTokenService->get('session');
     // if ($this->csrfTokenService->validate($token, 'session') === FALSE) {
     //
     // }.
