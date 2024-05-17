@@ -38,6 +38,10 @@ $config['openid_connect.client.tunnistamo']['settings']['ad_roles'] = [
     'ad_role' => 'Drupal_Helfi_Rekry_sisallontuottajat_suppea',
     'roles' => ['content_producer'],
   ],
+  [
+    'ad_role' => '947058f4-697e-41bb-baf5-f69b49e5579a',
+    'roles' => ['super_administrator'],
+  ],
 ];
 
 $additionalEnvVars = [
@@ -47,8 +51,8 @@ $additionalEnvVars = [
   'DRUPAL_VARNISH_HOST',
   'DRUPAL_VARNISH_PORT',
   'PROJECT_NAME',
-  'DRUPAL_API_ACCOUNTS',
-  'DRUPAL_VAULT_ACCOUNTS',
+  'DRUPAL_PUBSUB_VAULT',
+  'DRUPAL_NAVIGATION_VAULT',
   'REDIS_HOST',
   'REDIS_PORT',
   'REDIS_PASSWORD',
