@@ -1,0 +1,7 @@
+name: 'HELfi Hakuvahti'
+type: module
+description: 'Drupal-integraatio hakuvahtiin.'
+package: 'Custom'
+core_version_requirement: ^10
+'interface translation project': helfi_hakuvahti
+'interface translation server pattern': modules/custom/helfi_hakuvahti/translations/helfi_hakuvahti.%language.po
