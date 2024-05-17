@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -25,10 +25,13 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   The container.
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $_entityTypeManager
+   *   The entity type manager.
    */
   public function __construct(
     protected ContainerInterface $container,
     protected RequestStack $requestStack,
+    protected EntityTypeManagerInterface $_entityTypeManager,
   ) {}
 
   /**
@@ -62,7 +65,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
           return $translated_term->label();
         }
         return $term->label();
-      }, Term::loadMultiple($taxonomyIds));
+      }, $this->_entityTypeManager->getStorage('taxonomy_term')->loadMultiple($taxonomyIds));
     }
 
     // We need to send just *something* if nothing is selected in filters.
