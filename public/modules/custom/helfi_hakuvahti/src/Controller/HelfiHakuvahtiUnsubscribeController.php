@@ -38,7 +38,7 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
     protected ContainerInterface $container,
     protected RequestStack $requestStack,
     protected Token $tokenService,
-    protected AccountInterface $user
+    protected AccountInterface $user,
   ) {}
 
   /**
