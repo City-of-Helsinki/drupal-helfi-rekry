@@ -13,19 +13,19 @@ msgid "The saved search has been deleted"
 msgstr ""
 
 msgid "You can save more searches at any time."
-msgstr ""
+msgstr "Du kan när som helst beställa nya sökvakter."
 
 msgid "Return to open jobs front page"
-msgstr ""
+msgstr "Gå tillbaka till startsidan för lediga jobb."
 
 msgid "Deleting saved search failed. Please try again."
 msgstr ""
 
 msgid "Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them."
-msgstr ""
+msgstr "Bekräfta att du vill ta bort den här sökvakten. Om du har skapat andra sökvakter på stadens webbplats tar denna åtgärd inte bort dem."
 
 msgid "Delete saved search"
-msgstr ""
+msgstr "Radera sökvakten"
 
 msgid "Saved search confirmed."
 msgstr ""
@@ -47,3 +47,6 @@ msgstr "Bekräfta sökvakten"
 
 msgid "Are you sure you wish to delete the saved search?"
 msgstr ""
+
+msgid "Receive search results by email"
+msgstr "Beställ sökvakten till din e-post"

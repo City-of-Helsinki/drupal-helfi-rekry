@@ -40,10 +40,13 @@ msgid "Confirm saved search"
 msgstr "Vahvista hakuvahti"
 
 msgid "Subscribe"
-msgstr ""
+msgstr "Tilaa hakuvahti"
 
 msgid "Confirm saved search"
 msgstr "Vahvista hakuvahti"
 
 msgid "Are you sure you wish to delete the saved search?"
 msgstr "Haluatko varmasti poistaa hakuvahdin?"
+
+msgid "Receive search results by email"
+msgstr "Tilaa hakuvahti sähköpostiisi"
