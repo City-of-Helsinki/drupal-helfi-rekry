@@ -100,9 +100,6 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
 
     $build['form'] = [
       '#type' => 'form',
-      '#attributes' => [
-        'class' => ['page-title'],
-      ],
       '#id' => $this->getFormId(),
       '#form_id' => $this->getFormId(),
       '#action' => $this->getFormActionUrl(),
@@ -112,15 +109,12 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
     $build['form']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
-      '#value' => $this->t('Please confirm the saved search to receive notifications. Click on the button below.'),
+      '#value' => $this->t('Please confirm the saved search to receive notifications. Click on the button below:', [], ['context' => 'Hakuvahti']),
     ];
 
     $build['form']['button'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Confirm saved search'),
-      '#attributes' => [
-        'class' => ['my-button'],
-      ],
+      '#value' => $this->t('Confirm saved search', [], ['context' => 'Hakuvahti']),
     ];
 
     return $build;
@@ -138,10 +132,13 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
     $build['confirmation'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
-      '#value' => $this->t('Saved search confirmed.'),
-      '#attributes' => [
-        'class' => ['page-title'],
-      ],
+      '#value' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['confirmation']['paragraph'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
     ];
 
     return $build;
@@ -159,10 +156,7 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
     $build['confirmation'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
-      '#value' => $this->t('Confirming saved search failed. Please try again.'),
-      '#attributes' => [
-        'class' => ['page-title'],
-      ],
+      '#value' => $this->t('Confirming saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
     ];
 
     return $build;

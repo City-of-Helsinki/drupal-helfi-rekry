@@ -1,7 +1,7 @@
 helfi_hakuvahti.subscribe:
   path: '/hakuvahti/subscribe'
   defaults:
-    _title: 'Subscribe'
+    _title: 'Subscribe saved search'
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiSubscribeController::post'
   requirements:
     _permission: 'access content'
@@ -11,7 +11,7 @@ helfi_hakuvahti.confirm:
     _title: 'Confirm saved search'
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiConfirmController'
   requirements:
-    _permission: 'access content'    
+    _permission: 'access content'
 helfi_hakuvahti.unsubscribe:
   path: '/hakuvahti/unsubscribe'
   defaults:

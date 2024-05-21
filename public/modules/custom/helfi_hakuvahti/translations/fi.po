@@ -1,45 +1,51 @@
-# Finnish translations of City of Helsinki Hakuvahti
-#
-# Use this translation file for missing translations that are not found in
-# localize.drupal.org.
-#
 msgid ""
 msgstr ""
 
-msgid "Saved search deleted"
-msgstr "Hakuvahti on poistettu"
-
+msgctxt "Hakuvahti"
 msgid "The saved search has been deleted"
 msgstr "Hakuvahti on poistettu"
 
+msgctxt "Hakuvahti"
 msgid "You can save more searches at any time."
 msgstr "Voit koska tahansa tilata uusia hakuvahteja."
 
+msgctxt "Hakuvahti"
 msgid "Return to open jobs front page"
 msgstr "Palaa avoimien työpaikkojen etusivulle."
 
+msgctxt "Hakuvahti"
 msgid "Deleting saved search failed. Please try again."
 msgstr "Hakuvahdin poisto epäonnistui. Yritä uudelleen."
 
+msgctxt "Hakuvahti"
 msgid "Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them."
 msgstr "Vahvista, että haluat poistaa tämän hakuvahdin. Jos olet tehnyt muita hakuvahteja kaupungin verkkosivustolla, tämä ei poista niitä."
 
+msgctxt "Hakuvahti"
 msgid "Delete saved search"
 msgstr "Poista hakuvahti"
 
-msgid "Saved search confirmed."
-msgstr "Hakuvahti vahvistettu."
+msgctxt "Hakuvahti"
+msgid "Search saved successfully"
+msgstr "Hakuvahdin tilaus onnistui"
 
+msgctxt "Hakuvahti"
+msgid "You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages."
+msgstr "Saat sähköpostia hakuvahdin uusista osumista. Voit halutessasi poistaa hakuvahdin sähköpostien peruutuslinkeistä."
+
+msgctxt "Hakuvahti"
 msgid "Confirming saved search failed. Please try again."
 msgstr "Hakuvahdin vahvistus epäonnistui. Yritä uudelleen."
 
-msgid "Please confirm the saved search to receive notifications. Click on the button below."
-msgstr "Vahvista hakuvahdin tilaus klikkaamalla alla olevaa painiketta."
+msgctxt "Hakuvahti"
+msgid "Please confirm the saved search to receive notifications. Click on the button below:"
+msgstr "Vahvista hakuvahdin tilaus klikkaamalla alla olevaa painiketta:"
 
+msgctxt "Hakuvahti"
 msgid "Confirm saved search"
 msgstr "Vahvista hakuvahti"
 
-msgid "Subscribe"
+msgid "Subscribe saved search"
 msgstr "Tilaa hakuvahti"
 
 msgid "Confirm saved search"
@@ -47,6 +53,3 @@ msgstr "Vahvista hakuvahti"
 
 msgid "Are you sure you wish to delete the saved search?"
 msgstr "Haluatko varmasti poistaa hakuvahdin?"
-
-msgid "Receive search results by email"
-msgstr "Tilaa hakuvahti sähköpostiisi"
