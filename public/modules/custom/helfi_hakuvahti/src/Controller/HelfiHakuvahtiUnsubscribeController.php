@@ -134,14 +134,10 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   private function buildConfirmation(): array {
     $build = [];
 
-    $build['confirmation'] = [
-      '#title' => $this->t('The saved search has been deleted', [], ['context' => 'Hakuvahti']),
-    ];
-
     $build['confirmation']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
-      '#value' => $this->t('The saved search has been deleted'),
+      '#value' => $this->t('The saved search has been deleted', [], ['context' => 'Hakuvahti']),
       '#attributes' => [
         'class' => ['page-title'],
       ],
