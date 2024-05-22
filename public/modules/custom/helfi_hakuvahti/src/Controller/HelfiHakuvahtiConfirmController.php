@@ -70,6 +70,16 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
   }
 
   /**
+   * Returns the page title.
+   *
+   * @return string
+   *   The page title
+   */
+  public function getTitle() {
+    return  t('Confirm saved search', [], ['context' => 'Hakuvahti']);
+  }
+
+  /**
    * Handles the form submission for confirming a subscription.
    *
    * @param mixed $hash
@@ -109,7 +119,15 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
     $build['form']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
-      '#value' => $this->t('Please confirm the saved search to receive notifications. Click on the button below:', [], ['context' => 'Hakuvahti']),
+      '#value' => $this->t('Please confirm the saved search to receive notifications. Click on the button below.', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['form']['divider'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['page-divider'],
+      ],
     ];
 
     $build['form']['button'] = [
@@ -131,14 +149,38 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
 
     $build['confirmation'] = [
       '#type' => 'html_tag',
+      '#tag' => 'article',
+      '#attributes' => [
+        'class' => ['hakuvahti-confirmation'],
+      ],
+    ];
+
+    $build['confirmation']['components'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['components'],
+      ],
+    ];
+
+    $build['confirmation']['components']['paragraph'] = [
+      '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
     ];
 
-    $build['confirmation']['paragraph'] = [
+    $build['confirmation']['components']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['confirmation']['components']['divider'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['page-divider'],
+      ],
     ];
 
     return $build;
@@ -155,8 +197,32 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
 
     $build['confirmation'] = [
       '#type' => 'html_tag',
+      '#tag' => 'article',
+      '#attributes' => [
+        'class' => ['hakuvahti-confirmation'],
+      ],
+    ];
+
+    $build['confirmation']['components'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['components'],
+      ],
+    ];
+
+    $build['confirmation']['components']['paragraph'] = [
+      '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('Confirming saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['confirmation']['components']['divider'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['page-divider'],
+      ],
     ];
 
     return $build;
