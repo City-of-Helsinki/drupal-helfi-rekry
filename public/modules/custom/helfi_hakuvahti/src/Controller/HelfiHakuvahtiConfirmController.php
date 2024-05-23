@@ -74,16 +74,6 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
   }
 
   /**
-   * Returns the page title.
-   *
-   * @return string
-   *   The page title
-   */
-  public function getTitle() {
-    return $this->dynamicTitle;
-  }
-
-  /**
    * Handles the form submission for confirming a subscription.
    *
    * @param mixed $hash
@@ -171,13 +161,21 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
       ],
     ];
 
-    $build['confirmation']['components']['paragraph'] = [
+    $build['confirmation']['components']['component'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['component'],
+      ],
+    ];
+
+    $build['confirmation']['components']['component']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
     ];
 
-    $build['confirmation']['components']['divider'] = [
+    $build['confirmation']['components']['component']['divider'] = [
       '#type' => 'html_tag',
       '#tag' => 'div',
       '#attributes' => [
@@ -215,13 +213,21 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
       ],
     ];
 
-    $build['confirmation']['components']['paragraph'] = [
+    $build['confirmation']['components']['component'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['component'],
+      ],
+    ];
+
+    $build['confirmation']['components']['component']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('Confirming saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
     ];
 
-    $build['confirmation']['components']['divider'] = [
+    $build['confirmation']['components']['component']['divider'] = [
       '#type' => 'html_tag',
       '#tag' => 'div',
       '#attributes' => [

@@ -160,30 +160,39 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
       ],
     ];
 
-    $build['confirmation']['components']['paragraph'] = [
+    $build['confirmation']['components']['component'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['component'],
+      ],
+    ];
+
+
+    $build['confirmation']['components']['component']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('You can save more searches at any time.', [], ['context' => 'Hakuvahti']),
     ];
 
-    $build['confirmation']['components']['paragraph2'] = [
-      '#type' => 'html_tag',
-      '#tag' => 'p',
-    ];
-
-    $build['confirmation']['components']['paragraph2']['link'] = [
-      '#type' => 'link',
-      '#tag' => 'a',
-      '#title' => $this->t('Return to open jobs front page', [], ['context' => 'Hakuvahti']),
-      '#url' => Url::fromUri('internal:/'),
-    ];
-
-    $build['confirmation']['components']['divider'] = [
+    $build['confirmation']['components']['component']['divider'] = [
       '#type' => 'html_tag',
       '#tag' => 'div',
       '#attributes' => [
         'class' => ['page-divider'],
       ],
+    ];
+
+    $build['confirmation']['components']['component']['paragraph2'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+    ];
+
+    $build['confirmation']['components']['component']['paragraph2']['link'] = [
+      '#type' => 'link',
+      '#tag' => 'a',
+      '#title' => $this->t('Return to open jobs front page', [], ['context' => 'Hakuvahti']),
+      '#url' => Url::fromUri('internal:/'),
     ];
 
     return $build;
@@ -216,13 +225,21 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
       ],
     ];
 
-    $build['form']['components']['paragraph'] = [
+    $build['form']['components']['component'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['component'],
+      ],
+    ];
+
+    $build['form']['components']['component']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('Deleting saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
     ];
 
-    $build['form']['components']['divider'] = [
+    $build['form']['components']['component']['divider'] = [
       '#type' => 'html_tag',
       '#tag' => 'div',
       '#attributes' => [
