@@ -49,6 +49,14 @@ msgctxt "Hakuvahti"
 msgid "Confirm saved search"
 msgstr "Bekräfta sökvakten"
 
+msgctxt "Hakuvahti"
+msgid "Are you sure you wish to delete the saved search?"
+msgstr "Är du säker på att du vill ta bort sökvakten?"
+
+msgctxt "Hakuvahti"
+msgid "Deleting failed"
+msgstr "Radering misslyckades"
+
 msgid "Subscribe saved search"
 msgstr "Beställ sökvakten"
 

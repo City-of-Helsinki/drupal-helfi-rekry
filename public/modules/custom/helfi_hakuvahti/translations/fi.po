@@ -49,6 +49,14 @@ msgctxt "Hakuvahti"
 msgid "Confirm saved search"
 msgstr "Vahvista hakuvahti"
 
+msgctxt "Hakuvahti"
+msgid "Are you sure you wish to delete the saved search?"
+msgstr "Haluatko varmasti poistaa hakuvahdin?"
+
+msgctxt "Hakuvahti"
+msgid "Deleting failed"
+msgstr "Poistaminen epäonnistui"
+
 msgid "Subscribe saved search"
 msgstr "Tilaa hakuvahti"
 

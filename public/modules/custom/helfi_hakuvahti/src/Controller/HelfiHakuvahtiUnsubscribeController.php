@@ -100,6 +100,8 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   private function buildForm(): array {
     $build = [];
 
+    $build['#title'] = $this->t('Are you sure you wish to delete the saved search?', [], ['context' => 'Hakuvahti']);
+
     $build['form'] = [
       '#type' => 'form',
       '#id' => $this->getFormId(),
@@ -108,18 +110,24 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
       '#method' => 'POST',
     ];
 
+
     $build['form']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them.', [], ['context' => 'Hakuvahti']),
     ];
 
+    $build['form']['divider'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['page-divider'],
+      ],
+    ];
+
     $build['form']['button'] = [
       '#type' => 'submit',
       '#value' => $this->t('Delete saved search', [], ['context' => 'Hakuvahti']),
-      '#attributes' => [
-        'class' => ['my-button'],
-      ],
     ];
 
     return $build;
@@ -134,26 +142,48 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   private function buildConfirmation(): array {
     $build = [];
 
-    $build['confirmation']['paragraph'] = [
+    $build['#title'] = $this->t('The saved search has been deleted', [], ['context' => 'Hakuvahti']);
+
+    $build['confirmation'] = [
       '#type' => 'html_tag',
-      '#tag' => 'p',
-      '#value' => $this->t('The saved search has been deleted', [], ['context' => 'Hakuvahti']),
+      '#tag' => 'article',
       '#attributes' => [
-        'class' => ['page-title'],
+        'class' => ['hakuvahti-confirmation'],
       ],
     ];
 
-    $build['confirmation']['paragraph2'] = [
+    $build['confirmation']['components'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['components'],
+      ],
+    ];
+
+    $build['confirmation']['components']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('You can save more searches at any time.', [], ['context' => 'Hakuvahti']),
     ];
 
-    $build['confirmation']['link'] = [
+    $build['confirmation']['components']['paragraph2'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+    ];
+
+    $build['confirmation']['components']['paragraph2']['link'] = [
       '#type' => 'link',
       '#tag' => 'a',
       '#title' => $this->t('Return to open jobs front page', [], ['context' => 'Hakuvahti']),
       '#url' => Url::fromUri('internal:/'),
+    ];
+
+    $build['confirmation']['components']['divider'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['page-divider'],
+      ],
     ];
 
     return $build;
@@ -168,10 +198,36 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
   private function buildFailedSubmission(): array {
     $build = [];
 
-    $build['form']['paragraph'] = [
+    $build['#title'] = $this->t('Deleting failed', [], ['context' => 'Hakuvahti']);
+
+    $build['form'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'article',
+      '#attributes' => [
+        'class' => ['hakuvahti-confirmation'],
+      ],
+    ];
+
+    $build['form']['components'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['components'],
+      ],
+    ];
+
+    $build['form']['components']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('Deleting saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['form']['components']['divider'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['page-divider'],
+      ],
     ];
 
     return $build;
