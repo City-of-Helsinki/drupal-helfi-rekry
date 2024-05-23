@@ -110,7 +110,6 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
       '#method' => 'POST',
     ];
 
-
     $build['form']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
@@ -167,7 +166,6 @@ final class HelfiHakuvahtiUnsubscribeController extends ControllerBase {
         'class' => ['component'],
       ],
     ];
-
 
     $build['confirmation']['components']['component']['paragraph'] = [
       '#type' => 'html_tag',

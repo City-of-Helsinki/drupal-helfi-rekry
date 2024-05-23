@@ -7,7 +7,6 @@ namespace Drupal\helfi_hakuvahti\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Utility\Token;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
