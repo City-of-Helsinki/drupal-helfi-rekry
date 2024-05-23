@@ -6,6 +6,8 @@ namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Utility\Token;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -17,6 +19,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Confirms a subscription.
  */
 final class HelfiHakuvahtiConfirmController extends ControllerBase {
+
+  use StringTranslationTrait;
 
   /**
    * Constructor for HelfiHakuvahtiConfirmController.
@@ -76,7 +80,7 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
    *   The page title
    */
   public function getTitle() {
-    return  t('Confirm saved search', [], ['context' => 'Hakuvahti']);
+    return $this->dynamicTitle;
   }
 
   /**
@@ -116,6 +120,8 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
       '#method' => 'POST',
     ];
 
+    $build['#title'] = $this->t('Confirm saved search', [], ['context' => 'Hakuvahti']);
+
     $build['form']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
@@ -147,6 +153,8 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
   private function buildConfirmationSuccess(): array {
     $build = [];
 
+    $build['#title'] = $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']);
+
     $build['confirmation'] = [
       '#type' => 'html_tag',
       '#tag' => 'article',
@@ -161,12 +169,6 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
       '#attributes' => [
         'class' => ['components'],
       ],
-    ];
-
-    $build['confirmation']['components']['paragraph'] = [
-      '#type' => 'html_tag',
-      '#tag' => 'p',
-      '#value' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
     ];
 
     $build['confirmation']['components']['paragraph'] = [
@@ -194,6 +196,8 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
    */
   private function buildConfirmationFailure(): array {
     $build = [];
+
+    $build['#title'] = $this->t('Confirmation failed', [], ['context' => 'Hakuvahti']);
 
     $build['confirmation'] = [
       '#type' => 'html_tag',

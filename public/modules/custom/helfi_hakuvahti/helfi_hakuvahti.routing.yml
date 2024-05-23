@@ -8,7 +8,7 @@ helfi_hakuvahti.subscribe:
 helfi_hakuvahti.confirm:
   path: '/hakuvahti/confirm'
   defaults:
-    _title_callback: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiConfirmController::getTitle'
+    _title: 'Confirm saved search'
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiConfirmController'
   requirements:
     _permission: 'access content'

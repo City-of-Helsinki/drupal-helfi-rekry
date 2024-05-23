@@ -34,6 +34,10 @@ msgid "You will receive an email notification of any new results matching your s
 msgstr "Saat sähköpostia hakuvahdin uusista osumista. Voit halutessasi poistaa hakuvahdin sähköpostien peruutuslinkeistä."
 
 msgctxt "Hakuvahti"
+msgid "Confirmation failed"
+msgstr "Vahvistus epäonnistui."
+
+msgctxt "Hakuvahti"
 msgid "Confirming saved search failed. Please try again."
 msgstr "Hakuvahdin vahvistus epäonnistui. Yritä uudelleen."
 
