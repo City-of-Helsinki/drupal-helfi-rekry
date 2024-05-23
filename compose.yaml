@@ -38,6 +38,7 @@ services:
     networks:
       - internal
       - stonehenge-network
+      - hakuvahti_hav-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
@@ -145,6 +146,8 @@ networks:
   internal:
     external: false
   stonehenge-network:
+    external: true
+  hakuvahti_hav-network:
     external: true
 
 volumes:
