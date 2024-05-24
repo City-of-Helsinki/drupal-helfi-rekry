@@ -34,16 +34,28 @@ msgid "You will receive an email notification of any new results matching your s
 msgstr "Saat sähköpostia hakuvahdin uusista osumista. Voit halutessasi poistaa hakuvahdin sähköpostien peruutuslinkeistä."
 
 msgctxt "Hakuvahti"
+msgid "Confirmation failed"
+msgstr "Vahvistus epäonnistui."
+
+msgctxt "Hakuvahti"
 msgid "Confirming saved search failed. Please try again."
 msgstr "Hakuvahdin vahvistus epäonnistui. Yritä uudelleen."
 
 msgctxt "Hakuvahti"
-msgid "Please confirm the saved search to receive notifications. Click on the button below:"
-msgstr "Vahvista hakuvahdin tilaus klikkaamalla alla olevaa painiketta:"
+msgid "Please confirm the saved search to receive notifications. Click on the button below."
+msgstr "Vahvista hakuvahdin tilaus klikkaamalla alla olevaa painiketta."
 
 msgctxt "Hakuvahti"
 msgid "Confirm saved search"
 msgstr "Vahvista hakuvahti"
+
+msgctxt "Hakuvahti"
+msgid "Are you sure you wish to delete the saved search?"
+msgstr "Haluatko varmasti poistaa hakuvahdin?"
+
+msgctxt "Hakuvahti"
+msgid "Deleting failed"
+msgstr "Poistaminen epäonnistui"
 
 msgid "Subscribe saved search"
 msgstr "Tilaa hakuvahti"

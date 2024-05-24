@@ -6,6 +6,7 @@ namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Utility\Token;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
@@ -17,6 +18,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Confirms a subscription.
  */
 final class HelfiHakuvahtiConfirmController extends ControllerBase {
+
+  use StringTranslationTrait;
 
   /**
    * Constructor for HelfiHakuvahtiConfirmController.
@@ -106,10 +109,20 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
       '#method' => 'POST',
     ];
 
+    $build['#title'] = $this->t('Confirm saved search', [], ['context' => 'Hakuvahti']);
+
     $build['form']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
-      '#value' => $this->t('Please confirm the saved search to receive notifications. Click on the button below:', [], ['context' => 'Hakuvahti']),
+      '#value' => $this->t('Please confirm the saved search to receive notifications. Click on the button below.', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['form']['divider'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['page-divider'],
+      ],
     ];
 
     $build['form']['button'] = [
@@ -129,16 +142,44 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
   private function buildConfirmationSuccess(): array {
     $build = [];
 
+    $build['#title'] = $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']);
+
     $build['confirmation'] = [
       '#type' => 'html_tag',
-      '#tag' => 'p',
-      '#value' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
+      '#tag' => 'article',
+      '#attributes' => [
+        'class' => ['hakuvahti-confirmation'],
+      ],
     ];
 
-    $build['confirmation']['paragraph'] = [
+    $build['confirmation']['components'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['components'],
+      ],
+    ];
+
+    $build['confirmation']['components']['component'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['component'],
+      ],
+    ];
+
+    $build['confirmation']['components']['component']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['confirmation']['components']['component']['divider'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['page-divider'],
+      ],
     ];
 
     return $build;
@@ -153,10 +194,44 @@ final class HelfiHakuvahtiConfirmController extends ControllerBase {
   private function buildConfirmationFailure(): array {
     $build = [];
 
+    $build['#title'] = $this->t('Confirmation failed', [], ['context' => 'Hakuvahti']);
+
     $build['confirmation'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'article',
+      '#attributes' => [
+        'class' => ['hakuvahti-confirmation'],
+      ],
+    ];
+
+    $build['confirmation']['components'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['components'],
+      ],
+    ];
+
+    $build['confirmation']['components']['component'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['component'],
+      ],
+    ];
+
+    $build['confirmation']['components']['component']['paragraph'] = [
       '#type' => 'html_tag',
       '#tag' => 'p',
       '#value' => $this->t('Confirming saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
+    ];
+
+    $build['confirmation']['components']['component']['divider'] = [
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => [
+        'class' => ['page-divider'],
+      ],
     ];
 
     return $build;

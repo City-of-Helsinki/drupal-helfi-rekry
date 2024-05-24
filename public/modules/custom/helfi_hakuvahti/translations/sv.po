@@ -34,16 +34,28 @@ msgid "You will receive an email notification of any new results matching your s
 msgstr "Du får e-post om sökvaktens nya träffar. Du kan ta bort sökvakten via avbeställningslänkarna i e-postmeddelandena."
 
 msgctxt "Hakuvahti"
+msgid "Confirmation failed"
+msgstr "Bekräftelse misslyckades"
+
+msgctxt "Hakuvahti"
 msgid "Confirming saved search failed. Please try again."
 msgstr "Bekräftelse av sparad sökning misslyckades. Försök igen."
 
 msgctxt "Hakuvahti"
-msgid "Please confirm the saved search to receive notifications. Click on the button below:"
-msgstr "Bekräfta beställningen av sökvakten genom att klicka på knappen nedan:"
+msgid "Please confirm the saved search to receive notifications. Click on the button below."
+msgstr "Bekräfta beställningen av sökvakten genom att klicka på knappen nedan."
 
 msgctxt "Hakuvahti"
 msgid "Confirm saved search"
 msgstr "Bekräfta sökvakten"
+
+msgctxt "Hakuvahti"
+msgid "Are you sure you wish to delete the saved search?"
+msgstr "Är du säker på att du vill ta bort sökvakten?"
+
+msgctxt "Hakuvahti"
+msgid "Deleting failed"
+msgstr "Radering misslyckades"
 
 msgid "Subscribe saved search"
 msgstr "Beställ sökvakten"
