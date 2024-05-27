@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * @file
+ * Helfi_hakuvahti.
+ *
+ *  Helfi_hakuvahti.module.
+ */
+
+declare(strict_types=1);
+
+/**
  * Implements hook_theme().
  */
 function helfi_hakuvahti_theme() {

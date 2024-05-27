@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Controller for handling Hakuvahti subscription confirmations and unsubscriptions.
+ * Controller for handling Hakuvahti confirmations and unsubscriptions.
  */
 final class HelfiHakuvahtiController extends ControllerBase {
 
@@ -55,7 +55,7 @@ final class HelfiHakuvahtiController extends ControllerBase {
     $hash = $request->query->get('hash');
     $subscription = $request->query->get('subscription');
 
-    return $this->isFormSubmitted() 
+    return $this->isFormSubmitted()
       ? $this->handleConfirmFormSubmission($hash, $subscription)
       : $this->buildConfirmForm();
   }
@@ -147,7 +147,8 @@ final class HelfiHakuvahtiController extends ControllerBase {
     try {
       $response = $httpClient->get(getenv('HAKUVAHTI_URL') . "/subscription/confirm/{$subscriptionId}/{$subscriptionHash}");
       return $response->getBody()->getContents() !== '';
-    } catch (RequestException $exception) {
+    }
+    catch (RequestException $exception) {
       return FALSE;
     }
   }
@@ -254,7 +255,8 @@ final class HelfiHakuvahtiController extends ControllerBase {
     try {
       $response = $httpClient->delete(getenv('HAKUVAHTI_URL') . "/subscription/delete/{$subscription}/{$hash}");
       return $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
-    } catch (RequestException $exception) {
+    }
+    catch (RequestException $exception) {
       return FALSE;
     }
   }
@@ -278,4 +280,5 @@ final class HelfiHakuvahtiController extends ControllerBase {
   protected function isFormSubmitted(): bool {
     return $this->requestStack->getCurrentRequest()->isMethod('POST');
   }
+
 }
