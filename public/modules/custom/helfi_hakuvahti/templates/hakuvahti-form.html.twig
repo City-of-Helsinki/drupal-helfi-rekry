@@ -1,0 +1,9 @@
+{% block content %}
+  <article class="hakuvahti-confirmation">
+    <p>{{ paragraph }}</p>
+    <form method="post" action="{{ action_url }}">
+      <div class="page-divider"></div>
+      <button type="submit" class="hds-button hds-button--primary">{{ button_text }}</button>
+    </form>
+  </article>
+{% endblock %}
