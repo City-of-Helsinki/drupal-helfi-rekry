@@ -199,9 +199,7 @@ final class HelfiHakuvahtiController extends ControllerBase {
       '#form_id' => 'hakuvahti_unsubscribe_form',
       '#theme' => 'hakuvahti_form',
       '#title' => $this->t('Are you sure you wish to delete the saved search?', [], ['context' => 'Hakuvahti']),
-      '#paragraph' => $this->t('Please confirm that you wish to delete the ' .
-        'saved search. If you have other searches saved on the City website, ' .
-        'this link will not delete them.', [], ['context' => 'Hakuvahti']),
+      '#paragraph' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them.', [], ['context' => 'Hakuvahti']),
       '#button_text' => $this->t('Delete saved search', [], ['context' => 'Hakuvahti']),
       '#action_url' => $this->getFormActionUrl(),
     ];
