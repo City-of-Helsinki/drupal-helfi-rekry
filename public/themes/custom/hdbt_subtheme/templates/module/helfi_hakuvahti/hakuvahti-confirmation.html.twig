@@ -1,0 +1,7 @@
+{% if link_text and link_url %}
+  {% set link %}
+    <p><a href="{{ link_url }}">{{ link_text }}</a></p>
+  {% endset %}
+{% endif %}
+
+{% include "@hdbt_subtheme/module/helfi_hakuvahti/hakuvahti-action-wrapper.twig" with { message: message, content: link, } %}

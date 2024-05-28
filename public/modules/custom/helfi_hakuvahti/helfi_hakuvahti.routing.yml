@@ -9,13 +9,13 @@ helfi_hakuvahti.confirm:
   path: '/hakuvahti/confirm'
   defaults:
     _title: 'Confirm saved search'
-    _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiConfirmController'
+    _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiController::confirm'
   requirements:
     _permission: 'access content'
 helfi_hakuvahti.unsubscribe:
   path: '/hakuvahti/unsubscribe'
   defaults:
     _title: 'Are you sure you wish to delete the saved search?'
-    _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiUnsubscribeController'
+    _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiController::unsubscribe'
   requirements:
     _permission: 'access content'
