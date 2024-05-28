@@ -17,7 +17,7 @@ function helfi_hakuvahti_theme() {
     'hakuvahti_form' => [
       'variables' => [
         'title' => NULL,
-        'paragraph' => NULL,
+        'message' => NULL,
         'button_text' => NULL,
         'action_url' => NULL,
         'id' => NULL,

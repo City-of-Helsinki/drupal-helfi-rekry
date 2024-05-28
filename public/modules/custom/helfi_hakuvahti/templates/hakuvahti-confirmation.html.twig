@@ -1,11 +1,7 @@
-{% block content %}
-  <article class="hakuvahti-confirmation">
-    <div class="components">
-      <p>{{ message }}</p>
-      <div class="page-divider"></div>
-      {% if link_text and link_url %}
-        <a href="{{ link_url }}">{{ link_text }}</a>
-      {% endif %}
-    </div>
-  </article>
-{% endblock %}
+{% if link_text and link_url %}
+  {% set link %}
+    <a href="{{ link_url }}">{{ link_text }}</a>
+  {% endset %}
+{% endif %}
+
+{% include "@hdbt_subtheme/form/hakuvahti-confirmation-wrapper.twig" with { message: message, content: link, } %}

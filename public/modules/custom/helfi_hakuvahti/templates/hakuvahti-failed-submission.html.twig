@@ -1,8 +1,1 @@
-{% block content %}
-  <article class="hakuvahti-confirmation">
-    <div class="components">
-      <p>{{ message }}</p>
-      <div class="page-divider"></div>
-    </div>
-  </article>
-{% endblock %}
+{% include "@hdbt_subtheme/form/hakuvahti-confirmation-wrapper.twig" with { message: message } %}
