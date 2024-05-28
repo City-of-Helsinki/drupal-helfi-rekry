@@ -38,7 +38,7 @@ services:
     networks:
       - internal
       - stonehenge-network
-      - helfi-hakuvahti_hav-network
+      - helfi-hav_hav-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
@@ -113,6 +113,7 @@ services:
     networks:
       - internal
       - stonehenge-network
+      - helfi-hav_hav-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-elastic.entrypoints=https"
@@ -147,7 +148,7 @@ networks:
     external: false
   stonehenge-network:
     external: true
-  helfi-hakuvahti_hav-network:
+  helfi-hav_hav-network:
     external: true
 
 volumes:
