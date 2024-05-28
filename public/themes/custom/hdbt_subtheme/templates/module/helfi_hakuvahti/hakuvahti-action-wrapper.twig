@@ -1,10 +1,6 @@
 <article class="hakuvahti-confirmation">
   <div class="components">
-    {% embed "@hdbt/misc/component.twig" with
-      {
-        component_classes: 'component--hakuvahti-form'
-      }
-    %}
+    {% embed "@hdbt/misc/component.twig" with { component_classes: 'component--hakuvahti-form'} %}
       {% block component_content %}
         {% if message %}
           {% include "@hdbt_subtheme/module/helfi_hakuvahti/hakuvahti-message-wrapper.twig" with { message: message } %}
