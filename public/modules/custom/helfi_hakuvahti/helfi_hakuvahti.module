@@ -32,11 +32,5 @@ function helfi_hakuvahti_theme() {
         'link_url' => NULL,
       ],
     ],
-    'hakuvahti_failed_submission' => [
-      'variables' => [
-        'title' => NULL,
-        'message' => NULL,
-      ],
-    ],
   ];
 }

@@ -118,7 +118,7 @@ final class HelfiHakuvahtiController extends ControllerBase {
    */
   private function buildConfirmationFailure(): array {
     return [
-      '#theme' => 'hakuvahti_failed_submission',
+      '#theme' => 'hakuvahti_confirmation',
       '#title' => $this->t('Confirmation failed', [], ['context' => 'Hakuvahti']),
       '#message' => $this->t('Confirming saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
     ];
@@ -229,7 +229,7 @@ final class HelfiHakuvahtiController extends ControllerBase {
    */
   private function buildUnsubscribeFailedSubmission(): array {
     return [
-      '#theme' => 'hakuvahti_failed_submission',
+      '#theme' => 'hakuvahti_confirmation',
       '#title' => $this->t('Deleting failed', [], ['context' => 'Hakuvahti']),
       '#message' => $this->t('Deleting saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
     ];
