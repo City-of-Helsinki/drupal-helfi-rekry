@@ -159,6 +159,47 @@ button.job-search-form__remove-selection-button:not(:disabled) {
   --focus-outline-color: var(--hdbt-color-black);
 }
 
+.job-search-form__search-monitor {
+  margin-bottom: $spacing-double;
+
+  div[role=heading] {
+    flex: 0 1 auto;
+  }
+}
+
+.job-search-form__search-monitor {
+  background-color: var(--color-fog-light);
+  padding: $spacing-double;
+}
+
+.job-search-form__search-monitor__heading {
+  margin-top: 0;
+}
+
+.job-search-form__search-monitor__content {
+  > p {
+    @include font('body');
+  }
+
+  &[aria-hidden='true'] {
+    display: none;
+  }
+}
+
+.job-search-form__search-monitor__content__heading {
+  margin-top: $spacing-double;
+}
+
+// The terms are required but there is no indicator on the label. This is why the '*' is added here.
+.job-search-form__search-monitor__terms::after {
+  content: '*';
+  margin-left: $spacing-half;
+}
+
+.job-search-form__search-monitor__error {
+  margin-top: $spacing-double;
+}
+
 .job-search__results-stats {
   margin-bottom: $spacing-double;
   margin-left: $spacing;
