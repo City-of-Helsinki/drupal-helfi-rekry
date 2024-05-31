@@ -31,16 +31,12 @@ services:
       DRUPAL_VARNISH_PORT: 6081
       REDIS_HOST: redis
       PROJECT_NAME: "${PROJECT_NAME}"
-      # Uncomment to enable Hakuvahti:
-      # HAKUVAHTI_URL: "${HAKUVAHTI_URL}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
       - "${DRUPAL_HOSTNAME}:host-gateway"
     networks:
       - internal
       - stonehenge-network
-      # Uncomment to enable Hakuvahti:
-      # - helfi-hakuvahti_helfi-hakuvahti-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
@@ -143,8 +139,6 @@ services:
     networks:
       - internal
       - stonehenge-network
-      # Uncomment to enable Hakuvahti:
-      # - helfi-hakuvahti_helfi-hakuvahti-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-elastic.entrypoints=https"
@@ -179,9 +173,6 @@ networks:
     external: false
   stonehenge-network:
     external: true
-  # Uncomment to enable Hakuvahti:
-  # helfi-hakuvahti_helfi-hakuvahti-network:
-  #   external: true
 
 volumes:
   db_volume:
