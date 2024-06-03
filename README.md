@@ -40,3 +40,11 @@ This will log you inside the app container:
 ```
 $ make shell
 ```
+
+## Enable Hakuvahti features
+
+To enable [Hakuvahti features](https://github.com/City-of-Helsinki/helfi-hakuvahti) for local development or usage, you need to first install Hakuvahti and then enable Hakuvahti network in compose.yaml.
+
+These lines are commented out with comment `# Uncomment to enable Hakuvahti:`
+
+Specifically what is commented out: `HAKUVAHTI_URL` environment variable, `helfi-hakuvahti_helfi-hakuvahti-network` for `app` and `elastic` containers. Finally it needs to be listed under `networks`. This enables Hakuvahti server to access ElasticSearch.
