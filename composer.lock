@@ -2375,21 +2375,22 @@
         },
         {
             "name": "drupal/diff",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/diff.git",
-                "reference": "8.x-1.3"
+                "reference": "8.x-1.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/diff-8.x-1.3.zip",
-                "reference": "8.x-1.3",
-                "shasum": "7a6e70546d97974600baffd0695105e88699744e"
+                "url": "https://ftp.drupal.org/files/projects/diff-8.x-1.4.zip",
+                "reference": "8.x-1.4",
+                "shasum": "8f1e95e6c7f576999c5b2880023de2c2aaaf99b3"
             },
             "require": {
-                "drupal/core": "^9.3 || ^10",
-                "mkalkbrenner/php-htmldiff-advanced": "~0.0.8"
+                "drupal/core": "^9.3 || ^10 || ^11",
+                "mkalkbrenner/php-htmldiff-advanced": "~0.0.8",
+                "php": "^8.1"
             },
             "require-dev": {
                 "jangregor/phpstan-prophecy": "dev-master",
@@ -2404,8 +2405,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.3",
-                    "datestamp": "1712883857",
+                    "version": "8.x-1.4",
+                    "datestamp": "1717130431",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -3708,16 +3709,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "6.5.12",
+            "version": "6.5.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "bcd7efd7f91662d904b59435d6f5461775e36c35"
+                "reference": "c466850dfa97e615fd6c3cb7a3a3fd884a28c849"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/bcd7efd7f91662d904b59435d6f5461775e36c35",
-                "reference": "bcd7efd7f91662d904b59435d6f5461775e36c35",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/c466850dfa97e615fd6c3cb7a3a3fd884a28c849",
+                "reference": "c466850dfa97e615fd6c3cb7a3a3fd884a28c849",
                 "shasum": ""
             },
             "require": {
@@ -3735,10 +3736,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.5.12",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.5.14",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2024-05-29T08:56:44+00:00"
+            "time": "2024-05-30T08:38:58+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -4485,26 +4486,26 @@
         },
         {
             "name": "drupal/jquery_ui",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/jquery_ui.git",
-                "reference": "8.x-1.6"
+                "reference": "8.x-1.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/jquery_ui-8.x-1.6.zip",
-                "reference": "8.x-1.6",
-                "shasum": "0ddccdcf35a066de1843e1d9670677ee1a2faac0"
+                "url": "https://ftp.drupal.org/files/projects/jquery_ui-8.x-1.7.zip",
+                "reference": "8.x-1.7",
+                "shasum": "3f893843ec30fed18fa1b0cb326e51880b0cb686"
             },
             "require": {
-                "drupal/core": "^9.2 || ^10"
+                "drupal/core": "^9.2 || ^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.6",
-                    "datestamp": "1668521197",
+                    "version": "8.x-1.7",
+                    "datestamp": "1717002098",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4581,27 +4582,27 @@
         },
         {
             "name": "drupal/jquery_ui_draggable",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/jquery_ui_draggable.git",
-                "reference": "2.0.0"
+                "reference": "2.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/jquery_ui_draggable-2.0.0.zip",
-                "reference": "2.0.0",
-                "shasum": "13a8f4bf037449cd176ddb967fc9cba9a466a705"
+                "url": "https://ftp.drupal.org/files/projects/jquery_ui_draggable-2.1.0.zip",
+                "reference": "2.1.0",
+                "shasum": "0d014cfff20993d8051efb8f6c9093a4fe5136f3"
             },
             "require": {
-                "drupal/core": "^9.2 || ^10",
-                "drupal/jquery_ui": "^1.6"
+                "drupal/core": "^9.2 || ^10 || ^11",
+                "drupal/jquery_ui": "^1.7"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.0",
-                    "datestamp": "1670871516",
+                    "version": "2.1.0",
+                    "datestamp": "1717015492",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
