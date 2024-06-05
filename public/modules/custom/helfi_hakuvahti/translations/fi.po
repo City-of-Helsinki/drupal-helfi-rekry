@@ -1,0 +1,67 @@
+msgid ""
+msgstr ""
+
+msgctxt "Hakuvahti"
+msgid "The saved search has been deleted"
+msgstr "Hakuvahti on poistettu"
+
+msgctxt "Hakuvahti"
+msgid "You can save more searches at any time."
+msgstr "Voit koska tahansa tilata uusia hakuvahteja."
+
+msgctxt "Hakuvahti"
+msgid "Return to open jobs front page"
+msgstr "Palaa avoimien työpaikkojen etusivulle."
+
+msgctxt "Hakuvahti"
+msgid "Deleting saved search failed. Please try again."
+msgstr "Hakuvahdin poisto epäonnistui. Yritä uudelleen."
+
+msgctxt "Hakuvahti"
+msgid "Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them."
+msgstr "Vahvista, että haluat poistaa tämän hakuvahdin. Jos olet tehnyt muita hakuvahteja kaupungin verkkosivustolla, tämä ei poista niitä."
+
+msgctxt "Hakuvahti"
+msgid "Delete saved search"
+msgstr "Poista hakuvahti"
+
+msgctxt "Hakuvahti"
+msgid "Search saved successfully"
+msgstr "Hakuvahdin tilaus onnistui"
+
+msgctxt "Hakuvahti"
+msgid "You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages."
+msgstr "Saat sähköpostia hakuvahdin uusista osumista. Voit halutessasi poistaa hakuvahdin sähköpostien peruutuslinkeistä."
+
+msgctxt "Hakuvahti"
+msgid "Confirmation failed"
+msgstr "Vahvistus epäonnistui."
+
+msgctxt "Hakuvahti"
+msgid "Confirming saved search failed. Please try again."
+msgstr "Hakuvahdin vahvistus epäonnistui. Yritä uudelleen."
+
+msgctxt "Hakuvahti"
+msgid "Please confirm the saved search to receive notifications. Click on the button below."
+msgstr "Vahvista hakuvahdin tilaus klikkaamalla alla olevaa painiketta."
+
+msgctxt "Hakuvahti"
+msgid "Confirm saved search"
+msgstr "Vahvista hakuvahti"
+
+msgctxt "Hakuvahti"
+msgid "Are you sure you wish to delete the saved search?"
+msgstr "Haluatko varmasti poistaa hakuvahdin?"
+
+msgctxt "Hakuvahti"
+msgid "Deleting failed"
+msgstr "Poistaminen epäonnistui"
+
+msgid "Subscribe saved search"
+msgstr "Tilaa hakuvahti"
+
+msgid "Confirm saved search"
+msgstr "Vahvista hakuvahti"
+
+msgid "Are you sure you wish to delete the saved search?"
+msgstr "Haluatko varmasti poistaa hakuvahdin?"
