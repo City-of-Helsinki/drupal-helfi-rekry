@@ -68,7 +68,7 @@ $additionalEnvVars = [
   'ELASTIC_PASSWORD',
   'SENTRY_DSN_REACT',
   'HELBIT_CLIENT_ID',
-  'HAKUVAHTI_URL',
+  // 'HAKUVAHTI_URL',
 ];
 foreach ($additionalEnvVars as $var) {
   $preflight_checks['environmentVariables'][] = $var;
