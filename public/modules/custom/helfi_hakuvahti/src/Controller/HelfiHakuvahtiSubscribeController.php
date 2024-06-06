@@ -52,8 +52,12 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
     // Free text search.
     $query = $elasticQueryObject->query->bool->must[1]->bool->should[1]->combined_fields->query ?? NULL;
-    // Task area.
+
+    // Ammattiala / Task area
     $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[2]->terms->task_area_external_id ?? []);
+
+    error_log(print_r($elasticQueryObject, true));
+
     // Type of employment.
     $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[3]->bool->should[1]->terms->employment_type_id ?? []);
 
@@ -88,7 +92,6 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $request = $this->requestStack->getCurrentRequest();
     $body = $request->getContent(FALSE);
     $bodyObj = json_decode($body);
-    $bodyObj->lang = substr($bodyObj->query, 1, 2);
     $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj);
 
     $token = $request->headers->get('token');
