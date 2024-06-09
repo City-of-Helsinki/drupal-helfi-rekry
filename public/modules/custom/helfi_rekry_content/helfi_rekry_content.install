@@ -14,104 +14,186 @@ use Drupal\search_api\Event\SearchApiEvents;
 use Drupal\taxonomy\Entity\Term;
 
 /**
- * Implements hook_install().
+ * Creates or updates required taxonomy terms.
  */
-function helfi_rekry_content_install($is_syncing) {
-  // Do not perform following steps if the module is being installed as part
-  // of a configuration import.
-  if (!$is_syncing && Drupal::moduleHandler()->moduleExists('update_helper')) {
-    helfi_rekry_content_update_9003();
-    helfi_rekry_content_update_9004();
-    helfi_rekry_content_update_9005();
-    helfi_rekry_content_update_9006();
+function helfi_rekry_content_ensure_taxonomy_terms(): void {
+  $vocabulary = [
+    'employment_type' => [
+      [
+        'en' => 'Permanent contractual employment',
+        'fi' => 'Vakinainen työsuhde',
+        'sv' => 'Fast anställning',
+        'field_search_id' => 'permanent_contractual',
+        'field_external_id' => '22',
+      ],
+      [
+        'en' => 'Permanent public service employment',
+        'fi' => 'Vakinainen virkasuhde',
+        'sv' => 'Fast tjänst',
+        'field_search_id' => 'permanent_service',
+        'field_external_id' => '1177',
+      ],
+      [
+        'en' => 'Fixed-term contractual employment',
+        'fi' => 'Määräaikainen työsuhde',
+        'sv' => 'Tidsbundet arbetsförhållande',
+        'field_search_id' => 'fixed_contractual',
+        'field_external_id' => '1178',
+      ],
+      [
+        'en' => 'Fixed-term public service employment',
+        'fi' => 'Määräaikainen virkasuhde',
+        'sv' => 'Tjänsteförhållande på viss tid',
+        'field_search_id' => 'fixed_service',
+        'field_external_id' => '23',
+      ],
+      [
+        'en' => 'Part-time employment',
+        'fi' => 'Osa-aikainen ',
+        'sv' => 'Deltidsarbete',
+        'field_search_id' => 'part_time',
+      ],
+    ],
+    'employment' => [
+      [
+        'en' => 'Temporary position',
+        'fi' => 'Sijaisuus',
+        'sv' => 'Vikariat',
+        'field_search_id' => 'temporary',
+        'field_external_id' => '1179',
+      ],
+      [
+        'en' => 'Job alternation leave substitute',
+        'fi' => 'Vuorotteluvapaan sijaisuus',
+        'sv' => 'Vikariat under alterneringsledighet',
+        'field_search_id' => 'alternation',
+        'field_external_id' => '1009',
+      ],
+      [
+        'en' => 'Project-type job',
+        'fi' => 'Projektiluonteinen työ',
+        'sv' => 'Projekt',
+        'field_search_id' => 'project',
+        'field_external_id' => '1010',
+      ],
+      [
+        'en' => 'Apprenticeship contract',
+        'fi' => 'Oppisopimus',
+        'sv' => 'Läroavtal',
+        'field_search_id' => 'apprenticeship',
+        'field_external_id' => '22',
+      ],
+      [
+        'en' => 'Practical training',
+        'fi' => 'Harjoittelu',
+        'sv' => 'Praktik',
+        'field_search_id' => 'training',
+        'field_external_id' => '1011',
+      ],
+      [
+        'en' => 'Summer jobs and summer temporary posts',
+        'fi' => 'Kesätyöt ja kesäsijaisuudet',
+        'sv' => 'Sommarjobb',
+        'field_search_id' => 'summer_jobs',
+        'field_external_id' => '1016',
+      ],
+      [
+        'en' => 'Young summer workers aged 16-17',
+        'fi' => 'Nuoret 16-17 -vuotiaat kesätyöntekijät',
+        'sv' => 'Sommarjobb för unga (16-17 år)',
+        'field_search_id' => 'youth_summer_jobs',
+      ],
+      [
+        'en' => 'Siisti kesä! Project',
+        'fi' => 'Siisti kesä -hanke',
+        'sv' => 'Projektet En snygg sommar',
+        'field_search_id' => 'cool_summer_project',
+      ],
+      [
+        'en' => 'Open-ended vacancies',
+        'fi' => 'Jatkuva haku',
+        'sv' => 'Jatkuva haku',
+        'field_search_id' => 'continuous',
+      ],
+    ],
+  ];
+
+  foreach ($vocabulary as $vid => $items) {
+    $byLabel = [];
+    $byExternalId = [];
+
+    /** @var \Drupal\taxonomy\Entity\Term[] $existing */
+    $existing = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadByProperties([
+        'vid' => $vid,
+      ]);
+
+    foreach ($existing as $existingTerm) {
+      $byLabel[$existingTerm->label()] = $existingTerm;
+
+      if (!$existingTerm->get('field_external_id')->isEmpty()) {
+        $byExternalId[$existingTerm->get('field_external_id')->value] = $existingTerm;
+      }
+    }
+
+    // Create / update terms.
+    foreach ($items as $item) {
+      // Search with external id.
+      if (isset($item['field_external_id'], $byExternalId[$item['field_external_id']])) {
+        $term = $byExternalId[$item['field_external_id']];
+      }
+      // Search with label.
+      else if (isset($byLabel[$item['en']])) {
+        $term = $byLabel[$item['en']];
+      }
+      // Create the term.
+      else {
+        $term = Term::create([
+          'parent' => [],
+          'name' => $item['en'],
+          'langcode' => 'en',
+          'vid' => $vid,
+        ]);
+      }
+
+      // Ensure translations exists.
+      foreach (['sv', 'en'] as $langcode) {
+        if ($term->hasTranslation($langcode)) {
+          $term
+            ->getTranslation($langcode)
+            ->setName($item[$langcode]);
+        }
+        else {
+          $term
+            ->addTranslation($langcode, [
+              'name' => $item[$langcode]
+            ]);
+        }
+      }
+
+      $term
+        ->setName($item['en'])
+        ->set('field_external_id', $item['field_external_id'] ?? NULL)
+        ->set('field_search_id', $item['field_search_id'])
+        ->save();
+    }
   }
 }
 
 /**
- * HELfi rekry content update 9003.
+ * Implements hook_install().
  */
-function helfi_rekry_content_update_9003() {
-
-  $employmentTypeItems = [
-    [
-      'en' => 'Permanent contractual employment',
-      'fi' => 'Vakinainen työsuhde',
-      'sv' => 'Fast anställning',
-    ],
-    [
-      'en' => 'Permanent public service employment',
-      'fi' => 'Vakinainen virkasuhde',
-      'sv' => 'Fast tjänst',
-    ],
-    [
-      'en' => 'Fixed-term contractual employment',
-      'fi' => 'Määräaikainen työsuhde',
-      'sv' => 'Tidsbundet arbetsförhållande',
-    ],
-    [
-      'en' => 'Fixed-term public service employment',
-      'fi' => 'Määräaikainen virkasuhde',
-      'sv' => 'Tjänsteförhållande på viss tid',
-    ],
-    [
-      'en' => 'Part-time employment',
-      'fi' => 'Osa-aikainen ',
-      'sv' => 'Deltidsarbete',
-    ],
-  ];
-
-  foreach ($employmentTypeItems as $item) {
-    Term::create([
-      'parent' => [],
-      'name' => $item['en'],
-      'vid' => 'employment_type',
-    ])->addTranslation('fi', [
-      'name' => $item['fi'],
-    ])->addTranslation('sv', [
-      'name' => $item['sv'],
-    ])->save();
+function helfi_rekry_content_install($is_syncing): void {
+  // Do not perform following steps if the module is being installed as part
+  // of a configuration import.
+  if ($is_syncing) {
+    return;
   }
 
-  $employmentItems = [
-    [
-      'en' => 'Temporary position',
-      'fi' => 'Sijaisuus',
-      'sv' => 'Vikariat',
-    ],
-    [
-      'en' => 'Job alternation leave substitute',
-      'fi' => 'Vuorotteluvapaan sijaisuus',
-      'sv' => 'Vikariat under alterneringsledighet',
-    ],
-    [
-      'en' => 'Project-type job',
-      'fi' => 'Projektiluonteinen työ',
-      'sv' => 'Projekt',
-    ],
-    [
-      'en' => 'Apprenticeship contract',
-      'fi' => 'Oppisopimus',
-      'sv' => 'Läroavtal',
-    ],
-    [
-      'en' => 'Practical training',
-      'fi' => 'Harjoittelu',
-      'sv' => 'Praktik',
-    ],
-  ];
-
-  foreach ($employmentItems as $item) {
-    Term::create([
-      'parent' => [],
-      'name' => $item['en'],
-      'vid' => 'employment',
-    ])->addTranslation('fi', [
-      'name' => $item['fi'],
-    ])->addTranslation('sv', [
-      'name' => $item['sv'],
-    ])->save();
-  }
+  helfi_rekry_content_ensure_taxonomy_terms();
 }
+
 
 /**
  * Cleanup "organization" taxonomy term translations.
@@ -159,104 +241,6 @@ function helfi_rekry_content_update_9004() {
     $executable = new MigrateExecutable($migration, new MigrateMessage());
     $executable->rollback();
   }
-}
-
-/**
- * HELfi rekry content update 9005.
- */
-function helfi_rekry_content_update_9005() {
-
-  $employmentItems = [
-    [
-      'en' => 'Summer jobs and summer temporary posts',
-      'fi' => 'Kesätyöt ja kesäsijaisuudet',
-      'sv' => 'Sommarjobb',
-      'field_search_id' => 'summer_jobs',
-    ],
-    [
-      'en' => 'Young summer workers aged 16-17',
-      'fi' => 'Nuoret 16-17 -vuotiaat kesätyöntekijät',
-      'sv' => 'Sommarjobb för unga (16-17 år)',
-      'field_search_id' => 'youth_summer_jobs',
-    ],
-    [
-      'en' => 'Siisti kesä! Project',
-      'fi' => 'Siisti kesä -hanke',
-      'sv' => 'Projektet En snygg sommar',
-      'field_search_id' => 'cool_summer_project',
-    ],
-    [
-      'en' => 'Open-ended vacancies',
-      'fi' => 'Jatkuva haku',
-      'sv' => 'Jatkuva haku',
-      'field_search_id' => 'continuous',
-    ],
-  ];
-
-  foreach ($employmentItems as $item) {
-    Term::create([
-      'parent' => [],
-      'name' => $item['en'],
-      'vid' => 'employment',
-      'field_search_id' => $item['field_search_id'],
-    ])->addTranslation('fi', [
-      'name' => $item['fi'],
-    ])->addTranslation('sv', [
-      'name' => $item['sv'],
-    ])->save();
-  }
-}
-
-/**
- * HELfi rekry content update 9006.
- */
-function helfi_rekry_content_update_9006() {
-  $query = \Drupal::entityQuery('taxonomy_term')
-    ->accessCheck(FALSE)
-    ->condition('vid', ['employment', 'employment_type'], 'IN')
-    ->notExists('field_search_id', '');
-
-  $ids = $query->execute();
-
-  if (count($ids) === 0) {
-    return;
-  }
-
-  $terms = Term::loadMultiple($ids);
-
-  foreach ($terms as $term) {
-    if (!$term->hasTranslation('en')) {
-      continue;
-    }
-
-    $translation = $term->getTranslation('en');
-    $name = $translation->getName();
-
-    $search_id = match ($name) {
-      'Summer jobs and summer temporary posts' => 'summer_jobs',
-      'Young summer workers aged 16-17' => 'youth_summer_jobs',
-      'Siisti kesä! Project' =>'cool_summer_project',
-      'Permanent contractual employment' =>'permanent_contractual',
-      'Permanent public service employment' =>'permanent_service',
-      'Fixed-term contractual employment' =>'fixed_contractual',
-      'Fixed-term public service employment' => 'fixed_service',
-      'Part-time employment' =>'part_time',
-      'Temporary position' =>'temporary',
-      'Job alternation leave substitute' =>'alternation',
-      'Project-type job' =>'project',
-      'Apprenticeship contract' =>'apprenticeship',
-      'Practical training' =>'training',
-      default => NULL
-    };
-
-    if (!$search_id) {
-      continue;
-    }
-
-    $term->set('field_search_id', $search_id);
-    $term->save();
-  }
-
 }
 
 /**
