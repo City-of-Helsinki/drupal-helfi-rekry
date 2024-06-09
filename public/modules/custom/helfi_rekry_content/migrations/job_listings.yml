@@ -121,9 +121,17 @@ source:
       label: Employment
       selector: 'jobAdvertisement/employment'
     -
+      name: employment_id
+      label: Employment
+      selector: 'jobAdvertisement/employmentId'
+    -
       name: employment_type
       label: 'Employment type'
       selector: 'jobAdvertisement/employmentType'
+    -
+      name: employment_type_id
+      label: 'Employment type'
+      selector: 'jobAdvertisement/employmentTypeId'
     -
       name: publication_starts
       label: 'Publication starts'
@@ -222,25 +230,19 @@ process:
     callable: intval
     source: recruitment_type
   field_employment_type:
-    plugin: entity_lookup
-    entity_type: taxonomy_term
-    value_key: name
-    source: employment_type
-    bundle_key: vid
-    bundle: employment_type
-    ignore_case: true
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_lookup_employment_type
+      source:
+        - employment_type_id
+        - employment_type
   field_employment:
     -
       plugin: callback
-      callable: _helfi_rekry_content_transform_employment
-      source: employment
-    -
-      plugin: entity_lookup
-      entity_type: taxonomy_term
-      value_key: name
-      bundle_key: vid
-      bundle: employment
-      ignore_case: true
+      callable: _helfi_rekry_content_lookup_employment
+      source:
+        - employment_id
+        - employment
   type:
     plugin: default_value
     default_value: job_listing

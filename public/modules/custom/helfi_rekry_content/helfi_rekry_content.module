@@ -336,69 +336,96 @@ function helfi_rekry_content_preprocess_field(&$variables) {
 }
 
 /**
- * Combine "organization" term translations with external ID.
+ * Lookup taxonomy term id.
+ *
+ * @param string $vid
+ *   Vocabulary id.
+ * @param string|null $external_id
+ *   External id.
+ * @param string|null $name
+ *   Term name.
+ *
+ * @return string|null
+ *   Taxonomy term ID or NULL.
  */
-function _helfi_rekry_content_lookup_organization_tid($external_id) {
-  $ids = \Drupal::entityQuery('taxonomy_term')
-    ->condition('vid', 'organization')
-    ->condition('field_external_id', $external_id)
-    ->accessCheck(FALSE)
-    ->execute();
+function _helfi_rekry_content_lookup_taxonomy_term_id(string $vid, ?string $external_id, ?string $name) : ?string {
+  if ($external_id) {
+    $ids = \Drupal::entityQuery('taxonomy_term')
+      ->condition('vid', $vid)
+      ->condition('field_external_id', $external_id)
+      ->accessCheck(FALSE)
+      ->execute();
 
-  if (empty($ids)) {
-    return NULL;
+    if ($ids) {
+      return reset($ids);
+    }
   }
 
-  return reset($ids);
-}
+  if ($name) {
+    // Since ext id might not exist yet, try matching by name.
+    $ids = \Drupal::entityQuery('taxonomy_term')
+      ->condition('vid', $vid)
+      ->condition('name', $name)
+      ->accessCheck(FALSE)
+      ->execute();
 
-/**
- * Combine "task_area" term translations with external ID.
- */
-function _helfi_rekry_content_lookup_task_area_tid($args) {
-
-  $external_id = $args[0];
-  $name = $args[1];
-
-  $ids = \Drupal::entityQuery('taxonomy_term')
-    ->condition('vid', 'task_area')
-    ->condition('field_external_id', $external_id)
-    ->accessCheck(FALSE)
-    ->execute();
-
-  if ($ids) {
-    return reset($ids);
-  }
-
-  // Since ext id might not exist yet, try matching by name.
-  $ids = \Drupal::entityQuery('taxonomy_term')
-    ->condition('vid', 'task_area')
-    ->condition('name', $name)
-    ->accessCheck(FALSE)
-    ->execute();
-
-  if ($ids) {
-    return reset($ids);
+    if ($ids) {
+      return reset($ids);
+    }
   }
 
   return NULL;
 }
 
 /**
- * Transform illegal values from api.
- *
- * @param string $employment
- *   The original string.
- *
- * @return string
- *   The corrected value.
+ * Combine "organization" term translations with external ID.
  */
-function _helfi_rekry_content_transform_employment($employment) {
+function _helfi_rekry_content_lookup_organization_tid($external_id) : ?string {
+  return _helfi_rekry_content_lookup_taxonomy_term_id('organization', $external_id, NULL);
+}
+
+/**
+ * Combine "task_area" term translations with external ID.
+ */
+function _helfi_rekry_content_lookup_task_area_tid($args) : ?string {
+  [$external_id, $name] = $args;
+
+  return _helfi_rekry_content_lookup_taxonomy_term_id('task_area', $external_id, $name);
+}
+
+/**
+ * Lookup "employment" term id.
+ *
+ * @param array $args
+ *   Employment and employment id.
+ *
+ * @return string|null
+ *   Employment term id or NULL on failure.
+ */
+function _helfi_rekry_content_lookup_employment(array $args) : ?string {
+  [$employment_id, $employment] = $args;
+
+  // Normalize employment name.
   if ($employment === 'Vuorotteluvapaasijaisuus') {
-    return 'Vuorotteluvapaan sijaisuus';
+    $employment = 'Vuorotteluvapaan sijaisuus';
   }
 
-  return $employment;
+  return _helfi_rekry_content_lookup_taxonomy_term_id('employment', $employment_id, $employment);
+}
+
+/**
+ * Lookup "employment_type" term id.
+ *
+ * @param array $args
+ *   Employment and employment id.
+ *
+ * @return string|null
+ *   Employment term id or NULL on failure.
+ */
+function _helfi_rekry_content_lookup_employment_type(array $args) : ?string {
+  [$employment_type_id, $employment_type] = $args;
+
+  return _helfi_rekry_content_lookup_taxonomy_term_id('employment_type', $employment_type_id, $employment_type);
 }
 
 /**
