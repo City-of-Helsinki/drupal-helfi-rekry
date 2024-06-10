@@ -5,6 +5,7 @@ dependencies:
     module:
       - helfi_rekry_content
 id: helfi_rekry_employment_types
+deriver: Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver
 migration_tags:
   - helfi_rekry_content
   - helfi_rekry_jobs
@@ -12,7 +13,7 @@ migration_group: helfi_rekry_content
 label: 'HELfi Rekry - Employment Type'
 source:
   plugin: helbit_open_jobs
-  url: 'https://helbit.fi/portal-api/recruitment/v2.3/open-jobs'
+  track_changes: true
   fields:
     -
       name: id

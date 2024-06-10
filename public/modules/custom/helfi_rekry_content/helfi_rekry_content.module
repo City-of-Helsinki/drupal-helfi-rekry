@@ -340,7 +340,7 @@ function helfi_rekry_content_preprocess_field(&$variables) {
  *
  * @param string $vid
  *   Vocabulary id.
- * @param string|null $external_id
+ * @param string|int|null $external_id
  *   External id.
  * @param string|null $name
  *   Term name.
@@ -348,7 +348,7 @@ function helfi_rekry_content_preprocess_field(&$variables) {
  * @return string|null
  *   Taxonomy term ID or NULL.
  */
-function _helfi_rekry_content_lookup_taxonomy_term_id(string $vid, ?string $external_id, ?string $name) : ?string {
+function _helfi_rekry_content_lookup_taxonomy_term_id(string $vid, string|int|null $external_id, ?string $name) : ?string {
   if ($external_id) {
     $ids = \Drupal::entityQuery('taxonomy_term')
       ->condition('vid', $vid)
@@ -387,7 +387,7 @@ function _helfi_rekry_content_lookup_organization_tid($external_id) : ?string {
 /**
  * Combine "task_area" term translations with external ID.
  */
-function _helfi_rekry_content_lookup_task_area_tid($args) : ?string {
+function _helfi_rekry_content_lookup_task_area_tid(array $args) : ?string {
   [$external_id, $name] = $args;
 
   return _helfi_rekry_content_lookup_taxonomy_term_id('task_area', $external_id, $name);

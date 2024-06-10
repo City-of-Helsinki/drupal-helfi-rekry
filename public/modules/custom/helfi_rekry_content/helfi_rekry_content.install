@@ -198,7 +198,7 @@ function helfi_rekry_content_install($is_syncing): void {
 /**
  * Cleanup "organization" taxonomy term translations.
  */
-function helfi_rekry_content_update_9004() {
+function helfi_rekry_content_update_9004(): void {
   // Load Swedish and English "organization" taxonomy terms.
   foreach (['sv', 'en'] as $langcode) {
     $terms = \Drupal::entityTypeManager()
@@ -246,7 +246,7 @@ function helfi_rekry_content_update_9004() {
 /**
  * HELfi rekry content update 9007.
  */
-function helfi_rekry_content_update_9007() {
+function helfi_rekry_content_update_9007(): void {
   $jobIndex = Index::load('job_listings');
 
   if (!$jobIndex) {
@@ -264,7 +264,7 @@ function helfi_rekry_content_update_9007() {
 /**
  * UHF-9764 Remove all videos with dreambroker provider.
  */
-function helfi_rekry_content_update_9008() {
+function helfi_rekry_content_update_9008(): void {
   $query = \Drupal::entityQuery('media')
     ->accessCheck(FALSE)
     ->condition('bundle', 'remote_video');
@@ -299,5 +299,51 @@ function helfi_rekry_content_update_9008() {
       }
       $storage_handler->delete([$media]);
     }
+  }
+}
+
+/**
+ * UHF-8157: Clear migration maps.
+ */
+function helfi_rekry_content_update_9009(): void {
+  $database = \Drupal::database();
+  $migrations = [
+    'helfi_rekry_images:all_en',
+    'helfi_rekry_images:all_sv',
+    'helfi_rekry_images:changed_en',
+    'helfi_rekry_images:changed_sv',
+
+    'helfi_rekry_videos:all_en',
+    'helfi_rekry_videos:all_sv',
+    'helfi_rekry_videos:changed_en',
+    'helfi_rekry_videos:changed_sv',
+
+    'helfi_rekry_jobs:all',
+    'helfi_rekry_jobs:all_en',
+    'helfi_rekry_jobs:all_sv',
+    'helfi_rekry_jobs:changed',
+    'helfi_rekry_jobs:changed_en',
+    'helfi_rekry_jobs:changed_sv',
+
+    'helfi_rekry_organizations:all',
+    'helfi_rekry_organizations:all_sv',
+    'helfi_rekry_organizations:all_en',
+    'helfi_rekry_organizations:changed',
+    'helfi_rekry_organizations:changed_sv',
+    'helfi_rekry_organizations:changed_en',
+
+    'helfi_rekry_task_areas:all',
+    'helfi_rekry_task_areas:all_sv',
+    'helfi_rekry_task_areas:all_en',
+    'helfi_rekry_task_areas:changed',
+    'helfi_rekry_task_areas:changed_sv',
+    'helfi_rekry_task_areas:changed_en',
+  ];
+
+  foreach ($migrations as $migration) {
+    $table_name = 'migrate_map_' . str_replace(':', '__', $migration);
+    $database
+      ->schema()
+      ->dropTable($table_name);
   }
 }

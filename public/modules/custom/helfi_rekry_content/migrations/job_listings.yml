@@ -17,12 +17,8 @@ source:
   ids:
     id:
       type: string
-  plugin: url
-  url: https://helbit.fi/portal-api/recruitment/v2.3/open-jobs
+  plugin: helbit_open_jobs
   track_changes: true
-  data_fetcher_plugin: http
-  data_parser_plugin: helbit_json
-  item_selector: 'jobAdvertisements'
   fields:
     -
       name: id
@@ -78,7 +74,7 @@ source:
       selector: jobAdvertisement/publishingOrganization
     -
       name: organization_description
-      label: 'Organization descrption'
+      label: 'Organization description'
       selector: jobAdvertisement/organizationDesc
     -
       name: organization_name
@@ -147,9 +143,7 @@ process:
     callable: _helfi_rekry_content_lookup_job_nid
     source: id
   title: title
-  langcode:
-    plugin: default_value
-    default_value: fi
+  langcode: langcode
   job_description/value:
     plugin: callback
     callable: _filter_autop
@@ -204,6 +198,10 @@ process:
     plugin: default_value
     default_value: null
   field_video/target_id:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: video
     -
       plugin: callback
       callable: _helfi_rekry_content_sanitize_video_url
@@ -285,3 +283,4 @@ destination:
   plugin: 'entity:node'
   default_values:
     content_translation_uid: 1
+  translations: true

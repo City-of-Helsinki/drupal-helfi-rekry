@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Plugin\migrate\source;
 
-use Drupal\helfi_api_base\Plugin\migrate\source\HttpSourcePluginBase;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
+use Drupal\migrate\Plugin\migrate\source\SourcePluginBase;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -16,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "helbit_open_jobs"
  * )
  */
-final class HelbitOpenJobs extends HttpSourcePluginBase {
+final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryPluginInterface {
 
   /**
    * Helbit client.
@@ -35,7 +36,7 @@ final class HelbitOpenJobs extends HttpSourcePluginBase {
     $plugin_definition,
     MigrationInterface $migration = NULL,
   ): self {
-    $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition, $migration);
+    $instance = new self($configuration, $plugin_id, $plugin_definition, $migration);
     $instance->helbit = $container->get(HelbitClient::class);
     return $instance;
   }
@@ -43,20 +44,20 @@ final class HelbitOpenJobs extends HttpSourcePluginBase {
   /**
    * {@inheritDoc}
    */
-  protected function initializeListIterator(): \Iterator {
+  protected function initializeIterator(): \Iterator {
     $ids = $this->getIds();
+    $langcodes = $this->configuration['langcodes'] ?? ['fi', 'sv', 'en'];
 
-    foreach (['en', 'fi', 'sv']  as $langcode) {
-      $query = [];
+    $query = [];
 
-      if ($this->configuration['changed'] ?? FALSE) {
-        $query['timestamp'] = date('Y-m-d\TH:m:i', strtotime('-1 day'));
-      }
+    if ($this->configuration['changed'] ?? FALSE) {
+      $query['timestamp'] = date('Y-m-d\TH:m:i', strtotime('-1 day'));
+    }
 
+    foreach ($langcodes as $langcode) {
       foreach ($this->helbit->getJobListings($langcode, $query) as $row) {
-        // Get configured fields and inject langcode.
         $fields = $this->getFieldsFromRow($row) + [
-          'langcode' => $langcode,
+          'langcode' => $langcode
         ];
 
         // Check that all ids are present in this row. E.g. not all job
@@ -117,8 +118,15 @@ final class HelbitOpenJobs extends HttpSourcePluginBase {
    * {@inheritDoc}
    */
   public function fields(): array {
-    return [
-    ];
+    $fields = [];
+
+    foreach ($this->configuration['fields'] as $field) {
+      if (isset($field['name'])) {
+        $fields[$field['name']] = $field['label'] ?? '';
+      }
+    }
+
+    return $fields;
   }
 
   /**
