@@ -8,6 +8,7 @@ use Drupal\Component\Plugin\Derivative\DeriverBase;
 use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\Url;
+use Drupal\helfi_rekry_content\Helbit\Settings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -18,17 +19,17 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
   /**
    * Constructs a new instance.
    *
-   * @param \Drupal\Core\Config\ConfigFactory $config
-   *   The settings service.
+   * @param \Drupal\helfi_rekry_content\Helbit\Settings $config
+   *   Helbit settings.
    */
-  public function __construct(private ConfigFactory $config) {
+  public function __construct(private readonly Settings $config) {
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, $base_plugin_id) : self {
-    return new self($container->get('config.factory'));
+    return new self($container->get(Settings::class));
   }
 
   /**
@@ -88,7 +89,7 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
     // Adds api key to source URL.
     $url = Url::fromUri($base_plugin_definition['source']['url'], [
       'query' => [
-        'client' => $this->config->get('helfi_rekry_content.settings')->get('helbit_client_id'),
+        'client' => $this->config->clientId,
         'lang' => $langcode,
       ],
     ]);

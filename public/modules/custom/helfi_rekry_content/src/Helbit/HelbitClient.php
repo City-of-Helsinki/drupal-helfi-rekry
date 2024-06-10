@@ -10,6 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Utils;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Helbit API client.
@@ -20,6 +21,7 @@ final readonly class HelbitClient {
    * Constructs a HelbitClient object.
    */
   public function __construct(
+    #[Autowire(service: 'logger.channel.helfi_rekry_content')]
     private LoggerInterface $logger,
     private ClientInterface $client,
     private Settings $config,

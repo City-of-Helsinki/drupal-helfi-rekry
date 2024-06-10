@@ -49,18 +49,18 @@ final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryP
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) : self {
     return new self(
-    $configuration,
-    $plugin_id,
-    $plugin_definition,
-    $container->get('entity_type.manager'),
-    $container->get('logger.channel.helfi_rekry_content'),
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('logger.channel.helfi_rekry_content'),
     );
   }
 
   /**
    * {@inheritdoc}
    */
-  public function processItem($data) {
+  public function processItem($data): void {
     // Sanity check that nid value exists.
     if (!$data['nid']) {
       return;
