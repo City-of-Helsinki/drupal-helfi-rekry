@@ -33,6 +33,8 @@ class HelbitClient {
    *
    * @param string $language
    *   Result langcode.
+   * @param array $query
+   *   Additional query parameters.
    *
    * @return array
    *   Job listing data.

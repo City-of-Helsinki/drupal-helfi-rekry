@@ -7,9 +7,10 @@ namespace Drupal\Tests\helfi_rekry_content\Unit;
 use Drupal\helfi_rekry_content\Helbit\Settings;
 use Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver;
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\Tests\UnitTestCase;
 
 /**
+ * Tests migration deriver.
+ *
  * @group helfi_rekry_content
  */
 class HelbitMigrationDeriverTest extends KernelTestBase {
@@ -18,8 +19,6 @@ class HelbitMigrationDeriverTest extends KernelTestBase {
 
   /**
    * Tests Helbit deriver.
-   *
-   * @return void
    */
   public function testHelbitDeriver(): void {
     $deriver = new HelbitMigrationDeriver(new Settings(self::TEST_HELBIT_KEY));

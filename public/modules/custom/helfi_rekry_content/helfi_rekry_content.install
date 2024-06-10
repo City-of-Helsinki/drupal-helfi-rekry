@@ -5,6 +5,8 @@
  * Contains install functions for HELfi Rekry Content module.
  */
 
+declare(strict_types=1);
+
 use Drupal\media\Entity\Media;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
@@ -144,7 +146,7 @@ function helfi_rekry_content_ensure_taxonomy_terms(): void {
         $term = $byExternalId[$item['field_external_id']];
       }
       // Search with label.
-      else if (isset($byLabel[$item['en']])) {
+      elseif (isset($byLabel[$item['en']])) {
         $term = $byLabel[$item['en']];
       }
       // Create the term.
@@ -167,7 +169,7 @@ function helfi_rekry_content_ensure_taxonomy_terms(): void {
         else {
           $term
             ->addTranslation($langcode, [
-              'name' => $item[$langcode]
+              'name' => $item[$langcode],
             ]);
         }
       }
@@ -193,7 +195,6 @@ function helfi_rekry_content_install($is_syncing): void {
 
   helfi_rekry_content_ensure_taxonomy_terms();
 }
-
 
 /**
  * Cleanup "organization" taxonomy term translations.

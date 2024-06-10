@@ -13,6 +13,11 @@ use Drupal\migrate\Plugin\MigrationInterface;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
+/**
+ * Tests migration source plugin.
+ *
+ * @group helfi_rekry_content
+ */
 class HelbitOpenJobsTest extends KernelTestBase {
 
   use ProphecyTrait;
@@ -26,7 +31,7 @@ class HelbitOpenJobsTest extends KernelTestBase {
       ->getJobListings(Argument::any(), Argument::any())
       ->willReturn([
         [
-          'data' => '123'
+          'data' => '123',
         ],
       ]);
 
@@ -35,12 +40,11 @@ class HelbitOpenJobsTest extends KernelTestBase {
 
     $this
       ->getSut($helbit->reveal(), [
-        'changed' => true,
         'fields' => [
           [
             'name' => 'id',
             'selector' => 'data',
-          ]
+          ],
         ],
       ])
       ->next();
@@ -59,7 +63,7 @@ class HelbitOpenJobsTest extends KernelTestBase {
 
     $this
       ->getSut($helbit->reveal(), [
-        'changed' => true,
+        'changed' => TRUE,
         'ids' => [
           'id' => [
             'type' => 'string',
@@ -69,6 +73,9 @@ class HelbitOpenJobsTest extends KernelTestBase {
       ->next();
   }
 
+  /**
+   * Tests iterator.
+   */
   public function testIterator(): void {
     $helbit = $this->prophesize(HelbitClient::class);
     $helbit
@@ -76,12 +83,12 @@ class HelbitOpenJobsTest extends KernelTestBase {
       ->willReturn([
         [
           'nested_data' => [
-            'field' => 'response1'
+            'field' => 'response1',
           ],
         ],
         [
           // This row should be skipped.
-          'some_other_field' => 'response2'
+          'some_other_field' => 'response2',
         ],
         [
           'some_other_field' => 'response3',
@@ -97,7 +104,7 @@ class HelbitOpenJobsTest extends KernelTestBase {
           [
             'name' => 'my_field',
             'selector' => 'nested_data/field',
-          ]
+          ],
         ],
         'ids' => [
           'my_field' => [

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\EventSubscriber\HttpExceptionSubscriberBase;
 use Drupal\Core\Routing\TrustedRedirectResponse;

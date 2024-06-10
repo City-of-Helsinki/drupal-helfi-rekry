@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "helbit_open_jobs"
  * )
  */
-class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryPluginInterface {
+final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryPluginInterface {
 
   /**
    * Helbit client.
@@ -57,7 +57,7 @@ class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryPluginI
     foreach ($langcodes as $langcode) {
       foreach ($this->helbit->getJobListings($langcode, $query) as $row) {
         $fields = $this->getFieldsFromRow($row) + [
-          'langcode' => $langcode
+          'langcode' => $langcode,
         ];
 
         // Check that all ids are present in this row. E.g. not all job
