@@ -1,0 +1,40 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - helfi_rekry_content
+id: helfi_rekry_employments
+migration_tags:
+  - helfi_rekry_content
+  - helfi_rekry_jobs
+migration_group: helfi_rekry_content
+label: 'HELfi Rekry - Employment'
+source:
+  plugin: helbit_open_jobs
+  url: 'https://helbit.fi/portal-api/recruitment/v2.3/open-jobs'
+  fields:
+    -
+      name: id
+      selector: 'jobAdvertisement/employmentId'
+    -
+      name: name
+      selector: 'jobAdvertisement/employment'
+  ids:
+    id:
+      type: string
+process:
+  tid:
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_lookup_employment
+      source:
+        - id
+        - name
+  name: name
+  field_external_id: id
+  langcode: langcode
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: employment
+  translations: true

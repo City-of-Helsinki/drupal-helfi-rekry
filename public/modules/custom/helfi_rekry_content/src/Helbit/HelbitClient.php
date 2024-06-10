@@ -35,10 +35,10 @@ final readonly class HelbitClient {
    * @return array
    *   Job listing data.
    */
-  public function getJobListings(string $language): array {
+  public function getJobListings(string $language, array $query = []): array {
     try {
       $response = $this->makeRequest('/open-jobs', [
-        'query' => [
+        'query' => $query + [
           'lang' => $this->getHelbitLangcode($language),
         ],
       ]);
@@ -47,6 +47,9 @@ final readonly class HelbitClient {
         return $response['jobAdvertisements'] ?? [];
       }
 
+      $this->logger->error('Failed retrieving data from Helbit. Request failed with code: @status_code', [
+        '@status_code' => $response['status'] ?? '',
+      ]);
     }
     catch (RequestException | GuzzleException $e) {
       Error::logException($this->logger, $e);
