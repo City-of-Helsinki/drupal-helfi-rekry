@@ -15,16 +15,16 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 /**
  * Helbit API client.
  */
-final readonly class HelbitClient {
+class HelbitClient {
 
   /**
    * Constructs a HelbitClient object.
    */
   public function __construct(
     #[Autowire(service: 'logger.channel.helfi_rekry_content')]
-    private LoggerInterface $logger,
-    private ClientInterface $client,
-    private Settings $config,
+    private readonly LoggerInterface $logger,
+    private readonly ClientInterface $client,
+    private readonly Settings $config,
   ) {
   }
 

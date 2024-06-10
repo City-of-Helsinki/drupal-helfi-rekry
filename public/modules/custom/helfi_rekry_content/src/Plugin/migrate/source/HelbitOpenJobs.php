@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   id = "helbit_open_jobs"
  * )
  */
-final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryPluginInterface {
+class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryPluginInterface {
 
   /**
    * Helbit client.

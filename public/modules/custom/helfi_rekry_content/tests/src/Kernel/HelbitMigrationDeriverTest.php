@@ -6,12 +6,15 @@ namespace Drupal\Tests\helfi_rekry_content\Unit;
 
 use Drupal\helfi_rekry_content\Helbit\Settings;
 use Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver;
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\UnitTestCase;
 
 /**
  * @group helfi_rekry_content
  */
-class HelbitDeriverTest extends UnitTestCase {
+class HelbitMigrationDeriverTest extends KernelTestBase {
+
+  private const TEST_HELBIT_KEY = '1234';
 
   /**
    * Tests Helbit deriver.
@@ -19,7 +22,7 @@ class HelbitDeriverTest extends UnitTestCase {
    * @return void
    */
   public function testHelbitDeriver(): void {
-    $deriver = new HelbitMigrationDeriver(new Settings('123'));
+    $deriver = new HelbitMigrationDeriver(new Settings(self::TEST_HELBIT_KEY));
     $result = $deriver->getDerivativeDefinitions([
       'id' => 'helfi_rekry_jobs',
       'source' => [
@@ -27,14 +30,33 @@ class HelbitDeriverTest extends UnitTestCase {
       ],
     ]);
 
+    $this->assertArrayHasKey('all', $result);
+    $this->assertArrayHasKey('changed', $result);
+    $this->assertEmpty($result['all']['source']['changed'] ?? NULL);
+    $this->assertTrue($result['changed']['source']['changed']);
+
+    $deriver = new HelbitMigrationDeriver(new Settings(self::TEST_HELBIT_KEY));
     $result = $deriver->getDerivativeDefinitions([
       'id' => 'helfi_rekry_task_areas',
       'source' => [
         'plugin' => 'url',
-        'url' => 'https://helbit.fi/portal-api/recruitment/v2.3/params/hierarchy/tasks',
+        'url' => 'https://example.com/',
       ],
     ]);
 
+    foreach (['fi', 'sv', 'en'] as $langcode) {
+      $this->assertArrayHasKey($langcode, $result);
+      $this->assertEqualsCanonicalizing([
+        'plugin' => 'default_value',
+        'default_value' => $langcode,
+      ], $result[$langcode]['process']['langcode']);
+
+      $this->assertNotEmpty($result[$langcode]['source']['urls'] ?? []);
+      foreach ($result[$langcode]['source']['urls'] as $url) {
+        $this->assertStringContainsString($langcode, $url);
+        $this->assertStringContainsString(self::TEST_HELBIT_KEY, $url);
+      }
+    }
   }
 
 }

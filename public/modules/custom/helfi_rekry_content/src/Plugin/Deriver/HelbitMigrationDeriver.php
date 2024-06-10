@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Plugin\Deriver;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
-use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\Url;
 use Drupal\helfi_rekry_content\Helbit\Settings;
@@ -84,7 +83,10 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
    *   Modified plugin definition for derivative.
    */
   private function getDerivativeValues(array $base_plugin_definition, string $langcode): array {
-    $base_plugin_definition['process']['langcode']['default_value'] = $langcode;
+    $base_plugin_definition['process']['langcode'] = [
+      'plugin' => 'default_value',
+      'default_value' => $langcode,
+    ];
 
     // Adds api key to source URL.
     $url = Url::fromUri($base_plugin_definition['source']['url'], [
