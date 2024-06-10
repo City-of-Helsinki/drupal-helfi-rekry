@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\Tests\helfi_rekry_content\Unit;
+namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
 use Drupal\helfi_rekry_content\Helbit\Settings;
 use Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver;
