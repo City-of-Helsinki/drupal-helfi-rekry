@@ -42,10 +42,6 @@ msgid "Confirming saved search failed. Please try again."
 msgstr "Hakuvahdin vahvistus epäonnistui. Yritä uudelleen."
 
 msgctxt "Hakuvahti"
-msgid "Saving search failed. Please try again."
-msgstr "Hakuvahdin tilaus epäonnistui. Yritä uudelleen."
-
-msgctxt "Hakuvahti"
 msgid "Please confirm the saved search to receive notifications. Click on the button below."
 msgstr "Vahvista hakuvahdin tilaus klikkaamalla alla olevaa painiketta."
 
