@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Plugin\Deriver;
 
 use Drupal\Component\Plugin\Derivative\DeriverBase;
-use Drupal\Core\Config\ConfigFactory;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\Url;
+use Drupal\helfi_rekry_content\Helbit\Settings;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -18,42 +18,42 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
   /**
    * Constructs a new instance.
    *
-   * @param \Drupal\Core\Config\ConfigFactory $config
-   *   The settings service.
+   * @param \Drupal\helfi_rekry_content\Helbit\Settings $config
+   *   Helbit settings.
    */
-  public function __construct(private ConfigFactory $config) {
+  public function __construct(private readonly Settings $config) {
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, $base_plugin_id) : self {
-    return new self($container->get('config.factory'));
+    return new self($container->get(Settings::class));
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDerivativeDefinitions($base_plugin_definition): array {
-    $derivatives = [
-      'all',
-      'changed',
-      'all_sv',
-      'changed_sv',
-      'all_en',
-      'changed_en',
-    ];
+    $langcodes = ['fi', 'sv', 'en'];
+    $derivatives = ['all', 'changed'];
 
-    foreach ($derivatives as $key) {
-      $derivative = $this->getDerivativeValues($base_plugin_definition, $key);
-      $this->derivatives[$key] = $derivative;
+    if ($base_plugin_definition['source']['plugin'] == 'helbit_open_jobs') {
+      foreach ($derivatives as $key) {
+        $this->derivatives[$key] = $this->getJobMigrationDerivativeValues($base_plugin_definition, $key);
+      }
+    }
+    else {
+      foreach ($langcodes as $langcode) {
+        $this->derivatives[$langcode] = $this->getDerivativeValues($base_plugin_definition, $langcode);
+      }
     }
 
     return $this->derivatives;
   }
 
   /**
-   * Creates a derivative definition for each available language.
+   * Creates a derivative definition for job migration.
    *
    * @param array $base_plugin_definition
    *   Base migration definitions.
@@ -63,41 +63,41 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
    * @return array
    *   Modified plugin definition for derivative.
    */
-  protected function getDerivativeValues(array $base_plugin_definition, string $key): array {
-    $urlOptions = [
+  private function getJobMigrationDerivativeValues(array $base_plugin_definition, string $key): array {
+    if (str_starts_with($key, 'changed')) {
+      $base_plugin_definition['source']['changed'] = TRUE;
+    }
+
+    return $base_plugin_definition;
+  }
+
+  /**
+   * Creates a derivative definition for each available language.
+   *
+   * @param array $base_plugin_definition
+   *   Base migration definitions.
+   * @param string $langcode
+   *   Langcode.
+   *
+   * @return array
+   *   Modified plugin definition for derivative.
+   */
+  private function getDerivativeValues(array $base_plugin_definition, string $langcode): array {
+    $base_plugin_definition['process']['langcode'] = [
+      'plugin' => 'default_value',
+      'default_value' => $langcode,
+    ];
+
+    // Adds api key to source URL.
+    $url = Url::fromUri($base_plugin_definition['source']['url'], [
       'query' => [
-        'client' => $this->config->get('helfi_rekry_content.settings')->get('helbit_client_id'),
+        'client' => $this->config->clientId,
+        'lang' => $langcode,
       ],
-    ];
+    ]);
 
-    $simpleLangcodeMigrations = [
-      'helfi_rekry_task_areas',
-      'helfi_rekry_organizations',
-    ];
-    $simpleLangcode = in_array($base_plugin_definition['id'], $simpleLangcodeMigrations);
-
-    // Set values for translation migrations.
-    if (str_contains($key, '_sv')) {
-      $urlOptions['query']['lang'] = $simpleLangcode ? 'sv' : 'sv_SE';
-      $base_plugin_definition['destination']['translations'] = TRUE;
-      $base_plugin_definition['process']['langcode']['default_value'] = 'sv';
-    }
-    elseif (str_contains($key, '_en')) {
-      $urlOptions['query']['lang'] = $simpleLangcode ? 'en' : 'en_US';
-      $base_plugin_definition['destination']['translations'] = TRUE;
-      $base_plugin_definition['process']['langcode']['default_value'] = 'en';
-    }
-    else {
-      $urlOptions['query']['lang'] = $simpleLangcode ? 'fi' : 'fi_FI';
-    }
-
-    if (str_contains($key, 'changed')) {
-      $urlOptions['query']['timestamp'] = date('Y-m-d\TH:m:i', strtotime('-1 day'));
-    }
-
-    $url = Url::fromUri($base_plugin_definition['source']['url'], $urlOptions)->toString();
     // toString method encodes colons, which the API does not support.
-    $base_plugin_definition['source']['urls'] = [preg_replace('/%3A/', ':', $url)];
+    $base_plugin_definition['source']['urls'] = [preg_replace('/%3A/', ':', $url->toString())];
 
     return $base_plugin_definition;
   }
