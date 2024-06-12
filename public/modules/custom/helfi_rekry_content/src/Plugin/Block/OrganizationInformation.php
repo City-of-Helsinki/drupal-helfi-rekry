@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\helfi_rekry_content\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;

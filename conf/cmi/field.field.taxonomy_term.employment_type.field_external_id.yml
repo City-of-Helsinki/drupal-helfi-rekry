@@ -1,0 +1,25 @@
+uuid: cb778bfd-337c-4abd-88f0-58e56029aace
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_external_id
+    - taxonomy.vocabulary.employment_type
+  module:
+    - disable_field
+third_party_settings:
+  disable_field:
+    add_disable: none
+    edit_disable: none
+id: taxonomy_term.employment_type.field_external_id
+field_name: field_external_id
+entity_type: taxonomy_term
+bundle: employment_type
+label: 'External ID'
+description: 'Helbit ID for the employment type.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
