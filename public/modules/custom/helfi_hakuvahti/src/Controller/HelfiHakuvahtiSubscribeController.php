@@ -195,7 +195,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     // Search term first.
     array_unshift($terms, $query);
 
-    // All these can be printed out with , separator
+    // All these can be printed out with , separator.
     if (!empty($areaFiltersTranslated)) {
       $allTerms = array_merge($terms, $areaFiltersTranslated);
     }
@@ -204,7 +204,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $description .= implode(', ', array_filter($allTerms));
     }
 
-    // Employment label should use / instead of ,
+    // Employment label should use / instead of comma.
     if (!empty($employmentTermLabels)) {
       if (!empty($description)) {
         $description .= ', ';
@@ -212,7 +212,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $description .= implode(' / ', $employmentTermLabels);
     }
 
-    // Backup description if no terms or keywords found, must return something
+    // Backup description if no terms or keywords found, must return something.
     if (empty($description)) {
       '*';
     }
