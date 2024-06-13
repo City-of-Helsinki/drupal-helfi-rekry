@@ -17,3 +17,15 @@ helfi_rekry_content.job_listings:
       type: text
       label: 'City description text'
       translatable: true
+    hakuvahti_tos_checkbox_title:
+      type: label
+      label: 'Hakuvahti TOS Checkbox Title'
+      translatable: true
+    hakuvahti_tos_title:
+      type: label
+      label: 'Hakuvahti TOS Title'
+      translatable: true
+    hakuvahti_tos_url:
+      type: label
+      label: 'Hakuvahti TOS URL'
+      translatable: true
