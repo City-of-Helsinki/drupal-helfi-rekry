@@ -3713,16 +3713,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "6.5.20",
+            "version": "6.5.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "f0a50c9225f2e0904399bb961d798f54f34e964a"
+                "reference": "ef5b3999f1777e00cc7741c054ad166bc766887f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/f0a50c9225f2e0904399bb961d798f54f34e964a",
-                "reference": "f0a50c9225f2e0904399bb961d798f54f34e964a",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/ef5b3999f1777e00cc7741c054ad166bc766887f",
+                "reference": "ef5b3999f1777e00cc7741c054ad166bc766887f",
                 "shasum": ""
             },
             "require": {
@@ -3740,10 +3740,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.5.20",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.5.21",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2024-06-11T12:33:07+00:00"
+            "time": "2024-06-13T08:54:56+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -14172,16 +14172,16 @@
         },
         {
             "name": "composer/class-map-generator",
-            "version": "1.3.3",
+            "version": "1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/class-map-generator.git",
-                "reference": "61804f9973685ec7bead0fb7fe022825e3cd418e"
+                "reference": "b1b3fd0b4eaf3ddf3ee230bc340bf3fff454a1a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/class-map-generator/zipball/61804f9973685ec7bead0fb7fe022825e3cd418e",
-                "reference": "61804f9973685ec7bead0fb7fe022825e3cd418e",
+                "url": "https://api.github.com/repos/composer/class-map-generator/zipball/b1b3fd0b4eaf3ddf3ee230bc340bf3fff454a1a3",
+                "reference": "b1b3fd0b4eaf3ddf3ee230bc340bf3fff454a1a3",
                 "shasum": ""
             },
             "require": {
@@ -14225,7 +14225,7 @@
             ],
             "support": {
                 "issues": "https://github.com/composer/class-map-generator/issues",
-                "source": "https://github.com/composer/class-map-generator/tree/1.3.3"
+                "source": "https://github.com/composer/class-map-generator/tree/1.3.4"
             },
             "funding": [
                 {
@@ -14241,7 +14241,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-10T11:53:54+00:00"
+            "time": "2024-06-12T14:13:04+00:00"
         },
         {
             "name": "composer/composer",
