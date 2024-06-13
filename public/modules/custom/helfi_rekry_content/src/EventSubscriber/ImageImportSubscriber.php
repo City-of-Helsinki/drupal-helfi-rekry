@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
-use Drupal\Core\Config\ConfigFactory;
-use Drupal\Core\File\FileSystem;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\media\Entity\Media;
 use Drupal\migrate\Event\MigrateEvents;
@@ -16,22 +16,22 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Class for subscribing to image import events.
  */
-class ImageImportSubscriber implements EventSubscriberInterface {
+final class ImageImportSubscriber implements EventSubscriberInterface {
 
   /**
    * Constructs a new instance.
    *
-   * @param \Drupal\Core\File\FileSystem $fileSystem
+   * @param \Drupal\Core\File\FileSystemInterface $fileSystem
    *   The file system service.
-   * @param \Drupal\Core\Config\ConfigFactory $config
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config
    *   The settings service.
    * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
    *   The current user.
    */
   public function __construct(
-    private FileSystem $fileSystem,
-    private ConfigFactory $config,
-    private AccountProxyInterface $currentUser,
+    private readonly FileSystemInterface $fileSystem,
+    private readonly ConfigFactoryInterface $config,
+    private readonly AccountProxyInterface $currentUser,
   ) {
   }
 

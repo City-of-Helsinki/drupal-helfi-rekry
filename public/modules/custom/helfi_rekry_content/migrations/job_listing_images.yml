@@ -17,12 +17,10 @@ source:
       type: string
     logo:
       type: string
-  plugin: url
+  plugin: helbit_open_jobs
   track_changes: true
-  data_fetcher_plugin: http
-  data_parser_plugin: helbit_json
-  item_selector: 'jobAdvertisements'
-  url: https://helbit.fi/portal-api/recruitment/v2.3/open-jobs
+  langcodes:
+    - fi
   fields:
     -
       name: id
@@ -43,7 +41,7 @@ process:
   destination_filename:
     -
       plugin: callback
-      callable: _helfi_rekry_content_filename 
+      callable: _helfi_rekry_content_filename
       source: logo
     -
       plugin: skip_on_empty
@@ -74,8 +72,6 @@ process:
         - '@destination_path'
       file_exists: rename
       move: false
-  langcode:
-    plugin: default_value
-    default_value: fi
+  langcode: langcode
 destination:
   plugin: 'entity:file'

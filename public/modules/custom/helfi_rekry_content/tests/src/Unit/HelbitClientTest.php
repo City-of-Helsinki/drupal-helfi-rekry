@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\Tests\helfi_rekry_content;
+namespace Drupal\Tests\helfi_rekry_content\Unit;
 
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
 use Drupal\helfi_rekry_content\Helbit\Settings;

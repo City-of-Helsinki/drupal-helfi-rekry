@@ -9,6 +9,7 @@ use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -29,6 +30,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
    */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
+    #[Autowire(service: 'logger.channel.helfi_rekry_content')]
     protected LoggerInterface $logger,
     protected QueueFactory $queueFactory,
   ) {}
