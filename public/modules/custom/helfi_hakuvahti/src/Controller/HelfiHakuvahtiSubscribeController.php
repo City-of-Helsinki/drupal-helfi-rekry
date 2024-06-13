@@ -96,7 +96,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    */
   private function translateString($string, $language) {
     $translatedString = $this->t($string, [], ['langcode' => $language]); // @phpcs:ignore
-    return $translatedString;
+    return (string) $translatedString;
   }
 
   /**
@@ -195,11 +195,16 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     // Search term first.
     array_unshift($terms, $query);
 
-    $allTerms = array_merge($terms, $areaFiltersTranslated);
+    // All these can be printed out with , separator
+    if (!empty($areaFiltersTranslated)) {
+      $allTerms = array_merge($terms, $areaFiltersTranslated);
+    }
+
     if (!empty($allTerms)) {
       $description .= implode(', ', array_filter($allTerms));
     }
 
+    // Employment label should use / instead of ,
     if (!empty($employmentTermLabels)) {
       if (!empty($description)) {
         $description .= ', ';
@@ -207,6 +212,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $description .= implode(' / ', $employmentTermLabels);
     }
 
+    // Backup description if no terms or keywords found, must return something
     if (empty($description)) {
       '*';
     }
