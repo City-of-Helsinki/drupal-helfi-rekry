@@ -114,25 +114,25 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('This description text will be added to all job listings.'),
     ];
 
-    $form['job_listings']['hakuvahti_tos_checkbox_title'] = [
+    $form['job_listings']['hakuvahti_tos_checkbox_label'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Hakuvahti TOS Checkbox Title'),
-      '#default_value' => $siteConfig->get('hakuvahti_tos_checkbox_title'),
-      '#description' => $this->t('Title for the TOS checkbox title.'),
-    ];    
-
-    $form['job_listings']['hakuvahti_tos_title'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Hakuvahti TOS Title'),
-      '#default_value' => $siteConfig->get('hakuvahti_tos_title'),
-      '#description' => $this->t('Title for the link to the Terms of Service of Hakuvahti.'),
+      '#title' => $this->t('Hakuvahti terms of service checkbox label'),
+      '#default_value' => $siteConfig->get('hakuvahti_tos_checkbox_label'),
+      '#description' => $this->t('Label for the terms of service checkbox.'),
     ];
 
-    $form['job_listings']['hakuvahti_tos_url'] = [
+    $form['job_listings']['hakuvahti_tos_link_text'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Hakuvahti TOS URL'),
-      '#default_value' => $siteConfig->get('hakuvahti_tos_url'),
-      '#description' => $this->t('URL for the link to the Terms of Service of Hakuvahti.'),
+      '#title' => $this->t('Hakuvahti terms of service link text'),
+      '#default_value' => $siteConfig->get('hakuvahti_tos_link_text'),
+      '#description' => $this->t('Text for the link to the Hakuvahti terms of service.'),
+    ];
+
+    $form['job_listings']['hakuvahti_tos_link_url'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Hakuvahti terms of service URL'),
+      '#default_value' => $siteConfig->get('hakuvahti_tos_link_url'),
+      '#description' => $this->t('URL for the link to the Hakuvahti terms of service.'),
     ];
 
     return parent::buildForm($form, $form_state);
@@ -147,9 +147,9 @@ class SettingsForm extends ConfigFormBase {
       ->set('redirect_403_page', $form_state->getValue('redirect_403_page'))
       ->set('city_description_title', $form_state->getValue('city_description_title'))
       ->set('city_description_text', $form_state->getValue('city_description_text'))
-      ->set('hakuvahti_tos_checkbox_title', $form_state->getValue('hakuvahti_tos_checkbox_title'))
-      ->set('hakuvahti_tos_title', $form_state->getValue('hakuvahti_tos_title'))
-      ->set('hakuvahti_tos_url', $form_state->getValue('hakuvahti_tos_url'))
+      ->set('hakuvahti_tos_checkbox_label', $form_state->getValue('hakuvahti_tos_checkbox_label'))
+      ->set('hakuvahti_tos_link_text', $form_state->getValue('hakuvahti_tos_link_text'))
+      ->set('hakuvahti_tos_link_url', $form_state->getValue('hakuvahti_tos_link_url'))
       ->save();
     parent::submitForm($form, $form_state);
   }
