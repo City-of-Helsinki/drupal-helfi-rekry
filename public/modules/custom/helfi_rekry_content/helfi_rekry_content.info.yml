@@ -10,3 +10,5 @@ dependencies:
   - 'helfi_platform_config:helfi_platform_config'
   - 'content_lock:content_lock'
 package: HELfi
+'interface translation project': helfi_rekry_content
+'interface translation server pattern': modules/custom/helfi_rekry_content/translations/%language.po

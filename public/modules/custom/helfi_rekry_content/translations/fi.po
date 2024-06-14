@@ -1,0 +1,44 @@
+msgid ""
+msgstr ""
+
+msgid "Rekry content settings"
+msgstr "Rekry sisällön asetukset"
+
+msgid "Job search page"
+msgstr "Avoimet työpaikat hakusivu"
+
+msgid "Displayed after the related jobs block, for example."
+msgstr "Näytetään esimerkiksi Liittyvät työpaikat -lohkon jälkeen."
+
+msgid "Closed job listing redirect page"
+msgstr "Suljetun työpaikkailmoituksen uudelleenohjaussivu"
+
+msgid "Page where anonymous users will be redirected from unpublished job listings"
+msgstr "Sivu, jolle anonyymit käyttäjät ohjataan julkaisemattomista työpaikkailmoituksista"
+
+msgid "City description title"
+msgstr "Kaupungista-osion otsikko"
+
+msgid "This description title will be added to all job listings."
+msgstr "Tämä otsikko näytetään kaikissa työpaikkailmoituksissa."
+
+msgid "City description text"
+msgstr "Kaupungista-osion kuvausteksti"
+
+msgid "This description text will be added to all job listings."
+msgstr "Tämä kuvaus näytetään kaikissa työpaikkailmoituksissa."
+
+msgid "Hakuvahti terms of service checkbox label"
+msgstr "Hakuvahdin käyttöehtojen hyväksynnän valintaruudun teksti"
+
+msgid "Label for the terms of service checkbox."
+msgstr "Käyttöehtojen hyväksynnän valintaruudun vierellä näkyvä teksti."
+
+msgid "Hakuvahti terms of service link text"
+msgstr "Hakuvahdin käyttöehtojen linkin teksti"
+
+msgid "Hakuvahti terms of service URL"
+msgstr "Hakuvahdin käyttöehtojen URL-osoite"
+
+msgid "URL for the webpage or pdf to the Hakuvahti terms of service."
+msgstr "URL-osoite verkkosivulle tai pdf-tiedostoon Hakuvahdin käyttöehtoihin."

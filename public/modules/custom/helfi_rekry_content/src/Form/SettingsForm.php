@@ -125,14 +125,13 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Hakuvahti terms of service link text'),
       '#default_value' => $siteConfig->get('hakuvahti_tos_link_text'),
-      '#description' => $this->t('Text for the link to the Hakuvahti terms of service.'),
     ];
 
     $form['job_listings']['hakuvahti_tos_link_url'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Hakuvahti terms of service URL'),
       '#default_value' => $siteConfig->get('hakuvahti_tos_link_url'),
-      '#description' => $this->t('URL for the link to the Hakuvahti terms of service.'),
+      '#description' => $this->t('URL for the webpage or pdf to the Hakuvahti terms of service.'),
     ];
 
     return parent::buildForm($form, $form_state);
