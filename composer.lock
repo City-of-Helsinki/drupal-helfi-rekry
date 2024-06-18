@@ -4258,16 +4258,16 @@
         },
         {
             "name": "drupal/helfi_tunnistamo",
-            "version": "3.0.6",
+            "version": "3.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-tunnistamo.git",
-                "reference": "e968d82a3399dc98df148085e75c024e2cb85396"
+                "reference": "881201f804fd6350c8c4705a677619b25fd49c72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-tunnistamo/zipball/e968d82a3399dc98df148085e75c024e2cb85396",
-                "reference": "e968d82a3399dc98df148085e75c024e2cb85396",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-tunnistamo/zipball/881201f804fd6350c8c4705a677619b25fd49c72",
+                "reference": "881201f804fd6350c8c4705a677619b25fd49c72",
                 "shasum": ""
             },
             "require": {
@@ -4284,10 +4284,10 @@
             ],
             "description": "Tunnistamo integration",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-tunnistamo/tree/3.0.6",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-tunnistamo/tree/3.0.7",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-tunnistamo/issues"
             },
-            "time": "2024-04-30T10:07:43+00:00"
+            "time": "2024-06-18T07:56:54+00:00"
         },
         {
             "name": "drupal/image_style_quality",
