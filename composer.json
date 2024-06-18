@@ -41,8 +41,7 @@
         "weitzman/drupal-test-traits": "^2.0"
     },
     "conflict": {
-        "drupal/drupal": "*",
-        "drupal/search_api": "1.35"
+        "drupal/drupal": "*"
     },
     "config": {
         "optimize-autoloader": true,
