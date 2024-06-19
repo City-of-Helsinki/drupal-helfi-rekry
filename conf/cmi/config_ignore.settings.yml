@@ -6,4 +6,7 @@ ignored_config_entities:
   - 'hdbt_admin_tools.site_settings:site_settings'
   - 'helfi_rekry_content.job_listings:redirect_403_page'
   - 'helfi_rekry_content.job_listings:search_page'
+  - 'helfi_rekry_content.job_listings:hakuvahti_tos_checkbox_label'
+  - 'helfi_rekry_content.job_listings:hakuvahti_tos_link_text'
+  - 'helfi_rekry_content.job_listings:hakuvahti_tos_link_url'
   - 'system.site:page.front'
