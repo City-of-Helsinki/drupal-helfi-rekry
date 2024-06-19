@@ -1,7 +1,7 @@
 name: helfi_hakuvahti
 type: module
 description: 'Drupal-integration for hakuvahti.'
-package: Custom
+package: HELfi
 core_version_requirement: ^10
 'interface translation project': helfi_hakuvahti
 'interface translation server pattern': modules/custom/helfi_hakuvahti/translations/%language.po

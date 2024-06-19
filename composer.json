@@ -117,8 +117,8 @@
           "@lint-php",
           "@test-php"
         ],
-        "test-php": "vendor/bin/phpunit -c phpunit.xml.dist",
-        "lint-php": "vendor/bin/phpcs --standard=Drupal",
+        "test-php": "vendor/bin/phpunit -c $PWD/phpunit.xml.dist",
+        "lint-php": "vendor/bin/phpcs",
         "copy-commit-message-script": "make copy-commit-message-script",
         "post-install-cmd": [
             "@copy-commit-message-script"
