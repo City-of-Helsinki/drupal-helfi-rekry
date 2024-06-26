@@ -6,3 +6,4 @@ name: 'Task area'
 vid: task_area
 description: 'List of task areas used in job listings'
 weight: 0
+new_revision: false
