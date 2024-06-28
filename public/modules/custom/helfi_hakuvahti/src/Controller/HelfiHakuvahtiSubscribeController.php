@@ -193,7 +193,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $description = '';
 
     // Search term first.
-    array_unshift($terms, $query);
+    $description .= $query;
 
     // All these can be printed out with , separator.
     if (!empty($areaFiltersTranslated)) {
@@ -201,6 +201,9 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     }
 
     if (!empty($allTerms)) {
+      if (!empty($description)) {
+        $description .= ', ';
+      }
       $description .= implode(', ', array_filter($allTerms));
     }
 
