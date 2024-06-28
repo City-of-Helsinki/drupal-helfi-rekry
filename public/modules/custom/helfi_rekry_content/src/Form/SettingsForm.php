@@ -100,18 +100,38 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Page where anonymous users will be redirected from unpublished job listings'),
     ];
 
-    $form['job_listings_']['city_description_title'] = [
+    $form['job_listings']['city_description_title'] = [
       '#type' => 'textfield',
       '#title' => $this->t('City description title'),
       '#default_value' => $siteConfig->get('city_description_title'),
       '#description' => $this->t('This description title will be added to all job listings.'),
     ];
 
-    $form['job_listings_']['city_description_text'] = [
+    $form['job_listings']['city_description_text'] = [
       '#type' => 'textarea',
       '#title' => $this->t('City description text'),
       '#default_value' => $siteConfig->get('city_description_text'),
       '#description' => $this->t('This description text will be added to all job listings.'),
+    ];
+
+    $form['job_listings']['hakuvahti_tos_checkbox_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Hakuvahti terms of service checkbox label'),
+      '#default_value' => $siteConfig->get('hakuvahti_tos_checkbox_label'),
+      '#description' => $this->t('Label for the terms of service checkbox.'),
+    ];
+
+    $form['job_listings']['hakuvahti_tos_link_text'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Hakuvahti terms of service link text'),
+      '#default_value' => $siteConfig->get('hakuvahti_tos_link_text'),
+    ];
+
+    $form['job_listings']['hakuvahti_tos_link_url'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Hakuvahti terms of service URL'),
+      '#default_value' => $siteConfig->get('hakuvahti_tos_link_url'),
+      '#description' => $this->t('URL for the webpage or pdf to the Hakuvahti terms of service.'),
     ];
 
     return parent::buildForm($form, $form_state);
@@ -126,6 +146,9 @@ class SettingsForm extends ConfigFormBase {
       ->set('redirect_403_page', $form_state->getValue('redirect_403_page'))
       ->set('city_description_title', $form_state->getValue('city_description_title'))
       ->set('city_description_text', $form_state->getValue('city_description_text'))
+      ->set('hakuvahti_tos_checkbox_label', $form_state->getValue('hakuvahti_tos_checkbox_label'))
+      ->set('hakuvahti_tos_link_text', $form_state->getValue('hakuvahti_tos_link_text'))
+      ->set('hakuvahti_tos_link_url', $form_state->getValue('hakuvahti_tos_link_url'))
       ->save();
     parent::submitForm($form, $form_state);
   }
