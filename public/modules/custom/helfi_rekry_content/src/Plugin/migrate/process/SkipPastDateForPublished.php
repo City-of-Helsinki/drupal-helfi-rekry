@@ -81,6 +81,7 @@ final class SkipPastDateForPublished extends ProcessPluginBase implements Contai
       $node = $this->entityTypeManager->getStorage('node')->load($nid);
       if (!empty($node) && $node->isPublished()) {
         // Value is in the past, node exists, and the node is already published.
+        // @phpstan-ignore-next-line
         throw new MigrateSkipProcessException("The date is in the past and destination node is already published.");
       }
     }
