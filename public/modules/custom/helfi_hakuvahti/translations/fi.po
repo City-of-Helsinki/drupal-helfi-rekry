@@ -65,3 +65,24 @@ msgstr "Vahvista hakuvahti"
 
 msgid "Are you sure you wish to delete the saved search?"
 msgstr "Haluatko varmasti poistaa hakuvahdin?"
+
+msgid "Central area"
+msgstr "Keskinen alue"
+
+msgid  "Eastern area"
+msgstr "Itäinen alue"
+
+msgid  "Southern area"
+msgstr "Eteläinen alue"
+
+msgid  "South-Eastern area"
+msgstr "Kaakkoinen alue"
+
+msgid  "Western area"
+msgstr "Läntinen alue"
+
+msgid  "Northern area"
+msgstr "Pohjoinen alue"
+
+msgid  "North-Eastern area"
+msgstr "Luoteinen alue"

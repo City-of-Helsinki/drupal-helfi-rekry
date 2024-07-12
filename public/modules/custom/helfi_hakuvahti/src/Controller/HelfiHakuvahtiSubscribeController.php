@@ -153,21 +153,31 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $taxonomyIds = [];
 
     $elasticQuery = base64_decode($obj->elastic_query);
-    $elasticQueryObject = json_decode($elasticQuery);
 
+    $queryAsArray = json_decode($elasticQuery, TRUE);
     // Free text search.
-    $query = $elasticQueryObject->query->bool->must[1]->bool->should[1]->combined_fields->query ?? NULL;
-
-    // Ammattiala / Task area.
-    $externalTaxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[2]->terms->task_area_external_id ?? []);
-    if (!empty($externalTaxonomyIds)) {
-      $terms = $this->getLabelsByExternalId($externalTaxonomyIds, $obj->lang);
+    if (
+      $this->queryContains('combined_fields', $elasticQuery) &&
+      $combinedFields = $this->sliceTree($queryAsArray['query']['bool']['must'], 'combined_fields')
+    ) {
+      $query = $combinedFields['query'];
     }
 
-    // Type of employment.
-    $taxonomyIds = array_merge($taxonomyIds, $elasticQueryObject->query->bool->must[3]->bool->should[1]->terms->employment_type_id ?? []);
-    if (!empty($taxonomyIds)) {
-      $employmentTermLabels = $this->getLabelsByTermIds($taxonomyIds, $obj->lang);
+    $taskAreaField = 'task_area_external_id';
+    if (
+      $this->queryContains($taskAreaField, $elasticQuery) &&
+      $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $taskAreaField)
+    ) {
+      $terms = $this->getLabelsByExternalId($taskAreaIds, $obj->lang);
+    }
+
+
+    $employmentTypeField = 'employment_type_id';
+    if (
+      $this->queryContains($employmentTypeField, $elasticQuery) &&
+      $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $employmentTypeField)
+    ) {
+      $employmentTermLabels = $this->getLabelsByTermIds($employmentIds, $obj->lang);
     }
 
     // Job location:
@@ -263,6 +273,48 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     else {
       return new JsonResponse(['success' => FALSE, 'error' => $response->getBody()->getContents()], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+  }
+
+  /**
+   * Recursive function to get what we want from tree of arrays.
+   *
+   * @param $tree
+   *   Array we are traversing.
+   * @param $needle
+   *   What key are we looking for.
+   *
+   * @return false|array
+   *   False or the array we are looking for.
+   */
+  private function sliceTree($tree, $needle): false|array {
+    if (is_array($tree) && isset($tree[$needle])) return $tree[$needle];
+
+    $result = NULL;
+    foreach($tree as $branch) {
+      if (isset($branch[$needle])) return $branch[$needle];
+
+      $result = $this->sliceTree($branch, $needle);
+      if ($result) {
+        break;
+      }
+    }
+
+    return $result ?? false;
+  }
+
+  /**
+   * Check if the non-decoded query contains a specific string.
+   *
+   * @param string $term_name
+   *   What are we looking for.
+   * @param string $query_string
+   *   Where are we looking from.
+   *
+   * @return bool
+   *   The string exists.
+   */
+  private function queryContains(string $term_name, string $query_string): bool {
+    return str_contains($query_string, $term_name);
   }
 
 }
