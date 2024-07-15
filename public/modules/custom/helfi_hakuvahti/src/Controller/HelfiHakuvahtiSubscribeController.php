@@ -181,6 +181,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $labels = [];
     $terms = $this->termStorage->loadMultiple($term_ids);
     foreach ($terms as $term) {
+      assert($term instanceof TermInterface);
       $translated_term = $term->hasTranslation($language) ? $term->getTranslation($language) : $term;
       $labels[] = $translated_term->label();
     }
@@ -298,16 +299,16 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
   /**
    * Recursive function to get an array by key from a tree of arrays.
    *
-   * @param mixed $tree
+   * @param array $tree
    *   Array we are traversing.
    * @param string $needle
    *   The key we are looking for.
    *
-   * @return false|array
+   * @return array
    *   False or the array we are looking for.
    */
   private function sliceTree(array $tree, string $needle): array {
-    if (is_array($tree) && isset($tree[$needle])) {
+    if (isset($tree[$needle])) {
       return $tree[$needle];
     }
 
