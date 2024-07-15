@@ -65,3 +65,7 @@ msgstr "Bekräfta sökvakten"
 
 msgid "Are you sure you wish to delete the saved search?"
 msgstr "Är du säker på att du vill ta bort sökvakten?"
+
+msgctxt "Hakuvahti empty filters"
+msgid "No search filters"
+msgstr "Inga ansökningskriterier"

@@ -125,13 +125,13 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     // Job location:
     if ($area_filters = $this->extractQueryParameters($obj->query, 'area_filter')) {
       foreach ($area_filters as $area) {
-        $areaFiltersTranslated[] = $this->translateAreaString($area, $obj->lang);
+        $areaFiltersTranslated[] = $this->translateString($area, $obj->lang);
       }
     }
 
     $description = $this->buildDescription($query, $terms, $areaFiltersTranslated, $employmentTermLabels);
 
-    return $description ? $description : '*';
+    return $description ?: $this->translateString('No search filters', $obj->lang);
   }
 
   /**
@@ -275,15 +275,16 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    * @return string
    *   The translated string.
    */
-  private function translateAreaString(string $area, string $language): string {
+  private function translateString(string $string, string $language): string {
     $translatedString = match(true) {
-      $area == 'eastern' => $this->t('Eastern area', [], ['langcode' => $language, 'context' => 'Search filter option: Eastern area']),
-      $area == 'central' => $this->t('Central area', [], ['langcode' => $language, 'context' => 'Search filter option: Central area']),
-      $area == 'southern' => $this->t('Southern area', [], ['langcode' => $language, 'context' => 'Search filter option: Southern area']),
-      $area == 'southeastern' => $this->t('South-Eastern area', [], ['langcode' => $language, 'context' => 'Search filter option: South-Eastern area']),
-      $area == 'western' => $this->t('Western area', [], ['langcode' => $language, 'context' => 'Search filter option: Western area']),
-      $area == 'northern' => $this->t('Northern area', [], ['langcode' => $language, 'context' => 'Search filter option: Northern area']),
-      $area == 'northeast' => $this->t('North-Eastern area', [], ['langcode' => $language, 'context' => 'Search filter option: North-Eastern area']),
+      $string == 'eastern' => $this->t('Eastern area', [], ['langcode' => $language, 'context' => 'Search filter option: Eastern area']),
+      $string == 'central' => $this->t('Central area', [], ['langcode' => $language, 'context' => 'Search filter option: Central area']),
+      $string == 'southern' => $this->t('Southern area', [], ['langcode' => $language, 'context' => 'Search filter option: Southern area']),
+      $string == 'southeastern' => $this->t('South-Eastern area', [], ['langcode' => $language, 'context' => 'Search filter option: South-Eastern area']),
+      $string == 'western' => $this->t('Western area', [], ['langcode' => $language, 'context' => 'Search filter option: Western area']),
+      $string == 'northern' => $this->t('Northern area', [], ['langcode' => $language, 'context' => 'Search filter option: Northern area']),
+      $string == 'northeast' => $this->t('North-Eastern area', [], ['langcode' => $language, 'context' => 'Search filter option: North-Eastern area']),
+      $string == 'No search filters' => $this->t('No search filters', [], ['langcode' => $language, 'context' => 'Hakuvahti empty filters']),
       default => '',
     };
 

@@ -93,3 +93,7 @@ msgstr "Pohjoinen alue"
 msgctxt "Search filter option: North-Eastern area"
 msgid  "North-Eastern area"
 msgstr "Luoteinen alue"
+
+msgctxt "Hakuvahti empty filters"
+msgid "No search filters"
+msgstr "Ei hakuehtoja"
