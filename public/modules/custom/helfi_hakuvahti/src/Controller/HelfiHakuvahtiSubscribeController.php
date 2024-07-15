@@ -6,6 +6,7 @@ namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\taxonomy\TermInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
@@ -30,11 +31,11 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
   /**
    * Constructor for the HelfiHakuvahtiSubscribeController class.
    *
-   * @param Symfony\Component\HttpFoundation\RequestStack $requestStack
+   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
-   * @param GuzzleHttp\ClientInterface $client
+   * @param \GuzzleHttp\ClientInterface $client
    *   The httpclient.
-   * @param Psr\Log\LoggerInterface $logger
+   * @param \Psr\Log\LoggerInterface $logger
    *   The logger.
    */
   public function __construct(
@@ -158,6 +159,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $labels = [];
     $terms = $this->termStorage->loadByProperties(['field_external_id' => $external_ids]);
     foreach ($terms as $term) {
+      assert($term instanceof TermInterface);
       $translated_term = $term->hasTranslation($language) ? $term->getTranslation($language) : $term;
       $labels[] = $translated_term->label();
     }
