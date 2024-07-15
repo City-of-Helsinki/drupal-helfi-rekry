@@ -25,8 +25,12 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
   /**
    * Constructor for the HelfiHakuvahtiSubscribeController class.
    *
-   * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
+   * @param Symfony\Component\HttpFoundation\RequestStack $requestStack
    *   The request stack.
+   * @param GuzzleHttp\ClientInterface $client
+   *   The httpclient.
+   * @param Psr\Log\LoggerInterface $logger
+   *   The logger.
    */
   public function __construct(
     protected RequestStack $requestStack,
@@ -255,7 +259,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $description .= implode(', ', array_filter($allTerms));
 
     // Employment label should use / instead of comma.
-    $description .= $employmentTermLabels ? ', ': '';
+    $description .= $employmentTermLabels ? ', ' : '';
     $description .= implode(' / ', $employmentTermLabels);
 
     return $description;
@@ -276,15 +280,24 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   The translated string.
    */
   private function translateString(string $string, string $language): string {
-    $translatedString = match(true) {
-      $string == 'eastern' => $this->t('Eastern area', [], ['langcode' => $language, 'context' => 'Search filter option: Eastern area']),
-      $string == 'central' => $this->t('Central area', [], ['langcode' => $language, 'context' => 'Search filter option: Central area']),
-      $string == 'southern' => $this->t('Southern area', [], ['langcode' => $language, 'context' => 'Search filter option: Southern area']),
-      $string == 'southeastern' => $this->t('South-Eastern area', [], ['langcode' => $language, 'context' => 'Search filter option: South-Eastern area']),
-      $string == 'western' => $this->t('Western area', [], ['langcode' => $language, 'context' => 'Search filter option: Western area']),
-      $string == 'northern' => $this->t('Northern area', [], ['langcode' => $language, 'context' => 'Search filter option: Northern area']),
-      $string == 'northeast' => $this->t('North-Eastern area', [], ['langcode' => $language, 'context' => 'Search filter option: North-Eastern area']),
-      $string == 'No search filters' => $this->t('No search filters', [], ['langcode' => $language, 'context' => 'Hakuvahti empty filters']),
+    $context = [
+      'langcode' => $language,
+      'context' => ''
+    ];
+
+    $context = fn($context) => ['langcode' => $language, 'context' => "Search filter option: $context"];
+    $translatedString = match(TRUE) {
+      $string == 'eastern' => $this->t('Eastern area', [], $context('Eastern area')),
+      $string == 'central' => $this->t('Central area', [], $context('Central area')),
+      $string == 'southern' => $this->t('Southern area', [], $context('Southern area')),
+      $string == 'southeastern' => $this->t('South-Eastern area', [], $context('South-Eastern area')),
+      $string == 'western' => $this->t('Western area', [], $context('Western area')),
+      $string == 'northern' => $this->t('Northern area', [], $context('Northern area')),
+      $string == 'northeast' => $this->t('North-Eastern area', [], $context('North-Eastern area')),
+      $string == 'No search filters' => $this->t(
+        string: 'No search filters',
+        options: ['langcode' => $language, 'context' => 'Hakuvahti empty filters'],
+      ),
       default => '',
     };
 
@@ -303,12 +316,18 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   False or the array we are looking for.
    */
   private function sliceTree(array $tree, string $needle): array {
-    if (is_array($tree) && isset($tree[$needle])) return $tree[$needle];
+    if (is_array($tree) && isset($tree[$needle])) {
+      return $tree[$needle];
+    }
 
     $result = NULL;
-    foreach($tree as $branch) {
-      if (!is_array($branch)) return [];
-      if (isset($branch[$needle])) return $branch[$needle];
+    foreach ($tree as $branch) {
+      if (!is_array($branch)) {
+        return [];
+      }
+      if (isset($branch[$needle])) {
+        return $branch[$needle];
+      }
 
       $result = $this->sliceTree($branch, $needle);
       if ($result) {
