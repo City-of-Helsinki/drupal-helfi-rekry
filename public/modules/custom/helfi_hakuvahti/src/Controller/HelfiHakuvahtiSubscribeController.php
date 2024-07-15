@@ -20,6 +20,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
+  /**
+   * The term storage.
+   *
+   * @var \Drupal\Core\Entity\EntityStorageInterface
+   */
   private EntityStorageInterface $termStorage;
 
   /**
@@ -104,7 +109,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
     // Free text search.
     if (
-      $this->elasticQueryContains('combined_fields', $elasticQuery) &&
+      str_contains('combined_fields', $elasticQuery) &&
       $combinedFields = $this->sliceTree($queryAsArray['query']['bool']['must'], 'combined_fields')
     ) {
       $query = $combinedFields['query'];
@@ -112,7 +117,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
     $taskAreaField = 'task_area_external_id';
     if (
-      $this->elasticQueryContains($taskAreaField, $elasticQuery) &&
+      str_contains($taskAreaField, $elasticQuery) &&
       $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $taskAreaField)
     ) {
       $terms = $this->getLabelsByExternalId($taskAreaIds, $obj->lang);
@@ -120,7 +125,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
     $employmentTypeField = 'employment_type_id';
     if (
-      $this->elasticQueryContains($employmentTypeField, $elasticQuery) &&
+      str_contains($employmentTypeField, $elasticQuery) &&
       $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $employmentTypeField)
     ) {
       $employmentTermLabels = $this->getLabelsByTermIds($employmentIds, $obj->lang);
@@ -136,21 +141,6 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $description = $this->buildDescription($query, $terms, $areaFiltersTranslated, $employmentTermLabels);
 
     return $description ?: $this->translateString('No search filters', $obj->lang);
-  }
-
-  /**
-   * Check if the non-decoded query contains a specific string.
-   *
-   * @param string $term_name
-   *   What are we looking for.
-   * @param string $query_string
-   *   Where are we looking from.
-   *
-   * @return bool
-   *   The string exists.
-   */
-  private function elasticQueryContains(string $term_name, string $query_string): bool {
-    return str_contains($query_string, $term_name);
   }
 
   /**
@@ -295,8 +285,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $string == 'northern' => $this->t('Northern area', [], $context('Northern area')),
       $string == 'northeast' => $this->t('North-Eastern area', [], $context('North-Eastern area')),
       $string == 'No search filters' => $this->t(
-        string: 'No search filters',
-        options: ['langcode' => $language, 'context' => 'Hakuvahti empty filters'],
+        'No search filters', options: ['language' => $language, 'context' => 'Hakuvahti empty filters',]
       ),
       default => '',
     };
