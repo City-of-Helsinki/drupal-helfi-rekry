@@ -110,15 +110,15 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
     // Free text search.
     if (
-      str_contains('combined_fields', $elasticQuery) &&
+      str_contains($elasticQuery, 'combined_fields') &&
       $combinedFields = $this->sliceTree($queryAsArray['query']['bool']['must'], 'combined_fields')
     ) {
-      $query = $combinedFields['query'];
+      $query = $combinedFields['query'] ?? '';
     }
 
     $taskAreaField = 'task_area_external_id';
     if (
-      str_contains($taskAreaField, $elasticQuery) &&
+      str_contains($elasticQuery, $taskAreaField) &&
       $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $taskAreaField)
     ) {
       $terms = $this->getLabelsByExternalId($taskAreaIds, $obj->lang);
@@ -126,7 +126,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
     $employmentTypeField = 'employment_type_id';
     if (
-      str_contains($employmentTypeField, $elasticQuery) &&
+      str_contains($elasticQuery, $employmentTypeField) &&
       $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $employmentTypeField)
     ) {
       $employmentTermLabels = $this->getLabelsByTermIds($employmentIds, $obj->lang);
