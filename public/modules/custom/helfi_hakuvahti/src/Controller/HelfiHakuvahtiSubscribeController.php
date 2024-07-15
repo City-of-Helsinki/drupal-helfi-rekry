@@ -273,11 +273,6 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   The translated string.
    */
   private function translateString(string $string, string $language): string {
-    $context = [
-      'langcode' => $language,
-      'context' => '',
-    ];
-
     $context = fn($context) => ['langcode' => $language, 'context' => "Search filter option: $context"];
     $translatedString = match(TRUE) {
       $string == 'eastern' => $this->t('Eastern area', [], $context('Eastern area')),
