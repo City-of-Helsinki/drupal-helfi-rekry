@@ -78,6 +78,9 @@ _job search_. Read more about this feature on the [Hakuvahti section](#hakuvahti
 
 #### Job listing image (job_listing_image)
 
+_Job listing image_ is a media type that is used to save the imported images from Helbit. The original idea behind this
+separate media type has perhaps been a way to separate images used for normal content and job listings.
+
 ## Customizations
 
 ### <a name="helbit"></a>Helbit integration
