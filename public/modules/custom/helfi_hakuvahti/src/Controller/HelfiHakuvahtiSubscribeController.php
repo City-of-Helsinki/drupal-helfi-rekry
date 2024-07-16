@@ -248,11 +248,11 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $description = $query;
     $allTerms = array_merge($terms, $areaFiltersTranslated);
 
-    $description .= $allTerms ? ', ' : '';
+    $description .= $query ? ', ' : '';
     $description .= implode(', ', array_filter($allTerms));
 
     // Employment label should use / instead of comma.
-    $description .= $employmentTermLabels ? ', ' : '';
+    $description .= $allTerms ? ', ' : '';
     $description .= implode(' / ', $employmentTermLabels);
 
     return $description;
