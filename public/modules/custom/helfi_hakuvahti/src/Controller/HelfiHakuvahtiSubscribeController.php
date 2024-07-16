@@ -283,7 +283,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $string == 'northern' => $this->t('Northern area', [], $context('Northern area')),
       $string == 'northeast' => $this->t('North-Eastern area', [], $context('North-Eastern area')),
       $string == 'No search filters' => $this->t(
-        'No search filters', options: ['language' => $language, 'context' => 'Hakuvahti empty filters']
+        'No search filters', options: ['langcode' => $language, 'context' => 'Hakuvahti empty filters']
       ),
       default => '',
     };

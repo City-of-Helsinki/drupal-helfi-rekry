@@ -97,7 +97,3 @@ msgstr "Norra området"
 msgctxt "Search filter option: North-Eastern area"
 msgid  "North-Eastern area"
 msgstr "Nordöstra området"
-
-msgctxt "Hakuvahti empty filters"
-msgid "No search filters"
-msgstr "Ei hakuehtoja"
