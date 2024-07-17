@@ -76,6 +76,15 @@ _job search_. Read more about this feature on the [Hakuvahti section](#hakuvahti
 - Fallback view when JavaScript is not enabled can be found in the `/conf/cim` folder [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/conf/cmi/views.view.job_listing_search.yml).
 - The saved search feature _Hakuvahti_ uses a separate server and the code related to it can be found [here](https://github.com/City-of-Helsinki/helfi-hakuvahti).
 
+##### Common issues
+
+Sometimes on local the search dropdowns don't have any content. In this case usually running the indexing helps:
+
+1. Run `make shell` on the root of the project
+2. Inside the shell run `drush sapi-rt; drush sapi-c; drush sapi-i; drush cr` to clear the Elastic index and reindex it
+and clear Drupal caches after the indexing is done.
+3. Now retry the search dropdowns and they should have options.
+
 ### Custom media types
 
 #### Job listing image (job_listing_image)
@@ -111,13 +120,16 @@ feature to users.
 - The Drupal code for hakuvahti can be found from the `helfi_hakuvahti` custom module [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/tree/dev/public/modules/custom/helfi_hakuvahti).
 - The hakuvahti Node.js server is on a separate repository [here](https://github.com/City-of-Helsinki/helfi-hakuvahti).
 - The React part is under the Job search in `hdbt` theme _react_ folder. The functionality is written in [this file](https://github.com/City-of-Helsinki/drupal-hdbt/blob/main/src/js/react/apps/job-search/containers/SearchMonitorContainer.tsx).
+- The React form has configurable texts that can be found from the Rekry instance configuration in
+  `/admin/tools/rekry-content` url. You can translate these configurations for the three main languages using the
+  _Translate_ tab.
 
 #### How to enable Hakuvahti features on local
 
 To enable Hakuvahti features for local development or usage, you need to:
 
 1. Install [Hakuvahti Node.js server]((https://github.com/City-of-Helsinki/helfi-hakuvahti) locally.
-2. Start the server on your local. Instructions on the [Hakuvahti server README](https://github.com/City-of-Helsinki/helfi-hakuvahti?tab=readme-ov-file#installing-and-running-hakuvahti).
+2. Start the server on your local. Instructions are on the [Hakuvahti server README](https://github.com/City-of-Helsinki/helfi-hakuvahti?tab=readme-ov-file#installing-and-running-hakuvahti).
 3. Now clear the caches on your Rekry instance, and you should be able to see the Hakuvahti on the Job search on you
 local site.
 4. To test the functionality, you should use the Mailpit running on your local in the `https://mailpit.docker.so/` url
