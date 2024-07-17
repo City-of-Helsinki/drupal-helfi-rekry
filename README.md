@@ -92,6 +92,12 @@ and clear Drupal caches after the indexing is done.
 _Job listing image_ is a media type that is used to save the imported images from Helbit. The original idea behind this
 separate media type has perhaps been a way to separate images used for normal content and job listings.
 
+### Custom roles
+
+#### HR (hr)
+
+User role for viewing and editing only the job listings on the site.
+
 ### <a name="helbit"></a>Helbit integration
 
 _Helbit_ is the source from which job listings are migrated to this instance. The `helfi_rekry_content` module handles
