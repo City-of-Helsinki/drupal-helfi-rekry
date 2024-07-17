@@ -54,8 +54,10 @@ Some instance specific configuration can be found in Rekry-instance configuratio
 A _job listing_ is custom node type used to migrate job listings from Helbit, meaning all nodes are created
 automatically. While you can create a _job listing_ node manually through the user interface, this is not the standard
 workflow on the site. These listings appear in the `job_search` paragraph and a view called `of_interest`displayed in a
-block on _job listing_ nodes. The _job listings_ utilize multiple taxonomies to categorize the content. Read more about
-the [Helbit integration](#helbit) that creates these nodes and the [Job search](#job-search) feature that displays them below.
+block on _job listing_ nodes. The _job listings_ utilize multiple taxonomies to categorize the content. Some job listings
+include media such as images and videos and there is much processing going into these on the `helfi_rekry_content`
+module. Read more about the [Helbit integration](#helbit) that creates these nodes and the [Job search](#job-search)
+feature that displays them below.
 
 ### Custom paragraphs
 
@@ -74,26 +76,58 @@ _job search_. Read more about this feature on the [Hakuvahti section](#hakuvahti
 - Fallback view when JavaScript is not enabled can be found in the `/conf/cim` folder [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/conf/cmi/views.view.job_listing_search.yml).
 - The saved search feature _Hakuvahti_ uses a separate server and the code related to it can be found [here](https://github.com/City-of-Helsinki/helfi-hakuvahti).
 
-### Custom media type
+### Custom media types
 
 #### Job listing image (job_listing_image)
 
 _Job listing image_ is a media type that is used to save the imported images from Helbit. The original idea behind this
 separate media type has perhaps been a way to separate images used for normal content and job listings.
 
-## Customizations
-
 ### <a name="helbit"></a>Helbit integration
+
+_Helbit_ is the source from which job listings are migrated to this instance. The `helfi_rekry_content` module handles
+the migration and data processing. It retrieves job listing information from the API and saves it as job listing nodes
+in the database. Media such as images and videos are processed and stored as media entities, with unsupported video
+types being skipped. Categorization is achieved using taxonomy terms created from the API data, which are then linked
+to the job listing nodes. The migrations run periodically as a cron jobs. Both published and unpublished job listings
+from the API are migrated, with future publish dates scheduled accordingly. A separate cron job ensures scheduled job
+listings are published for indexing.
+
+- The `helfi_rekry_content` module code can be found from [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/tree/dev/public/modules/custom/helfi_rekry_content).
+- The migration interval for the new job listings can be checked from the cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/migrate-job-listings.sh).
+- The migration interval for changed job listings poll is written on this cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/migrate-changed-job-listings.sh).
+- The scheduled publishing interval can be checked from this cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/content-scheduler.sh).
 
 ### <a name="hakuvahti"></a>Hakuvahti
 
-#### Enable Hakuvahti features
+_Hakuvahti_ is feature of the [Job search](#job-search) that allows users to save their job search criteria. Users will
+receive automatic email notifications whenever new job listings that match their criteria are posted on the site.
 
-To enable [Hakuvahti features](https://github.com/City-of-Helsinki/helfi-hakuvahti) for local development or usage, you need to first install Hakuvahti and then enable
-Hakuvahti network in compose.yaml.
+Hakuvahti consists of three main components: a Node.js server, `helfi_hakuvahti` custom module and a React part
+integrated with the Job search. The Node.js server handles most of the heavy lifting, including sending emails. The
+Drupal custom module manages communication between the Node.js server and the React form, which displays the
+feature to users.
 
-These lines are commented out with comment `# Uncomment to enable Hakuvahti:`
+- The Drupal code for hakuvahti can be found from the `helfi_hakuvahti` custom module [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/tree/dev/public/modules/custom/helfi_hakuvahti).
+- The hakuvahti Node.js server is on a separate repository [here](https://github.com/City-of-Helsinki/helfi-hakuvahti).
+- The React part is under the Job search in `hdbt` theme _react_ folder. The functionality is written in [this file](https://github.com/City-of-Helsinki/drupal-hdbt/blob/main/src/js/react/apps/job-search/containers/SearchMonitorContainer.tsx).
 
-Specifically what is commented out: `HAKUVAHTI_URL` environment variable, `helfi-hakuvahti_helfi-hakuvahti-network` for
-`app` and `elastic` containers. Finally it needs to be listed under `networks`. This enables Hakuvahti server to access
-ElasticSearch.
+#### How to enable Hakuvahti features on local
+
+To enable Hakuvahti features for local development or usage, you need to:
+
+1. Install [Hakuvahti Node.js server]((https://github.com/City-of-Helsinki/helfi-hakuvahti) locally.
+2. Start the server on your local. Instructions on the [Hakuvahti server README](https://github.com/City-of-Helsinki/helfi-hakuvahti?tab=readme-ov-file#installing-and-running-hakuvahti).
+3. Now clear the caches on your Rekry instance, and you should be able to see the Hakuvahti on the Job search on you
+local site.
+4. To test the functionality, you should use the Mailpit running on your local in the `https://mailpit.docker.so/` url
+to view the emails being sent by the feature.
+
+## Customizations
+
+### Not part of global navigation
+
+Unlike other instances the link to the instance is in the header top navigation and the main menu of the instance is not
+part of the global navigation. There is however a link to this instance located under another instance's menu tree on
+the global navigation too. The logic that dictates if the menu is added to the global navigation or not can be found
+[here](https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/blob/main/src/Plugin/rest/resource/GlobalMobileMenu.php).
