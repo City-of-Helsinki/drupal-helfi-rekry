@@ -56,12 +56,12 @@ automatically. While you can create a _job listing_ node manually through the us
 workflow on the site. These listings appear in the `job_search` paragraph and a view called `of_interest`displayed in a
 block on _job listing_ nodes. The _job listings_ utilize multiple taxonomies to categorize the content. Some job listings
 include media such as images and videos and there is much processing going into these on the `helfi_rekry_content`
-module. Read more about the [Helbit integration](#helbit) that creates these nodes and the [Job search](#job-search)
+module. Read more about the [Helbit integration](#helbit-integration) that creates these nodes and the [Job search](#job-search-job_search)
 feature that displays them below.
 
 ### Custom paragraphs
 
-#### <a name="job-search"></a>Job search (job_search)
+#### Job search (job_search)
 
 _Job search_ is a paragraph with two modes. The first mode provides a few filters and a submit button that redirects to
 the node specified in the _Search result page_ field, using the applied filters as parameters. If the
@@ -98,7 +98,7 @@ separate media type has perhaps been a way to separate images used for normal co
 
 User role for viewing and editing only the job listings on the site.
 
-### <a name="helbit"></a>Helbit integration
+### Helbit integration
 
 _Helbit_ is the source from which job listings are migrated to this instance. The `helfi_rekry_content` module handles
 the migration and data processing. It retrieves job listing information from the API and saves it as job listing nodes
@@ -113,9 +113,9 @@ listings are published for indexing.
 - The migration interval for changed job listings poll is written on this cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/migrate-changed-job-listings.sh).
 - The scheduled publishing interval can be checked from this cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/content-scheduler.sh).
 
-### <a name="hakuvahti"></a>Hakuvahti
+### Hakuvahti
 
-_Hakuvahti_ is feature of the [Job search](#job-search) that allows users to save their job search criteria. Users will
+_Hakuvahti_ is feature of the [Job search](#job-search-job_search) that allows users to save their job search criteria. Users will
 receive automatic email notifications whenever new job listings that match their criteria are posted on the site.
 
 Hakuvahti consists of three main components: a Node.js server, `helfi_hakuvahti` custom module and a React part
