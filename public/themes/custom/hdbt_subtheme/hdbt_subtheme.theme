@@ -170,6 +170,7 @@ function hdbt_subtheme_preprocess_page(&$variables): void {
     // (job_listing) content type.
     if ($entity->getType() === 'job_listing') {
       $variables['has_sidebar_second'] = TRUE;
+      $variables["#attached"]["library"][] = 'hdbt_subtheme/datetime_comparison';
     }
   }
 }

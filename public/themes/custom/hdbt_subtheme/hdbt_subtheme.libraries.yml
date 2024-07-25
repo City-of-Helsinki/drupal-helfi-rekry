@@ -11,3 +11,11 @@ siteimprove-analytics:
   dependencies:
   - core/drupal
   - eu_cookie_compliance/eu_cookie_compliance
+
+# Turn datetime into text, f.ex "today"
+datetime_comparison:
+  version: 1.0
+  js:
+    src/js/helfi_datetime_comparison.js: {attributes: { defer: true }}
+  dependencies:
+    - core/drupal
