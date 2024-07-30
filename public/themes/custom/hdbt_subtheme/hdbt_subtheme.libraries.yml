@@ -16,6 +16,6 @@ siteimprove-analytics:
 datetime_comparison:
   version: 1.0
   js:
-    src/js/helfi_datetime_comparison.js: {attributes: { defer: true }}
+    dist/js/helfi_datetime_comparison.min.js: {attributes: { defer: true }}
   dependencies:
     - core/drupal
