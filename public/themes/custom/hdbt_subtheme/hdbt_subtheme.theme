@@ -76,7 +76,7 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
     $organization_field = $variables['elements']['field_organization_override']['#items'];
   }
   else {
-    $organization_field = $variables["elements"]["field_organization"]["#items"];
+    $organization_field = $variables['elements']['field_organization']['#items'];
   }
 
   // Get organization.
@@ -86,8 +86,8 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
   }
 
   // Set organization default image variable.
-  if (!empty($organization) && !empty($organization->get("field_default_image")->first())) {
-    $variables['content']['organization_default_image'] = $organization->get("field_default_image")->first()->view([
+  if (!empty($organization) && !empty($organization->get('field_default_image')->first())) {
+    $variables['content']['organization_default_image'] = $organization->get('field_default_image')->first()->view([
       'type' => 'image',
       'label' => 'hidden',
       'settings' => [
@@ -170,6 +170,7 @@ function hdbt_subtheme_preprocess_page(&$variables): void {
     // (job_listing) content type.
     if ($entity->getType() === 'job_listing') {
       $variables['has_sidebar_second'] = TRUE;
+      $variables['#attached']['library'][] = 'hdbt_subtheme/datetime_comparison';
     }
   }
 }
@@ -182,13 +183,6 @@ function hdbt_subtheme_preprocess_node(&$variables): void {
 
   if ($node->getType() !== 'job_listing') {
     return;
-  }
-  // Check if job listing publication starts today.
-  $variables['publication_starts_today'] = FALSE;
-  $publication_starts_value = $node->get('field_publication_starts')->value;
-
-  if ($publication_starts_value && date('Y-m-d', strtotime($publication_starts_value)) == date('Y-m-d')) {
-    $variables['publication_starts_today'] = TRUE;
   }
 
   if ($task_area_term = $node->get('field_task_area')?->first()?->get('entity')?->getValue()) {

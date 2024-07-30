@@ -65,3 +65,35 @@ msgstr "Bekräfta sökvakten"
 
 msgid "Are you sure you wish to delete the saved search?"
 msgstr "Är du säker på att du vill ta bort sökvakten?"
+
+msgctxt "Hakuvahti empty filters"
+msgid "No search filters"
+msgstr "Inga ansökningskriterier"
+
+msgctxt "Search filter option: Central area"
+msgid "Central area"
+msgstr "Mellersta området"
+
+msgctxt "Search filter option: Eastern area"
+msgid  "Eastern area"
+msgstr "Östra området"
+
+msgctxt "Search filter option: Southern area"
+msgid  "Southern area"
+msgstr "Södra området"
+
+msgctxt "Search filter option: South-Eastern area"
+msgid  "South-Eastern area"
+msgstr "Sydöstra området"
+
+msgctxt "Search filter option: Western area area"
+msgid  "Western area"
+msgstr "Västra området"
+
+msgctxt "Search filter option: Northern area"
+msgid  "Northern area"
+msgstr "Norra området"
+
+msgctxt "Search filter option: North-Eastern area"
+msgid  "North-Eastern area"
+msgstr "Nordöstra området"

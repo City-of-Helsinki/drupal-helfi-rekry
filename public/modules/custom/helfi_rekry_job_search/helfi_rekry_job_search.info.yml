@@ -1,4 +1,0 @@
-name: 'HELfi Rekry job search'
-type: module
-core_version_requirement: ^9 || ^10
-package: HELfi
