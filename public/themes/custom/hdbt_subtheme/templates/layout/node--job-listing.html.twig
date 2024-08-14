@@ -62,8 +62,6 @@
  *   current user is a logged-in member.
  * - is_admin: Flag for admin user status. Will be true when the current user
  *   is an administrator.
- * - publication_starts_today: Helper variable for displaying 'today' instead
- *   of the actual timestamp if the job listing is published today.
  * - task_area_name: Task area name for Rekry search link.
  * - task_area_rekry_search_url: Rekry search url with task area url query param.
  *
@@ -140,11 +138,8 @@
           </div>
         {% endif %}
 
-        {% if publication_starts_today == true %}
-          {% set publication_starts = 'today'|t %}
-        {% else %}
-          {% set publication_starts = content.field_publication_starts %}
-        {% endif %}
+        {# The publication time is altered in custom javascript. #}
+        {% set publication_starts = content.field_publication_starts %}
 
         {% set metadata = [
           { label: 'Application period ends'|t, icon: 'clock', content: content.field_publication_ends },
