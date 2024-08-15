@@ -12,6 +12,7 @@ dependencies:
     - node
     - scheduler
     - system
+    - tfa
     - view_unpublished
 id: hr
 label: HR
@@ -24,8 +25,10 @@ permissions:
   - 'cancel account'
   - 'change own username'
   - 'delete own files'
+  - 'disable own tfa'
   - 'edit any job_listing content'
   - 'schedule publishing of nodes'
+  - 'setup own tfa'
   - 'use text format full_html'
   - 'use text format minimal'
   - 'view any unpublished job_listing content'
