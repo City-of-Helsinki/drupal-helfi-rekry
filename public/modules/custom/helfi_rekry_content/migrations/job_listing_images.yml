@@ -35,7 +35,7 @@ source:
       label: Title
       selector: jobAdvertisement/title
   constants:
-    DRUPAL_FILE_DIRECTORY: 'public://job_listing_images/'
+    DRUPAL_FILE_DIRECTORY: 'azure://job_listing_images/'
     HELBIT_BASE_URL: 'https://helbit.fi'
 process:
   destination_filename:
@@ -70,7 +70,7 @@ process:
       source:
         - '@source_uri'
         - '@destination_path'
-      file_exists: rename
+      file_exists: use_existing
       move: false
   langcode: langcode
 destination:
