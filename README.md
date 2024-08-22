@@ -113,6 +113,15 @@ listings are published for indexing.
 - The migration interval for changed job listings poll is written on this cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/migrate-changed-job-listings.sh).
 - The scheduled publishing interval can be checked from this cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/content-scheduler.sh).
 
+### Testing on local
+
+The `job_listing_images` migration requires Azure Blob storage to be configured. See [Azure FS module](https://github.com/City-of-Helsinki/drupal-module-helfi-azure-fs?tab=readme-ov-file#testing-on-local) for more information.
+
+Modify/create `public/sites/default/local.settings.php` file with:
+```php
+$config['helfi_rekry_content.settings']['helbit_client_id'] = '[ copy value from HELBIT_CLIENT_ID environment variable ]';
+```
+
 ### Hakuvahti
 
 _Hakuvahti_ is feature of the [Job search](#job-search-job_search) that allows users to save their job search criteria. Users will
