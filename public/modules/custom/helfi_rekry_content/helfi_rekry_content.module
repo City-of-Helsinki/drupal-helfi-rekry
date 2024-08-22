@@ -106,12 +106,13 @@ function helfi_rekry_content_scheduler_allow_publishing(NodeInterface $node): bo
  * @return string|null
  *   Filename or null
  */
-function _helfi_rekry_content_filename(string|NULL $sourceUri = NULL): ?string {
+function _helfi_rekry_content_filename(?string $sourceUri = NULL): ?string {
   if (!$sourceUri) {
     return NULL;
   }
-
-  return strtok(basename($sourceUri), '?');
+  $filename = urldecode(strtok(basename($sourceUri), '?'));
+  $filename = str_replace(['ä', 'ö', 'å'], ['a', 'o', 'aa'], strtolower($filename));
+  return preg_replace('/[ +]/', '_', $filename);
 }
 
 /**
