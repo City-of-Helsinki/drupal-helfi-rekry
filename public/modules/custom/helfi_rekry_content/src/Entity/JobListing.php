@@ -7,7 +7,7 @@ namespace Drupal\helfi_rekry_content\Entity;
 use Drupal\node\Entity\Node;
 
 /**
- * Bundle class for hel_map paragraph.
+ * Bundle class for JobListing paragraph.
  */
 class JobListing extends Node {
 
