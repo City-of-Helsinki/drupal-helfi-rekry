@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+  logger.channel.helfi_google_api:
+    parent: logger.channel_base
+    arguments: ['helfi_google_api']
+
+  Drupal\helfi_google_api\HelfiGoogleApi: ~
+
+  Drupal\helfi_google_api\JobIndexingService: ~
+

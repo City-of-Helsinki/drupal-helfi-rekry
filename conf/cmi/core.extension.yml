@@ -46,6 +46,7 @@ module:
   helfi_ckeditor: 0
   helfi_etusivu_entities: 0
   helfi_eu_cookie_compliance: 0
+  helfi_google_api: 0
   helfi_hakuvahti: 0
   helfi_image_styles: 0
   helfi_media: 0
