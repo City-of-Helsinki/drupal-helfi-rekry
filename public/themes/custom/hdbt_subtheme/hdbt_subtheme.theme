@@ -86,8 +86,8 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
   }
 
   // Set organization default image variable.
-  if (!empty($organization) && !empty($organization->get("field_default_image")->first())) {
-    $variables['content']['organization_default_image'] = $organization->get("field_default_image")->first()->view([
+  if (!empty($organization) && !empty($organization->get('field_default_image')->first())) {
+    $variables['content']['organization_default_image'] = $organization->get('field_default_image')->first()->view([
       'type' => 'responsive_image',
       'label' => 'hidden',
       'settings' => [
