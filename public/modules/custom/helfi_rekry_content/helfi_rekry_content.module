@@ -106,12 +106,16 @@ function helfi_rekry_content_scheduler_allow_publishing(NodeInterface $node): bo
  * @return string|null
  *   Filename or null
  */
-function _helfi_rekry_content_filename(string|NULL $sourceUri = NULL): ?string {
+function _helfi_rekry_content_filename(?string $sourceUri = NULL): ?string {
   if (!$sourceUri) {
     return NULL;
   }
-
-  return strtok(basename($sourceUri), '?');
+  // Parse the filename from given URL. The url is something like:
+  // https://helbit.fi/portal-api/recruitment/images/L%C3%A4%C3%A4k%C3%A4ri_sairaanhoitaja_k%C3%A4yt%C3%A4v%C3%A4ll%C3%A4.png?target=1&id=26398.
+  $filename = urldecode(strtok(basename($sourceUri), '?'));
+  // Transliterate and normalize the filename.
+  $filename = str_replace(['ä', 'ö', 'å'], ['a', 'o', 'aa'], strtolower($filename));
+  return preg_replace('/[ +]/', '_', $filename);
 }
 
 /**
