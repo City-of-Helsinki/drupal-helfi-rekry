@@ -38,7 +38,6 @@ module:
   flysystem: 0
   focal_point: 0
   gin_toolbar: 0
-  google_index_api: 0
   hdbt_admin_tools: 0
   health_check: 0
   helfi_api_base: 0
