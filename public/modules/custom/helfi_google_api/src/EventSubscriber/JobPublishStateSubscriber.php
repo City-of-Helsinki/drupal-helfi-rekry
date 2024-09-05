@@ -1,0 +1,43 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\helfi_google_api\EventSubscriber;
+
+use Drupal\elasticsearch_connector\Event\PrepareIndexEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+/**
+ * {@inheritdoc}
+ */
+class JobPublishSubscriber implements EventSubscriberInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getSubscribedEvents() {
+    return [
+      PrepareIndexEvent::PREPARE_INDEX => 'prepareIndices',
+    ];
+  }
+
+  /**
+   * Method to prepare index.
+   *
+   * @param \Drupal\elasticsearch_connector\Event\PrepareIndexEvent $event
+   *   The PrepareIndex event.
+   */
+  public function prepareIndices(PrepareIndexEvent $event) {
+    $indexName = $event->getIndexName();
+    $finnishIndices = [
+      'job_listings',
+    ];
+    if (in_array($indexName, $finnishIndices)) {
+      /** @var array $indexConfig */
+      $indexConfig = $event->getIndexConfig();
+      $indexConfig['body']['settings']['analysis']['analyzer']['default']['type'] = 'finnish';
+      $event->setIndexConfig($indexConfig);
+    }
+  }
+
+}

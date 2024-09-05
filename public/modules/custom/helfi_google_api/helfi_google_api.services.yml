@@ -9,5 +9,10 @@ services:
 
   Drupal\helfi_google_api\HelfiGoogleApi: ~
 
-  Drupal\helfi_google_api\JobIndexingService: ~
+  Drupal\helfi_google_api\JobIndexingService:
+    class: Drupal\helfi_google_api\JobIndexingService
+    autowire: true
+    arguments:
+      $logger: '@logger.channel.helfi_google_api'
 
+  Drupal\helfi_google_api\EventSubscriber\JobPublishStateSubscriber: ~
