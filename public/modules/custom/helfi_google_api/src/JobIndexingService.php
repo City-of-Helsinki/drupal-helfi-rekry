@@ -4,34 +4,194 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_google_api;
 
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\path_alias\AliasManagerInterface;
 use Drupal\redirect\Entity\Redirect;
 use GuzzleHttp\Exception\GuzzleException;
+use Psr\Log\LoggerInterface;
 
+/**
+ * Send indexing requests to Google indexing api.
+ */
 class JobIndexingService {
+  use AutowireTrait;
 
   public function __construct(
-    private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly HelfiGoogleApi $helfiGoogleApi,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly AliasManagerInterface $aliasManager,
+    private readonly UrlGeneratorInterface $urlGenerator,
+    private readonly LoggerInterface $logger,
   ) {
   }
 
   /**
-   * Send single item to google for indexing.
+   * Send urls to google for indexing.
    *
-   * @param string $url
-   *   Url to index.
+   * @param array $urls
+   *   Array of urls to index.
    *
-   * @return void
+   * @return array
+   *   Array of containing total count indexed and errors.
    */
-  public function indexItem(string $url) {
-    $this->helfiGoogleApi->indexBatch([$url], TRUE);
+  public function indexItems(array $urls): array {
+    return $this->helfiGoogleApi->indexBatch($urls, TRUE);
   }
 
-  public function deindexItem(string $url) {
-    $this->helfiGoogleApi->indexBatch([$url], FALSE);
+  /**
+   * Send indexing request to google.
+   *
+   * @param Drupal\helfi_rekry_content\Entity\JobListing $entity
+   *   Entity which indexing should be requested.
+   *
+   * @return array
+   *   Array of containing total count indexed and errors.
+   */
+  public function indexEntity(JobListing $entity): array {
+    $langcode = $entity->language()->getId();
+    $results = [];
+
+    // If the actual url is deindexed, it can't be reindexed again.
+    // If entity has a temporary redirect, it most likely has already been indexed already.
+    $hasRedirect = $this->temporaryRedirectExists($entity, $langcode);
+    if ($hasRedirect) {
+      throw new \Exception('Already indexed.');
+    }
+
+    // Create temporary redirect for the entity.
+    $indexing_url = $this->createTemporaryRedirectUrl($entity, $langcode);
+
+    $result = $this->indexItems([$indexing_url]);
+
+    if ($result['errors']) {
+      // Some of the urls failed
+      // log
+    }
+
+    return $result;
+  }
+
+
+  /**
+   * Send urls to Google for deindexing.
+   *
+   * @param array $urls
+   *   Urls to remove from index.
+   *
+   * @return array
+   *
+   */
+  public function deindexItems(array $urls): array  {
+    return $this->helfiGoogleApi->indexBatch($urls, FALSE);
+  }
+
+  /**
+   * Handle entity indexing request
+   *
+   * @param JobListing $entity
+   * @return array
+   * @throws \Exception
+   */
+  public function deindexEntity(JobListing $entity): array {
+    $language = $entity->language();
+    $redirect = $this->getExistingTemporaryRedirect($entity, $language->getId());
+    if (!$redirect) {
+      // Log, the item seems not to be indexed.
+      // Return.
+      throw new \Exception();
+    }
+
+    $base_url = $this->urlGenerator->generateFromRoute(
+      '<front>',
+      [],
+      ['absolute' => TRUE,'language' => $language]
+    );
+
+    $url_to_deindex = $base_url . $redirect->getSourceUrl();
+
+    return $this->deindexItems([$url_to_deindex]);
+  }
+
+  private function temporaryRedirectExists(JobListing $entity, string $langcode): bool {
+    $job_alias = $this->getEntityAlias($entity, $langcode);
+    // Check if entity has already been indexed.
+
+    $query = $this->entityTypeManager->getStorage('redirect')
+      ->getQuery();
+
+    $redirectIds = $query->condition('redirect_redirect__uri', "internal:/node/{$entity->id()}")
+      ->condition('status_code', 301)
+      ->condition('language', $langcode)
+      ->accessCheck(FALSE)
+      ->execute();
+    $redirects = Redirect::loadMultiple($redirectIds);
+
+    foreach ($redirects as $redirect) {
+      $source = $redirect->getSourceUrl();
+
+      if (str_contains($source, "$job_alias-")) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Create a redirect for the indexing request.
+   *
+   * @param JobListing $entity
+   *   The entity to index.
+   * @param string $langcode
+   *
+   *
+   * @return string
+   *   Absolute url that can be send for indexing.
+   */
+  private function createTemporaryRedirectUrl(JobListing $entity, string $langcode): string {
+    $alias = $this->getEntityAlias($entity, $langcode);
+    $now = strtotime('now');
+    $temp_alias = "$alias-$now";
+    $indexing_url = "{$entity->toUrl()->setAbsolute()->toString()}-$now";
+
+    Redirect::create([
+      'redirect_source' => ltrim($temp_alias, '/'),
+      'redirect_redirect' => "internal:/node/{$entity->id()}",
+      'language' => $langcode,
+      'status_code' => 301,
+    ])->save();
+
+    return $indexing_url;
+  }
+
+  private function getExistingTemporaryRedirect(JobListing $entity, string $langcode): Redirect|null {
+    $job_alias = $this->getEntityAlias($entity, $langcode);
+
+    $query = $this->entityTypeManager->getStorage('redirect')
+      ->getQuery();
+
+    $redirectIds = $query->condition('redirect_redirect__uri', "internal:/node/{$entity->id()}")
+      ->condition('status_code', 301)
+      ->condition('language', $langcode)
+      ->accessCheck(FALSE)
+      ->execute();
+    $redirects = Redirect::loadMultiple($redirectIds);
+
+    foreach ($redirects as $redirect) {
+      $source = $redirect->getSourceUrl();
+
+      if (str_contains($source, "$job_alias-")) {
+        return $redirect;
+      }
+    }
+    return NULL;
+  }
+
+  private function getEntityAlias(JobListing $entity, string $langcode): string {
+    return $this->aliasManager->getAliasByPath("/node/{$entity->id()}", $langcode);
   }
 
   public function checkItemIndexStatus(string $url): string {
@@ -113,7 +273,6 @@ class JobIndexingService {
 
   }
 
-  // TODO get urls function should not create redirects
   private function prepareUrls(array $jobs, array $langcodes = ['fi', 'en', 'sv']): array {
     $result = [];
 
