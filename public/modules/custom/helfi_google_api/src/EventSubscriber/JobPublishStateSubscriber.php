@@ -4,40 +4,106 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_google_api\EventSubscriber;
 
-use Drupal\elasticsearch_connector\Event\PrepareIndexEvent;
+use Drupal\helfi_google_api\JobIndexingService;
+use Drupal\helfi_rekry_content\Entity\JobListing;
+use Drupal\redirect\Entity\Redirect;
+use Drupal\scheduler\SchedulerEvent;
+use Drupal\scheduler\SchedulerEvents;
+use Drush\Commands\DrushCommands;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * {@inheritdoc}
  */
-class JobPublishSubscriber implements EventSubscriberInterface {
+class JobPublishStateSubscriber implements EventSubscriberInterface {
+
+  public function __construct(
+    private readonly JobIndexingService $jobIndexingService,
+  ) {
+  }
+
 
   /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
     return [
-      PrepareIndexEvent::PREPARE_INDEX => 'prepareIndices',
+      SchedulerEvents::PUBLISH => 'sendIndexingRequest',
+      SchedulerEvents::PUBLISH_IMMEDIATELY => 'sendIndexRequest',
+      SchedulerEvents::UNPUBLISH => 'sendDeindexingRequest',
     ];
   }
 
-  /**
-   * Method to prepare index.
-   *
-   * @param \Drupal\elasticsearch_connector\Event\PrepareIndexEvent $event
-   *   The PrepareIndex event.
-   */
-  public function prepareIndices(PrepareIndexEvent $event) {
-    $indexName = $event->getIndexName();
-    $finnishIndices = [
-      'job_listings',
-    ];
-    if (in_array($indexName, $finnishIndices)) {
-      /** @var array $indexConfig */
-      $indexConfig = $event->getIndexConfig();
-      $indexConfig['body']['settings']['analysis']['analyzer']['default']['type'] = 'finnish';
-      $event->setIndexConfig($indexConfig);
+  public function sendIndexingRequest(SchedulerEvent $event) {
+    $entity = $event->getNode();
+    if (!$entity instanceof JobListing) {
+      return;
     }
+
+    $langcodes = ['fi', 'en', 'sv'];
+    $results = [];
+
+    foreach($langcodes as $langcode) {
+      try {
+        $hasRedirect = $this->jobIndexingService->temporaryRedirectExists($entity, $langcode);
+        if ($hasRedirect) {
+          // log, continue.
+          continue;
+        }
+      }
+      catch (\Exception $e) {
+        // Log.
+        continue;
+      }
+
+      try {
+        $indexing_url = $this->jobIndexingService->createTemporaryRedirectUrl($entity, $langcode);
+      }
+      catch (\Exception $e) {
+        // cannot create url, log
+        continue;
+      }
+
+      $results[] = $indexing_url;
+    }
+
+    $result = $this->jobIndexingService->indexItems($results);
+
+    if ($result['errors']) {
+      // Some of the urls failed
+      // log
+    }
+
+  }
+
+  /**
+   * Send deindexing request to google.
+   *
+   * @param SchedulerEvent $event
+   * @return void
+   */
+  public function sendDeindexingRequest(SchedulerEvent $event) {
+    $entity = $event->getNode();
+    $langcode = $entity->language()->getId();
+    if (!$entity instanceof JobListing) {
+      return;
+    }
+
+    $redirect = $this->jobIndexingService->getExistingTemporaryRedirect($entity, $langcode);
+    if (!$redirect) {
+      // Log, the item seems not to be indexed.
+      return;
+    }
+
+    $base_url = \Drupal::urlGenerator()->generateFromRoute(
+      '<front>',
+      [],
+      ['absolute' => TRUE,'language' => $entity->language()]
+    );
+
+    $url_to_deindex = $base_url . $redirect->getSourceUrl();
+
+    $this->jobIndexingService->deindexItems([$url_to_deindex]);
   }
 
 }
