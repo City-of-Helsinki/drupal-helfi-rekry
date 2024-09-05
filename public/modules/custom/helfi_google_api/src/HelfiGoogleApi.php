@@ -93,7 +93,6 @@ class HelfiGoogleApi {
     $responses = $batch->execute();
 
     $errors = [];
-
     foreach ($responses as $key => $response) {
       if ($response instanceof Exception) {
         $errors[] = "$key: {$response->getMessage()}";

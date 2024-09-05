@@ -11,11 +11,9 @@ use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\node\Entity\Node;
 use Drupal\path_alias\AliasManagerInterface;
-use Drupal\redirect\Entity\Redirect;
 use Drush\Attributes\Command;
 use Drush\Commands\AutowireTrait;
 use Drush\Commands\DrushCommands;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * A Drush command file.
@@ -45,7 +43,7 @@ final class HelfiApiCommands extends DrushCommands {
    * @return int
    *   The exit code.
    */
-  #[Command(name: 'helfi:single-index-google')]
+  #[Command(name: 'helfi:google-single-entity-index')]
   public function indexSingleItem(
     int $entity_id,
     string $langcode = 'fi',
