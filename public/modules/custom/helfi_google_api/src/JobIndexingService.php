@@ -82,7 +82,7 @@ class JobIndexingService {
    *   Urls to remove from index.
    *
    * @return array
-   *
+   *   Array: 'count': int, 'errors': array.
    */
   public function deindexItems(array $urls): array  {
     return $this->helfiGoogleApi->indexBatch($urls, FALSE);
@@ -92,8 +92,10 @@ class JobIndexingService {
    * Handle entity indexing request
    *
    * @param JobListing $entity
+   *   Entity to request deindexing for.
+   *
    * @return array
-   * @throws \Exception
+   *   Array: 'count': int, 'errors': array
    */
   public function deindexEntity(JobListing $entity): array {
     $language = $entity->language();
@@ -115,9 +117,88 @@ class JobIndexingService {
     return $this->deindexItems([$url_to_deindex]);
   }
 
+  /**
+   * Check url indexing status.
+   *
+   * @param string $url
+   *   An url to check.
+   *
+   * @return string
+   *   Status as a string.
+   */
+  public function checkItemIndexStatus(string $url): string {
+    try {
+      return $this->helfiGoogleApi->checkIndexingStatus($url);
+    }
+    catch (GuzzleException $e) {
+      throw new \Exception($e->getMessage(), $e->getCode());
+    }
+  }
+
+  /**
+   * If entity seems to be indexed, send a status query.
+   *
+   * @param JobListing $entity
+   * @return array
+   */
+  public function checkEntityIndexStatus(JobListing $entity): string {
+    $language = $entity->language();
+
+    $baseUrl = $this->generateFromRoute('<front>', [], ['absolute' => TRUE, 'language' => $language]);
+    $job_alias = $this->aliasManager->getAliasByPath("/node/{$entity->id()}", $language->getId());
+
+    $query = $this->entityTypeManager->getStorage('redirect')->getQuery();
+    $redirectIds = $query->condition('redirect_redirect__uri', "internal:/node/{$entity->id()}")
+      ->condition('status_code', 301)
+      ->condition('language', $language->getId())
+      ->accessCheck(FALSE)
+      ->execute();
+
+    // Get the indexed redirect.
+    $redirects = Redirect::loadMultiple($redirectIds);
+    foreach ($redirects as $redirect) {
+      $source = $redirect->getSourceUrl();
+
+      if (str_contains($source, "$job_alias-")) {
+        $correct_redirect = $redirect;
+        break;
+      }
+    }
+
+    if (!$correct_redirect) {
+      // HAS NOT BEEN SENT AFAIK
+    }
+
+    $url_to_check = $baseUrl . $correct_redirect->getSourceUrl();
+    try {
+      $response = $this->helfiGoogleApi->checkIndexingStatus($url_to_check);
+    }
+    catch (\Exception $e) {
+      // REQUEST FAILED
+
+    }
+
+    return $response;
+
+  }
+
+  /**
+   * Does the entity have a temporary redirect.
+   *
+   * Temporary redirect is created for all entities before requesting indexing.
+   * Once delete request is sent, the url cannot be indexed again using the api.
+   * Hence we should not use the original url.
+   *
+   * @param JobListing $entity
+   *   The entity to check.
+   * @param string $langcode
+   *   The language code.
+   *
+   * @return bool
+   *   Has temporary redirect.
+   */
   private function temporaryRedirectExists(JobListing $entity, string $langcode): bool {
     $job_alias = $this->getEntityAlias($entity, $langcode);
-    // Check if entity has already been indexed.
 
     $query = $this->entityTypeManager->getStorage('redirect')
       ->getQuery();
@@ -143,13 +224,17 @@ class JobIndexingService {
   /**
    * Create a redirect for the indexing request.
    *
+   * Temporary redirect is created for all entities before requesting indexing.
+   * Once delete request is sent, the url cannot be indexed again using the api.
+   * Hence we should not use the original url.
+   *
    * @param JobListing $entity
    *   The entity to index.
    * @param string $langcode
-   *
+   *   The language code.
    *
    * @return string
-   *   Absolute url that can be send for indexing.
+   *   Absolute url that can be sent for indexing.
    */
   private function createTemporaryRedirectUrl(JobListing $entity, string $langcode): string {
     $alias = $this->getEntityAlias($entity, $langcode);
@@ -167,6 +252,17 @@ class JobIndexingService {
     return $indexing_url;
   }
 
+  /**
+   * Get the temporary redirect url.
+   *
+   * @param JobListing $entity
+   *   The entity to index.
+   * @param string $langcode
+   *   The language code.
+   *
+   * @return Redirect|null
+   *   The redirect object.
+   */
   private function getExistingTemporaryRedirect(JobListing $entity, string $langcode): Redirect|null {
     $job_alias = $this->getEntityAlias($entity, $langcode);
 
@@ -190,18 +286,21 @@ class JobIndexingService {
     return NULL;
   }
 
+  /**
+   * Get the alias for an entity.
+   *
+   * @param JobListing $entity
+   *   The entity.
+   * @param string $langcode
+   *   The language code.
+   *
+   * @return string
+   *   Alias for the entity.
+   */
   private function getEntityAlias(JobListing $entity, string $langcode): string {
     return $this->aliasManager->getAliasByPath("/node/{$entity->id()}", $langcode);
   }
 
-  public function checkItemIndexStatus(string $url): string {
-    try {
-      return $this->helfiGoogleApi->checkIndexingStatus($url);
-    }
-    catch (GuzzleException $e) {
-      throw new \Exception($e->getMessage(), $e->getCode());
-    }
-  }
 
   /**
    * Update any jobs that were published today.
