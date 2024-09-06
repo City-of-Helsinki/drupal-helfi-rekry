@@ -134,7 +134,7 @@ final class HelfiApiCommands extends DrushCommands {
    *   The exit code.
    */
   #[Command(name: 'helfi:google-url-index-status')]
-  public function checkUrlIndexStatus(string $url) {
+  public function checkUrlIndexStatus(string $url): int {
     try {
       $response = $this->jobIndexingService->checkItemIndexStatus($url);
     }
@@ -159,7 +159,7 @@ final class HelfiApiCommands extends DrushCommands {
    *   The exit code.
    */
   #[Command(name: 'helfi:google-entity-index-status')]
-  public function checkEntityIndexStatus(int $entity_id, $langcode = 'fi') {
+  public function checkEntityIndexStatus(int $entity_id, $langcode = 'fi'): int {
     $entity = Node::load($entity_id);
 
     if (!$entity instanceof JobListing) {

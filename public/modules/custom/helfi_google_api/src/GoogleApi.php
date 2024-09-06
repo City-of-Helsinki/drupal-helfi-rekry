@@ -13,7 +13,7 @@ use GuzzleHttp\Psr7\Request;
 /**
  * A wrapper for Google indexing library.
  */
-class HelfiGoogleApi {
+class GoogleApi {
 
   /**
    * Endpoint for sending update and delete requests.
@@ -129,13 +129,13 @@ class HelfiGoogleApi {
   public function checkIndexingStatus(string $url): string {
     $this->initializeApi(FALSE);
 
-    $base_url = self::METADATA_ENDPOINT;
-    $queryParameter = '?url=' . urlencode($url);
-    $the_url = $base_url . $queryParameter;
+    $baseUrl = self::METADATA_ENDPOINT;
+    $query_parameter = '?url=' . urlencode($url);
+    $theUrl = $baseUrl . $query_parameter;
 
     $client = $this->indexingService->getClient()->authorize();
 
-    $response = $client->request('GET', $the_url);
+    $response = $client->request('GET', $theUrl);
 
     return $response->getBody()->getContents();
   }

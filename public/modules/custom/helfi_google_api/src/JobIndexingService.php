@@ -20,7 +20,7 @@ class JobIndexingService {
   use AutowireTrait;
 
   public function __construct(
-    private readonly HelfiGoogleApi $helfiGoogleApi,
+    private readonly GoogleApi $googleApi,
     private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly AliasManagerInterface $aliasManager,
     private readonly UrlGeneratorInterface $urlGenerator,
@@ -41,7 +41,7 @@ class JobIndexingService {
    */
   public function handleIndexingRequest(array $urls, bool $update): array {
     try {
-      return $this->helfiGoogleApi->indexBatch($urls, $update);
+      return $this->googleApi->indexBatch($urls, $update);
     }
     catch (GuzzleException $e) {
       $message = "Request failed with code {$e->getCode()}: {$e->getMessage()}";
@@ -60,7 +60,7 @@ class JobIndexingService {
    *   Array of containing total count indexed and errors.
    */
   public function indexEntity(JobListing $entity): array {
-    if (!$this->helfiGoogleApi->hasAuthenticationKey()) {
+    if (!$this->googleApi->hasAuthenticationKey()) {
       throw new \Exception('Api key not set.');
     }
 
@@ -96,7 +96,7 @@ class JobIndexingService {
    *   Array: 'count': int, 'errors': array
    */
   public function deindexEntity(JobListing $entity): array {
-    if (!$this->helfiGoogleApi->hasAuthenticationKey()) {
+    if (!$this->googleApi->hasAuthenticationKey()) {
       throw new \Exception('Api key not set.');
     }
 
@@ -140,7 +140,7 @@ class JobIndexingService {
    *   Status as a string.
    */
   public function checkItemIndexStatus(string $url): string {
-    return $this->helfiGoogleApi->checkIndexingStatus($url);
+    return $this->googleApi->checkIndexingStatus($url);
   }
 
   /**
@@ -153,7 +153,7 @@ class JobIndexingService {
    *   The url index status as a string.
    */
   public function checkEntityIndexStatus(JobListing $entity): string {
-    if (!$this->helfiGoogleApi->hasAuthenticationKey()) {
+    if (!$this->googleApi->hasAuthenticationKey()) {
       throw new \Exception('Api key not set.');
     }
 
@@ -186,15 +186,15 @@ class JobIndexingService {
 
     $url_to_check = $baseUrl . $correct_redirect->getSourceUrl();
     try {
-      return $this->helfiGoogleApi->checkIndexingStatus($url_to_check);
+      return $this->googleApi->checkIndexingStatus($url_to_check);
     }
     catch (GuzzleException $e) {
       $this->logger->error("Request failed with code {$e->getCode()}: {$e->getMessage()}");
-      throw new \Exception("Request failed with code {$e->getCode()}: {$e->getMessage()}");
+      throw $e;
     }
     catch (\Exception $e) {
       $this->logger->error('Error while checking indexing status: ' . $e->getMessage());
-      throw new \Exception("Something went wrong: {$e->getMessage()}");
+      throw $e;
     }
 
   }
