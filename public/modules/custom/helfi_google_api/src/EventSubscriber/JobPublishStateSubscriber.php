@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_google_api\EventSubscriber;
 
+use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\scheduler\SchedulerEvent;
@@ -18,6 +19,7 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
   public function __construct(
     private readonly JobIndexingService $jobIndexingService,
     private readonly LoggerInterface $logger,
+    private readonly UrlGeneratorInterface $urlGenerator,
   ) {
   }
 
@@ -79,7 +81,7 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
    * Send deindexing request to google.
    *
    * @param SchedulerEvent $event
-   * @return void
+   *   The scheduler event.
    */
   public function sendDeindexingRequest(SchedulerEvent $event) {
     $entity = $event->getNode();
@@ -93,7 +95,7 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $base_url = \Drupal::urlGenerator()->generateFromRoute(
+    $base_url = $this->urlGenerator->generateFromRoute(
       '<front>',
       [],
       ['absolute' => TRUE,'language' => $entity->language()]
