@@ -29,16 +29,25 @@ class JobIndexingService {
   }
 
   /**
-   * Send urls to google for indexing.
+   * Send urls to Google for deindexing.
    *
    * @param array $urls
-   *   Array of urls to index.
+   *   Urls to remove from index.
+   * @param bool $update
+   *   Send update or delete request (indexing or deindexing).
    *
    * @return array
-   *   Array of containing total count indexed and errors.
+   *   Array: 'count': int, 'errors': array.
    */
-  public function indexItems(array $urls): array {
-    return $this->helfiGoogleApi->indexBatch($urls, TRUE);
+  public function handleIndexingRequest(array $urls, bool $update): array {
+    try {
+      return $this->helfiGoogleApi->indexBatch($urls, $update);
+    }
+    catch (GuzzleException $e) {
+      $message = "Request failed with code {$e->getCode()}: {$e->getMessage()}";
+      $this->logger->error($message);
+      throw new \Exception($message);
+    }
   }
 
   /**
@@ -65,14 +74,7 @@ class JobIndexingService {
     // Create temporary redirect for the entity.
     $indexing_url = $this->createTemporaryRedirectUrl($entity, $langcode);
 
-    try {
-      $result = $this->indexItems([$indexing_url]);
-    }
-    catch (GuzzleException $e) {
-      $message = "Request failed with code {$e->getCode()}: {$e->getMessage()}";
-      $this->logger->error($message);
-      throw new \Exception($message);
-    }
+    $result = $this->handleIndexingRequest([$indexing_url], TRUE);
 
     if ($result['errors']) {
       $total = $result['count'];
@@ -84,18 +86,6 @@ class JobIndexingService {
     return $result;
   }
 
-  /**
-   * Send urls to Google for deindexing.
-   *
-   * @param array $urls
-   *   Urls to remove from index.
-   *
-   * @return array
-   *   Array: 'count': int, 'errors': array.
-   */
-  public function deindexItems(array $urls): array {
-    return $this->helfiGoogleApi->indexBatch($urls, FALSE);
-  }
 
   /**
    * Handle entity indexing request.
@@ -129,14 +119,7 @@ class JobIndexingService {
 
     $url_to_deindex = $base_url . $redirect->getSourceUrl();
 
-    try {
-      $result = $this->deindexItems([$url_to_deindex]);
-    }
-    catch (GuzzleException $e) {
-      $message = "Request failed with code {$e->getCode()}: {$e->getMessage()}";
-      $this->logger->error($message);
-      throw new \Exception($message);
-    }
+    $result = $this->handleIndexingRequest([$url_to_deindex], FALSE);
 
     if ($result['errors']) {
       $total = $result['count'];
