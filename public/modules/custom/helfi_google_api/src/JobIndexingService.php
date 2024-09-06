@@ -98,9 +98,9 @@ class JobIndexingService {
   }
 
   /**
-   * Handle entity indexing request
+   * Handle entity indexing request.
    *
-   * @param JobListing $entity
+   * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   Entity to request deindexing for.
    *
    * @return array
@@ -132,8 +132,8 @@ class JobIndexingService {
     try {
       $result = $this->deindexItems([$url_to_deindex]);
     }
-    catch(GuzzleException $e) {
-      $message = "Request failed with code {$e->getCode()}: {$e->getMessage()}"
+    catch (GuzzleException $e) {
+      $message = "Request failed with code {$e->getCode()}: {$e->getMessage()}";
       $this->logger->error($message);
       throw new \Exception($message);
     }
@@ -164,7 +164,7 @@ class JobIndexingService {
   /**
    * If entity seems to be indexed, send a status query.
    *
-   * @param JobListing $entity
+   * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   Entity to check.
    *
    * @return array
@@ -205,7 +205,7 @@ class JobIndexingService {
     try {
       $response = $this->helfiGoogleApi->checkIndexingStatus($url_to_check);
     }
-    catch(GuzzleException $e) {
+    catch (GuzzleException $e) {
       $this->logger->error("Request failed with code {$e->getCode()}: {$e->getMessage()}");
     }
     catch (\Exception $e) {

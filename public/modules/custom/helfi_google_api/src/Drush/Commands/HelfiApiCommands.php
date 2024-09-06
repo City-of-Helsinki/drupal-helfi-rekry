@@ -78,6 +78,17 @@ final class HelfiApiCommands extends DrushCommands {
     return DrushCommands::EXIT_SUCCESS;
   }
 
+  /**
+   * Deindex single entity by id,
+   *
+   * @param int $entity_id
+   *   The entity id.
+   * @param string $langcode
+   *   The entity langcode.
+   *
+   * @return int
+   *   The exit code.
+   */
   #[Command(name: 'helfi:google-single-entity-deindex')]
   public function deindexSingleItem(
     int $entity_id,
