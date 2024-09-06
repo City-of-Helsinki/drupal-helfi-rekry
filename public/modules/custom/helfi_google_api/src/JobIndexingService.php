@@ -86,7 +86,6 @@ class JobIndexingService {
     return $result;
   }
 
-
   /**
    * Handle entity indexing request.
    *
