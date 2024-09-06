@@ -78,6 +78,41 @@ final class HelfiApiCommands extends DrushCommands {
     return DrushCommands::EXIT_SUCCESS;
   }
 
+  #[Command(name: 'helfi:google-single-entity-deindex')]
+  public function deindexSingleItem(
+    int $entity_id,
+    string $langcode = 'fi',
+  ) : int {
+    $entity = Node::load($entity_id);
+
+    if (!$entity instanceof JobListing) {
+      $this->io()->writeln('Entity not found or not instance of JobListing');
+      return DrushCommands::EXIT_FAILURE;
+    }
+
+    if (!$entity->hasTranslation($langcode)) {
+      $this->io()->writeln('Translation does not exist.');
+      return DrushCommands::EXIT_FAILURE;
+    }
+    $entity = $entity->getTranslation($langcode);
+
+    try {
+      $response = $this->jobIndexingService->deindexEntity($entity);
+    }
+    catch (\Exception $e) {
+      $this->io()->error($e->getMessage());
+      return DrushCommands::EXIT_FAILURE;
+    }
+
+    if ($response['errors']) {
+      $this->io()->writeln('Request successful. Errors returned: ' . json_encode($response['errors']));
+      return DrushCommands::EXIT_FAILURE_WITH_CLARITY;
+    }
+
+    $this->io()->writeln('Url deindexed succesfully.');
+    return DrushCommands::EXIT_SUCCESS;
+  }
+
   /**
    * Request url indexing status from Google api.
    *

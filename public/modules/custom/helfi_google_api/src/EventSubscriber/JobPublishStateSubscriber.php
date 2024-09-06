@@ -6,10 +6,8 @@ namespace Drupal\helfi_google_api\EventSubscriber;
 
 use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_rekry_content\Entity\JobListing;
-use Drupal\redirect\Entity\Redirect;
 use Drupal\scheduler\SchedulerEvent;
 use Drupal\scheduler\SchedulerEvents;
-use Drush\Commands\DrushCommands;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -19,6 +17,7 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
 
   public function __construct(
     private readonly JobIndexingService $jobIndexingService,
+    private readonly LoggerInterface $logger,
   ) {
   }
 
@@ -91,7 +90,6 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
 
     $redirect = $this->jobIndexingService->getExistingTemporaryRedirect($entity, $langcode);
     if (!$redirect) {
-      // Log, the item seems not to be indexed.
       return;
     }
 

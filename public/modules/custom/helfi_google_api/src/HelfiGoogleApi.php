@@ -59,6 +59,18 @@ class HelfiGoogleApi {
   }
 
   /**
+   * Does the api key exist.
+   *
+   * @return bool
+   *   Api key exists.
+   */
+  public function hasAuthenticationKey(): bool {
+    $config = $this->configFactory->get('helfi_google_api.settings');
+    $key = $config->get('indexing_api_key') ?: '';
+    return !!$key;
+  }
+
+  /**
    * Send indexing or deindexing request for urls.
    *
    * @param array $urls
@@ -124,6 +136,7 @@ class HelfiGoogleApi {
     $the_url = $base_url . $queryParameter;
 
     $client = $this->indexingService->getClient()->authorize();
+
     $response = $client->get($the_url);
 
     return $response->getBody()->getContents();

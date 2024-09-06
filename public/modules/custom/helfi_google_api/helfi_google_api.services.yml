@@ -15,4 +15,8 @@ services:
     arguments:
       $logger: '@logger.channel.helfi_google_api'
 
-  Drupal\helfi_google_api\EventSubscriber\JobPublishStateSubscriber: ~
+  Drupal\helfi_google_api\EventSubscriber\JobPublishStateSubscriber:
+    class: Drupal\helfi_google_api\EventSubscriber\JobPublishStateSubscriber
+    autowire: true
+    arguments:
+      $logger: '@logger.channel.helfi_google_api'
