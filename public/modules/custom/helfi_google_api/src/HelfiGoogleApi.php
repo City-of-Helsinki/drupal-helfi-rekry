@@ -128,7 +128,7 @@ class HelfiGoogleApi {
    * @return string
    *   The response as a string.
    */
-  public function checkIndexingStatus($url): string {
+  public function checkIndexingStatus(string $url): string {
     $this->initializeApi(FALSE);
 
     $base_url = self::METADATA_ENDPOINT;
@@ -147,8 +147,6 @@ class HelfiGoogleApi {
    *
    * @param bool $batch
    *   Set the client on batch mode.
-   *
-   * @return void
    */
   private function initializeApi(bool $batch = TRUE): void {
     $config = $this->configFactory->get('helfi_google_api.settings');

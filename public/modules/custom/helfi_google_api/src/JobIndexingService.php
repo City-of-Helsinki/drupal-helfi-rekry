@@ -167,7 +167,8 @@ class JobIndexingService {
    * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   Entity to check.
    *
-   * @return array
+   * @return string
+   *   The url index status as a string.
    */
   public function checkEntityIndexStatus(JobListing $entity): string {
     if (!$this->helfiGoogleApi->hasAuthenticationKey()) {
