@@ -177,7 +177,7 @@ class JobIndexingService {
 
     $language = $entity->language();
 
-    $baseUrl = $this->generateFromRoute('<front>', [], ['absolute' => TRUE, 'language' => $language]);
+    $baseUrl = $this->urlGenerator->generateFromRoute('<front>', [], ['absolute' => TRUE, 'language' => $language]);
     $job_alias = $this->aliasManager->getAliasByPath("/node/{$entity->id()}", $language->getId());
 
     $query = $this->entityTypeManager->getStorage('redirect')->getQuery();
