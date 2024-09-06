@@ -65,7 +65,7 @@ class HelfiGoogleApi {
   public function hasAuthenticationKey(): bool {
     $config = $this->configFactory->get('helfi_google_api.settings');
     $key = $config->get('indexing_api_key') ?: '';
-    return !!$key;
+    return (bool) $key;
   }
 
   /**
