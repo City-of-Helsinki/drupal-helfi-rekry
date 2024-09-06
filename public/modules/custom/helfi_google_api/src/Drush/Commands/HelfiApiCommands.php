@@ -79,7 +79,7 @@ final class HelfiApiCommands extends DrushCommands {
   }
 
   /**
-   * Deindex single entity by id,
+   * Deindex single entity by id.
    *
    * @param int $entity_id
    *   The entity id.
