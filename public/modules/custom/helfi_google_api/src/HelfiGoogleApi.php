@@ -42,15 +42,13 @@ class HelfiGoogleApi {
 
   /**
    * Google indexing service.
-   *
-   * @var Google\Service\Indexing
    */
   private Indexing $indexingService;
 
   /**
    * The constructor.
    *
-   * @param Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The config factory.
    */
   public function __construct(
@@ -137,7 +135,7 @@ class HelfiGoogleApi {
 
     $client = $this->indexingService->getClient()->authorize();
 
-    $response = $client->get($the_url);
+    $response = $client->request('GET', $the_url);
 
     return $response->getBody()->getContents();
   }

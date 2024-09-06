@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_google_api\EventSubscriber;
 
-use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\scheduler\SchedulerEvent;
@@ -16,10 +15,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class JobPublishStateSubscriber implements EventSubscriberInterface {
 
+  /**
+   * The constructor.
+   *
+   * @param \Drupal\helfi_google_api\JobIndexingService $jobIndexingService
+   *   The job indexing service.
+   */
   public function __construct(
     private readonly JobIndexingService $jobIndexingService,
-    private readonly LoggerInterface $logger,
-    private readonly UrlGeneratorInterface $urlGenerator,
   ) {
   }
 

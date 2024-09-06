@@ -127,7 +127,7 @@ final class HelfiApiCommands extends DrushCommands {
   /**
    * Request url indexing status from Google api.
    *
-   * @param int $url
+   * @param string $url
    *   The url to check.
    *
    * @return int

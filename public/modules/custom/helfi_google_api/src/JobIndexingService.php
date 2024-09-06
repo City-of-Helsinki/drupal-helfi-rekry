@@ -44,7 +44,7 @@ class JobIndexingService {
   /**
    * Send indexing request to google.
    *
-   * @param Drupal\helfi_rekry_content\Entity\JobListing $entity
+   * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   Entity which indexing should be requested.
    *
    * @return array
@@ -198,22 +198,23 @@ class JobIndexingService {
       }
     }
 
-    if (!$correct_redirect) {
+    if (!isset($correct_redirect)) {
       throw new \Exception('Entity doesn\'t have temporary redirect.');
     }
 
     $url_to_check = $baseUrl . $correct_redirect->getSourceUrl();
     try {
-      $response = $this->helfiGoogleApi->checkIndexingStatus($url_to_check);
+      return $this->helfiGoogleApi->checkIndexingStatus($url_to_check);
     }
     catch (GuzzleException $e) {
       $this->logger->error("Request failed with code {$e->getCode()}: {$e->getMessage()}");
+      throw new \Exception("Request failed with code {$e->getCode()}: {$e->getMessage()}");
     }
     catch (\Exception $e) {
       $this->logger->error('Error while checking indexing status: ' . $e->getMessage());
+      throw new \Exception("Something went wrong: {$e->getMessage()}");
     }
 
-    return $response;
   }
 
   /**
@@ -223,7 +224,7 @@ class JobIndexingService {
    * Once delete-request is sent, the url cannot be indexed again using the api.
    * Hence we should not use the original url.
    *
-   * @param Drupal\helfi_rekry_content\Entity\JobListing $entity
+   * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   The entity to check.
    * @param string $langcode
    *   The language code.
@@ -262,7 +263,7 @@ class JobIndexingService {
    * Once delete request is sent, the url cannot be indexed again using the api.
    * Hence we should not use the original url.
    *
-   * @param Drupal\helfi_rekry_content\Entity\JobListing $entity
+   * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   The entity to index.
    * @param string $langcode
    *   The language code.
@@ -289,12 +290,12 @@ class JobIndexingService {
   /**
    * Get the temporary redirect url.
    *
-   * @param Drupal\helfi_rekry_content\Entity\JobListing $entity
+   * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   The entity to index.
    * @param string $langcode
    *   The language code.
    *
-   * @return Drupal\redirect\Entity\Redirect|null
+   * @return \Drupal\redirect\Entity\Redirect|null
    *   The redirect object.
    */
   public function getExistingTemporaryRedirect(JobListing $entity, string $langcode): Redirect|null {
@@ -327,7 +328,7 @@ class JobIndexingService {
   /**
    * Get the alias for an entity.
    *
-   * @param Drupal\helfi_rekry_content\Entity\JobListing $entity
+   * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   The entity.
    * @param string $langcode
    *   The language code.
