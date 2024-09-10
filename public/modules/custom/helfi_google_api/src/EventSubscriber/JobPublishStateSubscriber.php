@@ -53,8 +53,8 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
     try {
       $this->jobIndexingService->indexEntity($entity);
     }
-    catch(\Exception $exception){
-      // has been logged by indexing service.
+    catch (\Exception $exception) {
+      // Has been logged by indexing service.
     }
   }
 
@@ -73,7 +73,7 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
     try {
       $this->jobIndexingService->deindexEntity($entity);
     }
-    catch(\Exception) {
+    catch (\Exception) {
       // Has been logged by indexing service.
     }
   }
