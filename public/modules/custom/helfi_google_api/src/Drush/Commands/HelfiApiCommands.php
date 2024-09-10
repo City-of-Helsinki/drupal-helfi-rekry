@@ -14,6 +14,7 @@ use Drupal\path_alias\AliasManagerInterface;
 use Drush\Attributes\Command;
 use Drush\Commands\AutowireTrait;
 use Drush\Commands\DrushCommands;
+use Drupal\helfi_google_api\Response;
 
 /**
  * A Drush command file.
@@ -69,19 +70,7 @@ final class HelfiApiCommands extends DrushCommands {
       return DrushCommands::EXIT_FAILURE;
     }
 
-    if ($response->getErrors()) {
-      $this->io()->writeln('Request successful. Errors returned: ' . json_encode($response->getErrors()));
-      return DrushCommands::EXIT_FAILURE_WITH_CLARITY;
-    }
-
-    if ($response->isDebug()) {
-      $urls = $response->getUrls();
-      $this->io()->writeln('The api request would have sent following data: ' . json_encode($urls));
-      return DrushCommands::EXIT_SUCCESS;
-    }
-
-    $this->io()->writeln('Url indexed succesfully.');
-    return DrushCommands::EXIT_SUCCESS;
+    return $this->handleResponse($response);
   }
 
   /**
@@ -121,19 +110,7 @@ final class HelfiApiCommands extends DrushCommands {
       return DrushCommands::EXIT_FAILURE;
     }
 
-    if ($response->getErrors()) {
-      $this->io()->writeln('Request successful. Errors returned: ' . json_encode($response->getErrors()));
-      return DrushCommands::EXIT_FAILURE_WITH_CLARITY;
-    }
-
-    if ($response->isDebug()) {
-      $urls = $response->getUrls();
-      $this->io()->writeln('The api request would have sent following data: ' . json_encode($urls));
-      return DrushCommands::EXIT_SUCCESS;
-    }
-
-    $this->io()->writeln('Url deindexed succesfully.');
-    return DrushCommands::EXIT_SUCCESS;
+    return $this->handleResponse($response);
   }
 
   /**
@@ -194,6 +171,31 @@ final class HelfiApiCommands extends DrushCommands {
     }
 
     $this->io()->writeln($response);
+    return DrushCommands::EXIT_SUCCESS;
+  }
+
+  /**
+   * Handle response.
+   *
+   * @param Drupal\helfi_google_api\Response $response
+   *   The response object.
+   *
+   * @return int
+   *   Exit code.
+   */
+  private function handleResponse(Response $response): int {
+    if ($response->getErrors()) {
+      $this->io()->writeln('Request successful. Errors returned: ' . json_encode($response->getErrors()));
+      return DrushCommands::EXIT_FAILURE_WITH_CLARITY;
+    }
+
+    if ($response->isDebug()) {
+      $urls = $response->getUrls();
+      $this->io()->writeln('The api request would have sent following data: ' . json_encode($urls));
+      return DrushCommands::EXIT_SUCCESS;
+    }
+
+    $this->io()->writeln('Url indexed succesfully.');
     return DrushCommands::EXIT_SUCCESS;
   }
 
