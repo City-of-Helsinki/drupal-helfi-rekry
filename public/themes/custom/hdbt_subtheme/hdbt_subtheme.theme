@@ -88,11 +88,14 @@ function hdbt_subtheme_preprocess_organization_information_block(array &$variabl
   // Set organization default image variable.
   if (!empty($organization) && !empty($organization->get('field_default_image')->first())) {
     $variables['content']['organization_default_image'] = $organization->get('field_default_image')->first()->view([
-      'type' => 'image',
+      'type' => 'responsive_image',
       'label' => 'hidden',
       'settings' => [
-        'image_style' => '3_2_m_2x',
+        'responsive_image_style' => 'job_listing_org',
         'image_link' => '',
+        'image_loading' => [
+          'attribute' => 'eager',
+        ],
       ],
     ]);
   }
