@@ -30,6 +30,7 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents(): array {
+    // @todo Enable when tested with cron commands.
     return [
       SchedulerEvents::PUBLISH => 'sendIndexingRequest',
       SchedulerEvents::PUBLISH_IMMEDIATELY => 'sendIndexRequest',
@@ -49,7 +50,12 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $this->jobIndexingService->indexEntity($entity);
+    try {
+      $this->jobIndexingService->indexEntity($entity);
+    }
+    catch(\Exception $exception){
+      // has been logged by indexing service.
+    }
   }
 
   /**
@@ -64,7 +70,12 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $this->jobIndexingService->deindexEntity($entity);
+    try {
+      $this->jobIndexingService->deindexEntity($entity);
+    }
+    catch(\Exception) {
+      // Has been logged by indexing service.
+    }
   }
 
 }

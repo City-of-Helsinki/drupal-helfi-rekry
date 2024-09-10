@@ -29,10 +29,10 @@ class JobIndexingService {
   }
 
   /**
-   * Send urls to Google for deindexing.
+   * Send urls to Google for indexing or deindexing.
    *
    * @param array $urls
-   *   Urls to remove from index.
+   *   Urls to add or remove from index.
    * @param bool $update
    *   Send update or delete request (indexing or deindexing).
    *
@@ -72,9 +72,18 @@ class JobIndexingService {
     }
 
     // Create temporary redirect for the entity.
-    $indexing_url = $this->createTemporaryRedirectUrl($entity, $langcode);
+    $redirectArray = $this->createTemporaryRedirectUrl($entity, $langcode);
+    $indexing_url = $redirectArray['indexing_url'];
 
-    $result = $this->handleIndexingRequest([$indexing_url], TRUE);
+    try {
+      $result = $this->handleIndexingRequest([$indexing_url], TRUE);
+    }
+    catch (\Exception $e) {
+      // If the request fails, remove the redirect.
+      $redirect = $redirectArray['redirect'];
+      $redirect->delete();
+      throw $e;
+    }
 
     if ($result['errors']) {
       $total = $result['count'];
@@ -87,7 +96,7 @@ class JobIndexingService {
   }
 
   /**
-   * Handle entity indexing request.
+   * Handle entity deindexing request.
    *
    * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   Entity to request deindexing for.
@@ -117,8 +126,14 @@ class JobIndexingService {
     );
 
     $url_to_deindex = $base_url . $redirect->getSourceUrl();
+    try {
+      $result = $this->handleIndexingRequest([$url_to_deindex], FALSE);
+    }
+    catch (\Exception $e) {
+      throw $e;
+    }
 
-    $result = $this->handleIndexingRequest([$url_to_deindex], FALSE);
+    $redirect->delete();
 
     if ($result['errors']) {
       $total = $result['count'];
@@ -190,7 +205,7 @@ class JobIndexingService {
     }
     catch (GuzzleException $e) {
       $this->logger->error("Request failed with code {$e->getCode()}: {$e->getMessage()}");
-      throw $e;
+      throw new \Exception($e->getMessage());
     }
     catch (\Exception $e) {
       $this->logger->error('Error while checking indexing status: ' . $e->getMessage());
@@ -250,23 +265,23 @@ class JobIndexingService {
    * @param string $langcode
    *   The language code.
    *
-   * @return string
-   *   Absolute url that can be sent for indexing.
+   * @return array
+   *   Indexing_url as the absolute url and the redirect object.
    */
-  public function createTemporaryRedirectUrl(JobListing $entity, string $langcode): string {
+  public function createTemporaryRedirectUrl(JobListing $entity, string $langcode): array {
     $alias = $this->getEntityAlias($entity, $langcode);
     $now = strtotime('now');
     $temp_alias = "$alias-$now";
     $indexing_url = "{$entity->toUrl()->setAbsolute()->toString()}-$now";
 
-    Redirect::create([
+    $redirect = Redirect::create([
       'redirect_source' => ltrim($temp_alias, '/'),
       'redirect_redirect' => "internal:/node/{$entity->id()}",
       'language' => $langcode,
       'status_code' => 301,
     ])->save();
 
-    return $indexing_url;
+    return ['indexing_url' => $indexing_url, 'redirect' => $redirect];
   }
 
   /**
