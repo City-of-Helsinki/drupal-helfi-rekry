@@ -7,4 +7,3 @@ dependencies:
   - 'publication_date:publication_date'
   - redirect:redirect
   - scheduler:scheduler
-  - helfi_api_base:helfi_api_base

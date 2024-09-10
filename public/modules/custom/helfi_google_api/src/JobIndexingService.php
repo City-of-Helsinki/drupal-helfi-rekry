@@ -36,10 +36,10 @@ class JobIndexingService {
    * @param bool $update
    *   Send update or delete request (indexing or deindexing).
    *
-   * @return array
-   *   Array: 'count': int, 'errors': array.
+   * @return \Drupal\helfi_google_api\Response
+   *   The response object.
    */
-  public function handleIndexingRequest(array $urls, bool $update): array {
+  public function handleIndexingRequest(array $urls, bool $update): Response {
     try {
       return $this->googleApi->indexBatch($urls, $update);
     }
@@ -56,17 +56,13 @@ class JobIndexingService {
    * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   Entity which indexing should be requested.
    *
-   * @return array
-   *   Array of containing total count indexed and errors.
+   * @return \Drupal\helfi_google_api\Response
+   *   The response object.
    */
-  public function indexEntity(JobListing $entity): array {
-    if (!$this->googleApi->hasAuthenticationKey()) {
-      throw new \Exception('Api key not set.');
-    }
-
+  public function indexEntity(JobListing $entity): Response {
     $langcode = $entity->language()->getId();
 
-    $hasRedirect = $this->temporaryRedirectExists($entity, $langcode);
+    $hasRedirect = $this->hasTemporaryRedirect($entity, $langcode);
     if ($hasRedirect) {
       throw new \Exception('Already indexed.');
     }
@@ -74,22 +70,22 @@ class JobIndexingService {
     // Create temporary redirect for the entity.
     $redirectArray = $this->createTemporaryRedirectUrl($entity, $langcode);
     $indexing_url = $redirectArray['indexing_url'];
+    $redirect = $redirectArray['redirect'];
 
     try {
       $result = $this->handleIndexingRequest([$indexing_url], TRUE);
     }
     catch (\Exception $e) {
       // If the request fails, remove the redirect.
-      $redirect = $redirectArray['redirect'];
       $redirect->delete();
       throw $e;
     }
 
-    if ($result['errors']) {
-      $total = $result['count'];
-      $error_count = count($result['errors']);
-      $error_string = json_encode($result['errors']);
-      $this->logger->error("Unable to index $error_count/$total items: $error_string");
+    if ($result->getErrors()) {
+      $total = count($result->getUrls());
+      $errorCount = count($result->getErrors());
+      $errorsString = json_encode($result->getErrors());
+      $this->logger->error(("Unable to index $errorCount/$total items: $errorsString"));
     }
 
     return $result;
@@ -101,19 +97,16 @@ class JobIndexingService {
    * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   Entity to request deindexing for.
    *
-   * @return array
-   *   Array: 'count': int, 'errors': array
+   * @return \Drupal\helfi_google_api\Response
+   *   The response object.
    */
-  public function deindexEntity(JobListing $entity): array {
-    if (!$this->googleApi->hasAuthenticationKey()) {
-      throw new \Exception('Api key not set.');
-    }
-
+  public function deindexEntity(JobListing $entity): Response {
     $language = $entity->language();
     $redirect = $this->getExistingTemporaryRedirect($entity, $language->getId());
     if (!$redirect) {
-      $this->logger->error("Entity of id {$entity->id()} doesn't have the required temporary redirect.");
-      throw new \Exception("Entity of id {$entity->id()} doesn't have the required temporary redirect.");
+      $message = "Entity of id {$entity->id()} doesn't have the required temporary redirect.";
+      $this->logger->error($message);
+      throw new \Exception($message);
     }
 
     $base_url = $this->urlGenerator->generateFromRoute(
@@ -133,13 +126,16 @@ class JobIndexingService {
       throw $e;
     }
 
-    $redirect->delete();
+    // No need to delete redirects on debug run.
+    if (!$result->isDebug()) {
+      $redirect->delete();
+    }
 
-    if ($result['errors']) {
-      $total = $result['count'];
-      $error_count = count($result['errors']);
-      $error_string = json_encode($result['errors']);
-      $this->logger->error("Unable to index $error_count/$total items: $error_string");
+    if ($result->getErrors()) {
+      $total = count($result->getUrls());
+      $errorCount = count($result->getErrors());
+      $errorsString = json_encode($result->getErrors());
+      $this->logger->error(("Unable to index $errorCount/$total items: $errorsString"));
     }
 
     return $result;
@@ -168,10 +164,6 @@ class JobIndexingService {
    *   The url index status as a string.
    */
   public function checkEntityIndexStatus(JobListing $entity): string {
-    if (!$this->googleApi->hasAuthenticationKey()) {
-      throw new \Exception('Api key not set.');
-    }
-
     $language = $entity->language();
 
     $baseUrl = $this->urlGenerator->generateFromRoute('<front>', [], ['absolute' => TRUE, 'language' => $language]);
@@ -229,7 +221,7 @@ class JobIndexingService {
    * @return bool
    *   Has temporary redirect.
    */
-  public function temporaryRedirectExists(JobListing $entity, string $langcode): bool {
+  public function hasTemporaryRedirect(JobListing $entity, string $langcode): bool {
     $job_alias = $this->getEntityAlias($entity, $langcode);
 
     $query = $this->entityTypeManager->getStorage('redirect')
@@ -279,7 +271,12 @@ class JobIndexingService {
       'redirect_redirect' => "internal:/node/{$entity->id()}",
       'language' => $langcode,
       'status_code' => 301,
-    ])->save();
+    ]);
+
+    // If the api is not set up, no need to create the redirect.
+    if ($this->googleApi->isEnabled()) {
+      $redirect->save();
+    }
 
     return ['indexing_url' => $indexing_url, 'redirect' => $redirect];
   }
@@ -307,6 +304,11 @@ class JobIndexingService {
       ->accessCheck(FALSE)
       ->execute();
     $redirects = Redirect::loadMultiple($redirectIds);
+
+    // For debugging purposes, dbugging won't save the redirect.
+    if (!$redirects && !$this->googleApi->isEnabled()) {
+      return $this->createTemporaryRedirectUrl($entity, $langcode)['redirect'];
+    }
 
     if (!$redirects) {
       return NULL;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\helfi_google_api;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Google\Client as GoogleClient;
 use Google\Service\Exception;
 use Google\Service\Indexing;
 use GuzzleHttp\Psr7\Request;
@@ -26,11 +25,6 @@ class GoogleApi {
   const METADATA_ENDPOINT = 'https://indexing.googleapis.com/v3/urlNotifications/metadata';
 
   /**
-   * Api scopes.
-   */
-  const SCOPES = ['https://www.googleapis.com/auth/indexing'];
-
-  /**
    * Request type for update-request (indexing).
    */
   const UPDATE = 'URL_UPDATED';
@@ -41,18 +35,16 @@ class GoogleApi {
   const DELETE = 'URL_DELETED';
 
   /**
-   * Google indexing service.
-   */
-  private Indexing $indexingService;
-
-  /**
    * The constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   The config factory.
+   * @param \Google\Service\Indexing $indexingService
+   *   The Google indexing service.
    */
   public function __construct(
     private readonly ConfigFactoryInterface $configFactory,
+    private readonly Indexing $indexingService,
   ) {
   }
 
@@ -69,6 +61,20 @@ class GoogleApi {
   }
 
   /**
+   * Correct environment and key is set.
+   *
+   * @return bool
+   *   The api is set up
+   */
+  public function isEnabled(): bool {
+    $config = $this->configFactory->get('helfi_google_api.settings');
+    $key = $config->get('indexing_api_key') ?: '';
+    $isEnabled = $config->get('enabled') ?: FALSE;
+
+    return $key && $isEnabled;
+  }
+
+  /**
    * Send indexing or deindexing request for urls.
    *
    * @param array $urls
@@ -76,11 +82,14 @@ class GoogleApi {
    * @param bool $update
    *   TRUE to index the urls, FALSE for deindexing.
    *
-   * @return array
-   *   Array which consists of the amount of items sent and array of errors.
+   * @return Response
+   *   Object which holds the handled urls and request errors.
    */
-  public function indexBatch(array $urls, bool $update): array {
-    $this->initializeApi();
+  public function indexBatch(array $urls, bool $update): Response {
+    if (!$this->isEnabled()) {
+      return new Response($urls, debug: TRUE);
+    }
+
     $batch = $this->indexingService->createBatch();
     $operation = $update ? self::UPDATE : self::DELETE;
 
@@ -109,10 +118,7 @@ class GoogleApi {
       }
     }
 
-    return [
-      'count' => count($urls),
-      'errors' => $errors,
-    ];
+    return new Response($urls, $errors);
   }
 
   /**
@@ -127,41 +133,19 @@ class GoogleApi {
    *   The response as a string.
    */
   public function checkIndexingStatus(string $url): string {
-    $this->initializeApi(FALSE);
+    $client = $this->indexingService->getClient();
+    $client->setUseBatch(FALSE);
+
+    if ($this->isEnabled()) {
+      $client = $client->authorize();
+    }
 
     $baseUrl = self::METADATA_ENDPOINT;
     $query_parameter = '?url=' . urlencode($url);
     $theUrl = $baseUrl . $query_parameter;
 
-    $client = $this->indexingService->getClient()->authorize();
-
-    $response = $client->request('GET', $theUrl);
-
-    return $response->getBody()->getContents();
-  }
-
-  /**
-   * Set up the client.
-   *
-   * @param bool $batch
-   *   Set the client on batch mode.
-   */
-  private function initializeApi(bool $batch = TRUE): void {
-    $config = $this->configFactory->get('helfi_google_api.settings');
-    $key = $config->get('indexing_api_key') ?: '';
-
-    if (!$key) {
-      throw new \Exception('Api key not configured. Unable to proceed.');
-    }
-
-    $client = new GoogleClient();
-    $client->setApplicationName('Helfi_Rekry');
-    $client->setAuthConfig(json_decode($key, TRUE));
-
-    $client->addScope(self::SCOPES);
-    $client->setUseBatch($batch);
-
-    $this->indexingService = new Indexing($client);
+    $result = $client->request('GET', $theUrl);
+    return $result->getBody()->getContents();
   }
 
 }

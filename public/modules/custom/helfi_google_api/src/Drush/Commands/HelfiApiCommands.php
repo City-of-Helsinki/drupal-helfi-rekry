@@ -69,9 +69,15 @@ final class HelfiApiCommands extends DrushCommands {
       return DrushCommands::EXIT_FAILURE;
     }
 
-    if ($response['errors']) {
-      $this->io()->writeln('Request successful. Errors returned: ' . json_encode($response['errors']));
+    if ($response->getErrors()) {
+      $this->io()->writeln('Request successful. Errors returned: ' . json_encode($response->getErrors()));
       return DrushCommands::EXIT_FAILURE_WITH_CLARITY;
+    }
+
+    if ($response->isDebug()) {
+      $urls = $response->getUrls();
+      $this->io()->writeln('The api request would have sent following data: ' . json_encode($urls));
+      return DrushCommands::EXIT_SUCCESS;
     }
 
     $this->io()->writeln('Url indexed succesfully.');
@@ -115,9 +121,15 @@ final class HelfiApiCommands extends DrushCommands {
       return DrushCommands::EXIT_FAILURE;
     }
 
-    if ($response['errors']) {
-      $this->io()->writeln('Request successful. Errors returned: ' . json_encode($response['errors']));
+    if ($response->getErrors()) {
+      $this->io()->writeln('Request successful. Errors returned: ' . json_encode($response->getErrors()));
       return DrushCommands::EXIT_FAILURE_WITH_CLARITY;
+    }
+
+    if ($response->isDebug()) {
+      $urls = $response->getUrls();
+      $this->io()->writeln('The api request would have sent following data: ' . json_encode($urls));
+      return DrushCommands::EXIT_SUCCESS;
     }
 
     $this->io()->writeln('Url deindexed succesfully.');
