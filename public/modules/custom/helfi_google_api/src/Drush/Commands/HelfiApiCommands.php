@@ -8,13 +8,13 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\helfi_google_api\JobIndexingService;
+use Drupal\helfi_google_api\Response;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\node\Entity\Node;
 use Drupal\path_alias\AliasManagerInterface;
 use Drush\Attributes\Command;
 use Drush\Commands\AutowireTrait;
 use Drush\Commands\DrushCommands;
-use Drupal\helfi_google_api\Response;
 
 /**
  * A Drush command file.
@@ -177,7 +177,7 @@ final class HelfiApiCommands extends DrushCommands {
   /**
    * Handle response.
    *
-   * @param Drupal\helfi_google_api\Response $response
+   * @param \Drupal\helfi_google_api\Response $response
    *   The response object.
    *
    * @return int
