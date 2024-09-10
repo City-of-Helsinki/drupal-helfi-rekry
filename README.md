@@ -150,6 +150,11 @@ local site.
 4. To test the functionality, you should use the Mailpit running on your local in the `https://mailpit.docker.so/` url
 to view the emails being sent by the feature.
 
+#### Google indexing api automation (helfi_google_api-module)
+
+Job listing urls are automatically sent to google indexing api
+on publish and unpublish events, a request is sent to google to either index or deindex the url.
+
 ## Customizations
 
 ### Not part of global navigation
