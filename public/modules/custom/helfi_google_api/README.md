@@ -35,12 +35,12 @@ Sending local url to google indexing api results in 4xx error.
 
 ### Deindexing
 
-* Dendexing request is tied to scheduler event
+* Deindexing request is tied to scheduler event
 * The temporary redirect is removed when deindexing is done.
 
 ### Status check
 
-* You can send a status request to google api to find out if an URL has been indexed or deleted throuhg the API
+* You can send a status request to google api to find out if an URL has been indexed or deleted through the API
 
 
 
