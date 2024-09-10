@@ -21,6 +21,8 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
    *
    * @param \Drupal\helfi_google_api\JobIndexingService $jobIndexingService
    *   The job indexing service.
+   * @param Drupal\helfi_api_base\Environment\EnvironmentResolverInterface $environmentResolver
+   *   The environment resolver.
    */
   public function __construct(
     private readonly JobIndexingService $jobIndexingService,
