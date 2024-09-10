@@ -30,12 +30,15 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents(): array {
-    // @todo Enable when tested with cron commands.
+    // @todo Enable after feature tested in production.
+    /*
     return [
-      SchedulerEvents::PUBLISH => 'sendIndexingRequest',
-      SchedulerEvents::PUBLISH_IMMEDIATELY => 'sendIndexRequest',
-      SchedulerEvents::UNPUBLISH => 'sendDeindexingRequest',
+    SchedulerEvents::PUBLISH => 'sendIndexingRequest',
+    SchedulerEvents::PUBLISH_IMMEDIATELY => 'sendIndexRequest',
+    SchedulerEvents::UNPUBLISH => 'sendDeindexingRequest',
     ];
+     */
+    return [];
   }
 
   /**
