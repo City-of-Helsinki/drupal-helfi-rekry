@@ -7,7 +7,6 @@ namespace Drupal\helfi_google_api\EventSubscriber;
 use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\scheduler\SchedulerEvent;
-use Drupal\scheduler\SchedulerEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
