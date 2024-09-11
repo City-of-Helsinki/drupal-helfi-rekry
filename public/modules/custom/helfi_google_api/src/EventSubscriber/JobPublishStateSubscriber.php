@@ -11,7 +11,7 @@ use Drupal\scheduler\SchedulerEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * {@inheritdoc}
+ * Subscribe to job publishing events
  */
 class JobPublishStateSubscriber implements EventSubscriberInterface {
 
