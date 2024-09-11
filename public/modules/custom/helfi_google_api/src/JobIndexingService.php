@@ -274,7 +274,7 @@ class JobIndexingService {
     ]);
 
     // If the api is not set up, no need to create the redirect.
-    if ($this->googleApi->isEnabled()) {
+    if ($this->googleApi->isDryRun()) {
       $redirect->save();
     }
 
@@ -306,7 +306,7 @@ class JobIndexingService {
     $redirects = Redirect::loadMultiple($redirectIds);
 
     // For debugging purposes, dbugging won't save the redirect.
-    if (!$redirects && !$this->googleApi->isEnabled()) {
+    if (!$redirects && !$this->googleApi->isDryRun()) {
       return $this->createTemporaryRedirectUrl($entity, $langcode)['redirect'];
     }
 

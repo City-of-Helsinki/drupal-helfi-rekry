@@ -66,7 +66,7 @@ class GoogleApi {
    * @return bool
    *   The api is set up
    */
-  public function isEnabled(): bool {
+  public function isDryRun(): bool {
     $config = $this->configFactory->get('helfi_google_api.settings');
     $key = $config->get('indexing_api_key') ?: '';
     $isEnabled = $config->get('enabled') ?: FALSE;
@@ -86,7 +86,7 @@ class GoogleApi {
    *   Object which holds the handled urls and request errors.
    */
   public function indexBatch(array $urls, bool $update): Response {
-    if (!$this->isEnabled()) {
+    if (!$this->isDryRun()) {
       return new Response($urls, debug: TRUE);
     }
 
@@ -136,7 +136,7 @@ class GoogleApi {
     $client = $this->indexingService->getClient();
     $client->setUseBatch(FALSE);
 
-    if ($this->isEnabled()) {
+    if ($this->isDryRun()) {
       $client = $client->authorize();
     }
 
