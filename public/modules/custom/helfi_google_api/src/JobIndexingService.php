@@ -353,7 +353,7 @@ class JobIndexingService {
    */
   private function handleDebugMessage(Response $response) {
     if ($response->isDryRun()) {
-      $this->logger->debug('Request would have sent following urls to api: '. json_encode($response->getUrls()));
+      $this->logger->debug('Request would have sent following urls to api: ' . json_encode($response->getUrls()));
     }
   }
 
