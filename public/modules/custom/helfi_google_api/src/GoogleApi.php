@@ -49,7 +49,7 @@ class GoogleApi {
   }
 
   /**
-   * Correct environment and key is set.
+   * Correct environment and key is set and enabled is true.
    *
    * @return bool
    *   The api is set up
@@ -59,7 +59,7 @@ class GoogleApi {
     $key = $config->get('indexing_api_key') ?: '';
     $isEnabled = $config->get('enabled') ?: FALSE;
 
-    return $key && $isEnabled;
+    return !$key && !$isEnabled;
   }
 
   /**
@@ -74,8 +74,8 @@ class GoogleApi {
    *   Object which holds the handled urls and request errors.
    */
   public function indexBatch(array $urls, bool $update): Response {
-    if (!$this->isDryRun()) {
-      return new Response($urls, debug: TRUE);
+    if ($this->isDryRun()) {
+      return new Response($urls, dryRun: TRUE);
     }
 
     $batch = $this->indexingService->createBatch();

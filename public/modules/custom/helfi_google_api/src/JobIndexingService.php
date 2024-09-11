@@ -228,6 +228,11 @@ class JobIndexingService {
    *   Has temporary redirect.
    */
   public function hasTemporaryRedirect(JobListing $entity, string $langcode): bool {
+    // In case of dry run, we can always say FALSE.
+    if ($this->googleApi->isDryRun()) {
+      return FALSE;
+    }
+
     $job_alias = $this->getEntityAlias($entity, $langcode);
 
     $query = $this->entityTypeManager->getStorage('redirect')
