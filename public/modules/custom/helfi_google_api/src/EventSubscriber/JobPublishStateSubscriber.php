@@ -7,6 +7,7 @@ namespace Drupal\helfi_google_api\EventSubscriber;
 use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\scheduler\SchedulerEvent;
+use Drupal\scheduler\SchedulerEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -29,14 +30,12 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents(): array {
-    // @todo Enable after feature tested in production.
-    /*
     return [
-    SchedulerEvents::PUBLISH => 'sendIndexingRequest',
-    SchedulerEvents::PUBLISH_IMMEDIATELY => 'sendIndexRequest',
-    SchedulerEvents::UNPUBLISH => 'sendDeindexingRequest',
+      SchedulerEvents::PUBLISH => 'sendIndexingRequest',
+      SchedulerEvents::PUBLISH_IMMEDIATELY => 'sendIndexRequest',
+      SchedulerEvents::UNPUBLISH => 'sendDeindexingRequest',
     ];
-     */
+
     return [];
   }
 
