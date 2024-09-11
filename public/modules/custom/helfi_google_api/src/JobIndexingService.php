@@ -144,6 +144,8 @@ class JobIndexingService {
   /**
    * Check url indexing status.
    *
+   * Status check request uses the api quota.
+   *
    * @param string $url
    *   An url to check.
    *
@@ -156,6 +158,8 @@ class JobIndexingService {
 
   /**
    * If entity seems to be indexed, send a status query.
+   *
+   * Status check request uses the api quota.
    *
    * @param \Drupal\helfi_rekry_content\Entity\JobListing $entity
    *   Entity to check.

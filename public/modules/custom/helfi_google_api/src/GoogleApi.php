@@ -47,7 +47,7 @@ class GoogleApi {
     private readonly Indexing $indexingService,
   ) {
   }
-  
+
   /**
    * Correct environment and key is set.
    *
@@ -113,6 +113,7 @@ class GoogleApi {
    * Request url indexing status.
    *
    * Returns the dates of last update and delete requests.
+   * For debugging purposes only, since it spends the quota.
    *
    * @param string $url
    *   The url which indexing status you want to request.
@@ -125,8 +126,10 @@ class GoogleApi {
     $client->setUseBatch(FALSE);
 
     if ($this->isDryRun()) {
-      $client = $client->authorize();
+      return "Dry running index status query with url: $url";
     }
+
+    $client = $client->authorize();
 
     $baseUrl = self::METADATA_ENDPOINT;
     $query_parameter = '?url=' . urlencode($url);
