@@ -19,7 +19,7 @@ use Drush\Commands\DrushCommands;
 /**
  * A Drush command file.
  */
-final class HelfiApiCommands extends DrushCommands {
+final class GoogleIndexingApiCommands extends DrushCommands {
 
   use AutowireTrait;
 
