@@ -1,2 +1,2 @@
-enabled: false
+dry_run: true
 indexing_api_key: ''
