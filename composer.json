@@ -24,7 +24,8 @@
         "drupal/migrate_plus": "^6.0",
         "drupal/raven": "^5.0",
         "drupal/redis": "^1.5",
-        "drush/drush": "^12"
+        "drush/drush": "^12",
+        "google/apiclient": "^2.17"
     },
     "require-dev": {
         "donatj/mock-webserver": "^2.4",
@@ -99,7 +100,10 @@
         },
         "patchLevel": {
             "drupal/core": "-p2"
-        }
+        },
+        "google/apiclient-services": [
+            "Indexing"
+        ]
     },
     "repositories": [
         {
@@ -121,6 +125,7 @@
         "copy-commit-message-script": "make copy-commit-message-script",
         "post-install-cmd": [
             "@copy-commit-message-script"
-        ]
+        ],
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
     }
 }

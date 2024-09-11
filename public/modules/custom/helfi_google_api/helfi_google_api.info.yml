@@ -1,0 +1,9 @@
+name: 'Helfi Google api'
+type: module
+description: 'Google indexing api integration'
+package: HELfi
+core_version_requirement: ^10 || ^11
+dependencies:
+  - 'publication_date:publication_date'
+  - redirect:redirect
+  - scheduler:scheduler
