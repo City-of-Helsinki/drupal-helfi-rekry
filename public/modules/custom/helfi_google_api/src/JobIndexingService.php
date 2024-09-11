@@ -41,7 +41,9 @@ class JobIndexingService {
    */
   public function handleIndexingRequest(array $urls, bool $update): Response {
     try {
-      return $this->googleApi->indexBatch($urls, $update);
+      $response = $this->googleApi->indexBatch($urls, $update);
+      $this->handleDebugMessage($response);
+      return $response;
     }
     catch (GuzzleException $e) {
       $message = "Request failed with code {$e->getCode()}: {$e->getMessage()}";
@@ -127,7 +129,7 @@ class JobIndexingService {
     }
 
     // No need to delete redirects on debug run.
-    if (!$result->isDebug()) {
+    if (!$result->isDryRun()) {
       $redirect->delete();
     }
 
@@ -277,8 +279,8 @@ class JobIndexingService {
       'status_code' => 301,
     ]);
 
-    // If the api is not set up, no need to create the redirect.
-    if ($this->googleApi->isDryRun()) {
+    // Only save the redirect if module set up properly.
+    if (!$this->googleApi->isDryRun()) {
       $redirect->save();
     }
 
@@ -309,8 +311,8 @@ class JobIndexingService {
       ->execute();
     $redirects = Redirect::loadMultiple($redirectIds);
 
-    // For debugging purposes, dbugging won't save the redirect.
-    if (!$redirects && !$this->googleApi->isDryRun()) {
+    // For debugging purposes, debugging won't save the redirect.
+    if (!$redirects && $this->googleApi->isDryRun()) {
       return $this->createTemporaryRedirectUrl($entity, $langcode)['redirect'];
     }
 
@@ -341,6 +343,18 @@ class JobIndexingService {
    */
   private function getEntityAlias(JobListing $entity, string $langcode): string {
     return $this->aliasManager->getAliasByPath("/node/{$entity->id()}", $langcode);
+  }
+
+  /**
+   * Send debug message if in debug mode.
+   *
+   * @param Response $response
+   *   The response.
+   */
+  private function handleDebugMessage(Response $response) {
+    if ($response->isDryRun()) {
+      $this->logger->debug('Request would have sent following urls to api: '. json_encode($response->getUrls()));
+    }
   }
 
 }

@@ -189,7 +189,7 @@ final class GoogleIndexingApiCommands extends DrushCommands {
       return DrushCommands::EXIT_FAILURE_WITH_CLARITY;
     }
 
-    if ($response->isDebug()) {
+    if ($response->isDryRun()) {
       $urls = $response->getUrls();
       $this->io()->writeln('The api request would have sent following data: ' . json_encode($urls));
       return DrushCommands::EXIT_SUCCESS;

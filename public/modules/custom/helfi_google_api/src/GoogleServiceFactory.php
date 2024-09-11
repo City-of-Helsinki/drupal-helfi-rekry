@@ -36,7 +36,6 @@ class GoogleServiceFactory {
     $client->addScope(self::SCOPES);
     $client->setUseBatch(TRUE);
 
-    // Set empty json object as a key if necessary.
     if ($key) {
       $client->setAuthConfig(json_decode($key, TRUE));
       $client->authorize();

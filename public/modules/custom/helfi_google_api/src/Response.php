@@ -16,13 +16,13 @@ class Response {
    *   Url which were indexed.
    * @param array $errors
    *   Errors per url.
-   * @param bool $debug
+   * @param bool $dryRun
    *   The request was not sent.
    */
   public function __construct(
     private array $urls,
     private array $errors = [],
-    private bool $debug = FALSE,
+    private bool $dryRun = FALSE,
   ) {
   }
 
@@ -55,8 +55,8 @@ class Response {
    * @return bool
    *   This is a debug run.
    */
-  public function isDebug(): bool {
-    return $this->debug;
+  public function isDryRun(): bool {
+    return $this->dryRun;
   }
 
 }
