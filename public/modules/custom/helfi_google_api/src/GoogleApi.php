@@ -47,19 +47,7 @@ class GoogleApi {
     private readonly Indexing $indexingService,
   ) {
   }
-
-  /**
-   * Does the api key exist.
-   *
-   * @return bool
-   *   Api key exists.
-   */
-  public function hasAuthenticationKey(): bool {
-    $config = $this->configFactory->get('helfi_google_api.settings');
-    $key = $config->get('indexing_api_key') ?: '';
-    return (bool) $key;
-  }
-
+  
   /**
    * Correct environment and key is set.
    *
