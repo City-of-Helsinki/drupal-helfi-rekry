@@ -11,7 +11,7 @@ use Drupal\scheduler\SchedulerEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Subscribe to job publishing events
+ * Subscribe to job publishing events.
  */
 class JobPublishStateSubscriber implements EventSubscriberInterface {
 
@@ -35,8 +35,6 @@ class JobPublishStateSubscriber implements EventSubscriberInterface {
       SchedulerEvents::PUBLISH_IMMEDIATELY => 'sendIndexRequest',
       SchedulerEvents::UNPUBLISH => 'sendDeindexingRequest',
     ];
-
-    return [];
   }
 
   /**
