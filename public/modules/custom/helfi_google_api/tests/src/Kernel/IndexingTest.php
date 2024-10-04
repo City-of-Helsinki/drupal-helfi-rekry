@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\path_alias\AliasManagerInterface;
+use Drupal\redirect\Entity\Redirect;
 use Drupal\Tests\helfi_api_base\Functional\ExistingSiteTestBase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -43,18 +44,65 @@ class IndexingTest extends ExistingSiteTestBase {
     $response = $indexingService->indexEntity($node);
 
     $this->assertTrue($response->isDryRun());
+    $this->assertCount(0, $response->getErrors());
     $this->assertCount(1, $response->getUrls());
 
-    // Test that the alias was created.
+    // Test that the correct url was created and sent for indexing.
     $expected = $node->toUrl()->toString() . '-';
     $indexed_url = $response->getUrls()[0];
     $this->assertTrue(str_contains($indexed_url, $expected));
   }
 
   /**
+   * Test deindexing.
+   */
+  public function testDeindexing(): void {
+    $recruitmentId = 'testi-1234-56-7890';
+    $langcode = 'sv';
+    $now = strtotime('now');
+    $timestamp = time() - 1;
+
+    $node = $this->createNode([
+      'type' => 'job_listing',
+      'langcode' => $langcode,
+      'title' => 'en jobb',
+      'field_recruitment_id' => $recruitmentId,
+      'publish_on' => $timestamp,
+    ]);
+
+    $temp_alias = sprintf(
+      "/lediga-jobb/%s-%s-%s",
+      $recruitmentId,
+      substr($node->toUrl()->toString(),-1), // This is the number of node.
+      $now
+    );
+
+    $redirect = Redirect::create([
+      'redirect_source' => $temp_alias,
+      'redirect_redirect' => "internal:/node/{$node->id()}",
+      'language' => $langcode,
+      'status_code' => 301,
+    ]);
+    $redirect->save();
+
+    $jobIndexingService = $this->getSut();
+
+    $response = $jobIndexingService->deindexEntity($node);
+    $this->assertTrue($response->isDryRun());
+    $this->assertCount(0, $response->getErrors());
+    $this->assertCount(1, $response->getUrls());
+
+    // Test that the correct url was created and sent for indexing.
+    $expected = $node->toUrl()->toString() . '-';
+    $indexed_url = $response->getUrls()[0];
+    $this->assertTrue(str_contains($indexed_url, $expected));
+  }
+
+
+  /**
    * The system under test.
    *
-   * @return JobIndexingService
+   * @return \Drupal\helfi_google_api\JobIndexingService
    *   The job indexing service.
    */
   private function getSut(): JobIndexingService {
