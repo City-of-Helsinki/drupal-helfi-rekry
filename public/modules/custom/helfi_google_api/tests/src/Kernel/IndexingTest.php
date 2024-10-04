@@ -7,11 +7,9 @@ namespace Drupal\Tests\helfi_google_api\Kernel;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\helfi_google_api\JobIndexingService;
-use Drupal\helfi_google_api\Response;
 use Drupal\path_alias\AliasManagerInterface;
 use Drupal\Tests\helfi_api_base\Functional\ExistingSiteTestBase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Psr\Log\LoggerInterface;
 
 /**
  * Tests file name transliteration.
@@ -55,7 +53,7 @@ class IndexingTest extends ExistingSiteTestBase {
 
   /**
    * The system under test.
-   * 
+   *
    * @return JobIndexingService
    *   The job indexing service.
    */
