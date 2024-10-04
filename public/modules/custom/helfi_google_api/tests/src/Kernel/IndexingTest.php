@@ -15,7 +15,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 /**
  * Tests file name transliteration.
  *
- * @group helfi_rekry_content
+ * @group helfi_google_api
  */
 class IndexingTest extends ExistingSiteTestBase {
   use ProphecyTrait;
@@ -26,7 +26,8 @@ class IndexingTest extends ExistingSiteTestBase {
    * Test the indexing.
    */
   public function testIndexingJoblisting(): void {
-    $recruitmentId = 'TESTI-1234-56-7890';
+    $random = rand(1000, 9999);
+    $recruitmentId = "TESTI-1234-56-$random";
     $timestamp = time() - 1;
 
     $node = $this->createNode([
@@ -57,7 +58,8 @@ class IndexingTest extends ExistingSiteTestBase {
    * Test deindexing.
    */
   public function testDeindexing(): void {
-    $recruitmentId = 'testi-1234-56-7890';
+    $random = rand(1000, 9999);
+    $recruitmentId = "TESTI-1234-56-$random";
     $langcode = 'sv';
     $now = strtotime('now');
     $timestamp = time() - 1;
@@ -70,10 +72,10 @@ class IndexingTest extends ExistingSiteTestBase {
       'publish_on' => $timestamp,
     ]);
 
+    // Create temp redirect for the node to allow deindexing request.
     $temp_alias = sprintf(
-      "/lediga-jobb/%s-%s-%s",
-      $recruitmentId,
-      substr($node->toUrl()->toString(),-1), // This is the number of node.
+      "/lediga-jobb/%s-%s",
+      strtolower($recruitmentId),
       $now
     );
 
@@ -97,7 +99,6 @@ class IndexingTest extends ExistingSiteTestBase {
     $indexed_url = $response->getUrls()[0];
     $this->assertTrue(str_contains($indexed_url, $expected));
   }
-
 
   /**
    * The system under test.
