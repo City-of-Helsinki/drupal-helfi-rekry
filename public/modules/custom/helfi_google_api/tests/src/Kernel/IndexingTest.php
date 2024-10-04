@@ -39,7 +39,7 @@ class IndexingTest extends ExistingSiteTestBase {
     ]);
 
     /** @var \Drupal\helfi_google_api\JobIndexingService $indexingService */
-    $indexingService = $this->getSut([$node]);
+    $indexingService = $this->getSut();
 
     /** @var \Drupal\helfi_google_api\Response $response */
     $response = $indexingService->indexEntity($node);
