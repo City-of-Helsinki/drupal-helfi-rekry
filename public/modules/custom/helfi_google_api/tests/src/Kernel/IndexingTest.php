@@ -6,10 +6,14 @@ namespace Drupal\Tests\helfi_google_api\Kernel;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\UrlGeneratorInterface;
+use Drupal\helfi_google_api\GoogleApi;
 use Drupal\helfi_google_api\JobIndexingService;
+use Drupal\helfi_google_api\Response;
 use Drupal\path_alias\AliasManagerInterface;
 use Drupal\redirect\Entity\Redirect;
 use Drupal\Tests\helfi_api_base\Functional\ExistingSiteTestBase;
+use Google\Service\Indexing;
+use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
@@ -55,6 +59,29 @@ class IndexingTest extends ExistingSiteTestBase {
     $expected = $node->toUrl()->toString() . '-';
     $indexed_url = $response->getUrls()[0];
     $this->assertTrue(str_contains($indexed_url, $expected));
+  }
+
+  public function testIndexingErrors() {
+    $random = rand(1000, 9999);
+    $recruitmentId = "TESTI-1234-56-$random";
+    $timestamp = time() - 1;
+
+    $node = $this->createNode([
+      'type' => 'job_listing',
+      'langcode' => 'sv',
+      'title' => 'en jobb',
+      'field_recruitment_id' => $recruitmentId,
+      'publish_on' => $timestamp,
+    ]);
+
+    /** @var \Drupal\helfi_google_api\JobIndexingService $indexingService */
+    $indexingService = $this->getSut('errors');
+
+    /** @var \Drupal\helfi_google_api\Response $response */
+    $response = $indexingService->indexEntity($node);
+
+    $this->assertCount(1, $response->getErrors());
+    $this->assertCount(1, $response->getUrls());
   }
 
   /**
@@ -109,8 +136,27 @@ class IndexingTest extends ExistingSiteTestBase {
    * @return \Drupal\helfi_google_api\JobIndexingService
    *   The job indexing service.
    */
-  private function getSut(): JobIndexingService {
-    $googleApi = $this->container->get('Drupal\helfi_google_api\GoogleApi');
+  private function getSut($errors = ''): JobIndexingService {
+    if ($errors === 'errors') {
+      $googleApi = $this->prophesize(GoogleApi::class);
+      $googleApi->isDryRun()
+        ->willReturn(TRUE);
+
+      $response = new Response(
+        ['https://test.fi/url'],
+        ['Unable to verify url ownership'],
+        TRUE
+      );
+      $googleApi->indexBatch(Argument::any(), Argument::any())
+        ->willReturn($response);
+      $googleApi = $googleApi->reveal();
+    }
+    else {
+      $googleApi = new GoogleApi(
+        $this->container->get('config.factory'),
+        $this->prophesize(Indexing::class)->reveal()
+      );
+    }
     $entityTypeManager = $this->container->get(EntityTypeManagerInterface::class);
     $aliasManager = $this->container->get(AliasManagerInterface::class);
     $urlGenerator = $this->container->get(UrlGeneratorInterface::class);
