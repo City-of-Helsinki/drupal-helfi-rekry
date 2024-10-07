@@ -20,6 +20,9 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class IndexingTest extends ExistingSiteTestBase {
   use ProphecyTrait;
 
+  /**
+   * {@inheritdoc}
+   */
   public static $modules = ['helfi_google_api'];
 
   /**

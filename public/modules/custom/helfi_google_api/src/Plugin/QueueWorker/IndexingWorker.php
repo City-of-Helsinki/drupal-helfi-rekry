@@ -12,7 +12,7 @@ use Drupal\helfi_rekry_content\Entity\JobListing;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Queue Worker for indexing the migrated job listings which are published on migrate.
+ * Index the migrated job listings which are published on migrate.
  *
  * @QueueWorker(
  *   id = "job_listing_indexing_request",
@@ -38,8 +38,8 @@ final class IndexingWorker extends QueueWorkerBase implements ContainerFactoryPl
    */
   public function __construct(
     array $configuration,
-          $plugin_id,
-          $plugin_definition,
+    $plugin_id,
+    $plugin_definition,
     protected EntityTypeManagerInterface $entityTypeManager,
     protected JobIndexingService $jobIndexingService,
   ) {
@@ -77,8 +77,8 @@ final class IndexingWorker extends QueueWorkerBase implements ContainerFactoryPl
     try {
       $this->jobIndexingService->indexEntity($node);
     }
-    catch(\Exception $e) {
-      // handled in service.
+    catch (\Exception $e) {
+      // Handled in service.
     }
   }
 
