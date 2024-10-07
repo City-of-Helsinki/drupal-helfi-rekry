@@ -23,7 +23,7 @@ class IndexingTest extends ExistingSiteTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['helfi_google_api'];
+  protected static $modules = ['helfi_google_api'];
 
   /**
    * Test the indexing.
