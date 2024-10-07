@@ -61,6 +61,9 @@ class IndexingTest extends ExistingSiteTestBase {
     $this->assertTrue(str_contains($indexed_url, $expected));
   }
 
+  /**
+   * Test errors from api.
+   */
   public function testIndexingErrors() {
     $random = rand(1000, 9999);
     $recruitmentId = "TESTI-1234-56-$random";
@@ -84,6 +87,9 @@ class IndexingTest extends ExistingSiteTestBase {
     $this->assertCount(1, $response->getUrls());
   }
 
+  /**
+   * Test exception.
+   */
   public function testIndexingExceptions() {
     $random = rand(1000, 9999);
     $recruitmentId = "TESTI-1234-56-$random";
@@ -102,12 +108,11 @@ class IndexingTest extends ExistingSiteTestBase {
 
     /** @var \Drupal\helfi_google_api\Response $response */
     try {
-      $response = $indexingService->indexEntity($node);
+      $indexingService->indexEntity($node);
     }
     catch(\Exception $e) {
       $this->assertTrue(TRUE);
     }
-
   }
 
   /**

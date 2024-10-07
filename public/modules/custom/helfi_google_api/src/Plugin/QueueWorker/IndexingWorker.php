@@ -76,7 +76,7 @@ final class IndexingWorker extends QueueWorkerBase implements ContainerFactoryPl
     }
 
     try {
-      $result = $this->jobIndexingService->indexEntity($node);
+      $this->jobIndexingService->indexEntity($node);
     }
     catch (\Exception $e) {
       throw new RequeueException();
