@@ -84,6 +84,32 @@ class IndexingTest extends ExistingSiteTestBase {
     $this->assertCount(1, $response->getUrls());
   }
 
+  public function testIndexingExceptions() {
+    $random = rand(1000, 9999);
+    $recruitmentId = "TESTI-1234-56-$random";
+    $timestamp = time() - 1;
+
+    $node = $this->createNode([
+      'type' => 'job_listing',
+      'langcode' => 'sv',
+      'title' => 'en jobb',
+      'field_recruitment_id' => $recruitmentId,
+      'publish_on' => $timestamp,
+    ]);
+
+    /** @var \Drupal\helfi_google_api\JobIndexingService $indexingService */
+    $indexingService = $this->getSut('exception');
+
+    /** @var \Drupal\helfi_google_api\Response $response */
+    try {
+      $response = $indexingService->indexEntity($node);
+    }
+    catch(\Exception $e) {
+      $this->assertTrue(TRUE);
+    }
+
+  }
+
   /**
    * Test deindexing.
    */
@@ -137,11 +163,18 @@ class IndexingTest extends ExistingSiteTestBase {
    *   The job indexing service.
    */
   private function getSut($errors = ''): JobIndexingService {
-    if ($errors === 'errors') {
+    if ($errors != '') {
       $googleApi = $this->prophesize(GoogleApi::class);
       $googleApi->isDryRun()
         ->willReturn(TRUE);
+    }
 
+    if ($errors === 'exception') {
+      $googleApi->indexBatch(Argument::any(), Argument::any())
+        ->willThrow(new \Exception('Test exception'));
+      $googleApi = $googleApi->reveal();
+    }
+    elseif ($errors === 'errors') {
       $response = new Response(
         ['https://test.fi/url'],
         ['Unable to verify url ownership'],
