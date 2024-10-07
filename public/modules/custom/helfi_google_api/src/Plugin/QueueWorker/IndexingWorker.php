@@ -7,6 +7,7 @@ namespace Drupal\helfi_rekry_content\Plugin\QueueWorker;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\QueueWorkerBase;
+use Drupal\Core\Queue\RequeueException;
 use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -63,7 +64,7 @@ final class IndexingWorker extends QueueWorkerBase implements ContainerFactoryPl
    * {@inheritdoc}
    */
   public function processItem($data): void {
-    if (!$data['nid']) {
+    if (!isset($data['nid'])) {
       return;
     }
 
@@ -75,10 +76,10 @@ final class IndexingWorker extends QueueWorkerBase implements ContainerFactoryPl
     }
 
     try {
-      $this->jobIndexingService->indexEntity($node);
+      $result = $this->jobIndexingService->indexEntity($node);
     }
     catch (\Exception $e) {
-      // Handled in service.
+      throw new RequeueException();
     }
   }
 
