@@ -106,7 +106,6 @@ class IndexingTest extends ExistingSiteTestBase {
     /** @var \Drupal\helfi_google_api\JobIndexingService $indexingService */
     $indexingService = $this->getSut('exception');
 
-    /** @var \Drupal\helfi_google_api\Response $response */
     try {
       $indexingService->indexEntity($node);
     }
@@ -168,18 +167,18 @@ class IndexingTest extends ExistingSiteTestBase {
    *   The job indexing service.
    */
   private function getSut($errors = ''): JobIndexingService {
-    if ($errors != '') {
+    if ($errors === 'exception') {
       $googleApi = $this->prophesize(GoogleApi::class);
       $googleApi->isDryRun()
         ->willReturn(TRUE);
-    }
-
-    if ($errors === 'exception') {
       $googleApi->indexBatch(Argument::any(), Argument::any())
         ->willThrow(new \Exception('Test exception'));
       $googleApi = $googleApi->reveal();
     }
     elseif ($errors === 'errors') {
+      $googleApi = $this->prophesize(GoogleApi::class);
+      $googleApi->isDryRun()
+        ->willReturn(TRUE);
       $response = new Response(
         ['https://test.fi/url'],
         ['Unable to verify url ownership'],
