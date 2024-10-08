@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Drupal\Tests\helfi_google_api\Kernel;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Queue\QueueInterface;
+use Drupal\Core\Queue\RequeueException;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\helfi_google_api\GoogleApi;
 use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_google_api\Response;
+use Drupal\helfi_google_api\Plugin\QueueWorker\IndexingWorker;
 use Drupal\path_alias\AliasManagerInterface;
 use Drupal\redirect\Entity\Redirect;
 use Drupal\Tests\helfi_api_base\Functional\ExistingSiteTestBase;
@@ -27,7 +30,7 @@ class IndexingTest extends ExistingSiteTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['helfi_google_api'];
+  protected static $modules = ['system', 'helfi_google_api'];
 
   /**
    * Test the indexing.
@@ -112,6 +115,42 @@ class IndexingTest extends ExistingSiteTestBase {
     catch (\Exception $e) {
       $this->assertTrue(TRUE);
     }
+  }
+
+  /**
+   * Test queue.
+   */
+  public function testQueue() {
+    $cron = \Drupal::service('cron');
+    $random = rand(1000, 9999);
+    $recruitmentId = "TESTI-1234-56-$random";
+    $timestamp = time() - 1;
+
+    $worker = new IndexingWorker(
+      [],
+      'job_listing_indexing_request',
+      [],
+      $this->container->get(EntityTypeManagerInterface::class),
+      $this->getSut('exception')
+    );
+
+    /** @var QueueInterface $queue */
+    $queue = $this->container->get('queue')->get('job_listing_indexing_request');
+
+    $node = $this->createNode([
+      'type' => 'job_listing',
+      'langcode' => 'sv',
+      'title' => 'en jobb',
+      'field_recruitment_id' => $recruitmentId,
+      'publish_on' => $timestamp,
+    ]);
+
+    $this->assertEquals(0, $queue->numberOfItems());
+
+    $this->expectException(RequeueException::class);
+    $worker->processItem(['nid' => $node->id()]);
+
+    $this->assertEquals(1, $queue->numberOfItems());
   }
 
   /**
