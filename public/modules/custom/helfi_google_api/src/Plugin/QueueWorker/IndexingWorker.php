@@ -17,14 +17,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @QueueWorker(
  *   id = "job_listing_indexing_request",
- *   title = @Translation("Job listing unpublish worker"),
+ *   title = @Translation("Job listing indexing request worker"),
  *   cron = {"time" = 60}
  * )
  */
 final class IndexingWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
   /**
-   * Constructs a new UnpublishWorker object.
+   * The constructor.
    *
    * @param array $configuration
    *   Configuration array.

@@ -110,7 +110,7 @@ class IndexingTest extends ExistingSiteTestBase {
     try {
       $indexingService->indexEntity($node);
     }
-    catch(\Exception $e) {
+    catch (\Exception $e) {
       $this->assertTrue(TRUE);
     }
   }
