@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\helfi_rekry_content\Plugin\QueueWorker;
+namespace Drupal\helfi_google_api\Plugin\QueueWorker;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
