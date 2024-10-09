@@ -150,7 +150,7 @@ class IndexingTest extends ExistingSiteTestBase {
 
     $this->expectException(RequeueException::class);
     $cron->run();
-    
+
     $this->assertEquals(1, $queue->numberOfItems());
   }
 
