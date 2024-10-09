@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\Tests\helfi_google_api\Kernel;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Queue\QueueInterface;
 use Drupal\Core\Queue\RequeueException;
 use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\helfi_google_api\GoogleApi;
@@ -121,7 +120,6 @@ class IndexingTest extends ExistingSiteTestBase {
    * Test queue.
    */
   public function testQueue() {
-    $cron = \Drupal::service('cron');
     $random = rand(1000, 9999);
     $recruitmentId = "TESTI-1234-56-$random";
     $timestamp = time() - 1;
@@ -134,7 +132,7 @@ class IndexingTest extends ExistingSiteTestBase {
       $this->getSut('exception')
     );
 
-    /** @var QueueInterface $queue */
+    /** @var \Drupal\Core\Queue\QueueInterface $queue */
     $queue = $this->container->get('queue')->get('job_listing_indexing_request');
 
     $node = $this->createNode([
