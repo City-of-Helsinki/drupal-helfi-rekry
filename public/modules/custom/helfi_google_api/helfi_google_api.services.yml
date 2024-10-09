@@ -21,6 +21,8 @@ services:
 
   Drupal\helfi_google_api\EventSubscriber\JobPublishStateSubscriber: ~
 
+  Drupal\helfi_google_api\EventSubscriber\JobMigrationSubscriber: ~
+
   helfi_google_api.google_service:
     public: false
     class: \Google\Service\Indexing
