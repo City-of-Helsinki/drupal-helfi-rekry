@@ -120,7 +120,6 @@ class IndexingTest extends ExistingSiteTestBase {
    * Test queue.
    */
   public function testQueue() {
-    $cron = $this->container->get('cron');
     $random = rand(1000, 9999);
     $recruitmentId = "TESTI-1234-56-$random";
     $timestamp = time() - 10;
@@ -149,8 +148,9 @@ class IndexingTest extends ExistingSiteTestBase {
     $queue->createItem(['nid' => $node->id()]);
 
     $this->expectException(RequeueException::class);
-    $cron->run();
+    $worker->processItem(['nid' => $node->id()]);
 
+    // Since the api throws exception, the item should be requeued.
     $this->assertEquals(1, $queue->numberOfItems());
   }
 
