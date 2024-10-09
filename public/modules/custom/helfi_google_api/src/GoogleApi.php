@@ -57,7 +57,7 @@ class GoogleApi {
   public function isDryRun(): bool {
     $config = $this->configFactory->get('helfi_google_api.settings');
     $key = $config->get('indexing_api_key') ?: '';
-    $dryRun = $config->get('dry_run') ?: TRUE;
+    $dryRun = $config->get('dry_run') === FALSE ? FALSE : TRUE;
 
     return !$key || $dryRun;
   }
