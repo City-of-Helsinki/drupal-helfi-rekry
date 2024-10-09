@@ -120,9 +120,10 @@ class IndexingTest extends ExistingSiteTestBase {
    * Test queue.
    */
   public function testQueue() {
+    $cron = $this->container->get('cron');
     $random = rand(1000, 9999);
     $recruitmentId = "TESTI-1234-56-$random";
-    $timestamp = time() - 1;
+    $timestamp = time() - 10;
 
     $worker = new IndexingWorker(
       [],
@@ -140,14 +141,16 @@ class IndexingTest extends ExistingSiteTestBase {
       'langcode' => 'sv',
       'title' => 'en jobb',
       'field_recruitment_id' => $recruitmentId,
+      'status' => 0,
       'publish_on' => $timestamp,
     ]);
 
     $this->assertEquals(0, $queue->numberOfItems());
+    $queue->createItem(['nid' => $node->id()]);
 
     $this->expectException(RequeueException::class);
-    $worker->processItem(['nid' => $node->id()]);
-
+    $cron->run();
+    
     $this->assertEquals(1, $queue->numberOfItems());
   }
 
