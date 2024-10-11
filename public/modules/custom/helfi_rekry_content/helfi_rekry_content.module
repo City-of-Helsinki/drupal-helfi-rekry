@@ -668,21 +668,11 @@ function helfi_rekry_content_page_attachments_alter(array &$attachments) {
  * Implements hook_helfi_paragraph_types().
  */
 function helfi_rekry_content_helfi_paragraph_types() : array {
-  // @todo UHF-9511 Remove the content liftup paragraph type.
   $entities = [
     'node' => [
       'landing_page' => [
         'field_content' => [
-          'content_liftup' => 11,
           'job_search' => 15,
-        ],
-      ],
-      'page' => [
-        'field_content' => [
-          'content_liftup' => 12,
-        ],
-        'field_lower_content' => [
-          'content_liftup' => 12,
         ],
       ],
     ],
