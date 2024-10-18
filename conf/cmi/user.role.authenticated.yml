@@ -11,6 +11,7 @@ dependencies:
     - helfi_api_base
     - media
     - paragraphs
+    - raven
     - rest
     - system
     - tfa
@@ -28,6 +29,7 @@ permissions:
   - 'disable own tfa'
   - 'display eu cookie compliance popup'
   - 'restful get helfi_global_mobile_menu'
+  - 'send javascript errors to sentry'
   - 'setup own tfa'
   - 'view helfi_announcements external entity'
   - 'view helfi_news external entity'
