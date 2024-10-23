@@ -27,19 +27,6 @@ $sort-minimum-width: 283px;
   }
 }
 
-.job-listing-search__count-container {
-  @include font('lead');
-  margin-bottom: $spacing;
-
-  @include breakpoint($breakpoint-l) {
-    margin-bottom: 0;
-  }
-
-  .job-listing-search__count {
-    font-weight: $font-weight-bold;
-  }
-}
-
 .job-listing-search__sort {
   min-width: $sort-minimum-width;
 }
@@ -217,17 +204,5 @@ button.job-search-form__remove-selection-button:not(:disabled) {
   > div:focus-visible {
     outline: 3px solid $color-black;
     outline-offset: $spacing-half;
-  }
-}
-
-.job-search__results-stats {
-  margin-bottom: $spacing-double;
-  margin-left: $spacing;
-  margin-right: $spacing;
-
-  @include breakpoint($breakpoint-l) {
-    align-items: flex-end;
-    display: flex;
-    justify-content: space-between;
   }
 }
