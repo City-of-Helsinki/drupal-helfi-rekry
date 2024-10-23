@@ -9,7 +9,7 @@ dependencies:
     - paragraphs.paragraphs_type.chart
     - paragraphs.paragraphs_type.columns
     - paragraphs.paragraphs_type.content_cards
-    - paragraphs.paragraphs_type.content_liftup
+    - paragraphs.paragraphs_type.curated_event_list
     - paragraphs.paragraphs_type.event_list
     - paragraphs.paragraphs_type.from_library
     - paragraphs.paragraphs_type.hearings
@@ -25,7 +25,7 @@ dependencies:
   module:
     - entity_reference_revisions
 _core:
-  default_config_hash: zEXoDFJnyArUOiL2ZrtDuq4YDWKyn6ung9JndPk_Ntg
+  default_config_hash: hTXPpiRGSAr_S4UXdMrZbYum_JkD4y-qlfTvBS_M-X4
 id: node.landing_page.field_content
 field_name: field_content
 entity_type: node
@@ -55,8 +55,8 @@ settings:
       event_list: event_list
       news_list: news_list
       hearings: hearings
-      content_liftup: content_liftup
       job_search: job_search
+      curated_event_list: curated_event_list
     negate: 0
     target_bundles_drag_drop:
       banner:
@@ -71,8 +71,8 @@ settings:
       content_cards:
         weight: 1
         enabled: true
-      content_liftup:
-        weight: 11
+      curated_event_list:
+        weight: 15
         enabled: true
       event_list:
         weight: 13
