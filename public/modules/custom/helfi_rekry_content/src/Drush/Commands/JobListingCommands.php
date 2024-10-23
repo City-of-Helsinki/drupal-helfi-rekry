@@ -1,19 +1,20 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Drush\Commands;
 
-use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\helfi_rekry_content\Service\JobListingCleaner;
 use Drush\Attributes as CLI;
+use Drush\Commands\AutowireTrait;
 use Drush\Commands\DrushCommands;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * A Drush commandfile.
+ * A Drush command file.
  */
-final class JobListingCommands extends DrushCommands implements ContainerInjectionInterface {
+final class JobListingCommands extends DrushCommands {
+
+  use AutowireTrait;
 
   /**
    * Constructs a JobListingCommands object.
@@ -22,15 +23,6 @@ final class JobListingCommands extends DrushCommands implements ContainerInjecti
     private readonly JobListingCleaner $jobListingCleaner,
   ) {
     parent::__construct();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container): self {
-    return new self(
-      $container->get(JobListingCleaner::class),
-    );
   }
 
   /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\helfi_rekry_content\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
@@ -18,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("Organization information block"),
  * )
  */
-class OrganizationInformation extends BlockBase implements ContainerFactoryPluginInterface {
+final class OrganizationInformation extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * Constructs a new instance.
@@ -51,7 +53,7 @@ class OrganizationInformation extends BlockBase implements ContainerFactoryPlugi
     ContainerInterface $container,
     array $configuration,
     $plugin_id,
-    $plugin_definition
+    $plugin_definition,
   ) : self {
     return new self(
       $configuration,

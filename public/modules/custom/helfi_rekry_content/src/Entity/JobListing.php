@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\helfi_rekry_content\Entity;
 
 use Drupal\node\Entity\Node;
 
 /**
- * Bundle class for hel_map paragraph.
+ * Bundle class for JobListing paragraph.
  */
 class JobListing extends Node {
 
@@ -31,7 +33,7 @@ class JobListing extends Node {
    */
   public function getOrganizationName() : string {
     if (!$this->get('field_organization_override')->first()) {
-      return $this->get('field_organization_name')->value;
+      return $this->get('field_organization_name')->value ?? '';
     }
 
     $storage = $this->entityTypeManager()
@@ -41,11 +43,11 @@ class JobListing extends Node {
     $organization_entity = $storage->load($this->get('field_organization_override')->first()->target_id);
 
     if (!$organization_entity->hasTranslation($this->get('langcode')->value)) {
-      return $organization_entity->getName();
+      return $organization_entity->getName() ?? '';
     }
 
     $translated_organization_entity = $organization_entity->getTranslation($this->get('langcode')->value);
-    return $translated_organization_entity->getName();
+    return $translated_organization_entity->getName() ?? '';
   }
 
   /**

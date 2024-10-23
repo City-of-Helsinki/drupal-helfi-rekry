@@ -42,4 +42,5 @@ process:
 destination:
   plugin: 'entity:taxonomy_term'
   default_bundle: organization
+  translations: true
 migration_dependencies: { }

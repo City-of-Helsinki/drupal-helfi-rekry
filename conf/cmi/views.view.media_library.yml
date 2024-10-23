@@ -139,6 +139,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 24
           total_pages: null
           id: 0
@@ -1077,6 +1078,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 24
           total_pages: null
           id: 0
@@ -1336,7 +1338,7 @@ display:
             image_link: ''
             image_style: media_library
             image_loading:
-              attribute: lazy
+              attribute: eager
         name:
           id: name
           table: media_field_data
@@ -1376,7 +1378,7 @@ display:
             custom_date_format: ''
             timezone: ''
             tooltip:
-              date_format: ''
+              date_format: long
               custom_date_format: ''
             time_diff:
               enabled: false

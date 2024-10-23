@@ -8,6 +8,7 @@ module:
   block: 0
   breakpoint: 0
   ckeditor5: 0
+  ckeditor5_paste_filter: 0
   config: 0
   config_ignore: 0
   config_rewrite: 0
@@ -23,6 +24,7 @@ module:
   editor: 0
   editoria11y: 0
   elasticsearch_connector: 0
+  encrypt: 0
   entity: 0
   entity_reference_revisions: 0
   entity_usage: 0
@@ -42,8 +44,10 @@ module:
   helfi_azure_fs: 0
   helfi_base_content: 0
   helfi_ckeditor: 0
+  helfi_etusivu_entities: 0
   helfi_eu_cookie_compliance: 0
-  helfi_global_announcement: 0
+  helfi_google_api: 0
+  helfi_hakuvahti: 0
   helfi_image_styles: 0
   helfi_media: 0
   helfi_media_chart: 0
@@ -52,12 +56,14 @@ module:
   helfi_node_announcement: 0
   helfi_node_landing_page: 0
   helfi_node_page: 0
+  helfi_node_survey: 0
   helfi_paragraphs_accordion: 0
   helfi_paragraphs_banner: 0
   helfi_paragraphs_chart: 0
   helfi_paragraphs_columns: 0
   helfi_paragraphs_contact_card_listing: 0
   helfi_paragraphs_content_cards: 0
+  helfi_paragraphs_curated_event_list: 0
   helfi_paragraphs_hearings: 0
   helfi_paragraphs_hero: 0
   helfi_paragraphs_image: 0
@@ -76,15 +82,19 @@ module:
   helfi_proxy: 0
   helfi_react_search: 0
   helfi_rekry_content: 0
+  helfi_tfa: 0
   helfi_toc: 0
   helfi_tunnistamo: 0
   helfi_user_roles: 0
+  helfi_users: 0
+  help: 0
   image: 0
   image_style_quality: 0
   imagecache_external: 0
   imagemagick: 0
   jquery_ui: 0
   jquery_ui_draggable: 0
+  key: 0
   language: 0
   link: 0
   linkit: 0
@@ -101,6 +111,7 @@ module:
   metatag_twitter_cards: 0
   migrate: 0
   migrate_plus: 0
+  monolog: 0
   mysql: 0
   node: 0
   oembed_providers: 0
@@ -118,6 +129,7 @@ module:
   purge_tokens: 0
   raven: 0
   readonly_field_widget: 0
+  real_aes: 0
   redirect: 0
   redis: 0
   responsive_image: 0
@@ -135,6 +147,7 @@ module:
   taxonomy: 0
   telephone: 0
   text: 0
+  tfa: 0
   token: 0
   toolbar: 0
   translatable_menu_link_uri: 0

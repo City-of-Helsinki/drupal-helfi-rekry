@@ -17,12 +17,8 @@ source:
   ids:
     id:
       type: string
-  plugin: url
-  url: https://helbit.fi/portal-api/recruitment/v2.3/open-jobs
+  plugin: helbit_open_jobs
   track_changes: true
-  data_fetcher_plugin: http
-  data_parser_plugin: helbit_json
-  item_selector: 'jobAdvertisements'
   fields:
     -
       name: id
@@ -78,7 +74,7 @@ source:
       selector: jobAdvertisement/publishingOrganization
     -
       name: organization_description
-      label: 'Organization descrption'
+      label: 'Organization description'
       selector: jobAdvertisement/organizationDesc
     -
       name: organization_name
@@ -121,9 +117,17 @@ source:
       label: Employment
       selector: 'jobAdvertisement/employment'
     -
+      name: employment_id
+      label: Employment
+      selector: 'jobAdvertisement/employmentId'
+    -
       name: employment_type
       label: 'Employment type'
       selector: 'jobAdvertisement/employmentType'
+    -
+      name: employment_type_id
+      label: 'Employment type'
+      selector: 'jobAdvertisement/employmentTypeId'
     -
       name: publication_starts
       label: 'Publication starts'
@@ -139,9 +143,7 @@ process:
     callable: _helfi_rekry_content_lookup_job_nid
     source: id
   title: title
-  langcode:
-    plugin: default_value
-    default_value: fi
+  langcode: langcode
   job_description/value:
     plugin: callback
     callable: _filter_autop
@@ -196,9 +198,17 @@ process:
     plugin: default_value
     default_value: null
   field_video/target_id:
-    plugin: callback
-    callable: _helfi_rekry_content_lookup_video_mid
-    source: video
+    -
+      plugin: skip_on_empty
+      method: process
+      source: video
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_sanitize_video_url
+      source: video
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_lookup_video_mid
   field_organization_name: organization_name
   field_postal_area: postal_area
   field_postal_code: postal_code
@@ -218,25 +228,19 @@ process:
     callable: intval
     source: recruitment_type
   field_employment_type:
-    plugin: entity_lookup
-    entity_type: taxonomy_term
-    value_key: name
-    source: employment_type
-    bundle_key: vid
-    bundle: employment_type
-    ignore_case: true
+    -
+      plugin: callback
+      callable: _helfi_rekry_content_lookup_employment_type
+      source:
+        - employment_type_id
+        - employment_type
   field_employment:
     -
       plugin: callback
-      callable: _helfi_rekry_content_transform_employment
-      source: employment
-    -
-      plugin: entity_lookup
-      entity_type: taxonomy_term
-      value_key: name
-      bundle_key: vid
-      bundle: employment
-      ignore_case: true
+      callable: _helfi_rekry_content_lookup_employment
+      source:
+        - employment_id
+        - employment
   type:
     plugin: default_value
     default_value: job_listing
@@ -279,3 +283,4 @@ destination:
   plugin: 'entity:node'
   default_values:
     content_translation_uid: 1
+  translations: true

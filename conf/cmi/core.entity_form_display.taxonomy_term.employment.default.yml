@@ -3,10 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.employment.field_external_id
     - field.field.taxonomy_term.employment.field_search_id
     - taxonomy.vocabulary.employment
   module:
     - path
+    - readonly_field_widget
     - text
 id: taxonomy_term.employment.default
 targetEntityType: taxonomy_term
@@ -20,6 +22,18 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_external_id:
+    type: readonly_field_widget
+    weight: 3
+    region: content
+    settings:
+      label: above
+      formatter_type: text_span
+      formatter_settings:
+        string:
+          link_to_entity: false
+      show_description: true
     third_party_settings: {  }
   field_search_id:
     type: string_textfield

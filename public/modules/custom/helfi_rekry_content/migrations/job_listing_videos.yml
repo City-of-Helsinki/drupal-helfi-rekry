@@ -17,12 +17,10 @@ source:
       type: string
     video:
       type: string
-  plugin: url
+  plugin: helbit_open_jobs
   track_changes: true
-  data_fetcher_plugin: http
-  data_parser_plugin: helbit_json
-  item_selector: 'jobAdvertisements'
-  url: https://helbit.fi/portal-api/recruitment/v2.3/open-jobs
+  langcodes:
+    - fi
   fields:
     -
       name: id
@@ -45,15 +43,12 @@ process:
       source: video
     -
       plugin: callback
-      callable: _helfi_rekry_content_check_video_existance
+      callable: _helfi_rekry_content_sanitize_video_url
       source: video
     -
       plugin: callback
       callable: _helfi_rekry_content_get_video_url
-      source: video
-  langcode:
-    plugin: default_value
-    default_value: fi
+  langcode: langcode
   type:
     plugin: default_value
     default_value: remote_video

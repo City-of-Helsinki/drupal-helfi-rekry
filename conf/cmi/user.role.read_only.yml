@@ -2,10 +2,16 @@ uuid: 15d845bf-3de6-4301-b135-5863f40f66fe
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.announcement
+    - node.type.job_listing
+    - node.type.landing_page
+    - node.type.page
   module:
     - file
     - node
     - paragraphs
+    - tfa
     - toolbar
     - view_unpublished
 _core:
@@ -17,6 +23,8 @@ is_admin: null
 permissions:
   - 'access toolbar'
   - 'delete own files'
+  - 'disable own tfa'
+  - 'setup own tfa'
   - 'view any unpublished announcement content'
   - 'view any unpublished job_listing content'
   - 'view any unpublished landing_page content'

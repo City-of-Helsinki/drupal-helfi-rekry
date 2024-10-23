@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\EventSubscriber\HttpExceptionSubscriberBase;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Session\AccountInterface;
@@ -25,13 +25,13 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
    *   The configuration factory.
    * @param \Drupal\Core\Session\AccountInterface $currentUser
    *   The current user.
-   * @param \Drupal\Core\Entity\EntityTypeManager $entityTypeManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
    */
   public function __construct(
     protected ConfigFactoryInterface $configFactory,
     protected AccountInterface $currentUser,
-    protected EntityTypeManager $entityTypeManager,
+    protected EntityTypeManagerInterface $entityTypeManager,
   ) {}
 
   /**

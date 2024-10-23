@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\helfi_rekry_content\Plugin\QueueWorker;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -18,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   cron = {"time" = 60}
  * )
  */
-class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
+final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
   /**
    * Constructs a new UnpublishWorker object.
@@ -49,18 +51,18 @@ class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryPluginI
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) : self {
     return new self(
-    $configuration,
-    $plugin_id,
-    $plugin_definition,
-    $container->get('entity_type.manager'),
-    $container->get('logger.channel.helfi_rekry_content'),
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('logger.channel.helfi_rekry_content'),
     );
   }
 
   /**
    * {@inheritdoc}
    */
-  public function processItem($data) {
+  public function processItem($data): void {
     // Sanity check that nid value exists.
     if (!$data['nid']) {
       return;

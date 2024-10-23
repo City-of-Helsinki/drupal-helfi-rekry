@@ -15,7 +15,6 @@ dependencies:
     - node.type.job_listing
     - node.type.landing_page
     - node.type.page
-    - rest.resource.helfi_debug_data
     - taxonomy.vocabulary.keywords
     - taxonomy.vocabulary.organization
     - taxonomy.vocabulary.task_area
@@ -41,12 +40,12 @@ dependencies:
     - pathauto
     - publication_date
     - redirect
-    - rest
     - role_delegation
     - scheduler
     - simple_sitemap
     - system
     - taxonomy
+    - tfa
     - toolbar
     - view_unpublished
     - views_bulk_edit
@@ -79,7 +78,6 @@ permissions:
   - 'administer sitemap settings'
   - 'administer url aliases'
   - 'administer users'
-  - 'assign admin role'
   - 'assign content_producer role'
   - 'assign editor role'
   - 'assign read_only role'
@@ -126,6 +124,7 @@ permissions:
   - 'delete page revisions'
   - 'delete remote entities'
   - 'delete terms in keywords'
+  - 'disable own tfa'
   - 'edit any announcement content'
   - 'edit any file media'
   - 'edit any hel_map media'
@@ -152,7 +151,6 @@ permissions:
   - 'edit terms in organization'
   - 'edit terms in task_area'
   - 'mark as hidden in editoria11y'
-  - 'restful get helfi_debug_data'
   - 'revert all revisions'
   - 'revert announcement revisions'
   - 'revert job_listing revisions'
@@ -162,6 +160,7 @@ permissions:
   - 'set announcement published on date'
   - 'set landing_page published on date'
   - 'set page published on date'
+  - 'setup own tfa'
   - 'translate announcement node'
   - 'translate any entity'
   - 'translate configuration'

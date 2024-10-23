@@ -10,19 +10,21 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Utils;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Helbit API client.
  */
-final readonly class HelbitClient {
+class HelbitClient {
 
   /**
    * Constructs a HelbitClient object.
    */
   public function __construct(
-    private LoggerInterface $logger,
-    private ClientInterface $client,
-    private Settings $config,
+    #[Autowire(service: 'logger.channel.helfi_rekry_content')]
+    private readonly LoggerInterface $logger,
+    private readonly ClientInterface $client,
+    private readonly Settings $config,
   ) {
   }
 
@@ -31,14 +33,16 @@ final readonly class HelbitClient {
    *
    * @param string $language
    *   Result langcode.
+   * @param array $query
+   *   Additional query parameters.
    *
    * @return array
    *   Job listing data.
    */
-  public function getJobListings(string $language): array {
+  public function getJobListings(string $language, array $query = []): array {
     try {
       $response = $this->makeRequest('/open-jobs', [
-        'query' => [
+        'query' => $query + [
           'lang' => $this->getHelbitLangcode($language),
         ],
       ]);
@@ -47,6 +51,9 @@ final readonly class HelbitClient {
         return $response['jobAdvertisements'] ?? [];
       }
 
+      $this->logger->error('Failed retrieving data from Helbit. Request failed with code: @status_code', [
+        '@status_code' => $response['status'] ?? '',
+      ]);
     }
     catch (RequestException | GuzzleException $e) {
       Error::logException($this->logger, $e);

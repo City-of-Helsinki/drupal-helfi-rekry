@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Webmozart\Assert\Assert;
 
 /**
@@ -45,8 +46,9 @@ final class JobListingCleaner {
    */
   public function __construct(
     private readonly HelbitClient $client,
+    #[Autowire(service: 'content_lock')]
     private readonly ContentLock $contentLock,
-    EntityTypeManagerInterface $entityTypeManager
+    EntityTypeManagerInterface $entityTypeManager,
   ) {
     $this->storage = $entityTypeManager->getStorage('node');
   }

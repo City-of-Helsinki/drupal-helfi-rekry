@@ -45,7 +45,7 @@ mode: teaser
 content:
   field_employment_type:
     type: entity_reference_label
-    label: above
+    label: hidden
     settings:
       link: false
     third_party_settings: {  }

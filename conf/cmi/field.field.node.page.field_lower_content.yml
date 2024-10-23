@@ -11,7 +11,6 @@ dependencies:
     - paragraphs.paragraphs_type.columns
     - paragraphs.paragraphs_type.contact_card_listing
     - paragraphs.paragraphs_type.content_cards
-    - paragraphs.paragraphs_type.content_liftup
     - paragraphs.paragraphs_type.event_list
     - paragraphs.paragraphs_type.from_library
     - paragraphs.paragraphs_type.image
@@ -24,7 +23,7 @@ dependencies:
   module:
     - entity_reference_revisions
 _core:
-  default_config_hash: AejXN443GE3b159k_6fsqDyZ_BHs68SU9wBMY24Ueog
+  default_config_hash: v3n3ZeAjQ22N3kPPeDCIlFFcOuTiJ9F1CB0Gf4HQ6ZI
 id: node.page.field_lower_content
 field_name: field_lower_content
 entity_type: node
@@ -39,22 +38,21 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      text: text
-      columns: columns
-      image: image
-      accordion: accordion
       list_of_links: list_of_links
-      contact_card_listing: contact_card_listing
       content_cards: content_cards
-      content_liftup: content_liftup
+      text: text
+      accordion: accordion
       banner: banner
-      event_list: event_list
-      news_list: news_list
-      from_library: from_library
-      chart: chart
+      image: image
+      columns: columns
       phasing: phasing
-      remote_video: remote_video
+      from_library: from_library
       map: map
+      remote_video: remote_video
+      chart: chart
+      event_list: event_list
+      contact_card_listing: contact_card_listing
+      news_list: news_list
     negate: 0
     target_bundles_drag_drop:
       accordion:
@@ -74,9 +72,6 @@ settings:
         enabled: true
       content_cards:
         weight: 1
-        enabled: true
-      content_liftup:
-        weight: 12
         enabled: true
       event_list:
         weight: 13

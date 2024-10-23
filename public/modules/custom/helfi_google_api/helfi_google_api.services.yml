@@ -1,0 +1,36 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+  logger.channel.helfi_google_api:
+    parent: logger.channel_base
+    arguments: ['helfi_google_api']
+
+  Drupal\helfi_google_api\GoogleApi:
+    class: Drupal\helfi_google_api\GoogleApi
+    arguments:
+      - '@config.factory'
+      - '@helfi_google_api.google_service'
+
+  Drupal\helfi_google_api\JobIndexingService:
+    class: Drupal\helfi_google_api\JobIndexingService
+    autowire: true
+    arguments:
+      $logger: '@logger.channel.helfi_google_api'
+
+  Drupal\helfi_google_api\EventSubscriber\JobPublishStateSubscriber: ~
+
+  Drupal\helfi_google_api\EventSubscriber\JobMigrationSubscriber: ~
+
+  helfi_google_api.google_service:
+    public: false
+    class: \Google\Service\Indexing
+    factory: [ '@helfi_google_api.google_service_factory', 'create']
+    arguments:
+      - '@config.factory'
+
+  helfi_google_api.google_service_factory:
+    class: Drupal\helfi_google_api\GoogleServiceFactory
+    arguments:
+      - '@config.factory'

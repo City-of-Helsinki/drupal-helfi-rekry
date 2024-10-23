@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Helfi_hakuvahti.
+ *
+ *  Helfi_hakuvahti.module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_theme().
+ */
+function helfi_hakuvahti_theme() {
+  return [
+    'hakuvahti_form' => [
+      'variables' => [
+        'title' => NULL,
+        'message' => NULL,
+        'button_text' => NULL,
+        'action_url' => NULL,
+        'id' => NULL,
+        'form_id' => NULL,
+      ],
+    ],
+    'hakuvahti_confirmation' => [
+      'variables' => [
+        'title' => NULL,
+        'message' => NULL,
+        'link_text' => NULL,
+        'link_url' => NULL,
+      ],
+    ],
+  ];
+}

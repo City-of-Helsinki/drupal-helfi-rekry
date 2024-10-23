@@ -7,12 +7,14 @@ CLEAN_EXCLUDE += $(WEBROOT)/sites/default/files
 DRUPAL_DISABLE_MODULES ?= no
 DRUPAL_ENABLE_MODULES ?= no
 DRUPAL_PROFILE ?= minimal
+DRUPAL_SITE_EMAIL ?= maintenance@druid.fi
 DRUPAL_SYNC_FILES ?= yes
 DRUPAL_SYNC_SOURCE ?= main
 DRUSH_RSYNC_MODE ?= Pakzu
 DRUSH_RSYNC_OPTS ?=  -- --omit-dir-times --no-perms --no-group --no-owner --chmod=ugo=rwX
 DRUSH_RSYNC_EXCLUDE ?= css:ctools:js:php:tmp:tmp_php
 SYNC_TARGETS += drush-sync
+SYNC_FROM_REMOTE ?= no
 CS_EXTS := inc,php,module,install,profile,theme
 CS_STANDARD_PATHS := vendor/drupal/coder/coder_sniffer,vendor/slevomat/coding-standard
 CS_STANDARDS := Drupal,DrupalPractice
@@ -25,6 +27,10 @@ LINT_PHP_TARGETS += lint-drupal
 FIX_TARGETS += fix-drupal
 DRUPAL_CREATE_FOLDERS := $(WEBROOT)/sites/default/files/private
 DRUPAL_CREATE_FOLDERS += $(WEBROOT)/sites/default/files/translations
+
+ifeq ($(LAGOON),yes)
+	SYNC_FROM_REMOTE := yes
+endif
 
 ifeq ($(GH_DUMP_ARTIFACT),yes)
 	DRUPAL_FRESH_TARGETS := gh-download-dump $(DRUPAL_FRESH_TARGETS)
@@ -87,7 +93,7 @@ else
 endif
 drush-si: ## Site install
 	$(call step,Do Drush site:install...\n)
-	$(call drush,si ${DRUSH_SI})
+	$(call drush,si ${DRUSH_SI} --site-mail=$(DRUPAL_SITE_EMAIL))
 
 PHONY += drush-deploy
 drush-deploy: ## Run Drush deploy
@@ -147,15 +153,19 @@ ifeq ($(DUMP_SQL_EXISTS),yes)
 	$(call step,Import local SQL dump...)
 	$(call drush,sql-query --file=${DOCKER_PROJECT_ROOT}/$(DUMP_SQL_FILENAME) && echo 'SQL dump imported')
 else
+ifeq ($(SYNC_FROM_REMOTE),yes)
 	$(call step,Sync database from @$(DRUPAL_SYNC_SOURCE)...)
 	$(call drush,sql-sync -y --structure-tables-key=common @$(DRUPAL_SYNC_SOURCE) @self)
+endif
 endif
 
 PHONY += drush-sync-files
 drush-sync-files: ## Sync files
 ifeq ($(DRUPAL_SYNC_FILES),yes)
+ifeq ($(SYNC_FROM_REMOTE),yes)
 	$(call step,Sync files from @$(DRUPAL_SYNC_SOURCE)...)
 	$(call drush,-y rsync --exclude-paths=$(DRUSH_RSYNC_EXCLUDE) --mode=$(DRUSH_RSYNC_MODE) @$(DRUPAL_SYNC_SOURCE):%files @self:%files $(DRUSH_RSYNC_OPTS))
+endif
 endif
 
 PHONY += drush-create-dump

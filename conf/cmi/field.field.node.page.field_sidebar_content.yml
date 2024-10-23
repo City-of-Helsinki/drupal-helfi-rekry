@@ -10,7 +10,7 @@ dependencies:
   module:
     - entity_reference_revisions
 _core:
-  default_config_hash: 056k2o_OzWbDmv_9zA5BNb30RqLImUGCYN6nnYWjqoQ
+  default_config_hash: SQUCcarKdIUnT8p_fKf_Dca17YujYpyfd8H1m91BTK0
 id: node.page.field_sidebar_content
 field_name: field_sidebar_content
 entity_type: node
@@ -25,8 +25,8 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      sidebar_text: sidebar_text
       from_library: from_library
+      sidebar_text: sidebar_text
     negate: 0
     target_bundles_drag_drop:
       from_library:

@@ -4,10 +4,12 @@ display:
       fields:
         langcode:
           label: Kieli
+          separator: ', '
         title:
           label: Otsikko
         type:
           label: Sisältötyyppi
+          separator: ', '
         name:
           label: Kirjoittaja
         status:

@@ -5,7 +5,7 @@
  * Functions for helfi_rekry_content module.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityFormInterface;
@@ -106,12 +106,16 @@ function helfi_rekry_content_scheduler_allow_publishing(NodeInterface $node): bo
  * @return string|null
  *   Filename or null
  */
-function _helfi_rekry_content_filename(string|NULL $sourceUri = NULL): ?string {
+function _helfi_rekry_content_filename(?string $sourceUri = NULL): ?string {
   if (!$sourceUri) {
     return NULL;
   }
-
-  return strtok(basename($sourceUri), '?');
+  // Parse the filename from given URL. The url is something like:
+  // https://helbit.fi/portal-api/recruitment/images/L%C3%A4%C3%A4k%C3%A4ri_sairaanhoitaja_k%C3%A4yt%C3%A4v%C3%A4ll%C3%A4.png?target=1&id=26398.
+  $filename = urldecode(strtok(basename($sourceUri), '?'));
+  // Transliterate and normalize the filename.
+  $filename = str_replace(['ä', 'ö', 'å'], ['a', 'o', 'aa'], strtolower($filename));
+  return preg_replace('/[ +]/', '_', $filename);
 }
 
 /**
@@ -154,12 +158,19 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
  */
 function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   try {
+    /** @var \Drupal\media\OEmbed\UrlResolverInterface $resolver */
     $resolver = \Drupal::service('media.oembed.url_resolver');
-    /** @var \Drupal\media\OEmbed\Provider $provider */
+
     $provider = $resolver->getProviderByUrl($url);
+
+    if (!in_array($provider->getName(), ['YouTube', 'Icareus Suite'])) {
+      throw new MigrateSkipRowException();
+    }
   }
-  catch (\throwable $e) {
-    \Drupal::logger('helfi_rekry_content')->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
+  catch (ResourceException | ProviderException $e) {
+    \Drupal::logger('helfi_rekry_content')
+      ->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
+
     throw new MigrateSkipRowException();
   }
 
@@ -173,54 +184,37 @@ function _helfi_rekry_content_get_video_url(string|NULL $url = NULL): ?string {
   }
   catch (ResourceException | ProviderException $e) {
     // fetchResource fails, the link is no good.
-    if (!str_contains(strtolower($provider->getName()), 'youtube')) {
-      \Drupal::logger('helfi_rekry_content')
-        ->error('Bad video url rejected by oembed-validation: ' . $url);
-      throw new MigrateSkipRowException();
-    }
-
-    if (strpos($url, "://") === FALSE) {
-      $url = "https://$url";
-    }
-
-    // Remove all extra query parameters from youtube link.
-    $querystring = parse_url($url, PHP_URL_QUERY);
-    $queryParameters = [];
-    parse_str($querystring, $queryParameters);
-    if ($video_id = $queryParameters['v']) {
-      $parts = parse_url($url);
-      $path = $parts['path'];
-      $host = $parts['host'];
-      $scheme = $parts['scheme'] ? "{$parts['scheme']}://" : '';
-      $query = http_build_query([
-        'v' => $video_id,
-      ]);
-      $new_url = sprintf('%s%s%s?%s', $scheme, $host, rtrim($path, '/'), $query);
-
-      \Drupal::logger('helfi_rekry_content')
-        ->notice('Updated remote video query parameters, new url: ' . $new_url);
-
-      return $new_url;
-    }
-
     \Drupal::logger('helfi_rekry_content')
       ->error('Bad video url rejected by oembed-validation: ' . $url);
+
     throw new MigrateSkipRowException();
   }
 }
 
 /**
- * Get media entity by file id.
+ * Sanitize video url.
  *
- * @param string|null $url
- *   The video url.
+ * @param string $url
+ *   Previous video url.
  *
- * @throws \Drupal\migrate\MigrateSkipRowException
+ * @returns string
+ *   New video url.
  */
-function _helfi_rekry_content_check_video_existance(string|NULL $url = NULL): void {
-  if (_helfi_rekry_content_lookup_video_mid($url)) {
-    throw new MigrateSkipRowException();
+function _helfi_rekry_content_sanitize_video_url(string $url): string {
+  if (!$url || !($url = trim($url))) {
+    return $url;
   }
+
+  if (!str_contains($url, "://")) {
+    $url = "https://$url";
+  }
+
+  // OEmbed does not accept YouTube embed links.
+  if (preg_match("/youtube\.com\/embed\/([\w\-_]+)$/", $url, $matches)) {
+    $url = sprintf("https://youtube.com/watch?v=%s", $matches[1]);
+  }
+
+  return $url;
 }
 
 /**
@@ -346,69 +340,96 @@ function helfi_rekry_content_preprocess_field(&$variables) {
 }
 
 /**
- * Combine "organization" term translations with external ID.
+ * Lookup taxonomy term id.
+ *
+ * @param string $vid
+ *   Vocabulary id.
+ * @param string|int|null $external_id
+ *   External id.
+ * @param string|null $name
+ *   Term name.
+ *
+ * @return string|null
+ *   Taxonomy term ID or NULL.
  */
-function _helfi_rekry_content_lookup_organization_tid($external_id) {
-  $ids = \Drupal::entityQuery('taxonomy_term')
-    ->condition('vid', 'organization')
-    ->condition('field_external_id', $external_id)
-    ->accessCheck(FALSE)
-    ->execute();
+function _helfi_rekry_content_lookup_taxonomy_term_id(string $vid, string|int|null $external_id, ?string $name) : ?string {
+  if ($external_id) {
+    $ids = \Drupal::entityQuery('taxonomy_term')
+      ->condition('vid', $vid)
+      ->condition('field_external_id', $external_id)
+      ->accessCheck(FALSE)
+      ->execute();
 
-  if (empty($ids)) {
-    return NULL;
+    if ($ids) {
+      return reset($ids);
+    }
   }
 
-  return reset($ids);
-}
+  if ($name) {
+    // Since ext id might not exist yet, try matching by name.
+    $ids = \Drupal::entityQuery('taxonomy_term')
+      ->condition('vid', $vid)
+      ->condition('name', $name)
+      ->accessCheck(FALSE)
+      ->execute();
 
-/**
- * Combine "task_area" term translations with external ID.
- */
-function _helfi_rekry_content_lookup_task_area_tid($args) {
-
-  $external_id = $args[0];
-  $name = $args[1];
-
-  $ids = \Drupal::entityQuery('taxonomy_term')
-    ->condition('vid', 'task_area')
-    ->condition('field_external_id', $external_id)
-    ->accessCheck(FALSE)
-    ->execute();
-
-  if ($ids) {
-    return reset($ids);
-  }
-
-  // Since ext id might not exist yet, try matching by name.
-  $ids = \Drupal::entityQuery('taxonomy_term')
-    ->condition('vid', 'task_area')
-    ->condition('name', $name)
-    ->accessCheck(FALSE)
-    ->execute();
-
-  if ($ids) {
-    return reset($ids);
+    if ($ids) {
+      return reset($ids);
+    }
   }
 
   return NULL;
 }
 
 /**
- * Transform illegal values from api.
- *
- * @param string $employment
- *   The original string.
- *
- * @return string
- *   The corrected value.
+ * Combine "organization" term translations with external ID.
  */
-function _helfi_rekry_content_transform_employment($employment) {
+function _helfi_rekry_content_lookup_organization_tid($external_id) : ?string {
+  return _helfi_rekry_content_lookup_taxonomy_term_id('organization', $external_id, NULL);
+}
+
+/**
+ * Combine "task_area" term translations with external ID.
+ */
+function _helfi_rekry_content_lookup_task_area_tid(array $args) : ?string {
+  [$external_id, $name] = $args;
+
+  return _helfi_rekry_content_lookup_taxonomy_term_id('task_area', $external_id, $name);
+}
+
+/**
+ * Lookup "employment" term id.
+ *
+ * @param array $args
+ *   Employment and employment id.
+ *
+ * @return string|null
+ *   Employment term id or NULL on failure.
+ */
+function _helfi_rekry_content_lookup_employment(array $args) : ?string {
+  [$employment_id, $employment] = $args;
+
+  // Normalize employment name.
   if ($employment === 'Vuorotteluvapaasijaisuus') {
-    return 'Vuorotteluvapaan sijaisuus';
+    $employment = 'Vuorotteluvapaan sijaisuus';
   }
 
-  return $employment;
+  return _helfi_rekry_content_lookup_taxonomy_term_id('employment', $employment_id, $employment);
+}
+
+/**
+ * Lookup "employment_type" term id.
+ *
+ * @param array $args
+ *   Employment and employment id.
+ *
+ * @return string|null
+ *   Employment term id or NULL on failure.
+ */
+function _helfi_rekry_content_lookup_employment_type(array $args) : ?string {
+  [$employment_type_id, $employment_type] = $args;
+
+  return _helfi_rekry_content_lookup_taxonomy_term_id('employment_type', $employment_type_id, $employment_type);
 }
 
 /**
@@ -647,21 +668,11 @@ function helfi_rekry_content_page_attachments_alter(array &$attachments) {
  * Implements hook_helfi_paragraph_types().
  */
 function helfi_rekry_content_helfi_paragraph_types() : array {
-  // @todo UHF-9511 Remove the content liftup paragraph type.
   $entities = [
     'node' => [
       'landing_page' => [
         'field_content' => [
-          'content_liftup' => 11,
           'job_search' => 15,
-        ],
-      ],
-      'page' => [
-        'field_content' => [
-          'content_liftup' => 12,
-        ],
-        'field_lower_content' => [
-          'content_liftup' => 12,
         ],
       ],
     ],
