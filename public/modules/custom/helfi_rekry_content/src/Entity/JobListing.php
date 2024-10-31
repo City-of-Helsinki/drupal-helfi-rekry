@@ -86,7 +86,7 @@ class JobListing extends Node {
    * Create formatted datetime string for job listing formatted data.
    *
    * @return string
-   *    A formatted date string.
+   *   A formatted date string.
    */
   public function getFormattedStartTime(): string {
     /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_formatter */
