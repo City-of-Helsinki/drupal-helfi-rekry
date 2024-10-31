@@ -18,7 +18,9 @@ class JobListing extends Node {
    *   Job description.
    */
   public function getJobDescription() : string {
-    return $this->get('field_job_description_override')->value ?: $this->get('job_description')->value;
+    return $this->get('field_job_description_override')->value
+      ?: $this->get('job_description')->value
+      ?? '';
   }
 
   /**
@@ -78,6 +80,23 @@ class JobListing extends Node {
     $translated_employment_type_entity = $employment_type_entity->getTranslation($this->get('langcode')->value);
     return $translated_employment_type_entity->getName();
 
+  }
+
+  /**
+   * Create formatted datetime string for job listing formatted data.
+   *
+   * @return string
+   *    A formatted date string.
+   */
+  public function getFormattedStartTime(): string {
+    /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_formatter */
+    $date_formatter = \Drupal::service('date.formatter');
+
+    $publication_starts_datetime = $this->get('field_publication_starts')
+      ?->date
+      ?->getTimestamp() ?? $this->getCreatedTime();
+
+    return $date_formatter->format($publication_starts_datetime, 'html_date');
   }
 
 }

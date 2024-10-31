@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
@@ -22,6 +23,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class HelfiHakuvahtiController extends ControllerBase {
 
   use StringTranslationTrait;
+
+  /**
+   * The logger.
+   *
+   * @var \Psr\Log\LoggerInterface
+   */
+  private LoggerInterface $logger;
 
   /**
    * Constructs a HelfiHakuvahtiController object.
@@ -45,8 +53,10 @@ final class HelfiHakuvahtiController extends ControllerBase {
     protected RequestStack $requestStack,
     protected Token $tokenService,
     protected AccountInterface $user,
-    protected LoggerInterface $logger,
-  ) {}
+    protected LoggerChannelFactoryInterface $loggerChannelFactory,
+  ) {
+    $this->logger = $this->getLogger('helfi_hakuvahti');
+  }
 
   /**
    * Handles the confirmation of a saved search.

@@ -64,7 +64,6 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj);
 
     $token = $request->headers->get('token');
-
     // @todo Validate token.
     //
     // Somehow, we would need to validate token from
