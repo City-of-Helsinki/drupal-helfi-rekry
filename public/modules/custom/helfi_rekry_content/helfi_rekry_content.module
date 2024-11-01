@@ -287,7 +287,7 @@ function _helfi_rekry_content_add_schema(string|NULL $url = NULL): ?string {
 /**
  * Implements hook_theme().
  */
-function helfi_rekry_content_theme() {
+function helfi_rekry_content_theme() : array {
   return [
     'organization_information_block' => [
       'render element' => 'elements',
