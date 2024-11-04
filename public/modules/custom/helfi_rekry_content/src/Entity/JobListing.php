@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Entity;
 
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\filter\Render\FilteredMarkup;
 use Drupal\node\Entity\Node;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Bundle class for JobListing paragraph.
@@ -101,6 +104,164 @@ class JobListing extends Node {
     }
 
     return $date_formatter->format($publication_starts_datetime, 'html_date');
+  }
+
+  /**
+   * Get city description fields.
+   *
+   * @return array
+   *   City descriptions as an array.
+   */
+  public function getCityDescriptions() : array {
+    $job_listings_config = \Drupal::config('helfi_rekry_content.job_listings');
+
+    return [
+      '#city_description_title' => $job_listings_config->get('city_description_title'),
+      '#city_description_text' => $job_listings_config->get('city_description_text'),
+    ];
+  }
+
+  /**
+   * Get organization taxonomy term.
+   *
+   * @return \Drupal\taxonomy\TermInterface|bool
+   *   Returns the organization taxonomy term or false if not set.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  public function getOrganization() : TermInterface|bool {
+    $organization_id = '';
+
+    // Get the organization id from the migrated field.
+    if (!$this->get('field_organization')->isEmpty()) {
+      $organization_id = $this->get('field_organization')
+        ->first()
+        ->get('target_id')
+        ->getValue();
+    }
+
+    // Use the organization override value if it is set.
+    if (!$this->get('field_organization_override')->isEmpty()) {
+      $organization_id = $this->get('field_organization_override')
+        ->first()
+        ->get('target_id')
+        ->getValue();
+    }
+
+    try {
+      /** @var \Drupal\taxonomy\TermInterface $organization */
+      $organization = $this->entityTypeManager()
+        ->getStorage('taxonomy_term')
+        ->load($organization_id);
+      return $organization;
+    }
+    catch (\Exception $e) {
+      return FALSE;
+    }
+  }
+
+  /**
+   * Get organization default image.
+   *
+   * @return array
+   *   Returns a render array of the image.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  public function getOrganizationDefaultImage() : array {
+    $image_style = [
+      'type' => 'responsive_image',
+      'label' => 'hidden',
+      'settings' => [
+        'responsive_image_style' => 'job_listing_org',
+        'image_link' => '',
+        'image_loading' => [
+          'attribute' => 'eager',
+        ],
+      ],
+    ];
+
+    // Return the JobListing image field if it is set.
+    if (!$this->get('field_image')->isEmpty()) {
+
+      /** @var \Drupal\Core\Entity\Plugin\DataType\EntityReference $entity_reference */
+      $entity_reference = $this->get('field_image')
+        ?->first()
+        ?->get('entity');
+
+      /** @var \Drupal\Core\Entity\Plugin\DataType\EntityAdapter $entity_adapter */
+      $entity_adapter = $entity_reference?->getTarget();
+
+      /** @var \Drupal\media\Entity\Media $media */
+      $media = $entity_adapter?->getEntity();
+
+      // Render array of the image.
+      return $media
+        ?->get('field_media_image')
+        ?->first()
+        ?->view($image_style) ?? [];
+    }
+
+    $organization = $this->getOrganization();
+
+    // Return the organization default image if it is set.
+    if ($organization && !$organization->get('field_default_image')->isEmpty()) {
+      return $organization->get('field_default_image')->first()->view($image_style);
+    }
+
+    // Return an empty array if no image is found.
+    return [];
+  }
+
+  /**
+   * Get the translated organization name.
+   *
+   * @return string
+   *   Returns the translated organization name.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  public function getTranslatedOrganisationName() : string {
+    $organization = $this->getOrganization();
+    $organization_name = '';
+
+    if ($organization) {
+      $langcode = $this->languageManager()
+        ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+        ->getId();
+
+      $organization_name = $organization->hasTranslation($langcode)
+        ? $organization->getTranslation($langcode)->getName()
+        : $organization->getName() ?? '';
+    }
+    return $organization_name;
+  }
+
+  /**
+   * Get organization description.
+   *
+   * @return \Drupal\filter\Render\FilteredMarkup|string
+   *   Organization description as a render array.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  public function getOrganizationDescription() : FilteredMarkup|string {
+    $organization = $this->getOrganization();
+
+    // Set organization description from node.
+    $organization_description = $this->get('field_organization_description');
+
+    // Check if the organization description override is set and use it.
+    if (!$this->get('field_organization_description_o')->isEmpty()) {
+      $organization_description = $this->get('field_organization_description_o');
+    }
+    // If not and the organization description is empty,
+    // check if the organization taxonomy description is set and use it.
+    elseif ($organization_description->isEmpty() && !$organization->get('description')->isEmpty()) {
+      $organization_description = $organization->get('description');
+    }
+
+    return $organization_description->processed ?? $organization_description->value;
   }
 
 }
