@@ -164,24 +164,48 @@ class JobListing extends Node {
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function getOrganizationDefaultImage() : array {
-    $organization = $this->getOrganization();
-
-    if ($organization && !$organization->get('field_default_image')->isEmpty()) {
-      return $organization->get('field_default_image')->first()->view([
-        'type' => 'responsive_image',
-        'label' => 'hidden',
-        'settings' => [
-          'responsive_image_style' => 'job_listing_org',
-          'image_link' => '',
-          'image_loading' => [
-            'attribute' => 'eager',
-          ],
+    $image_style = [
+      'type' => 'responsive_image',
+      'label' => 'hidden',
+      'settings' => [
+        'responsive_image_style' => 'job_listing_org',
+        'image_link' => '',
+        'image_loading' => [
+          'attribute' => 'eager',
         ],
-      ]);
+      ],
+    ];
+
+    // Return the JobListing image field if it is set.
+    if (!$this->get('field_image')->isEmpty()) {
+
+      /** @var \Drupal\Core\Entity\Plugin\DataType\EntityReference $entity_reference */
+      $entity_reference = $this->get('field_image')
+        ?->first()
+        ?->get('entity');
+
+      /** @var \Drupal\Core\Entity\Plugin\DataType\EntityAdapter $entity_adapter */
+      $entity_adapter = $entity_reference?->getTarget();
+
+      /** @var \Drupal\media\Entity\Media $media */
+      $media = $entity_adapter?->getEntity();
+
+      // Render array of the image.
+      return $media
+        ?->get('field_media_image')
+        ?->first()
+        ?->view($image_style) ?? [];
     }
 
-    // Return the JobListing image.
-    return $this->get('field_image')->value ?? [];
+    $organization = $this->getOrganization();
+
+    // Return the organization default image if it is set.
+    if ($organization && !$organization->get('field_default_image')->isEmpty()) {
+      return $organization->get('field_default_image')->first()->view($image_style);
+    }
+
+    // Return an empty array if no image is found.
+    return [];
   }
 
   /**

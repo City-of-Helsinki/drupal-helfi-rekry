@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Plugin\Block;
 
 use Drupal\Core\Block\Attribute\Block;
-use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\helfi_platform_config\Plugin\Block\ContentBlockBase;
 use Drupal\helfi_rekry_content\Entity\JobListing;
