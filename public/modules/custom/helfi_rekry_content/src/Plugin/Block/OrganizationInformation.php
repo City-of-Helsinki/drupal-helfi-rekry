@@ -37,20 +37,11 @@ final class OrganizationInformation extends ContentBlockBase {
       // Get the City's title and description from the configuration.
       $build = $build + $entity->getCityDescriptions();
 
-      // Get the organization entity.
+      // Get the organization entity and set the necessary variables.
       try {
-        $organization = $entity->getOrganizationOverride();
-
-        if ($organization) {
-          // Set organization image.
-          $build['#organization_image'] = $entity->getOrganizationDefaultImage($organization);
-
-          // Set the organization title.
-          $build['#organization_title'] = $organization->getName();
-
-          // Set the organization description.
-          $build['#organization_description'] = $entity->getOrganizationDescription($organization);
-        }
+        $build['#organization_image'] = $entity->getOrganizationDefaultImage();
+        $build['#organization_title'] = $entity->getOrganizationName();
+        $build['#organization_description'] = $entity->getOrganizationDescription();
       }
       catch (\Exception $e) {
       }
