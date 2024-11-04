@@ -8,7 +8,7 @@ services:
     arguments: ['helfi_rekry_content']
 
   Drupal\helfi_rekry_content\EventSubscriber\ImageImportSubscriber: ~
-  Drupal\helfi_rekry_content\EventSubscriber\PrepareIndex: ~
+  Drupal\helfi_rekry_content\EventSubscriber\ElasticsearchEventSubscriber: ~
   Drupal\helfi_rekry_content\EventSubscriber\JobListingHideMissingSubscriber: ~
   Drupal\helfi_rekry_content\EventSubscriber\JobListingRedirectSubscriber: ~
 
