@@ -7,7 +7,6 @@ namespace Drupal\helfi_rekry_content\Entity;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\filter\Render\FilteredMarkup;
 use Drupal\node\Entity\Node;
-use Drupal\taxonomy\TermInterface;
 
 /**
  * Bundle class for JobListing paragraph.
@@ -99,34 +98,14 @@ class JobListing extends Node {
   }
 
   /**
-   * Get organization entity.
+   * Get organization taxonomy term.
    *
-   * @param string $organization_id
-   *   Organization ID.
-   *
-   * @return \Drupal\Core\Entity\EntityInterface|false
-   *   Organization entity.
-   */
-  protected function getOrganization(string $organization_id) : EntityInterface|bool {
-    try {
-      return \Drupal::entityTypeManager()
-        ->getStorage('taxonomy_term')
-        ->load($organization_id);
-    }
-    catch (\Exception $e) {
-      return FALSE;
-    }
-  }
-
-  /**
-   * Get organization override.
-   *
-   * @return \Drupal\taxonomy\TermInterface|bool
+   * @return \Drupal\Core\Entity\EntityInterface|bool
    *   Returns the organization taxonomy term or false if not set.
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
-  public function getOrganizationOverride() : TermInterface|bool {
+  public function getOrganization() : EntityInterface|bool {
     $organization_id = '';
 
     // Get the organization id from the migrated field.
@@ -145,21 +124,27 @@ class JobListing extends Node {
         ->getValue();
     }
 
-    return $this->getOrganization($organization_id);
+    try {
+      return \Drupal::entityTypeManager()
+        ->getStorage('taxonomy_term')
+        ->load($organization_id);
+    }
+    catch (\Exception $e) {
+      return FALSE;
+    }
   }
 
   /**
    * Get organization default image.
-   *
-   * @param \Drupal\taxonomy\TermInterface|false $organization
-   *   Organization term.
    *
    * @return array
    *   Returns a render array of the image.
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
-  public function getOrganizationDefaultImage(TermInterface|false $organization) : array {
+  public function getOrganizationDefaultImage() : array {
+    $organization = $this->getOrganization();
+
     if ($organization && !$organization->get('field_default_image')->isEmpty()) {
       return $organization->get('field_default_image')->first()->view([
         'type' => 'responsive_image',
@@ -181,13 +166,12 @@ class JobListing extends Node {
   /**
    * Get organization description.
    *
-   * @param \Drupal\taxonomy\TermInterface|false $organization
-   *   Organization entity.
-   *
    * @return \Drupal\filter\Render\FilteredMarkup|string
    *   Organization description as a render array.
    */
-  public function getOrganizationDescription(TermInterface|false $organization) : FilteredMarkup|string {
+  public function getOrganizationDescription() : FilteredMarkup|string {
+    $organization = $this->getOrganization();
+
     // Set organization description from node.
     $organization_description = $this->get('field_organization_description');
 
