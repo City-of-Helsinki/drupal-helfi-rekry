@@ -96,7 +96,8 @@ class JobListing extends Node {
       $publication_starts_datetime = $this->getCreatedTime();
     }
     else {
-      $publication_starts_datetime = $this->get('field_publication_starts')->date->getTimestamp(); // @phpstan-ignore-line
+      // @phpstan-ignore-next-line
+      $publication_starts_datetime = $this->get('field_publication_starts')->date->getTimestamp();
     }
 
     return $date_formatter->format($publication_starts_datetime, 'html_date');
