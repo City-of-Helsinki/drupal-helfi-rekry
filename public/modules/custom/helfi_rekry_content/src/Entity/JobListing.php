@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Entity;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\filter\Render\FilteredMarkup;
 use Drupal\node\Entity\Node;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Bundle class for JobListing paragraph.
@@ -100,12 +100,12 @@ class JobListing extends Node {
   /**
    * Get organization taxonomy term.
    *
-   * @return \Drupal\Core\Entity\EntityInterface|bool
+   * @return \Drupal\taxonomy\TermInterface|bool
    *   Returns the organization taxonomy term or false if not set.
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
-  public function getOrganization() : EntityInterface|bool {
+  public function getOrganization() : TermInterface|bool {
     $organization_id = '';
 
     // Get the organization id from the migrated field.
@@ -125,9 +125,11 @@ class JobListing extends Node {
     }
 
     try {
-      return \Drupal::entityTypeManager()
+      /** @var \Drupal\taxonomy\TermInterface $organization */
+      $organization = $this->entityTypeManager()
         ->getStorage('taxonomy_term')
         ->load($organization_id);
+      return $organization;
     }
     catch (\Exception $e) {
       return FALSE;
