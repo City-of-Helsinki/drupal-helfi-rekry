@@ -290,7 +290,13 @@ function _helfi_rekry_content_add_schema(string|NULL $url = NULL): ?string {
 function helfi_rekry_content_theme() : array {
   return [
     'organization_information_block' => [
-      'render element' => 'elements',
+      'variables' => [
+        'city_description_title' => NULL,
+        'city_description_text' => NULL,
+        'organization_title' => NULL,
+        'organization_image' => NULL,
+        'organization_description' => NULL,
+      ],
     ],
   ];
 }
