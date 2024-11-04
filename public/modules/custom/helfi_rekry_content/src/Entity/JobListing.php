@@ -92,9 +92,9 @@ class JobListing extends Node {
     /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_formatter */
     $date_formatter = \Drupal::service('date.formatter');
 
-    // @phpstan-ignore-line
-    $publication_starts_datetime = !$this->get('field_publication_starts')->isEmpty() ?
-      $this->get('field_publication_starts')->date->getTimestamp() : $this->getCreatedTime();
+    $publication_starts_datetime = !$this->get('field_publication_starts')->isEmpty()
+      ? $this->get('field_publication_starts')->date->getTimestamp() // @phpstan-ignore-line
+      : $this->getCreatedTime();
 
     return $date_formatter->format($publication_starts_datetime, 'html_date');
   }
