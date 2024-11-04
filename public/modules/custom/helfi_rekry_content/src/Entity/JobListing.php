@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Entity;
 
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\filter\Render\FilteredMarkup;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\TermInterface;
@@ -166,10 +167,36 @@ class JobListing extends Node {
   }
 
   /**
+   * Get the translated organization name.
+   *
+   * @return string
+   *   Returns the translated organization name.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
+   */
+  public function getTranslatedOrganisationName() : string {
+    $organization = $this->getOrganization();
+    $organization_name = '';
+
+    if ($organization) {
+      $langcode = $this->languageManager()
+        ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
+        ->getId();
+
+      $organization_name = $organization->hasTranslation($langcode)
+        ? $organization->getTranslation($langcode)->getName()
+        : $organization->getName() ?? '';
+    }
+    return $organization_name;
+  }
+
+  /**
    * Get organization description.
    *
    * @return \Drupal\filter\Render\FilteredMarkup|string
    *   Organization description as a render array.
+   *
+   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
   public function getOrganizationDescription() : FilteredMarkup|string {
     $organization = $this->getOrganization();
