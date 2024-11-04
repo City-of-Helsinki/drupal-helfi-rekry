@@ -34,7 +34,26 @@ final class OrganizationInformation extends ContentBlockBase {
 
     // Add the organization information to render array.
     if ($entity instanceof JobListing) {
-      $build = $build + $entity->buildOrganization();
+      // Get the City's title and description from the configuration.
+      $build = $build + $entity->getCityDescriptions();
+
+      // Get the organization entity.
+      try {
+        $organization = $entity->getOrganizationOverride();
+
+        if ($organization) {
+          // Set organization image.
+          $build['#organization_image'] = $entity->getOrganizationDefaultImage($organization);
+
+          // Set the organization title.
+          $build['#organization_title'] = $organization->getName();
+
+          // Set the organization description.
+          $build['#organization_description'] = $entity->getOrganizationDescription($organization);
+        }
+      }
+      catch (\Exception $e) {
+      }
     }
 
     return $build;

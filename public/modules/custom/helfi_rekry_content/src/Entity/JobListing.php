@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Entity;
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\filter\Render\FilteredMarkup;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\TermInterface;
 
@@ -143,7 +144,7 @@ class JobListing extends Node {
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
-  protected function getOrganizationOverride() : TermInterface|bool {
+  public function getOrganizationOverride() : TermInterface|bool {
     $organization_id = '';
 
     // Get the organization id from the migrated field.
@@ -201,10 +202,10 @@ class JobListing extends Node {
    * @param \Drupal\taxonomy\TermInterface|false $organization
    *   Organization entity.
    *
-   * @return array
+   * @return \Drupal\filter\Render\FilteredMarkup|string
    *   Organization description as a render array.
    */
-  public function getOrganizationDescription(TermInterface|false $organization) : array {
+  public function getOrganizationDescription(TermInterface|false $organization) : FilteredMarkup|string {
     // Set organization description from node.
     $organization_description = $this->get('field_organization_description');
 
@@ -219,36 +220,6 @@ class JobListing extends Node {
     }
 
     return $organization_description->processed ?? $organization_description->value;
-  }
-
-  /**
-   * Build the organization information render array.
-   *
-   * @return array
-   *   Returns the render array.
-   *
-   * @throws \Drupal\Core\TypedData\Exception\MissingDataException
-   */
-  public function buildOrganization() : array {
-    $build = [];
-
-    // Get the City's title and description from the configuration.
-    $build = $build + $this->getCityDescriptions();
-
-    // Get the organization entity.
-    $organization = $this->getOrganizationOverride();
-
-    if ($organization) {
-      // Set organization image.
-      $build['#organization_image'] = $this->getOrganizationDefaultImage($organization);
-
-      // Set the organization title.
-      $build['#organization_title'] = $organization->getName();
-
-      // Set the organization description.
-      $build['#organization_description'] = $this->getOrganizationDescription($organization);
-    }
-    return $build;
   }
 
 }
