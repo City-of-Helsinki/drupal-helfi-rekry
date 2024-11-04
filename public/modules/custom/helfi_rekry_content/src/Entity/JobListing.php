@@ -94,7 +94,8 @@ class JobListing extends Node {
 
     if ($this->get('field_publication_starts')->isEmpty()) {
       $publication_starts_datetime = $this->getCreatedTime();
-    } else {
+    }
+    else {
       $publication_starts_datetime = $this->get('field_publication_starts')->date->getTimestamp(); // @phpstan-ignore-line
     }
 
