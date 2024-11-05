@@ -6,7 +6,6 @@ namespace Drupal\helfi_rekry_content\EventSubscriber;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\elasticsearch_connector\Event\AlterSettingsEvent;
-use Drupal\elasticsearch_connector\Event\IndexParamsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
