@@ -11,7 +11,9 @@ use Drupal\Core\Url;
 use Drupal\Core\Utility\Token;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -35,6 +37,8 @@ final class HelfiHakuvahtiController extends ControllerBase {
    *   The token service.
    * @param \Drupal\Core\Session\AccountInterface $user
    *   The current user.
+   * @param \Psr\Log\LoggerInterface $logger
+   *   The logger.
    */
   public function __construct(
     protected ClientInterface $httpClient,
@@ -42,7 +46,9 @@ final class HelfiHakuvahtiController extends ControllerBase {
     protected RequestStack $requestStack,
     protected Token $tokenService,
     protected AccountInterface $user,
-  ) {}
+    #[Autowire(service: 'logger.channel.helfi_hakuvahti')] private readonly LoggerInterface $logger,
+  ) {
+  }
 
   /**
    * Handles the confirmation of a saved search.
@@ -148,7 +154,9 @@ final class HelfiHakuvahtiController extends ControllerBase {
       $response = $httpClient->get(getenv('HAKUVAHTI_URL') . "/subscription/confirm/{$subscriptionId}/{$subscriptionHash}");
       return $response->getBody()->getContents() !== '';
     }
-    catch (RequestException $exception) {
+    catch (GuzzleException $exception) {
+      $this->logger
+        ->error('Hakuvahti confirmation request failed: ' . $exception->getMessage());
       return FALSE;
     }
   }
@@ -259,7 +267,9 @@ final class HelfiHakuvahtiController extends ControllerBase {
       $response = $httpClient->delete(getenv('HAKUVAHTI_URL') . "/subscription/delete/{$subscription}/{$hash}");
       return $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
     }
-    catch (RequestException $exception) {
+    catch (GuzzleException $exception) {
+      $this->logger
+        ->error('Hakuvahti unsubscribe request failed: ' . $exception->getMessage());
       return FALSE;
     }
   }
