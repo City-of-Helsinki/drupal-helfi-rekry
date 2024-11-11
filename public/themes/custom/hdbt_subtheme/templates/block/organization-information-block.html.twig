@@ -1,36 +1,30 @@
 <div class="job-listing__sidebar">
   <div class="job-listing__image">
-    {% if content.field_image|render %}
-      {{ content.field_image }}
-    {% elseif content.organization_default_image|render %}
-      {{ content.organization_default_image }}
+    {% if organization_image|render %}
+      {{ organization_image }}
     {% else %}
       {% include '@hdbt/media/image--card.html.twig' with {content: '' } %}
     {% endif %}
   </div>
   <div class="job-listing__organization-information">
-    {% if content.field_organization|render or content.field_organization_override|render %}
+    {% if organization_title %}
       <h2 class="job-listing__organization">
-        {% if content.field_organization_override|render %}
-          {{ content.field_organization_override }}
-        {% else %}
-          {{ content.field_organization }}
-        {% endif %}
+        {{ organization_title }}
       </h2>
     {% endif %}
-    {% if content.field_organization_description|render or content.field_organization_description_o|render %}
+    {% if organization_description|render %}
       <div class="job-listing__organization-description user-edited-content">
-        {{ content.field_organization_description }}
+        {{ organization_description }}
       </div>
     {% endif %}
   </div>
-  {% if content.city_description_title|render or content.city_description_text|render %}
+  {% if city_description_title|render or city_description_text|render %}
     <div class="job-listing__city-description">
       <h2 class="job-listing__city-description-title">
-        {{  content.city_description_title }}
+        {{ city_description_title }}
       </h2>
       <div class="job-listing__city-description-text user-edited-content">
-        {{ content.city_description_text|nl2br }}
+        {{ city_description_text|nl2br }}
       </div>
     </div>
   {% endif %}

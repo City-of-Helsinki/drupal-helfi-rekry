@@ -290,7 +290,13 @@ function _helfi_rekry_content_add_schema(string|NULL $url = NULL): ?string {
 function helfi_rekry_content_theme() : array {
   return [
     'organization_information_block' => [
-      'render element' => 'elements',
+      'variables' => [
+        'city_description_title' => NULL,
+        'city_description_text' => NULL,
+        'organization_title' => NULL,
+        'organization_image' => NULL,
+        'organization_description' => NULL,
+      ],
     ],
   ];
 }
@@ -523,13 +529,6 @@ function helfi_rekry_content_page_attachments(array &$attachments) : void {
   /** @var \Drupal\helfi_rekry_content\Entity\JobListing $job_listing */
   $job_listing = $entity;
 
-  /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_formatter */
-  $date_formatter = Drupal::service('date.formatter');
-
-  // @phpstan-ignore-next-line
-  $publication_starts_datetime = $job_listing->get('field_publication_starts')->date->getTimestamp();
-  $publication_starts_formatted = $date_formatter->format($publication_starts_datetime, 'html_date');
-
   /** @var Drupal\Core\Extension\ThemeHandler $theme_handler */
   $theme_handler = Drupal::service('theme_handler');
 
@@ -558,7 +557,7 @@ function helfi_rekry_content_page_attachments(array &$attachments) : void {
       'name' => t('City of Helsinki'),
       'value' => $job_listing->get('field_recruitment_id')->value,
     ],
-    'datePosted' => $publication_starts_formatted,
+    'datePosted' => $job_listing->getFormattedStartTime(),
     'validThrough' => $job_listing->get('field_publication_ends')->value,
     'employmentType' => $job_listing->getEmploymentType(),
     'hiringOrganization' => [
