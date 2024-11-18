@@ -7,6 +7,7 @@
 
 declare(strict_types=1);
 
+use Drupal\Core\Entity\TranslatableInterface;
 use Drupal\media\Entity\Media;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
@@ -363,5 +364,70 @@ function helfi_rekry_content_update_9009(): void {
     $database
       ->schema()
       ->dropTable($table_name);
+  }
+}
+
+/**
+ * Trim links.
+ */
+function helfi_rekry_content_update_9010(): void {
+  $fields = [
+    'node' => [
+      'field_link_to_presentation',
+    ],
+  ];
+
+  $config = \Drupal::configFactory();
+  $entityUsageConfig = $config
+    ->getEditable('entity_usage.settings');
+
+  $trackEnabledSourceEntityTypes = $entityUsageConfig
+    ->get('track_enabled_source_entity_types');
+
+  // Disable entity_usage module.
+  $entityUsageConfig->set('track_enabled_source_entity_types', []);
+  $entityUsageConfig->save();
+
+  $entityTypeManager = \Drupal::entityTypeManager();
+
+  foreach ($fields as $entityType => $fields) {
+    foreach ($fields as $fieldName) {
+      $query = $entityTypeManager
+        ->getStorage($entityType)
+        ->getQuery();
+
+      $conditionGroup = $query->orConditionGroup();
+      $conditionGroup
+        ->condition($fieldName, '% ', 'LIKE')
+        ->condition($fieldName, ' %', 'LIKE');
+
+      $ids = $query
+        ->exists($fieldName)
+        ->condition($conditionGroup)
+        ->accessCheck(FALSE)
+        ->execute();
+
+      foreach ($ids as $id) {
+        $entity = $entityTypeManager->getStorage($entityType)
+          ->load($id);
+
+        assert($entity instanceof TranslatableInterface);
+        foreach ($entity->getTranslationLanguages() as $language) {
+          $entity = $entity->getTranslation($language->getId());
+
+          // Trim urls.
+          $links = array_map(static fn ($link) => array_merge($link, [
+            'uri' => trim($link['uri']),
+          ]), $entity->get($fieldName)->getValue());
+
+          $entity->set($fieldName, $links);
+          $entity->save();
+        }
+      }
+    }
+
+    // Re-enable entity_usage module.
+    $entityUsageConfig->set('track_enabled_source_entity_types', $trackEnabledSourceEntityTypes);
+    $entityUsageConfig->save();
   }
 }
