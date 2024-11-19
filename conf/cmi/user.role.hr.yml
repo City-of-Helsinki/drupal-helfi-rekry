@@ -7,7 +7,6 @@ dependencies:
     - filter.format.minimal
     - node.type.job_listing
   module:
-    - eu_cookie_compliance
     - file
     - filter
     - node
@@ -27,7 +26,6 @@ permissions:
   - 'change own username'
   - 'delete own files'
   - 'disable own tfa'
-  - 'display eu cookie compliance popup'
   - 'edit any job_listing content'
   - 'schedule publishing of nodes'
   - 'setup own tfa'

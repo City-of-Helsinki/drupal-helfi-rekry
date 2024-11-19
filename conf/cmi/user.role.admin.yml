@@ -125,7 +125,6 @@ permissions:
   - 'delete remote entities'
   - 'delete terms in keywords'
   - 'disable own tfa'
-  - 'display eu cookie compliance popup'
   - 'edit any announcement content'
   - 'edit any file media'
   - 'edit any hel_map media'
