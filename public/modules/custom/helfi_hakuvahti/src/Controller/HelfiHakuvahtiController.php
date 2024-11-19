@@ -9,9 +9,9 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\Token;
-use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -78,9 +78,28 @@ final class HelfiHakuvahtiController extends ControllerBase {
    *   A render array for the confirmation result.
    */
   private function handleConfirmFormSubmission(string $hash, string $subscription): array {
-    return $this->sendConfirmationRequest($hash, $subscription)
-      ? $this->buildConfirmationSuccess()
-      : $this->buildConfirmationFailure();
+    try {
+      $response = $this->sendConfirmationRequest($hash, $subscription);
+
+      if ($response->getBody()->getContents() !== '') {
+        return $this->buildConfirmationSuccess();
+      }
+    }
+    catch (GuzzleException $exception) {
+      // 404 error is returned if:
+      // * Submission has been deleted after it expired.
+      // * Submission has already been confirmed.
+      // * Submission does not exist.
+      if ($exception->getCode() === 404) {
+        $this->logger->info('Hakuvahti confirmation request failed: ' . $exception->getMessage());
+
+        return $this->buildConfirmationFailure();
+      }
+
+      $this->logger->error('Hakuvahti confirmation request failed: ' . $exception->getMessage());
+    }
+
+    return $this->buildConfirmationFailure();
   }
 
   /**
@@ -138,27 +157,20 @@ final class HelfiHakuvahtiController extends ControllerBase {
    * @param string $subscriptionId
    *   The subscription ID.
    *
-   * @return bool
-   *   TRUE if the confirmation request was successful, FALSE otherwise.
+   * @return \Psr\Http\Message\ResponseInterface
+   *   API response object.
+   *
+   * @throws \GuzzleHttp\Exception\GuzzleException
    */
-  protected function sendConfirmationRequest(string $subscriptionHash, string $subscriptionId): bool {
+  protected function sendConfirmationRequest(string $subscriptionHash, string $subscriptionId): ResponseInterface {
     $csrfTokenService = $this->container->get('csrf_token');
-    $httpClient = new Client([
+
+    return $this->httpClient->request('GET', getenv('HAKUVAHTI_URL') . "/subscription/confirm/{$subscriptionId}/{$subscriptionHash}", [
       'headers' => [
         'Content-Type' => 'application/json',
         'token' => $csrfTokenService->get('session'),
       ],
     ]);
-
-    try {
-      $response = $httpClient->get(getenv('HAKUVAHTI_URL') . "/subscription/confirm/{$subscriptionId}/{$subscriptionHash}");
-      return $response->getBody()->getContents() !== '';
-    }
-    catch (GuzzleException $exception) {
-      $this->logger
-        ->error('Hakuvahti confirmation request failed: ' . $exception->getMessage());
-      return FALSE;
-    }
   }
 
   /**
@@ -256,15 +268,14 @@ final class HelfiHakuvahtiController extends ControllerBase {
    */
   protected function sendUnsubscribeRequest(string $hash, string $subscription): bool {
     $csrfTokenService = $this->container->get('csrf_token');
-    $httpClient = new Client([
-      'headers' => [
-        'Content-Type' => 'application/json',
-        'token' => $csrfTokenService->get('session'),
-      ],
-    ]);
 
     try {
-      $response = $httpClient->delete(getenv('HAKUVAHTI_URL') . "/subscription/delete/{$subscription}/{$hash}");
+      $response = $this->httpClient->request('DELETE', getenv('HAKUVAHTI_URL') . "/subscription/delete/{$subscription}/{$hash}", [
+        'headers' => [
+          'Content-Type' => 'application/json',
+          'token' => $csrfTokenService->get('session'),
+        ],
+      ]);
       return $response->getStatusCode() >= 200 && $response->getStatusCode() < 300;
     }
     catch (GuzzleException $exception) {

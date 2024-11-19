@@ -26,19 +26,16 @@ dependencies:
     - scheduler
     - search_api
     - helfi_react_search
+    - helfi_rekry_content
 id: job_listings
 name: 'Job listings'
 description: ''
 read_only: false
 field_settings:
   _language:
-    label: 'Legacy Language'
-    datasource_id: 'entity:node'
-    property_path: langcode
+    label: Language
+    property_path: _language
     type: string
-    dependencies:
-      module:
-        - node
   employment_id:
     label: 'Employment » Luokittelutermi » Termin ID'
     datasource_id: 'entity:node'
@@ -343,6 +340,7 @@ processor_settings:
       - field_recruitment_id
       - field_search_id
       - langcode
+  language_field: {  }
   language_with_fallback: {  }
   project_execution_schedule: {  }
   project_image_absolute_url: {  }
