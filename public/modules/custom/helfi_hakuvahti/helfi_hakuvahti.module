@@ -12,7 +12,7 @@ declare(strict_types=1);
 /**
  * Implements hook_theme().
  */
-function helfi_hakuvahti_theme() {
+function helfi_hakuvahti_theme(): array {
   return [
     'hakuvahti_form' => [
       'variables' => [

@@ -3,22 +3,22 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.field_original_language
+    - field.storage.node.field_task_area
+    - field.storage.taxonomy_term.field_external_id
+    - field.storage.node.field_employment_type
     - field.storage.node.field_employment
     - field.storage.taxonomy_term.field_search_id
-    - field.storage.node.field_employment_type
-    - field.storage.taxonomy_term.field_external_id
     - field.storage.node.field_job_duration
-    - field.storage.node.field_jobs
-    - field.storage.node.field_organization
+    - field.storage.node.field_publication_starts
     - field.storage.node.field_organization_name
-    - field.storage.node.field_original_language
+    - field.storage.node.field_organization
+    - field.storage.node.field_jobs
     - field.storage.node.field_postal_area
     - field.storage.node.field_postal_code
     - field.storage.node.field_promoted
-    - field.storage.node.field_publication_starts
     - field.storage.node.field_recruitment_id
     - field.storage.node.field_recruitment_type
-    - field.storage.node.field_task_area
     - search_api.server.elastic_rekry
   module:
     - taxonomy
@@ -26,11 +26,16 @@ dependencies:
     - scheduler
     - search_api
     - helfi_react_search
+    - helfi_rekry_content
 id: job_listings
 name: 'Job listings'
 description: ''
 read_only: false
 field_settings:
+  _language:
+    label: Language
+    property_path: _language
+    type: string
   employment_id:
     label: 'Employment » Luokittelutermi » Termin ID'
     datasource_id: 'entity:node'
@@ -323,6 +328,7 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  custom_value: {  }
   district_image_absolute_url: {  }
   entity_status: {  }
   entity_type: {  }
@@ -334,6 +340,7 @@ processor_settings:
       - field_recruitment_id
       - field_search_id
       - langcode
+  language_field: {  }
   language_with_fallback: {  }
   project_execution_schedule: {  }
   project_image_absolute_url: {  }

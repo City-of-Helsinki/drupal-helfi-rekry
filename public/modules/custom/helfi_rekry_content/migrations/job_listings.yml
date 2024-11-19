@@ -185,6 +185,8 @@ process:
       plugin: callback
       callable: _helfi_rekry_content_add_schema
       source: link_to_presentation
+    - plugin: callback
+      callable: trim
   field_organization/target_id:
     plugin: entity_lookup
     entity_type: taxonomy_term

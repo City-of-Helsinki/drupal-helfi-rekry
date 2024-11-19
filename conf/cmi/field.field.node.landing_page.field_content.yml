@@ -13,6 +13,7 @@ dependencies:
     - paragraphs.paragraphs_type.event_list
     - paragraphs.paragraphs_type.from_library
     - paragraphs.paragraphs_type.hearings
+    - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.job_search
     - paragraphs.paragraphs_type.liftup_with_image
     - paragraphs.paragraphs_type.list_of_links
@@ -54,9 +55,10 @@ settings:
       target_group_links: target_group_links
       event_list: event_list
       news_list: news_list
+      image_gallery: image_gallery
+      curated_event_list: curated_event_list
       hearings: hearings
       job_search: job_search
-      curated_event_list: curated_event_list
     negate: 0
     target_bundles_drag_drop:
       banner:
@@ -82,6 +84,9 @@ settings:
         enabled: true
       hearings:
         weight: 14
+        enabled: true
+      image_gallery:
+        weight: 15
         enabled: true
       job_search:
         weight: 15
