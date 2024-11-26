@@ -3,30 +3,29 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_original_language
-    - field.storage.node.field_task_area
-    - field.storage.taxonomy_term.field_external_id
-    - field.storage.node.field_employment_type
     - field.storage.node.field_employment
-    - field.storage.taxonomy_term.field_search_id
+    - field.storage.node.field_employment_type
     - field.storage.node.field_job_duration
-    - field.storage.node.field_publication_starts
-    - field.storage.node.field_organization_name
-    - field.storage.node.field_organization
     - field.storage.node.field_jobs
+    - field.storage.node.field_organization
+    - field.storage.node.field_organization_name
+    - field.storage.node.field_original_language
     - field.storage.node.field_postal_area
     - field.storage.node.field_postal_code
     - field.storage.node.field_promoted
+    - field.storage.node.field_publication_starts
     - field.storage.node.field_recruitment_id
     - field.storage.node.field_recruitment_type
+    - field.storage.node.field_task_area
+    - field.storage.taxonomy_term.field_external_id
+    - field.storage.taxonomy_term.field_search_id
     - search_api.server.elastic_rekry
   module:
-    - taxonomy
-    - node
-    - scheduler
-    - search_api
     - helfi_react_search
     - helfi_rekry_content
+    - node
+    - scheduler
+    - taxonomy
 id: job_listings
 name: 'Job listings'
 description: ''
