@@ -11,7 +11,6 @@ migrations=(
   "helfi_rekry_organizations:en"
   "helfi_rekry_employments:all"
   "helfi_rekry_employment_types:all"
-  "helfi_rekry_jobs:all"
 )
 
 echo "Starting job listing migrations: $(date)"
