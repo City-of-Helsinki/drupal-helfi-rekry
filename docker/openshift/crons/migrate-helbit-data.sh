@@ -1,16 +1,16 @@
 #!/bin/bash
 
 migrations=(
-  "helfi_rekry_images:all"
-  "helfi_rekry_videos:all"
+  "helfi_rekry_images"
+  "helfi_rekry_videos"
   "helfi_rekry_task_areas:fi"
   "helfi_rekry_task_areas:sv"
   "helfi_rekry_task_areas:en"
   "helfi_rekry_organizations:fi"
   "helfi_rekry_organizations:sv"
   "helfi_rekry_organizations:en"
-  "helfi_rekry_employments:all"
-  "helfi_rekry_employment_types:all"
+  "helfi_rekry_employments"
+  "helfi_rekry_employment_types"
 )
 
 echo "Starting helbit migrations: $(date)"
