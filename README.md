@@ -8,7 +8,7 @@ search found on the site and provides other recruitment information for the city
 Env | Branch | Drush alias | URL
 --- | ------ | ----------- | ---
 development | * | - | http://helfi-rekry.docker.so/
-production | main | @main | TBD
+production | main | @main | https://www.hel.fi/fi/avoimet-tyopaikat
 
 ## Requirements
 
@@ -110,7 +110,7 @@ listings are published for indexing.
 
 - The `helfi_rekry_content` module code can be found from [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/tree/dev/public/modules/custom/helfi_rekry_content).
 - The migration interval for the new job listings can be checked from the cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/migrate-job-listings.sh).
-- The migration interval for changed job listings poll is written on this cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/migrate-changed-job-listings.sh).
+- The migration interval for images, taxonomy terms, etc. is written on this cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/migrate-helbit-data.sh).
 - The scheduled publishing interval can be checked from this cron configuration [here](https://github.com/City-of-Helsinki/drupal-helfi-rekry/blob/dev/docker/openshift/crons/content-scheduler.sh).
 
 ### Testing on local
