@@ -36,7 +36,7 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
    */
   public function getDerivativeDefinitions($base_plugin_definition): array {
     $langcodes = ['fi', 'sv', 'en'];
-    $derivatives = ['all', 'changed'];
+    $derivatives = ['all'];
 
     if ($base_plugin_definition['source']['plugin'] == 'helbit_open_jobs') {
       foreach ($derivatives as $key) {
@@ -64,10 +64,6 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
    *   Modified plugin definition for derivative.
    */
   private function getJobMigrationDerivativeValues(array $base_plugin_definition, string $key): array {
-    if (str_starts_with($key, 'changed')) {
-      $base_plugin_definition['source']['changed'] = TRUE;
-    }
-
     return $base_plugin_definition;
   }
 

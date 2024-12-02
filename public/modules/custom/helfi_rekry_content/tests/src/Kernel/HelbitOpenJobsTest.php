@@ -51,29 +51,6 @@ class HelbitOpenJobsTest extends KernelTestBase {
   }
 
   /**
-   * Tests that changed timestamp is present in request when configured.
-   */
-  public function testChangedTimestamp(): void {
-    $isValidTime = static fn (array $query) => preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/', $query['timestamp']);
-
-    $helbit = $this->prophesize(HelbitClient::class);
-    $helbit
-      ->getJobListings(Argument::any(), Argument::that($isValidTime))
-      ->shouldBeCalled();
-
-    $this
-      ->getSut($helbit->reveal(), [
-        'changed' => TRUE,
-        'ids' => [
-          'id' => [
-            'type' => 'string',
-          ],
-        ],
-      ])
-      ->next();
-  }
-
-  /**
    * Tests iterator.
    */
   public function testIterator(): void {

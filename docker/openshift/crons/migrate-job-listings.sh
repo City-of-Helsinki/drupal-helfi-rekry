@@ -1,7 +1,7 @@
 #!/bin/bash
 
 migrations=(
-  "helfi_rekry_jobs:all"
+  "helfi_rekry_jobs"
 )
 
 echo "Starting job listing migrations: $(date)"

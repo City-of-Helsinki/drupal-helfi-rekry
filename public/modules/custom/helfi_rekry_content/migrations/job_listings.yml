@@ -5,7 +5,6 @@ dependencies:
     module:
       - helfi_rekry_content
 id: helfi_rekry_jobs
-deriver: Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver
 migration_tags:
   - helfi_rekry_content
   - helfi_rekry_jobs
