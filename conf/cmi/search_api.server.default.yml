@@ -4,7 +4,7 @@ status: true
 dependencies:
   module:
     - elasticsearch_connector
-id: elastic_rekry
+id: default
 name: 'Elastic Rekry'
 description: ''
 backend: elasticsearch
