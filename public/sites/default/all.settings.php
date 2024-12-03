@@ -72,9 +72,9 @@ $additionalEnvVars = [
   'SENTRY_DSN_REACT',
   'HELBIT_CLIENT_ID',
   'HAKUVAHTI_URL',
-  'AMQ_BROKERS',
-  'AMQ_USER',
-  'AMQ_PASSWORD',
+  // 'AMQ_BROKERS',
+  // 'AMQ_USER',
+  // 'AMQ_PASSWORD',
 ];
 foreach ($additionalEnvVars as $var) {
   $preflight_checks['environmentVariables'][] = $var;
