@@ -7,6 +7,7 @@ namespace Drupal\helfi_rekry_content\EventSubscriber;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\node\NodeInterface;
 use Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -83,14 +84,21 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    // Query missing nodes that are still published.
-    $query = $this->entityTypeManager->getStorage('node')
-      ->getQuery()
+    $query = $this->entityTypeManager
+      ->getStorage('node')
+      ->getQuery();
+
+    // Query missing nodes that are still published
+    // or still scheduled to be published.
+    $orCondition = $query->orConditionGroup();
+    $orCondition->condition('status', NodeInterface::PUBLISHED);
+    $orCondition->exists('publish_on');
+
+    $nids = $query
       ->accessCheck(FALSE)
       ->condition('nid', $destinationIds, 'IN')
-      ->condition('status', 1)
-      ->notExists('unpublish_on');
-    $nids = $query->execute();
+      ->condition($orCondition)
+      ->execute();
 
     foreach ($nids as $nid) {
       $job = ['nid' => $nid];

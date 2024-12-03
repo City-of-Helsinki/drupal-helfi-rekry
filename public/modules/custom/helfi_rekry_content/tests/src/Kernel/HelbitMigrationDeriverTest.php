@@ -23,19 +23,6 @@ class HelbitMigrationDeriverTest extends KernelTestBase {
   public function testHelbitDeriver(): void {
     $deriver = new HelbitMigrationDeriver(new Settings(self::TEST_HELBIT_KEY));
     $result = $deriver->getDerivativeDefinitions([
-      'id' => 'helfi_rekry_jobs',
-      'source' => [
-        'plugin' => 'helbit_open_jobs',
-      ],
-    ]);
-
-    $this->assertArrayHasKey('all', $result);
-    $this->assertArrayHasKey('changed', $result);
-    $this->assertEmpty($result['all']['source']['changed'] ?? NULL);
-    $this->assertTrue($result['changed']['source']['changed']);
-
-    $deriver = new HelbitMigrationDeriver(new Settings(self::TEST_HELBIT_KEY));
-    $result = $deriver->getDerivativeDefinitions([
       'id' => 'helfi_rekry_task_areas',
       'source' => [
         'plugin' => 'url',

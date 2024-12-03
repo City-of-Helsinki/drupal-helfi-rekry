@@ -6,20 +6,21 @@ namespace Drupal\helfi_rekry_content\Plugin\QueueWorker;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Queue\Attribute\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\node\NodeInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Queue Worker for removing job listings not present in source.
- *
- * @QueueWorker(
- *   id = "job_listing_unpublish_worker",
- *   title = @Translation("Job listing unpublish worker"),
- *   cron = {"time" = 60}
- * )
  */
+#[QueueWorker(
+  id: 'job_listing_unpublish_worker',
+  title: new TranslatableMarkup('Job listing unpublish worker'),
+  cron: ['time' => 60],
+)]
 final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
   /**
@@ -74,7 +75,9 @@ final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryP
 
     // Unpublish all translations.
     if ($node instanceof NodeInterface && $node->getType() == 'job_listing') {
-      foreach (['fi', 'sv', 'en'] as $langcode) {
+      foreach ($node->getTranslationLanguages() as $language) {
+        $langcode = $language->getId();
+
         // Unpublish the job listing node as it's still published, but it's
         // no longer available at the source.
         if (!$node->hasTranslation($langcode)) {
@@ -82,15 +85,15 @@ final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryP
         }
 
         $translation = $node->getTranslation($langcode);
-        if ($translation->isPublished()) {
-          $translation->setUnpublished();
-          if ($translation->hasField('publish_on') && !empty($translation->get('publish_on')->getValue())) {
-            // Also clear the publish on date to make sure the translation is
-            // not going to be re-published.
-            $translation->set('publish_on', NULL);
-          }
-          $translation->save();
+        $translation->setUnpublished();
+
+        // Also clear the published on date so the translation
+        // is not going to be re-published.
+        if ($translation->hasField('publish_on') && !empty($translation->get('publish_on')->getValue())) {
+          $translation->set('publish_on', NULL);
         }
+
+        $translation->save();
       }
     }
 
