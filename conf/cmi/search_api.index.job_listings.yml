@@ -19,7 +19,7 @@ dependencies:
     - field.storage.node.field_task_area
     - field.storage.taxonomy_term.field_external_id
     - field.storage.taxonomy_term.field_search_id
-    - search_api.server.elastic_rekry
+    - search_api.server.default
   module:
     - helfi_react_search
     - helfi_rekry_content
@@ -353,4 +353,4 @@ options:
   cron_limit: 50
   index_directly: false
   track_changes_in_references: true
-server: elastic_rekry
+server: default
