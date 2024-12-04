@@ -50,10 +50,6 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
 
     $query = [];
 
-    if ($this->configuration['changed'] ?? FALSE) {
-      $query['timestamp'] = date('Y-m-d\TH:m:i', strtotime('-1 day'));
-    }
-
     foreach ($langcodes as $langcode) {
       foreach ($this->helbit->getJobListings($langcode, $query) as $row) {
         $fields = $this->getFieldsFromRow($row) + [

@@ -10,7 +10,6 @@ siteimprove-analytics:
     dist/js/siteimprove_analytics.min.js: {}
   dependencies:
   - core/drupal
-  - eu_cookie_compliance/eu_cookie_compliance
 
 # Turn datetime into text, f.ex "today"
 datetime_comparison:

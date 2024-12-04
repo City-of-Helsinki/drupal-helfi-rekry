@@ -5,20 +5,6 @@
  * Contains site specific overrides.
  */
 
-// Client ID for Helbit integration.
-$config['helfi_rekry_content.settings']['helbit_client_id'] = getenv('HELBIT_CLIENT_ID');
-
-// Elasticsearch settings.
-if (getenv('ELASTICSEARCH_URL')) {
-  $config['search_api.server.elastic_rekry']['backend_config']['connector_config']['url'] = getenv('ELASTICSEARCH_URL');
-
-  if (getenv('ELASTIC_USER') && getenv('ELASTIC_PASSWORD')) {
-    $config['search_api.server.elastic_rekry']['backend_config']['connector'] = 'basicauth';
-    $config['search_api.server.elastic_rekry']['backend_config']['connector_config']['username'] = getenv('ELASTIC_USER');
-    $config['search_api.server.elastic_rekry']['backend_config']['connector_config']['password'] = getenv('ELASTIC_PASSWORD');
-  }
-}
-
 // Elastic proxy URL.
 $config['elastic_proxy.settings']['elastic_proxy_url'] = getenv('ELASTIC_PROXY_URL');
 
@@ -71,7 +57,10 @@ $additionalEnvVars = [
   'ELASTIC_PASSWORD',
   'SENTRY_DSN_REACT',
   'HELBIT_CLIENT_ID',
-  'HAKUVAHTI_URL'
+  'HAKUVAHTI_URL',
+  // 'AMQ_BROKERS',
+  // 'AMQ_USER',
+  // 'AMQ_PASSWORD',
 ];
 foreach ($additionalEnvVars as $var) {
   $preflight_checks['environmentVariables'][] = $var;
