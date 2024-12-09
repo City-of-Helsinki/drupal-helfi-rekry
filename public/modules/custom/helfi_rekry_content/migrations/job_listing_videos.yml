@@ -18,8 +18,6 @@ source:
       type: string
   plugin: helbit_open_jobs
   track_changes: true
-  langcodes:
-    - fi
   fields:
     -
       name: id
