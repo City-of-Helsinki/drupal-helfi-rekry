@@ -34,7 +34,7 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    MigrationInterface $migration = NULL,
+    ?MigrationInterface $migration = NULL,
   ): self {
     $instance = new self($configuration, $plugin_id, $plugin_definition, $migration);
     $instance->helbit = $container->get(HelbitClient::class);
