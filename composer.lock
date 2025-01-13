@@ -4198,16 +4198,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "6.8.32",
+            "version": "6.8.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "2b6a5b82b59927cb7cf6beeface334daf34f96a5"
+                "reference": "153cc3d82e2f7193c0a00df5762000f4d8fd6c21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/2b6a5b82b59927cb7cf6beeface334daf34f96a5",
-                "reference": "2b6a5b82b59927cb7cf6beeface334daf34f96a5",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/153cc3d82e2f7193c0a00df5762000f4d8fd6c21",
+                "reference": "153cc3d82e2f7193c0a00df5762000f4d8fd6c21",
                 "shasum": ""
             },
             "require": {
@@ -4226,10 +4226,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.8.32",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.8.33",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2025-01-13T06:44:40+00:00"
+            "time": "2025-01-13T09:12:05+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -5955,11 +5955,11 @@
             ],
             "authors": [
                 {
-                    "name": "Berdir",
+                    "name": "berdir",
                     "homepage": "https://www.drupal.org/user/214652"
                 },
                 {
-                    "name": "Dave Reid",
+                    "name": "dave reid",
                     "homepage": "https://www.drupal.org/user/53892"
                 },
                 {
