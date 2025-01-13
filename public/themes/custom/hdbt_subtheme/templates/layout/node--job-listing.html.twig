@@ -181,7 +181,7 @@
           </div>
         {% endif %}
 
-        {% if content.field_video|render %}
+        {% if content.field_video|render|spaceless %}
           <div class="job-listing__video job-listing__item">
             {% include '@hdbt/component/remote-video.twig' with {
               video: content.field_video,

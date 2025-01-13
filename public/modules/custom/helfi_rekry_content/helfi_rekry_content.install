@@ -431,3 +431,18 @@ function helfi_rekry_content_update_9010(): void {
     $entityUsageConfig->save();
   }
 }
+
+/**
+ * UHF-10406: Clear video migration map.
+ */
+function helfi_rekry_content_update_9011(): void {
+  $database = \Drupal::database();
+  $migrations = ['helfi_rekry_videos'];
+
+  foreach ($migrations as $migration) {
+    $table_name = 'migrate_map_' . $migration;
+    $database
+      ->schema()
+      ->dropTable($table_name);
+  }
+}
