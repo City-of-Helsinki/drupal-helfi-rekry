@@ -198,18 +198,15 @@ process:
   field_original_language:
     plugin: default_value
     default_value: null
-  field_video/target_id:
-    -
-      plugin: skip_on_empty
+  field_video:
+    - plugin: skip_on_empty
       method: process
       source: video
-    -
-      plugin: callback
-      callable: _helfi_rekry_content_sanitize_video_url
-      source: video
-    -
-      plugin: callback
-      callable: _helfi_rekry_content_lookup_video_mid
+    - plugin: migration_lookup
+      migration: helfi_rekry_videos
+      source:
+        - video
+        - langcode
   field_organization_name: organization_name
   field_postal_area: postal_area
   field_postal_code: postal_code

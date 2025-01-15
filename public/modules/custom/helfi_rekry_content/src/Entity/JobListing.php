@@ -124,12 +124,12 @@ class JobListing extends Node {
   /**
    * Get organization taxonomy term.
    *
-   * @return \Drupal\taxonomy\TermInterface|bool
+   * @return \Drupal\taxonomy\TermInterface|false
    *   Returns the organization taxonomy term or false if not set.
    *
    * @throws \Drupal\Core\TypedData\Exception\MissingDataException
    */
-  public function getOrganization() : TermInterface|bool {
+  public function getOrganization() : TermInterface|FALSE {
     $organization_id = '';
 
     // Get the organization id from the migrated field.
@@ -153,7 +153,8 @@ class JobListing extends Node {
       $organization = $this->entityTypeManager()
         ->getStorage('taxonomy_term')
         ->load($organization_id);
-      return $organization;
+
+      return $organization ?? FALSE;
     }
     catch (\Exception $e) {
       return FALSE;
@@ -257,7 +258,10 @@ class JobListing extends Node {
     }
     // If not and the organization description is empty,
     // check if the organization taxonomy description is set and use it.
-    elseif ($organization_description->isEmpty() && !$organization->get('description')->isEmpty()) {
+    elseif (
+      $organization_description->isEmpty() &&
+      $organization && !$organization->get('description')->isEmpty()
+    ) {
       $organization_description = $organization->get('description');
     }
 
