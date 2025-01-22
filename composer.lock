@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5cf4d955a6d724f7183761f58fd685e8",
+    "content-hash": "4ffe0755f5daa4612ebcdec4b62a48f7",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4198,7 +4198,7 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "dev-HOTFIX-6.8.34",
+            "version": "6.8.34.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
@@ -4226,7 +4226,7 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/HOTFIX-6.8.34",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.8.34.1",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
             "time": "2025-01-22T06:39:22+00:00"
@@ -20286,7 +20286,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/hdbt": 20,
         "drupal/helfi_drupal_tools": 20
     },
     "prefer-stable": true,
