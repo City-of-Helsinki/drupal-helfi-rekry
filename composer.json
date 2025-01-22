@@ -12,7 +12,7 @@
         "drupal/core": "^10.0",
         "drupal/core-composer-scaffold": "^10.0",
         "drupal/disable_field": "^3.0",
-        "drupal/hdbt": "^6.0",
+        "drupal/hdbt": "dev-HOTFIX-6.8.34",
         "drupal/hdbt_admin": "^3.0",
         "drupal/helfi_azure_fs": "^2.0",
         "drupal/helfi_drupal_tools": "dev-main",
