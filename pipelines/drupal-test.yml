@@ -31,7 +31,6 @@ resources:
     # Azure DevOps repository
     - repository: helfi-rekry-pipelines
       type: git
-      ref: refs/heads/databse_migration_PLATTA-5751
       # Azure DevOps project/repository
       name: helfi-rekry/helfi-rekry-pipelines
 
