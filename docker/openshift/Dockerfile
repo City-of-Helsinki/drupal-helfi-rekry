@@ -17,5 +17,9 @@ COPY docker/openshift/crons/ /crons
 COPY docker/openshift/cron-entrypoint.sh /usr/local/bin/cron-entrypoint
 RUN chmod +x /crons/* /usr/local/bin/cron-entrypoint
 
+# Copy migration scripts
+COPY docker/openshift/migration-entrypoint.sh /usr/local/bin/migration-entrypoint
+RUN chmod +x /usr/local/bin/migration-entrypoint
+
 # Copy nginx overrides.
 COPY docker/openshift/custom.locations /etc/nginx/conf.d/custom.locations
