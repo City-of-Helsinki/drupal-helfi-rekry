@@ -17,7 +17,7 @@ COPY docker/openshift/crons/ /crons
 COPY docker/openshift/cron-entrypoint.sh /usr/local/bin/cron-entrypoint
 RUN chmod +x /crons/* /usr/local/bin/cron-entrypoint
 
-# Copy drush-deploy scripts
+# Copy drush deploy scripts
 COPY docker/openshift/drush-deploy-entrypoint.sh /usr/local/bin/drush-deploy-entrypoint
 RUN chmod +x /usr/local/bin/drush-deploy-entrypoint
 
