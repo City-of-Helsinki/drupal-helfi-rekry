@@ -1,16 +1,12 @@
-uuid: 174b0c8f-38b5-4953-b642-26e36b448e8f
+uuid: 2820b739-0a37-4577-81ff-942434f35922
 langcode: en
 status: true
 dependencies:
-  config:
-    - core.entity_view_mode.helfi_news.medium_teaser
   module:
     - external_entities
   enforced:
     config:
       - core.entity_view_mode.helfi_news.medium_teaser
-_core:
-  default_config_hash: mVSIRtxVMh_hPAb97hAa2xLZrKDESmHV1awN18-kwsg
 id: helfi_news.helfi_news.medium_teaser
 targetEntityType: helfi_news
 bundle: helfi_news
@@ -31,7 +27,6 @@ hidden:
   neighbourhoods_uuid: true
   node_url: true
   published_at: true
-  search_api_excerpt: true
   short_title: true
   tags: true
   tags_uuid: true
