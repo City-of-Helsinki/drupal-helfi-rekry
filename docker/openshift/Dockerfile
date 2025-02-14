@@ -6,9 +6,10 @@ WORKDIR /var/www/html
 RUN composer install --no-progress --profile --prefer-dist --no-interaction --no-dev --optimize-autoloader
 
 # Copy custom entrypoint, deploy and cron scripts.
-RUN mkdir -p /crons /entrypoints /deploy
+RUN mkdir /crons /entrypoints /deploy
 COPY docker/openshift/entrypoints/ /entrypoints
 COPY docker/openshift/crons/ /crons
+COPY docker/openshift/deploy /deploy
 RUN chmod +x /entrypoints/* /deploy/* /crons/*
 
 COPY docker/openshift/init.sh /
