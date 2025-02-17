@@ -1,4 +1,4 @@
-uuid: 71b3addc-6b23-42bf-a78d-d5b6cd4cc2ea
+uuid: 940fb071-c6bc-4a20-b1a1-98f6fb80be98
 langcode: en
 status: true
 dependencies:
@@ -10,11 +10,10 @@ dependencies:
     - field.field.paragraph.news_list.field_news_list_description
     - field.field.paragraph.news_list.field_news_list_title
     - paragraphs.paragraphs_type.news_list
+    - external_entities.external_entity_type.helfi_news
   module:
     - select2
     - text
-_core:
-  default_config_hash: YF0KDv9TqKiRipS_1HUoa6Sh-kQezJL8omZdsSkkK2o
 id: paragraph.news_list.default
 targetEntityType: paragraph
 bundle: news_list
