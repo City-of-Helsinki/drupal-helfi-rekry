@@ -2,9 +2,9 @@ $-block--of-interes-padding-top-and-bottom: 80px;
 
 .block--of-interest {
   background-color: $color-black-10;
-  padding: $-block--of-interes-padding-top-and-bottom 0;
-  margin-top: $spacing-quadruple;
   margin-bottom: calc((#{$footer-koro-height} + #{$spacing-triple})* -1);
+  margin-top: $spacing-quadruple;
+  padding: $-block--of-interes-padding-top-and-bottom 0;
 
   .block--of-interest__content-container {
     @include components-container-max-width();
