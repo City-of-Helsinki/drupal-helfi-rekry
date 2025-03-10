@@ -10,10 +10,11 @@ dependencies:
     - field.field.paragraph.news_list.field_news_list_description
     - field.field.paragraph.news_list.field_news_list_title
     - paragraphs.paragraphs_type.news_list
-    - external_entities.external_entity_type.helfi_news
   module:
     - select2
     - text
+_core:
+  default_config_hash: YF0KDv9TqKiRipS_1HUoa6Sh-kQezJL8omZdsSkkK2o
 id: paragraph.news_list.default
 targetEntityType: paragraph
 bundle: news_list
