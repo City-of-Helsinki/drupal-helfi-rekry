@@ -265,7 +265,7 @@ class JobListing extends Node {
       $organization_description = $organization->get('description');
     }
 
-    return $organization_description->processed ?? $organization_description->value;
+    return $organization_description->processed ?? $organization_description->value ?? '';
   }
 
 }
