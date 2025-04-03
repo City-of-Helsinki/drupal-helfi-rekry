@@ -12,10 +12,10 @@ final readonly class Settings {
   /**
    * Constructs a settings object.
    *
-   * @param string $clientId
-   *   Helbit client id.
+   * @param \Drupal\helfi_rekry_content\Helbit\HelbitEnvironment[] $clients
+   *   Helbit clients.
    */
-  public function __construct(public string $clientId) {
+  public function __construct(public array $clients) {
   }
 
 }

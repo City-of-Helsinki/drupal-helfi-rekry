@@ -5,7 +5,7 @@
  */
 #}
 
-{% embed '@hdbt/component/unit-search.twig'%}
+{% embed '@hdbt/component/content-list-with-count.twig'%}
   {% block count_container%}
     {%- if total_rows -%}
       {{ total_rows }} {% trans with {'context': 'Job listing search count'}%}open job listing{% plural total_rows ?? 0 %}open job listings{% endtrans %}

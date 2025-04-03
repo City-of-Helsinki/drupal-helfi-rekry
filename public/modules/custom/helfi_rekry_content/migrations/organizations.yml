@@ -12,7 +12,7 @@ migration_tags:
 label: 'HELfi Rekry - Organizations'
 source:
   plugin: url
-  url: https://helbit.fi/portal-api/recruitment/v2.3/params/organisations
+  url: /portal-api/recruitment/v2.3/params/organisations
   track_changes: true
   data_fetcher_plugin: file
   data_parser_plugin: json

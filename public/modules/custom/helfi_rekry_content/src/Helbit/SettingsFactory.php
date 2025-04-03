@@ -24,12 +24,19 @@ final readonly class SettingsFactory {
    * Constructs a new Settings object.
    *
    * @return \Drupal\helfi_rekry_content\Helbit\Settings
-   *   The helbit settings object.
+   *   The Helbit settings object.
    */
   public function create(): Settings {
     $config = $this->configFactory->get('helfi_rekry_content.settings');
+    $clients = array_map(
+      static fn (array $client) => new HelbitEnvironment(
+        $client['client_id'] ?: '',
+        $client['base_url'] ?: ''
+      ),
+      $config->get('helbit_clients') ?: []
+    );
 
-    return new Settings($config->get('helbit_client_id') ?: '');
+    return new Settings($clients);
   }
 
 }

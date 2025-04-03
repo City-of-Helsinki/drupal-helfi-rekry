@@ -33,9 +33,12 @@ source:
       name: title
       label: Title
       selector: jobAdvertisement/title
+    -
+      name: base_url
+      label: 'Base URL'
+      selector: baseUrl
   constants:
     DRUPAL_FILE_DIRECTORY: 'azure://job_listing_images/'
-    HELBIT_BASE_URL: 'https://helbit.fi'
 process:
   destination_filename:
     -
@@ -56,7 +59,7 @@ process:
     -
       plugin: concat
       source:
-        - constants/HELBIT_BASE_URL
+        - base_url
         - logo
   uri:
     -

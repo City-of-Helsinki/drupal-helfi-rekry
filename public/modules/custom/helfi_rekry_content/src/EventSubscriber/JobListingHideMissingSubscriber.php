@@ -117,9 +117,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
    */
   protected function getJobListingMigrations(): array {
     return [
-      'helfi_rekry_jobs:all',
-      'helfi_rekry_jobs:all_en',
-      'helfi_rekry_jobs:all_sv',
+      'helfi_rekry_jobs',
     ];
   }
 

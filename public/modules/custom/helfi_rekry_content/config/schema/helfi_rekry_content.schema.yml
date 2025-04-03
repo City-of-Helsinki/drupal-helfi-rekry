@@ -1,4 +1,21 @@
 # Schema for the configuration files of the helfi_rekry_content module.
+helfi_rekry_content.settings:
+  type: config_object
+  label: 'Settings'
+  mapping:
+    helbit_clients:
+      label: 'Helbit clients'
+      type: sequence
+      sequence:
+        type: config_object
+        mapping:
+          client_id:
+            type: string
+            label: 'Helbit client id'
+          base_url:
+            type: string
+            label: 'Helbit base url'
+
 helfi_rekry_content.job_listings:
   type: config_object
   label: 'Job listings'

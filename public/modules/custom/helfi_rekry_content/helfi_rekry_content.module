@@ -11,6 +11,7 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityFormInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Site\Settings;
 use Drupal\helfi_platform_config\DTO\ParagraphTypeCollection;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\media\OEmbed\ProviderException;
@@ -169,7 +170,7 @@ function _helfi_rekry_content_get_video_url(string $url): string {
       throw new MigrateSkipRowException(save_to_map: FALSE);
     }
   }
-  catch (ResourceException | ProviderException $e) {
+  catch (ResourceException | ProviderException | InvalidArgumentException $e) {
     \Drupal::logger('helfi_rekry_content')
       ->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
 
@@ -242,7 +243,6 @@ function _helfi_rekry_content_lookup_job_nid(string $id): ?string {
     ->condition('type', 'job_listing')
     ->condition('field_recruitment_id', $id)
     ->range(0, 1)
-    ->latestRevision()
     ->accessCheck(FALSE)
     ->execute();
 
@@ -674,4 +674,14 @@ function helfi_rekry_content_helfi_paragraph_types() : array {
     }
   }
   return $enabled;
+}
+
+/**
+ * Implements hook_migration_plugins_alter().
+ */
+function helfi_rekry_content_migration_plugins_alter(array &$migrations): void {
+  if (!Settings::get('is_azure', FALSE) && isset($migrations['helfi_rekry_images'])) {
+    // Save images to local filesystem on local environment.
+    $migrations['helfi_rekry_images']['source']['constants']['DRUPAL_FILE_DIRECTORY'] = 'public://job_listing_images/';
+  }
 }
