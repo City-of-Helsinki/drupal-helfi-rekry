@@ -11,8 +11,6 @@ migration_tags:
 migration_group: helfi_rekry_content
 label: 'HELfi Rekry - Job listings'
 source:
-  constants:
-    HELBIT_BASE_URL: 'https://helbit.fi'
   ids:
     id:
       type: string
@@ -135,6 +133,10 @@ source:
       name: publication_ends
       label: 'Publication ends'
       selector: jobAdvertisement/publicationEnds
+    -
+      name: base_url
+      label: 'Base URL'
+      selector: baseUrl
 process:
   id: id
   nid:
@@ -173,7 +175,7 @@ process:
   field_link_to_application:
     plugin: concat
     source:
-      - constants/HELBIT_BASE_URL
+      - base_url
       - link_to_application
   field_link_to_presentation:
     -

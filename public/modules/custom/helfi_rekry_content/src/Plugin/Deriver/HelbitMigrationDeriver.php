@@ -61,16 +61,22 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
       'default_value' => $langcode,
     ];
 
+    $urls = [];
+
     // Adds api key to source URL.
-    $url = Url::fromUri($base_plugin_definition['source']['url'], [
-      'query' => [
-        'client' => $this->config->clientId,
-        'lang' => $langcode,
-      ],
-    ]);
+    foreach ($this->config->clients as $client) {
+      $url = Url::fromUri($client->baseUrl . $base_plugin_definition['source']['url'], [
+        'query' => [
+          'client' => $client->clientId,
+          'lang' => $langcode,
+        ],
+      ]);
+
+      $urls[] = preg_replace('/%3A/', ':', $url->toString());
+    }
 
     // toString method encodes colons, which the API does not support.
-    $base_plugin_definition['source']['urls'] = [preg_replace('/%3A/', ':', $url->toString())];
+    $base_plugin_definition['source']['urls'] = $urls;
 
     return $base_plugin_definition;
   }
