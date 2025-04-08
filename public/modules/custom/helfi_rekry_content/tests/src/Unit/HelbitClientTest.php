@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\Tests\helfi_rekry_content\Unit;
 
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
+use Drupal\helfi_rekry_content\Helbit\HelbitEnvironment;
 use Drupal\helfi_rekry_content\Helbit\Settings;
 use Drupal\Tests\helfi_rekry_content\Traits\HelbitTestTrait;
 use Drupal\Tests\UnitTestCase;
@@ -14,7 +15,8 @@ use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Log\LoggerInterface;
 
 /**
- * @coversDefaultClass \Drupal\helfi_rekry_content\Helbit\HelbitClient
+ * Tests helbit client.
+ *
  * @group helfi_rekry_content
  */
 class HelbitClientTest extends UnitTestCase {
@@ -30,25 +32,31 @@ class HelbitClientTest extends UnitTestCase {
    */
   private function getSut(ClientInterface $client): HelbitClient {
     $logger = $this->prophesize(LoggerInterface::class)->reveal();
+    $settings = new Settings([
+      new HelbitEnvironment('123', 'https://example.com'),
+    ]);
 
-    return new HelbitClient($logger, $client, new Settings('123'));
+    return new HelbitClient($logger, $client, $settings);
   }
 
   /**
    * Assert that response parsed response is returned.
-   *
-   * @covers ::getJobListings
-   * @covers ::getHelbitLangcode
-   * @covers ::makeRequest
    */
   public function testJobListingResponse(): void {
     $expected = [
-      'test-data',
+      [
+        'job' => 'advert',
+        'baseUrl' => 'https://example.com',
+      ],
     ];
 
     $client = $this->createMockHttpClient([
       $this->createMockResponse([
-        'jobAdvertisements' => $expected,
+        'jobAdvertisements' => [
+          [
+            'job' => 'advert',
+          ],
+        ],
       ]),
     ]);
 
@@ -59,10 +67,6 @@ class HelbitClientTest extends UnitTestCase {
 
   /**
    * Assert requests query parameters.
-   *
-   * @covers ::getJobListings
-   * @covers ::getHelbitLangcode
-   * @covers ::makeRequest
    */
   public function testRequestQueryParameters(): void {
     $client = $this->createMockHttpClient([
