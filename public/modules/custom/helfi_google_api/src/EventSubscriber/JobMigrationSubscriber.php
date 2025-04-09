@@ -22,13 +22,13 @@ class JobMigrationSubscriber implements EventSubscriberInterface {
   /**
    * The constructor.
    *
-   * @param EntityTypeManagerInterface $entityTypeManager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param QueueFactory $queueFactory
+   * @param \Drupal\Core\Queue\QueueFactory $queueFactory
    *   The queue factory.
-   * @param Connection $database
+   * @param \Drupal\Core\Database\Connection $database
    *   The connection.
-   * @param JobIndexingService $jobIndexingService
+   * @param \Drupal\helfi_google_api\JobIndexingService $jobIndexingService
    *   The job indexing service.
    */
   public function __construct(
@@ -78,7 +78,7 @@ class JobMigrationSubscriber implements EventSubscriberInterface {
         'data',
       ])
       ->condition('name', 'job_listing_indexing_request')
-      ->condition('data', '%"'.$id.'"%', 'LIKE')
+      ->condition('data', '%"' . $id . '"%', 'LIKE')
       ->limit(1)
       ->execute()
       ->fetchAll();
@@ -93,7 +93,7 @@ class JobMigrationSubscriber implements EventSubscriberInterface {
       $node,
       $node->language()->getId()
     );
-    if($temp_redirect_exists) {
+    if ($temp_redirect_exists) {
       return;
     }
 
