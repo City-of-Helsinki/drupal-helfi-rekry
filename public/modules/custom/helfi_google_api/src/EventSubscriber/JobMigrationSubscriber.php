@@ -83,7 +83,7 @@ class JobMigrationSubscriber implements EventSubscriberInterface {
       ->execute()
       ->fetchAll();
 
-    if ($results > 0) {
+    if (is_array($results) && count($results) > 0) {
       return;
     }
 
