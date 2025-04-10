@@ -70,6 +70,7 @@ class JobMigrationSubscriber implements EventSubscriberInterface {
     }
 
     // Prevent duplicate queue entries.
+    // @phpstan-ignore-next-line
     $results = $this->database
       ->select('queue')
       ->extend(PagerSelectExtender::class)
