@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_google_api\EventSubscriber;
 
+use Drupal\Core\Database\Connection;
+use Drupal\Core\Database\Query\PagerSelectExtender;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
+use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\migrate\Event\MigrateEvents;
 use Drupal\migrate\Event\MigratePostRowSaveEvent;
@@ -23,10 +26,16 @@ class JobMigrationSubscriber implements EventSubscriberInterface {
    *   The entity type manager.
    * @param \Drupal\Core\Queue\QueueFactory $queueFactory
    *   The queue factory.
+   * @param \Drupal\Core\Database\Connection $database
+   *   The connection.
+   * @param \Drupal\helfi_google_api\JobIndexingService $jobIndexingService
+   *   The job indexing service.
    */
   public function __construct(
-    private EntityTypeManagerInterface $entityTypeManager,
-    private QueueFactory $queueFactory,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+    private readonly QueueFactory $queueFactory,
+    private readonly Connection $database,
+    private readonly JobIndexingService $jobIndexingService,
   ) {
   }
 
@@ -57,6 +66,35 @@ class JobMigrationSubscriber implements EventSubscriberInterface {
       !$node instanceof JobListing ||
       !$this->shouldRequestIndexingImmediately($node)
     ) {
+      return;
+    }
+
+    // Prevent duplicate queue entries.
+    // @phpstan-ignore-next-line
+    $results = $this->database
+      ->select('queue')
+      ->extend(PagerSelectExtender::class)
+      ->fields('queue', [
+        'name',
+        'data',
+      ])
+      ->condition('name', 'job_listing_indexing_request')
+      ->condition('data', '%"' . $id . '"%', 'LIKE')
+      ->limit(1)
+      ->execute()
+      ->fetchAll();
+
+    if (is_array($results) && count($results) > 0) {
+      return;
+    }
+
+    // The jobs are edited quite often,
+    // let's not reindex a page if it's only edited.
+    $temp_redirect_exists = $this->jobIndexingService->hasTemporaryRedirect(
+      $node,
+      $node->language()->getId()
+    );
+    if ($temp_redirect_exists) {
       return;
     }
 

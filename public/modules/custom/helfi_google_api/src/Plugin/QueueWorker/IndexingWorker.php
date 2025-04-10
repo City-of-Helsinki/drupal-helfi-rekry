@@ -56,7 +56,7 @@ final class IndexingWorker extends QueueWorkerBase implements ContainerFactoryPl
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('Drupal\helfi_google_api\JobIndexingService'),
+      $container->get(JobIndexingService::class),
     );
   }
 

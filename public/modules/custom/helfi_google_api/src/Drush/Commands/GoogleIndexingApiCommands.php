@@ -195,7 +195,7 @@ final class GoogleIndexingApiCommands extends DrushCommands {
       return DrushCommands::EXIT_SUCCESS;
     }
 
-    $this->io()->writeln('Url indexed succesfully.');
+    $this->io()->writeln('Url indexed successfully.');
     return DrushCommands::EXIT_SUCCESS;
   }
 
