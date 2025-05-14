@@ -113,42 +113,6 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
   list-style-type: none;
 }
 
-// Use a very specific selector here to override hds styles
-button.job-search-form__remove-selection-button:not(:disabled) {
-  @include tag('interactive--deletable');
-
-  --color-hover-focus: var(--hdbt-text-color);
-  color: var(--hdbt-color-black);
-}
-
-// Neagate HDS-defined paddings for span-element inside button
-.job-search-form__remove-selection-button span {
-  padding: 0;
-}
-
-// Negate HDS-defined margin for icon inside remove button
-.job-search-form__selections-wrapper button.job-search-form__remove-selection-button > div {
-  margin-right: 0;
-}
-
-.job-search-form__clear-all {
-  margin-top: 0;
-}
-
-// Need a specific selector to override hds styles
-.job-search-form__clear-all .job-search-form__clear-all-button {
-  --background-color-hover: transparent;
-  --background-color-focus: transparent;
-  --background-color-hover-focus: transparent;
-  --border-color-hover: var(--hdbt-color-black);
-  --border-color-focus: var(--hdbt-color-black);
-  --border-color-hover-focus: var(--hdbt-color-black);
-  --color: var(--hdbt-color-black);
-  --color-hover: var(--hdbt-color-black);
-  --color-focus: var(--hdbt-color-black);
-  --color-hover-focus: var(--hdbt-color-black);
-  --focus-outline-color: var(--hdbt-color-black);
-}
 
 .job-search-form__search-monitor {
   margin-bottom: $spacing-double;
