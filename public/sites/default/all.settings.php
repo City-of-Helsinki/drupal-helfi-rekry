@@ -74,6 +74,7 @@ $additionalEnvVars = [
   'SENTRY_DSN_REACT',
   'HELBIT_CLIENT_ID',
   'HAKUVAHTI_URL',
+  'MATOMO_SITE_ID',
   // 'AMQ_BROKERS',
   // 'AMQ_USER',
   // 'AMQ_PASSWORD',
