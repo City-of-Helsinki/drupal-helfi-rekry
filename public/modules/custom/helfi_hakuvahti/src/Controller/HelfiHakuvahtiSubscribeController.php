@@ -6,6 +6,9 @@ namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\helfi_hakuvahti\MatomoService;
+use Drupal\helfi_hakuvahti\Plugin\QueueWorker\MatomoWorker;
 use Drupal\taxonomy\TermInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -42,6 +45,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     protected RequestStack $requestStack,
     private readonly ClientInterface $client,
     #[Autowire(service: 'logger.channel.helfi_hakuvahti')] private readonly LoggerInterface $logger,
+    private readonly MatomoService $matomoService,
   ) {
     $this->termStorage = $this->entityTypeManager()->getStorage('taxonomy_term');
   }
@@ -59,9 +63,10 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     }
 
     $request = $this->requestStack->getCurrentRequest();
-    $body = $request->getContent(FALSE);
+    $body = $request->getContent();
     $bodyObj = json_decode($body);
-    $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj);
+    $taxonomies = $this->getSearchDescriptionTaxonomies($bodyObj);
+    $bodyObj->search_description = $taxonomies;
 
     $token = $request->headers->get('token');
     // @todo Validate token.
@@ -80,6 +85,15 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
           'Content-Type' => 'application/json',
         ],
       ]);
+
+      // @todo Get the selected filters.
+      $filters = [
+        'area_filter' => [],
+        'employment' => [],
+        'task_areas' => [],
+        'language' => [],
+      ];
+      $this->matomoService->handleCustomDimensions($filters);
     }
     catch (GuzzleException $e) {
       $this->logger->error("Unable to send Hakuvahti-request - Code {$e->getCode()}: {$e->getMessage()}");
@@ -299,7 +313,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   The key we are looking for.
    *
    * @return array
-   *   False or the array we are looking for.
+   *   The result of the search.
    */
   private function sliceTree(array $tree, string $needle): array {
     if (isset($tree[$needle])) {
