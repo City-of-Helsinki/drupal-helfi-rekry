@@ -33,6 +33,12 @@
         "phpstan/phpstan-deprecation-rules": "^1.1",
         "weitzman/drupal-test-traits": "^2.0"
     },
+    "autoload": {
+        "psr-4": {
+            "Drush\\Style\\": "vendor/drush/drush/src-symfony-compatibility/v6/Style",
+            "Drush\\Symfony\\": "vendor/drush/drush/src-symfony-compatibility/v6/Symfony"
+        }
+    },
     "conflict": {
         "drupal/drupal": "*"
     },
