@@ -23,7 +23,6 @@
         "drupal/helfi_tunnistamo": "^3.0",
         "drupal/migrate_plus": "^6.0",
         "drupal/redis": "^1.5",
-        "drush/drush": "^12",
         "google/apiclient": "^2.17"
     },
     "require-dev": {
