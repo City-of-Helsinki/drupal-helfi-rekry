@@ -6,9 +6,7 @@ namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Queue\QueueFactory;
-use Drupal\helfi_hakuvahti\MatomoService;
-use Drupal\helfi_hakuvahti\Plugin\QueueWorker\MatomoWorker;
+use Drupal\helfi_hakuvahti\HakuvahtiTracker;
 use Drupal\taxonomy\TermInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -40,12 +38,14 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   The httpclient.
    * @param \Psr\Log\LoggerInterface $logger
    *   The logger.
+   * @param \Drupal\helfi_hakuvahti\HakuvahtiTracker $hakuvahtiTracker
    */
   public function __construct(
     protected RequestStack $requestStack,
     private readonly ClientInterface $client,
-    #[Autowire(service: 'logger.channel.helfi_hakuvahti')] private readonly LoggerInterface $logger,
-    private readonly MatomoService $matomoService,
+    #[Autowire(service: 'logger.channel.helfi_hakuvahti')]
+    private readonly LoggerInterface $logger,
+    private readonly HakuvahtiTracker $hakuvahtiTracker,
   ) {
     $this->termStorage = $this->entityTypeManager()->getStorage('taxonomy_term');
   }
@@ -65,7 +65,14 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $request = $this->requestStack->getCurrentRequest();
     $body = $request->getContent();
     $bodyObj = json_decode($body);
-    $taxonomies = $this->getSearchDescriptionTaxonomies($bodyObj);
+
+    // Collect the filter values for saving.
+    $task_areas = [];
+    $employment_type_labels = [];
+    $area_filter_labels = [];
+    $language = $bodyObj->lang ?? 'fi';
+
+    $taxonomies = $this->getSearchDescriptionTaxonomies($bodyObj, $task_areas, $employment_type_labels, $area_filter_labels);
     $bodyObj->search_description = $taxonomies;
 
     $token = $request->headers->get('token');
@@ -85,20 +92,13 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
           'Content-Type' => 'application/json',
         ],
       ]);
-
-      // @todo Get the selected filters.
-      $filters = [
-        'area_filter' => [],
-        'employment' => [],
-        'task_areas' => [],
-        'language' => [],
-      ];
-      $this->matomoService->handleCustomDimensions($filters);
     }
     catch (GuzzleException $e) {
       $this->logger->error("Unable to send Hakuvahti-request - Code {$e->getCode()}: {$e->getMessage()}");
       return new JsonResponse(['success' => FALSE, 'error' => 'Error while handling the request.'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+
+    $this->hakuvahtiTracker->saveSelectedFilters($task_areas, $employment_type_labels, $area_filter_labels, $language);
 
     return new JsonResponse(['success' => TRUE], Response::HTTP_OK);
   }
@@ -108,11 +108,17 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *
    * @param mixed $obj
    *   The object containing elastic query data.
+   * @param array $task_area_labels
+   *   An array to gather selected task area labels.
+   * @param array $employment_type_labels
+   *   An array to gather selected employment type filter labels.
+   * @param array $area_filter_labels
+   *   An array to gather selected
    *
    * @return string
    *   The concatenated search description taxonomies.
    */
-  private function getSearchDescriptionTaxonomies(mixed $obj): string {
+  private function getSearchDescriptionTaxonomies(mixed $obj, array &$task_area_labels, array &$employment_type_labels, array &$area_filter_labels): string {
     $terms = [];
     $employmentTermLabels = [];
     $areaFiltersTranslated = [];
@@ -135,6 +141,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $taskAreaField)
     ) {
       $terms = $this->getLabelsByExternalId($taskAreaIds, $obj->lang);
+      $task_area_labels = $terms;
     }
 
     $employmentTypeField = 'employment_type_id';
@@ -143,6 +150,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $employmentTypeField)
     ) {
       $employmentTermLabels = $this->getLabelsByTermIds($employmentIds, $obj->lang);
+      $employment_type_labels = $employmentTermLabels;
     }
 
     // Job location:
@@ -150,6 +158,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       foreach ($area_filters as $area) {
         $areaFiltersTranslated[] = $this->translateString($area, $obj->lang);
       }
+      $area_filter_labels = $areaFiltersTranslated;
     }
 
     $description = $this->buildDescription($query, $terms, $areaFiltersTranslated, $employmentTermLabels);
