@@ -23,7 +23,8 @@
         "drupal/helfi_tunnistamo": "^3.0",
         "drupal/migrate_plus": "^6.0",
         "drupal/redis": "^1.5",
-        "google/apiclient": "^2.17"
+        "google/apiclient": "^2.17",
+        "paragonie/constant_time_encoding": "^2"
     },
     "require-dev": {
         "dg/bypass-finals": "^1.5",
