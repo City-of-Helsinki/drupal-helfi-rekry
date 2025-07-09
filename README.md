@@ -150,7 +150,13 @@ local site.
 4. To test the functionality, you should use the Mailpit running on your local in the `https://mailpit.docker.so/` url
 to view the emails being sent by the feature.
 
-#### Google indexing api automation (helfi_google_api-module)
+#### Hakuvahti selected filters -export
+
+Drupal keeps track of the filters that were seleected when subscribing to hakuvahti. Filters are saved to _hakuvahti_selected_filters_
+database table. The _hakuvahti-csv-download_ -form can be used to download a csv file which contains the data saved in database.
+One can use the csv data to count the subscriptions and selected filters.
+
+### Google indexing api automation (helfi_google_api-module)
 
 Job listing urls are automatically sent to google indexing api
 on publish and unpublish events, a request is sent to google to either index or deindex the url.

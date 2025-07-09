@@ -97,3 +97,12 @@ msgstr "Koillinen alue"
 msgctxt "Hakuvahti empty filters"
 msgid "No search filters"
 msgstr "Ei hakuehtoja"
+
+msgid "Unable to handle the given date"
+msgstr "Tarkista päivämäärät"
+
+msgid "Start date cannot be after End date"
+msgstr "Aloituspäivämäärä ei voi olla Lopetuspäivämäärän jälkeen"
+
+msgid "Something went wrong: @message"
+msgstr "Jokin meni pieleen: @message"

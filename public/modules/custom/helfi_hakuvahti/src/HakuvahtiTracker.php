@@ -107,7 +107,7 @@ readonly class HakuvahtiTracker {
     }
 
     if (!$rows) {
-      throw new \Exception("No results found.");
+      throw new \Exception("No results found");
     }
 
     return $this->createCsvStringFromArray($rows);
