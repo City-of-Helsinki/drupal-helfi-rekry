@@ -39,6 +39,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    * @param \Psr\Log\LoggerInterface $logger
    *   The logger.
    * @param \Drupal\helfi_hakuvahti\HakuvahtiTracker $hakuvahtiTracker
+   *   The hakuvahti tracker.
    */
   public function __construct(
     protected RequestStack $requestStack,
@@ -111,9 +112,9 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    * @param array $task_area_labels
    *   An array to gather selected task area labels.
    * @param array $employment_type_labels
-   *   An array to gather selected employment type filter labels.
+   *   An array to gather selected employment type filters.
    * @param array $area_filter_labels
-   *   An array to gather selected
+   *   An array to gather selected area filters.
    *
    * @return string
    *   The concatenated search description taxonomies.
