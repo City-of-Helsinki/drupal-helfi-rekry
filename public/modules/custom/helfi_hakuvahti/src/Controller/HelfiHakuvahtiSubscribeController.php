@@ -99,6 +99,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       return new JsonResponse(['success' => FALSE, 'error' => 'Error while handling the request.'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
+    // Save the used filter values to database.
     $this->hakuvahtiTracker->saveSelectedFilters($task_areas, $employment_type_labels, $area_filter_labels, $language);
 
     return new JsonResponse(['success' => TRUE], Response::HTTP_OK);

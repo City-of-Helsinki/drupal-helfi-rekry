@@ -1,20 +1,31 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * @file
  * Contains install functions for HELfi hakuvahti -module.
  */
 
-function helfi_hakuvahti_schema(){
-  $schema['hakuvahti_selected_filters'] = array(
-    'description' => 'The table for storing selected filters.',
+use Drupal\Core\Database\Database;
+
+declare(strict_types=1);
+
+/**
+ * The schema.
+ */
+function helfi_hakuvahti_schema() {
+  $schema['hakuvahti_selected_filters'] = [
+    'description' => 'The table for storing selected hakuvahti filters.',
     'fields' => [
       'id'  => [
         'type' => 'serial',
         'not null' => TRUE,
-        'description' => 'The ID.',
+      ],
+      // Can be used to get the count of created hakuvahti-subscriptions.
+      'token' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
       ],
       'filter_name' => [
         'description' => 'The name of the filter.',
@@ -30,22 +41,22 @@ function helfi_hakuvahti_schema(){
         'not null' => TRUE,
         'default' => '',
       ],
-      'saved_at' => [
-        'description' => 'Timestamp with milliseconds.',
-        'type' => 'int',
+      'created_at' => [
+        'description' => 'Hakuvahti subscription date and time.',
+        'type' => 'varchar',
+        'mysql_type' => 'datetime',
         'not null' => TRUE,
-        'size' => 'big',
       ],
     ],
     'primary key' => ['id'],
-  );
+  ];
   return $schema;
 }
 
 /**
- * Create the hakuvahti filter table.
+ * Create the hakuvahti database table.
  */
 function helfi_hakuvahti_update_9001() {
-  $db = \Drupal\Core\Database\Database::getConnection()->schema();
+  $db = Database::getConnection()->schema();
   $db->createTable('hakuvahti_selected_filters', helfi_hakuvahti_schema()['hakuvahti_selected_filters']);
 }
