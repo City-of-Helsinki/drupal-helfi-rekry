@@ -16,7 +16,7 @@ readonly class HakuvahtiTracker {
   /**
    * Csv header fields which matches the database fields.
    */
-  private const FIELDS = ['id', 'token', 'filter_name', 'filter_value', 'saved_at'];
+  private const FIELDS = ['id', 'token', 'filter_name', 'filter_value', 'created_at'];
 
   /**
    * The constructor.
@@ -36,22 +36,15 @@ readonly class HakuvahtiTracker {
   /**
    * Save the selected hakuvahti filter selections.
    *
-   * @param array $task_areas
-   *   The selected task areas.
-   * @param array $employment_type_labels
-   *   The selected employment types.
-   * @param array $area_filter_labels
-   *   The selected areas.
-   * @param string $language
-   *   The selected language.
+   * @param array $filters
+   *   The selected filters array: ['filter_name' => ['filter_value_1'...]].
+   *
+   * @return bool
+   *   Saved successfully
    */
-  public function saveSelectedFilters(
-    array $task_areas,
-    array $employment_type_labels,
-    array $area_filter_labels,
-    string $language,
-  ) {
-    $now = (new \DateTimeImmutable())->format('Y-m-dTH:i:s');
+  public function saveSelectedFilters(array $filters): bool {
+    // $now = (new \DateTime())->format('Y-m-d H:i:s');
+    $now = (new \DateTime())->format('Y-m-d H:i:s');
     // Allows distinguishing between hakuvahti subscriptions.
     $subscription_token = uniqid();
 
@@ -59,21 +52,15 @@ readonly class HakuvahtiTracker {
       ->insert('hakuvahti_selected_filters')
       ->fields(self::FIELDS);
 
-    $dropdown_filters = [
-      'Ammattiala' => $task_areas,
-      'Palvelussuhteen tyyppi' => $employment_type_labels,
-      'Sijainti' => $area_filter_labels,
-      'Kieli' => [$language],
-    ];
-
     // Create insert values for query.
-    foreach ($dropdown_filters as $filter_name => $values) {
+    foreach ($filters as $filter_name => $values) {
       foreach ($values as $value) {
         $query->values([
+          'id' => '0',
           'token' => $subscription_token,
           'filter_name' => $filter_name,
           'filter_value' => $value,
-          'saved_at' => $now,
+          'created_at' => $now,
         ]);
       }
     }
@@ -83,7 +70,10 @@ readonly class HakuvahtiTracker {
     }
     catch (\Exception $e) {
       $this->logger->error("Unable to save hakuvahti filters: {$e->getMessage()}");
+      return FALSE;
     }
+
+    return TRUE;
   }
 
   /**

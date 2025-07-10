@@ -1,5 +1,5 @@
 helfi_hakuvahti.csv_download_form:
-  title: 'Hakuvahti selected filters'
+  title: 'Hakuvahti csv download'
   route_name: helfi_hakuvahti.csv_download_form
   parent: hdbt_admin_tools.overview
   weight: 95

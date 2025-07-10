@@ -108,5 +108,5 @@ msgstr "Aloituspäivämäärä ei voi olla Lopetuspäivämäärän jälkeen"
 msgid "Something went wrong: @message"
 msgstr "Jokin meni pieleen: @message"
 
-msgid "Hakuvahti selected filters"
-msgstr "Hakuvahdin seuranta"
+msgid "Hakuvahti csv download"
+msgstr "Hakuvahti seuranta"
