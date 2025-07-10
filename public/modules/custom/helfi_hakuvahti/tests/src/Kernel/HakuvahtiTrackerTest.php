@@ -59,6 +59,9 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     $this->assertContains('Qwerty', explode(',', $csv));
   }
 
+  /**
+   * Test the download form.
+   */
   public function testCsvDownloadForm() {
     $filters = [
       'Myfilter' => ['filter value 1', 'äöäöäö'],
@@ -81,8 +84,9 @@ class HakuvahtiTrackerTest extends KernelTestBase {
 
     $form = SelectedFiltersCsvForm::create($this->container);
 
-    $form->buildForm([], $form_state);
-    $form->submitForm([], $form_state);
+    $form_array = [];
+    $form->buildForm($form_array, $form_state);
+    $form->submitForm($form_array, $form_state);
   }
 
 }
