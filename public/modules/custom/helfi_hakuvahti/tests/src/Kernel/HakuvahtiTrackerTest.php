@@ -84,6 +84,9 @@ class HakuvahtiTrackerTest extends KernelTestBase {
 
     $form = SelectedFiltersCsvForm::create($this->container);
 
+    $id = $form->getFormId();
+    $this->assertEquals('helfi_hakuvahti_csv_download_form', $id);
+
     $form_array = [];
     $form->buildForm($form_array, $form_state);
     $form->submitForm($form_array, $form_state);

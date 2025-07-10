@@ -48,7 +48,6 @@ readonly class HakuvahtiTracker {
    *   Saved successfully
    */
   public function saveSelectedFilters(array $filters): bool {
-    // $now = (new \DateTime())->format('Y-m-d H:i:s');
     $now = (new \DateTime())->format('Y-m-d H:i:s');
     // Allows distinguishing between hakuvahti subscriptions.
     $subscription_token = uniqid();
