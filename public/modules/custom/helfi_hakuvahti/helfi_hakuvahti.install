@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @file
  * Contains install functions for HELfi hakuvahti -module.
  */
 
 use Drupal\Core\Database\Database;
-
-declare(strict_types=1);
 
 /**
  * The schema.

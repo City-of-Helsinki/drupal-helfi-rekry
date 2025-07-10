@@ -98,6 +98,7 @@ msgctxt "Hakuvahti empty filters"
 msgid "No search filters"
 msgstr "Ei hakuehtoja"
 
+
 msgid "Unable to handle the given date"
 msgstr "Tarkista päivämäärät"
 
@@ -106,3 +107,6 @@ msgstr "Aloituspäivämäärä ei voi olla Lopetuspäivämäärän jälkeen"
 
 msgid "Something went wrong: @message"
 msgstr "Jokin meni pieleen: @message"
+
+msgid "Hakuvahti selected filters"
+msgstr "Hakuvahdin seuranta"
