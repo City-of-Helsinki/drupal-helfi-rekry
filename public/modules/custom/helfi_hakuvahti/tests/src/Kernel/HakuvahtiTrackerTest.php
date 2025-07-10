@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_hakuvahti\Kernel;
 
+use Drupal\Core\Form\FormState;
+use Drupal\helfi_hakuvahti\Form\SelectedFiltersCsvForm;
 use Drupal\Tests\purge\Kernel\KernelTestBase;
 
 /**
@@ -15,6 +17,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
+    'system',
     'helfi_hakuvahti',
   ];
 
@@ -54,6 +57,32 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     $csv = $tracker->createCsvString($week_ago, $now);
     $this->assertNotEmpty($csv);
     $this->assertContains('Qwerty', explode(',', $csv));
+  }
+
+  public function testCsvDownloadForm() {
+    $filters = [
+      'Myfilter' => ['filter value 1', 'äöäöäö'],
+      'Another filter' => ['Qwerty'],
+    ];
+
+    /** @var \Drupal\helfi_hakuvahti\HakuvahtiTracker $tracker */
+    $tracker = $this->container->get('Drupal\helfi_hakuvahti\HakuvahtiTracker');
+    $tracker->saveSelectedFilters($filters);
+
+    $form_state = new FormState();
+    $form_state->setValue(
+      'from',
+      (new \DateTime(date('Y-m-d H:i.s', strtotime('-1 week'))))->format('Y-m-d')
+    );
+    $form_state->setValue(
+      'to',
+      (new \DateTime())->format('Y-m-d')
+    );
+
+    $form = SelectedFiltersCsvForm::create($this->container);
+
+    $form->buildForm([], $form_state);
+    $form->submitForm([], $form_state);
   }
 
 }
