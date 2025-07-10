@@ -32,7 +32,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
   /**
    * Test saving filters.
    */
-  public function testSaveAndLoadFilters() {
+  public function testSaveAndLoadFilters(): void {
     /** @var \Drupal\helfi_hakuvahti\HakuvahtiTracker $tracker */
     $tracker = $this->container->get('Drupal\helfi_hakuvahti\HakuvahtiTracker');
 
@@ -56,13 +56,13 @@ class HakuvahtiTrackerTest extends KernelTestBase {
 
     $csv = $tracker->createCsvString($week_ago, $now);
     $this->assertNotEmpty($csv);
-    $this->assertContains('Qwerty', explode(',', $csv));
+    $this->assertCsv($csv, 'Qwerty');
   }
 
   /**
    * Test the download form.
    */
-  public function testCsvDownloadForm() {
+  public function testCsvDownloadForm(): void {
     $filters = [
       'Myfilter' => ['filter value 1', 'äöäöäö'],
       'Another filter' => ['Qwerty'],
@@ -87,6 +87,22 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     $form_array = [];
     $form->buildForm($form_array, $form_state);
     $form->submitForm($form_array, $form_state);
+    $response = $form_state->getResponse();
+
+    $this->assertEquals('text/csv; charset=UTF-8', $response->headers->get('Content-Type'));
+    $this->assertCsv($response->getContent(), 'Qwerty');
+  }
+
+  /**
+   * Assert csv content.
+   *
+   * @param string $csv
+   *   The csv string.
+   * @param string $needle
+   *   The words to look for.
+   */
+  private function assertCsv(string $csv, string $needle): void {
+    $this->assertContains($needle, explode(',', $csv));
   }
 
 }
