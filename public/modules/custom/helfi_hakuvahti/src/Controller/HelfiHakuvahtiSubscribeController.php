@@ -121,6 +121,8 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   An array to gather selected employment type filters.
    * @param array $area_filter_labels
    *   An array to gather selected area filters.
+   * @param string $language
+   *   The langauge-dropdown selection.
    *
    * @return string
    *   The concatenated search description taxonomies.
