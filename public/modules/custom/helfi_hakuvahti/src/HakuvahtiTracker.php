@@ -19,6 +19,11 @@ readonly class HakuvahtiTracker {
   private const FIELDS = ['token', 'filter_name', 'filter_value', 'created_at'];
 
   /**
+   * The csv headers.
+   */
+  private const CSV_HEADERS = ['id', 'tunniste', 'suodatin', 'valittu arvo', 'luontiaika'];
+
+  /**
    * The constructor.
    *
    * @param \Drupal\Core\Database\Connection $connection
@@ -118,7 +123,7 @@ readonly class HakuvahtiTracker {
 
     try {
       // Set csv headers.
-      fputcsv($handle, self::FIELDS, $delimiter);
+      fputcsv($handle, $this::CSV_HEADERS, $delimiter);
 
       // Add new rows to csv.
       foreach ($rows as $row) {
