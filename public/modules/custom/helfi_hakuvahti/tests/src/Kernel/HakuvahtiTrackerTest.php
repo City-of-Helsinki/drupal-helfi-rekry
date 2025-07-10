@@ -6,6 +6,9 @@ namespace Drupal\Tests\helfi_hakuvahti\Kernel;
 
 use Drupal\Tests\purge\Kernel\KernelTestBase;
 
+/**
+ * Hakuvahti tracker test.
+ */
 class HakuvahtiTrackerTest extends KernelTestBase {
 
   /**
@@ -15,6 +18,9 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     'helfi_hakuvahti',
   ];
 
+  /**
+   * {@inheritDoc}
+   */
   public function setUp($switch_to_memory_queue = TRUE): void {
     parent::setUp($switch_to_memory_queue);
     $this->installSchema('helfi_hakuvahti', ['hakuvahti_selected_filters']);
@@ -27,7 +33,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     /** @var \Drupal\helfi_hakuvahti\HakuvahtiTracker $tracker */
     $tracker = $this->container->get('Drupal\helfi_hakuvahti\HakuvahtiTracker');
 
-    $week_ago = new \DateTime( date('Y-m-d H:i.s', strtotime('-1 week')));
+    $week_ago = new \DateTime(date('Y-m-d H:i.s', strtotime('-1 week')));
     $now = new \DateTime();
 
     try {
