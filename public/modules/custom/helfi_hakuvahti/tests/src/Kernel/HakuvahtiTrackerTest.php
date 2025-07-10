@@ -23,9 +23,19 @@ class HakuvahtiTrackerTest extends KernelTestBase {
   /**
    * Test saving filters.
    */
-  public function testSaveFilters() {
+  public function testSaveAndLoadFilters() {
     /** @var \Drupal\helfi_hakuvahti\HakuvahtiTracker $tracker */
     $tracker = $this->container->get('Drupal\helfi_hakuvahti\HakuvahtiTracker');
+
+    $week_ago = new \DateTime( date('Y-m-d H:i.s', strtotime('-1 week')));
+    $now = new \DateTime();
+
+    try {
+      $csv = $tracker->createCsvString($week_ago, $now);
+    }
+    catch (\Exception $e) {
+      $this->assertTrue(TRUE, 'No results should be found.');
+    }
 
     $filters = [
       'Myfilter' => ['filter value 1', 'äöäöäö'],
@@ -34,13 +44,10 @@ class HakuvahtiTrackerTest extends KernelTestBase {
 
     $saved = $tracker->saveSelectedFilters($filters);
     $this->assertTrue($saved);
-  }
 
-  /**
-   *
-   */
-//  public function testGetSelectedFilters() {
-//
-//  }
+    $csv = $tracker->createCsvString($week_ago, $now);
+    $this->assertNotEmpty($csv);
+    $this->assertContains('Qwerty', explode(',', $csv));
+  }
 
 }
