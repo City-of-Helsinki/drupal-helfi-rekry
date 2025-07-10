@@ -16,7 +16,7 @@ readonly class HakuvahtiTracker {
   /**
    * Csv header fields which matches the database fields.
    */
-  private const FIELDS = ['id', 'token', 'filter_name', 'filter_value', 'created_at'];
+  private const FIELDS = ['token', 'filter_name', 'filter_value', 'created_at'];
 
   /**
    * The constructor.
@@ -56,7 +56,6 @@ readonly class HakuvahtiTracker {
     foreach ($filters as $filter_name => $values) {
       foreach ($values as $value) {
         $query->values([
-          'id' => '0',
           'token' => $subscription_token,
           'filter_name' => $filter_name,
           'filter_value' => $value,
