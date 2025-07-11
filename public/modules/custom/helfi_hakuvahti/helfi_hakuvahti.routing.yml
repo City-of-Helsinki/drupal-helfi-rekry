@@ -26,6 +26,6 @@ helfi_hakuvahti.csv_download_form:
     _form: '\Drupal\helfi_hakuvahti\Form\SelectedFiltersCsvForm'
     _title: 'Hakuvahti csv download'
   requirements:
-    _permission: 'administer site configuration'
+    _role: 'editor+admin+super_administrator'
   options:
     _admin_route: TRUE
