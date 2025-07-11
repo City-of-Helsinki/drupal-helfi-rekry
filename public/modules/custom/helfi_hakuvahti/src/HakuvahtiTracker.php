@@ -62,7 +62,7 @@ readonly class HakuvahtiTracker {
         $query->values([
           'token' => $subscription_token,
           'filter_name' => $filter_name,
-          'filter_value' => $value,
+          'filter_value' => substr($value, 0, 254),
           'created_at' => $now,
         ]);
       }
