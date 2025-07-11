@@ -42,11 +42,15 @@ final class SelectedFiltersCsvForm extends FormBase {
    * {@inheritDoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
+    $first_entry = $this->tracker->getFirstEntry();
+    $date = $first_entry ? (new \DateTime($first_entry->created_at))->format('Y-m-d') : NULL;
+
     $form['from'] = [
       '#type' => 'date',
       '#date_timezone' => 'Europe/Helsinki',
       '#date_format' => 'd-m-Y',
       '#title' => $this->t('Start date'),
+      '#default_value' => $date,
       '#required' => TRUE,
     ];
 

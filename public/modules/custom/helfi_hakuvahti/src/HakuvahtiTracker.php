@@ -180,4 +180,23 @@ readonly class HakuvahtiTracker {
       ->fetchAllAssoc('id');
   }
 
+  /**
+   * Get the first entry.
+   *
+   * Can be used to prefill the start date field in the form.
+   *
+   * @return \stdClass|null
+   *   The first item in database.
+   */
+  public function getFirstEntry(): \stdClass|null {
+    $first_item = $this->connection
+      ->select('hakuvahti_selected_filters', 'f')
+      ->fields('f', ['id', 'created_at'])
+      ->range(0, 1)
+      ->execute()
+      ->fetchAllAssoc('id');
+
+    return $first_item ? reset($first_item) : NULL;
+  }
+
 }
