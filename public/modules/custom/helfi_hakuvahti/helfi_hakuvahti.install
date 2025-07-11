@@ -12,7 +12,7 @@ use Drupal\Core\Database\Database;
 /**
  * The schema.
  */
-function helfi_hakuvahti_schema() {
+function helfi_hakuvahti_schema(): array {
   $schema['hakuvahti_selected_filters'] = [
     'description' => 'The table for storing selected hakuvahti filters.',
     'fields' => [
@@ -56,7 +56,7 @@ function helfi_hakuvahti_schema() {
 /**
  * Create the hakuvahti database table.
  */
-function helfi_hakuvahti_update_9001() {
+function helfi_hakuvahti_update_9001(): void {
   $db = Database::getConnection()->schema();
   $db->createTable('hakuvahti_selected_filters', helfi_hakuvahti_schema()['hakuvahti_selected_filters']);
 }

@@ -41,7 +41,7 @@ final class SelectedFiltersCsvForm extends FormBase {
   /**
    * {@inheritDoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $form['from'] = [
       '#type' => 'date',
       '#date_timezone' => 'Europe/Helsinki',
@@ -70,7 +70,7 @@ final class SelectedFiltersCsvForm extends FormBase {
   /**
    * {@inheritDoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     try {
       $from = new \DateTime($form_state->getValue('from'));
       $to = new \DateTime($form_state->getValue('to'));
@@ -117,7 +117,7 @@ final class SelectedFiltersCsvForm extends FormBase {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state.
    */
-  private function handleError(TranslatableMarkup $message, FormStateInterface $form_state) {
+  private function handleError(TranslatableMarkup $message, FormStateInterface $form_state): void {
     $this->messenger()->addError($message);
     $response = new RedirectResponse(Url::fromRoute($this->getRouteMatch()->getRouteName())->toString(), 301);
     $form_state->setResponse($response);
