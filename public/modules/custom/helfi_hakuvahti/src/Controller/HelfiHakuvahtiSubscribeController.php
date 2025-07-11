@@ -171,6 +171,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     }
 
     $language = $this->sliceTree($queryAsArray['query']['bool']['filter'], '_language');
+    $language = empty($language) ? '' : $language;
 
     $description = $this->buildDescription($query, $terms, $areaFiltersTranslated, $employmentTermLabels);
 

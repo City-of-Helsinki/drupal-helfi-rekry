@@ -59,6 +59,9 @@ readonly class HakuvahtiTracker {
     // Create insert values for query.
     foreach ($filters as $filter_name => $values) {
       foreach ($values as $value) {
+        if (!$value) {
+          continue;
+        }
         $query->values([
           'token' => $subscription_token,
           'filter_name' => $filter_name,
