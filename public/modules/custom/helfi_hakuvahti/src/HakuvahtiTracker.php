@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti;
 
 use Drupal\Core\Database\Connection;
-use Drupal\Core\Database\Query\Insert;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
