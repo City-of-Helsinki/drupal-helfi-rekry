@@ -99,7 +99,8 @@ final class SelectedFiltersCsvForm extends FormBase {
       return;
     }
 
-    $filename = 'hakuvahti.csv';
+    $date = date('Y-m-d');
+    $filename = "hakuvahti-$date.csv";
 
     $response = new Response();
     $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
