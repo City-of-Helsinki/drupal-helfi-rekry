@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti;
 
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Database\Query\Insert;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
@@ -56,12 +57,14 @@ readonly class HakuvahtiTracker {
       ->insert('hakuvahti_selected_filters')
       ->fields(self::FIELDS);
 
+    $has_values = FALSE;
     // Create insert values for query.
     foreach ($filters as $filter_name => $values) {
       foreach ($values as $value) {
         if (!$value) {
           continue;
         }
+        $has_values = TRUE;
         $query->values([
           'token' => $subscription_token,
           'filter_name' => $filter_name,
@@ -69,6 +72,11 @@ readonly class HakuvahtiTracker {
           'created_at' => $now,
         ]);
       }
+    }
+
+    // No need to execute query if no values.
+    if (!$has_values) {
+      return TRUE;
     }
 
     try {
