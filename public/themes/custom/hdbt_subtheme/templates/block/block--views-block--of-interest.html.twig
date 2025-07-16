@@ -32,10 +32,10 @@
 %}
 
 <div{{ attributes.addClass(classes) }}>
-  <div class="block--of-interest__content-container">
+  <div class="block--of-interest__content-container" role="region" aria-labelledby="block-of-interest__title">
     {{ title_prefix }}
     {% if label %}
-      <h2{{ title_attributes }}>{{ label }}</h2>
+      <h2{{ title_attributes.setAttribute('id', 'block-of-interest__title') }}>{{ label }}</h2>
     {% endif %}
     {{ title_suffix }}
     {% block content %}
