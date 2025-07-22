@@ -8,3 +8,5 @@ services:
     arguments: ['helfi_hakuvahti']
 
   Drupal\helfi_hakuvahti\HelfiHakuvahtiSubscribeController: ~
+
+  Drupal\helfi_hakuvahti\HakuvahtiTracker: ~
