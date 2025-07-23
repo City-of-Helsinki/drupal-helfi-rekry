@@ -19,3 +19,13 @@ helfi_hakuvahti.unsubscribe:
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiController::unsubscribe'
   requirements:
     _permission: 'access content'
+
+helfi_hakuvahti.csv_download_form:
+  path: '/admin/tools/hakuvahti-csv-download'
+  defaults:
+    _form: '\Drupal\helfi_hakuvahti\Form\SelectedFiltersCsvForm'
+    _title: 'Hakuvahti csv download'
+  requirements:
+    _role: 'editor+admin+super_administrator'
+  options:
+    _admin_route: TRUE

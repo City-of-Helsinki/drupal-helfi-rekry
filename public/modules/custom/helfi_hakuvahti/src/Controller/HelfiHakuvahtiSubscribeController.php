@@ -6,6 +6,7 @@ namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\helfi_hakuvahti\HakuvahtiTracker;
 use Drupal\taxonomy\TermInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
@@ -37,11 +38,15 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *   The httpclient.
    * @param \Psr\Log\LoggerInterface $logger
    *   The logger.
+   * @param \Drupal\helfi_hakuvahti\HakuvahtiTracker $hakuvahtiTracker
+   *   The hakuvahti tracker.
    */
   public function __construct(
     protected RequestStack $requestStack,
     private readonly ClientInterface $client,
-    #[Autowire(service: 'logger.channel.helfi_hakuvahti')] private readonly LoggerInterface $logger,
+    #[Autowire(service: 'logger.channel.helfi_hakuvahti')]
+    private readonly LoggerInterface $logger,
+    private readonly HakuvahtiTracker $hakuvahtiTracker,
   ) {
     $this->termStorage = $this->entityTypeManager()->getStorage('taxonomy_term');
   }
@@ -59,9 +64,17 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     }
 
     $request = $this->requestStack->getCurrentRequest();
-    $body = $request->getContent(FALSE);
+    $body = $request->getContent();
     $bodyObj = json_decode($body);
-    $bodyObj->search_description = $this->getSearchDescriptionTaxonomies($bodyObj);
+
+    // Collect the filter values for saving.
+    $task_areas = [];
+    $employment_type_labels = [];
+    $area_filter_labels = [];
+    $language = 'fi';
+
+    $taxonomies = $this->getSearchDescriptionTaxonomies($bodyObj, $task_areas, $employment_type_labels, $area_filter_labels, $language);
+    $bodyObj->search_description = $taxonomies;
 
     $token = $request->headers->get('token');
     // @todo Validate token.
@@ -86,6 +99,14 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       return new JsonResponse(['success' => FALSE, 'error' => 'Error while handling the request.'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
+    $selected_filters = [
+      'Ammattiala' => $task_areas,
+      'Palvelussuhteen tyyppi' => $employment_type_labels,
+      'Sijainti' => $area_filter_labels,
+      'Kieli' => [$language],
+    ];
+    $this->hakuvahtiTracker->saveSelectedFilters($selected_filters);
+
     return new JsonResponse(['success' => TRUE], Response::HTTP_OK);
   }
 
@@ -94,11 +115,19 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *
    * @param mixed $obj
    *   The object containing elastic query data.
+   * @param array $task_area_labels
+   *   An array to gather selected task area labels.
+   * @param array $employment_type_labels
+   *   An array to gather selected employment type filters.
+   * @param array $area_filter_labels
+   *   An array to gather selected area filters.
+   * @param string $language
+   *   The langauge-dropdown selection.
    *
    * @return string
    *   The concatenated search description taxonomies.
    */
-  private function getSearchDescriptionTaxonomies(mixed $obj): string {
+  private function getSearchDescriptionTaxonomies(mixed $obj, array &$task_area_labels, array &$employment_type_labels, array &$area_filter_labels, string &$language): string {
     $terms = [];
     $employmentTermLabels = [];
     $areaFiltersTranslated = [];
@@ -121,6 +150,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $taskAreaField)
     ) {
       $terms = $this->getLabelsByExternalId($taskAreaIds, $obj->lang);
+      $task_area_labels = $this->getLabelsByExternalId($taskAreaIds, 'fi');
     }
 
     $employmentTypeField = 'employment_type_id';
@@ -129,14 +159,19 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $employmentTypeField)
     ) {
       $employmentTermLabels = $this->getLabelsByTermIds($employmentIds, $obj->lang);
+      $employment_type_labels = $this->getLabelsByTermIds($employmentIds, 'fi');
     }
 
     // Job location:
     if ($area_filters = $this->extractQueryParameters($obj->query, 'area_filter')) {
       foreach ($area_filters as $area) {
         $areaFiltersTranslated[] = $this->translateString($area, $obj->lang);
+        $area_filter_labels[] = $this->translateString($area, 'fi');
       }
     }
+
+    $language = $this->sliceTree($queryAsArray['query']['bool']['filter'], '_language');
+    $language = empty($language) ? '' : $language;
 
     $description = $this->buildDescription($query, $terms, $areaFiltersTranslated, $employmentTermLabels);
 
@@ -298,10 +333,10 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    * @param string $needle
    *   The key we are looking for.
    *
-   * @return array
-   *   False or the array we are looking for.
+   * @return array|string
+   *   The result of the search.
    */
-  private function sliceTree(array $tree, string $needle): array {
+  private function sliceTree(array $tree, string $needle): array|string {
     if (isset($tree[$needle])) {
       return $tree[$needle];
     }
