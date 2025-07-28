@@ -23,7 +23,6 @@ class JobMigrationTest extends KernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
-    'content_lock',
     'helfi_rekry_content',
   ];
 

@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Service;
 
-use Drupal\content_lock\ContentLock\ContentLock;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Webmozart\Assert\Assert;
 
 /**
@@ -46,8 +44,6 @@ final class JobListingCleaner {
    */
   public function __construct(
     private readonly HelbitClient $client,
-    #[Autowire(service: 'content_lock')]
-    private readonly ContentLock $contentLock,
     EntityTypeManagerInterface $entityTypeManager,
   ) {
     $this->storage = $entityTypeManager->getStorage('node');
@@ -67,11 +63,6 @@ final class JobListingCleaner {
 
     foreach ($jobListings as $jobListing) {
       assert($jobListing instanceof FieldableEntityInterface);
-
-      // Skip if content is locked (try to delete again next time).
-      if ($this->contentLock->fetchLock($jobListing->id(), $jobListing->language()->getId(), entity_type: $jobListing->getEntityTypeId())) {
-        continue;
-      }
 
       // The job listing should be deleted if it is not present in the API.
       if (!$this->isJobListingInHelbit($jobListing)) {
