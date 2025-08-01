@@ -16,7 +16,7 @@ class FilenameTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['helfi_rekry_content', 'content_lock'];
+  protected static $modules = ['helfi_rekry_content'];
 
   /**
    * Tests the file name transliteration.

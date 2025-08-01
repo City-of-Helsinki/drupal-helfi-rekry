@@ -31,7 +31,6 @@ class UnpublishWorkerTest extends KernelTestBase {
     'filter',
     'scheduler',
     'language',
-    'content_lock',
     'helfi_rekry_content',
   ];
 
