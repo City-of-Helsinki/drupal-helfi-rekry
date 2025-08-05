@@ -6,9 +6,11 @@ namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\helfi_platform_config\EntityVersionMatcher;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Tests structured data functionality.
@@ -20,6 +22,15 @@ use Drupal\node\Entity\NodeType;
  * @group helfi_rekry_content
  */
 class StructuredDataTest extends KernelTestBase {
+
+  use ProphecyTrait;
+
+  /**
+   * Mocked entity version matcher.
+   *
+   * @var \Prophecy\Prophecy\ObjectProphecy
+   */
+  protected $entityVersionMatcher;
 
   /**
    * {@inheritdoc}
@@ -57,22 +68,9 @@ class StructuredDataTest extends KernelTestBase {
 
     $this->createRequiredFields();
 
-    // Create a fake service that provides the expected interface,
-    // otherwise we need to do separate class overkill for simple mock.
-    $entity_matcher = new class {
-
-      /**
-       * Returns entity type information.
-       *
-       * @return array
-       *   Array containing entity information.
-       */
-      public function getType() {
-        return ['entity' => NULL];
-      }
-
-    };
-    $this->container->set('helfi_platform_config.entity_version_matcher', $entity_matcher);
+    $this->entityVersionMatcher = $this->prophesize(EntityVersionMatcher::class);
+    $this->entityVersionMatcher->getType()->willReturn(['entity' => NULL]);
+    $this->container->set('helfi_platform_config.entity_version_matcher', $this->entityVersionMatcher->reveal());
   }
 
   /**
@@ -166,38 +164,7 @@ class StructuredDataTest extends KernelTestBase {
    *   The entity to return from the matcher.
    */
   private function mockEntityMatcher($entity): void {
-    $entity_matcher = new class($entity) {
-
-      /**
-       * The entity to return from the matcher.
-       *
-       * @var \Drupal\Core\Entity\EntityInterface
-       */
-      private $entity;
-
-      /**
-       * Constructs the entity matcher.
-       *
-       * @param \Drupal\Core\Entity\EntityInterface $entity
-       *   The entity to return from the matcher.
-       */
-      public function __construct($entity) {
-        $this->entity = $entity;
-      }
-
-      /**
-       * Returns entity type information.
-       *
-       * @return array
-       *   Array containing entity information.
-       */
-      public function getType() {
-        return ['entity' => $this->entity];
-      }
-
-    };
-
-    $this->container->set('helfi_platform_config.entity_version_matcher', $entity_matcher);
+    $this->entityVersionMatcher->getType()->willReturn(['entity' => $entity]);
   }
 
   /**
