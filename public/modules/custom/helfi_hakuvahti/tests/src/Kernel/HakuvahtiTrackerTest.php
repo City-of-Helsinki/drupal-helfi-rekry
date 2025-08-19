@@ -54,7 +54,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     $saved = $tracker->saveSelectedFilters($filters);
     $this->assertTrue($saved);
 
-    $csv = $tracker->createCsvString($week_ago, $now);
+    $csv = $tracker->createCsvString($week_ago, $now, ';');
     $this->assertNotEmpty($csv);
     $this->assertCsv($csv, 'Qwerty');
   }
@@ -73,6 +73,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     $tracker->saveSelectedFilters($filters);
 
     $form_state = new FormState();
+    $form_state->setValue('csv_delimiter', ';');
     $form_state->setValue(
       'from',
       (new \DateTime(date('Y-m-d H:i.s', strtotime('-1 week'))))->format('Y-m-d')
@@ -105,7 +106,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
    *   The words to look for.
    */
   private function assertCsv(string $csv, string $needle): void {
-    $this->assertContains($needle, explode(',', $csv));
+    $this->assertContains($needle, explode(';', $csv));
   }
 
 }
