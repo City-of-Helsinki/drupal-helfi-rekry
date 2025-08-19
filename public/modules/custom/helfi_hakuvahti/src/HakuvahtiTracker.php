@@ -127,7 +127,7 @@ readonly class HakuvahtiTracker {
    * @return string
    *   The csv string.
    */
-  public function createCsvStringFromArray(array $rows, string $delimiter): string {
+  public function createCsvStringFromArray(array $rows, string $delimiter = ';'): string {
     $filePath = 'php://temp';
     $handle = fopen($filePath, 'w+');
 
