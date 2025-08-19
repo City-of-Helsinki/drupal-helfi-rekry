@@ -45,6 +45,16 @@ final class SelectedFiltersCsvForm extends FormBase {
     $first_entry = $this->tracker->getFirstEntry();
     $date = $first_entry ? (new \DateTime($first_entry->created_at))->format('Y-m-d') : NULL;
 
+    $form['csv_delimiter'] = [
+      '#type' => 'select',
+      '#options' => [
+        ';' => $this->t('Semicolon'),
+        ',' => $this->t('Comma'),
+      ],
+      '#title' => $this->t('CSV Delimiter'),
+      '#description' => $this->t("Change the delimiter if the csv file won't open properly."),
+    ];
+
     $form['from'] = [
       '#type' => 'date',
       '#date_timezone' => 'Europe/Helsinki',
@@ -89,6 +99,8 @@ final class SelectedFiltersCsvForm extends FormBase {
       return;
     }
 
+    $delimiter = $form_state->getValue('csv_delimiter');
+
     try {
       $rows = $this->tracker->getSavedFilters($from, $to);
       if (!$rows) {
@@ -96,7 +108,7 @@ final class SelectedFiltersCsvForm extends FormBase {
         return;
       }
 
-      $csv_string = $this->tracker->createCsvStringFromArray($rows);
+      $csv_string = $this->tracker->createCsvStringFromArray($rows, $delimiter);
     }
     catch (\Exception $e) {
       $this->handleError($this->t('Something went wrong: @message', ['@message' => $e->getMessage()]), $form_state);
