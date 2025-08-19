@@ -96,11 +96,13 @@ readonly class HakuvahtiTracker {
    *   Datetime filter.
    * @param \DateTime|null $to
    *   Datetime filter.
+   * @param string $delimiter
+   *   CSV delimiter.
    *
    * @return string
    *   The csv as a string.
    */
-  public function createCsvString(?\DateTime $from = NULL, ?\DateTime $to = NULL): string {
+  public function createCsvString(?\DateTime $from = NULL, ?\DateTime $to = NULL, string $delimiter = ';'): string {
     try {
       $rows = $this->getSavedFilters($from, $to);
     }
@@ -113,7 +115,7 @@ readonly class HakuvahtiTracker {
       throw new \Exception("No results found");
     }
 
-    return $this->createCsvStringFromArray($rows);
+    return $this->createCsvStringFromArray($rows, $delimiter);
   }
 
   /**
@@ -125,8 +127,7 @@ readonly class HakuvahtiTracker {
    * @return string
    *   The csv string.
    */
-  public function createCsvStringFromArray(array $rows): string {
-    $delimiter = ',';
+  public function createCsvStringFromArray(array $rows, string $delimiter): string {
     $filePath = 'php://temp';
     $handle = fopen($filePath, 'w+');
 

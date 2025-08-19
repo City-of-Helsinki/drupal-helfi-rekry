@@ -110,3 +110,9 @@ msgstr "Jokin meni pieleen: @message"
 
 msgid "Hakuvahti csv download"
 msgstr "Hakuvahti seuranta"
+
+msgid "CSV Delimiter"
+msgstr "CSV erotinmerkki"
+
+msgid "Change the delimiter if the csv file won't open properly."
+msgstr "Vaihda erotinmerkkiä jos csv-tiedosto ei avaudu formatoituna käyttämässäsi ohjelmistossa."
