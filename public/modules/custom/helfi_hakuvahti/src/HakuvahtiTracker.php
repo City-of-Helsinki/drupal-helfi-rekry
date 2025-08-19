@@ -123,6 +123,8 @@ readonly class HakuvahtiTracker {
    *
    * @param array $rows
    *   Data as array.
+   * @param string $delimiter
+   *   CSV delimiter.
    *
    * @return string
    *   The csv string.
