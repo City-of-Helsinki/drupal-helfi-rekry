@@ -14,8 +14,8 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Edellinen'
-            next: 'Seuraava ›'
+            previous: Edellinen
+            next: Seuraava
           expose:
             items_per_page_label: 'Merkintöjä sivua kohti'
             items_per_page_options_all_label: '- Kaikki -'
@@ -41,6 +41,7 @@ display:
           label: Muutospäivämäärä
         count:
           label: Käytetään
+          format_plural_string: !!binary MSBwbGFjZQNAY291bnQgcGxhY2Vz
       filters:
         filename:
           expose:
@@ -66,8 +67,8 @@ display:
       pager:
         options:
           tags:
-            previous: '‹ Edellinen'
-            next: 'Seuraava ›'
+            previous: Edellinen
+            next: Seuraava
           expose:
             items_per_page_label: 'Merkintöjä sivua kohti'
             items_per_page_options_all_label: '- Kaikki -'

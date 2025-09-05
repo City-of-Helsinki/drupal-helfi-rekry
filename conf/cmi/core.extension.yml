@@ -5,6 +5,8 @@ module:
   admin_toolbar_tools: 0
   allowed_formats: 0
   basic_auth: 0
+  big_pipe: 0
+  big_pipe_sessionless: 0
   block: 0
   breakpoint: 0
   ckeditor5: 0
@@ -14,8 +16,8 @@ module:
   config_rewrite: 0
   config_translation: 0
   content_lock: 0
-  content_lock_timeout: 0
   crop: 0
+  csp: 0
   datetime: 0
   diff: 0
   disable_field: 0
@@ -72,6 +74,7 @@ module:
   helfi_paragraphs_list_of_links: 0
   helfi_paragraphs_map: 0
   helfi_paragraphs_news_list: 0
+  helfi_paragraphs_number_highlights: 0
   helfi_paragraphs_phasing: 0
   helfi_paragraphs_popular_services: 0
   helfi_paragraphs_remote_video: 0
@@ -82,6 +85,7 @@ module:
   helfi_platform_config_base: 0
   helfi_proxy: 0
   helfi_react_search: 0
+  helfi_recommendations: 0
   helfi_rekry_content: 0
   helfi_tfa: 0
   helfi_toc: 0
@@ -118,6 +122,7 @@ module:
   oembed_providers: 0
   openid_connect: 0
   options: 0
+  page_cache: 0
   paragraphs_asymmetric_translation_widgets: 0
   paragraphs_library: 0
   path: 0
@@ -143,6 +148,7 @@ module:
   simple_sitemap: 0
   social_media: 0
   sophron: 0
+  stage_file_proxy: 0
   stomp: 0
   system: 0
   taxonomy: 0

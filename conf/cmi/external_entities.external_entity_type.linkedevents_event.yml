@@ -3,13 +3,13 @@ langcode: en
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: Ll_0kw3O6gGsRvmdTi7l4K2pwhUrL0yQT4uPcttspmA
+  default_config_hash: LYl9zNEVjxc3dAdVydk1wvfBxZPgTISTBXd6U2-za0g
 id: linkedevents_event
 label: 'LinkedEvents: Event'
 label_plural: 'LinkedEvents: Events'
 description: 'Event entities from https://api.hel.fi/linkedevents.'
-read_only: true
 generate_aliases: false
+read_only: true
 field_mapper_id: jsonpath
 field_mapper_config:
   field_mappings:

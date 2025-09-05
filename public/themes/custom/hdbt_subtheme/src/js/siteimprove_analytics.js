@@ -1,5 +1,5 @@
 // eslint-disable-next-line func-names
-(function (Drupal) {
+(function(Drupal) {
   const loadSiteimproveAnalytics = () => {
 
     // Load Siteimprove analytics only if statistics cookies are allowed.

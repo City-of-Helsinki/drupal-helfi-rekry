@@ -110,13 +110,16 @@ foreach ($routes as $route) {
 
 $settings['config_sync_directory'] = '../conf/cmi';
 $settings['file_public_path'] = getenv('DRUPAL_FILES_PUBLIC') ?: 'sites/default/files';
-$settings['file_private_path'] = getenv('DRUPAL_FILES_PRIVATE');
+$settings['file_private_path'] = getenv('DRUPAL_FILES_PRIVATE') ?: '/private_files';
 $settings['file_temp_path'] = getenv('DRUPAL_TMP_PATH') ?: '/tmp';
 
 if ($reverse_proxy_address = getenv('DRUPAL_REVERSE_PROXY_ADDRESS')) {
   $reverse_proxy_address = explode(',', $reverse_proxy_address);
 
   if (isset($_SERVER['REMOTE_ADDR'])) {
+    // The application sits behind multiple proxies in the OpenShift
+    // environment. The nginx configuration uses ngx_http_realip_module to
+    // set the correct headers for Drupal.
     $reverse_proxy_address[] = $_SERVER['REMOTE_ADDR'];
   }
   $settings['reverse_proxy'] = TRUE;
@@ -148,11 +151,6 @@ if ($blob_storage_name = getenv('AZURE_BLOB_STORAGE_NAME')) {
   ];
   $config['helfi_azure_fs.settings']['use_blob_storage'] = TRUE;
   $settings['flysystem'] = $schemes;
-}
-
-
-if ($navigation_authentication_key = getenv('DRUPAL_NAVIGATION_API_KEY')) {
-  $config['helfi_navigation.api']['key'] = $navigation_authentication_key;
 }
 
 // Make sure project name and app env are defined in GitHub actions too.
@@ -370,6 +368,17 @@ if (getenv('ELASTICSEARCH_URL')) {
   }
 }
 
+// Elasticsearch suggestions server config. Etusivu elasticsearch instance is
+// shared between all core sites for indexing suggestions data.
+if (getenv('ELASTICSEARCH_ETUSIVU_URL')) {
+  $config['search_api.server.etusivu']['backend_config']['connector_config']['url'] = getenv('ELASTICSEARCH_ETUSIVU_URL');
+
+  if (getenv('ELASTICSEARCH_ETUSIVU_WRITER_USER') && getenv('ELASTICSEARCH_ETUSIVU_WRITER_PASSWORD')) {
+    $config['search_api.server.etusivu']['backend_config']['connector'] = 'helfi_connector';
+    $config['search_api.server.etusivu']['backend_config']['connector_config']['username'] = getenv('ELASTICSEARCH_ETUSIVU_WRITER_USER');
+    $config['search_api.server.etusivu']['backend_config']['connector_config']['password'] = getenv('ELASTICSEARCH_ETUSIVU_WRITER_PASSWORD');
+  }
+}
 
 // Supported values: https://github.com/Seldaek/monolog/blob/main/doc/01-usage.md#log-levels.
 $default_log_level = getenv('APP_ENV') === 'production' ? 'info' : 'debug';
