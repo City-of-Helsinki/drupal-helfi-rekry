@@ -71,7 +71,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       return new JsonResponse(
         [
           'success' => FALSE,
-          'error' => 'Error while validating email address.'
+          'error' => 'Error while validating email address.',
         ],
         Response::HTTP_BAD_REQUEST
       );
