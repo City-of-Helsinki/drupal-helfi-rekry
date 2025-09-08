@@ -2280,16 +2280,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "10.5.2",
+            "version": "10.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "f7daa3932311b473a3b480be94fa91883eb42391"
+                "reference": "acfb3b6eab3c3b1480e353d2e2e508bc6ae703c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/f7daa3932311b473a3b480be94fa91883eb42391",
-                "reference": "f7daa3932311b473a3b480be94fa91883eb42391",
+                "url": "https://api.github.com/repos/drupal/core/zipball/acfb3b6eab3c3b1480e353d2e2e508bc6ae703c9",
+                "reference": "acfb3b6eab3c3b1480e353d2e2e508bc6ae703c9",
                 "shasum": ""
             },
             "require": {
@@ -2439,9 +2439,9 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "support": {
-                "source": "https://github.com/drupal/core/tree/10.5.2"
+                "source": "https://github.com/drupal/core/tree/10.5.3"
             },
-            "time": "2025-08-07T10:36:31+00:00"
+            "time": "2025-09-04T09:07:02+00:00"
         },
         {
             "name": "drupal/core-composer-scaffold",
@@ -2878,20 +2878,20 @@
         },
         {
             "name": "drupal/disable_field",
-            "version": "3.0.2",
+            "version": "3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/disable_field.git",
-                "reference": "3.0.2"
+                "reference": "3.0.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/disable_field-3.0.2.zip",
-                "reference": "3.0.2",
-                "shasum": "3e041c4718710c66243dc2b5b30c6fa0572e3989"
+                "url": "https://ftp.drupal.org/files/projects/disable_field-3.0.4.zip",
+                "reference": "3.0.4",
+                "shasum": "81e84f4676db71b2ac6db5d3792184bb65ed822a"
             },
             "require": {
-                "drupal/core": "^9.2 || ^10"
+                "drupal/core": "^9.2 || ^10 || ^11"
             },
             "require-dev": {
                 "drupal/base_field_override_ui": "*",
@@ -2900,8 +2900,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.0.2",
-                    "datestamp": "1660823534",
+                    "version": "3.0.4",
+                    "datestamp": "1756110924",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2932,6 +2932,10 @@
                     "name": "Jeroen Tubex (JeroenT)",
                     "homepage": "https://www.drupal.org/u/jeroent",
                     "role": "Maintainer"
+                },
+                {
+                    "name": "virajrajankar",
+                    "homepage": "https://www.drupal.org/user/3164807"
                 }
             ],
             "description": "Allows to disable field of entities on the forms.",
