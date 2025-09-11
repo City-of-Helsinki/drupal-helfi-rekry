@@ -67,6 +67,16 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     $body = $request->getContent();
     $bodyObj = json_decode($body);
 
+    if (!$bodyObj->{'email'} || !filter_var($bodyObj->{'email'}, FILTER_VALIDATE_EMAIL)) {
+      return new JsonResponse(
+        [
+          'success' => FALSE,
+          'error' => 'Error while validating email address.',
+        ],
+        Response::HTTP_BAD_REQUEST
+      );
+    }
+
     // Collect the filter values for saving.
     $task_areas = [];
     $employment_type_labels = [];
