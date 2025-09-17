@@ -47,7 +47,6 @@ module:
   helfi_azure_fs: 0
   helfi_base_content: 0
   helfi_ckeditor: 0
-  helfi_csp: 0
   helfi_etusivu_entities: 0
   helfi_google_api: 0
   helfi_hakuvahti: 0
