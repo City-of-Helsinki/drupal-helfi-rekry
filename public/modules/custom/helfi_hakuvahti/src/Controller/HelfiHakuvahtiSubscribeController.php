@@ -75,6 +75,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
 
     $taxonomies = $this->getSearchDescriptionTaxonomies($bodyObj, $task_areas, $employment_type_labels, $area_filter_labels, $language);
     $bodyObj->search_description = $taxonomies;
+    $bodyObj->site_id = getenv('HAKUVAHTI_SITE_ID');
 
     $token = $request->headers->get('token');
     // @todo Validate token.
