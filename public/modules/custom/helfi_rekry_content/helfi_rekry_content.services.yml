@@ -20,3 +20,5 @@ services:
 
   Drupal\helfi_rekry_content\Helbit\HelbitClient: ~
   Drupal\helfi_rekry_content\Service\JobListingCleaner: ~
+
+  Drupal\helfi_rekry_content\Service\HakuvahtiTracker: ~
