@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 /**
  * Save hakuvahti filter selections to database.
  */
-readonly class HakuvahtiTracker {
+class HakuvahtiTracker {
 
   use StringTranslationTrait;
 
