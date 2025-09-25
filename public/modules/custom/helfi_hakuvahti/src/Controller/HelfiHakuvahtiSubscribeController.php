@@ -45,7 +45,14 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     }
 
     // @todo The request should contain the complete search_description.
-    $requestObject = new HakuvahtiRequest(json_decode($request->getContent(), TRUE));
+    try {
+      $requestObject = new HakuvahtiRequest(json_decode($request->getContent(), TRUE));
+    }
+    catch (\InvalidArgumentException $e) {
+      // The frontend should not send invalid requests.
+      $this->logger->error('Hakuvahti initial subscription failed due to invalid argument: ' . $e->getMessage());
+      return new JsonResponse(['success' => FALSE, 'error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+    }
 
     // @todo Validate token, maybe create simple token-feature for this
     // kind of feature.
