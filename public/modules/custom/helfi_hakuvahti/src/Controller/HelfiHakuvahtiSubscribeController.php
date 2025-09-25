@@ -54,7 +54,6 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       return new JsonResponse(['success' => FALSE, 'error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
     }
 
-
     // @todo Validate token, maybe create simple token-feature for this
     // kind of feature.
     // Drupal's token does not currently work for unauthenticated user,

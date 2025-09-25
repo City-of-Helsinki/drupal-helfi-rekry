@@ -26,8 +26,6 @@ class HakuvahtiSubscriptionSubscriber implements EventSubscriberInterface {
 
   /**
    * Save the selected filters to database.
-   *
-   * @return void
    */
   public function hakuvahtiSubscriptionActions(SubscriptionEvent $event): void {
     $filters = $this->hakuvahtiTracker->parseQuery($event->getQuery());
