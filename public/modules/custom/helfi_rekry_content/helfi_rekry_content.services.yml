@@ -11,6 +11,7 @@ services:
   Drupal\helfi_rekry_content\EventSubscriber\ElasticsearchEventSubscriber: ~
   Drupal\helfi_rekry_content\EventSubscriber\JobListingHideMissingSubscriber: ~
   Drupal\helfi_rekry_content\EventSubscriber\JobListingRedirectSubscriber: ~
+  Drupal\helfi_rekry_content\EventSubscriber\HakuvahtiSubscriptionSubscriber: ~
 
   Drupal\helfi_rekry_content\Helbit\SettingsFactory:
   Drupal\helfi_rekry_content\Helbit\Settings:
