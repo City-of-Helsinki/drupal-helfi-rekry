@@ -6,7 +6,7 @@ namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
 use Drupal\Core\Form\FormState;
 use Drupal\helfi_rekry_content\Form\SelectedFiltersCsvForm;
-use Drupal\Tests\purge\Kernel\KernelTestBase;
+use Drupal\KernelTests\KernelTestBase;
 
 /**
  * Hakuvahti tracker test.
@@ -18,6 +18,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
    */
   protected static $modules = [
     'system',
+    'taxonomy',
     'helfi_rekry_content',
   ];
 
@@ -40,7 +41,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     $now = new \DateTime();
 
     try {
-      $csv = $tracker->createCsvString($week_ago, $now);
+      $tracker->createCsvString($week_ago, $now);
     }
     catch (\Exception $e) {
       $this->assertTrue(TRUE, 'No results should be found.');
