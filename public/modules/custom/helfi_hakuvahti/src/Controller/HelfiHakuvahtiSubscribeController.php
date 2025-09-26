@@ -53,7 +53,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     // to HakuvahtiRequest on line 58.
     $requestData = json_decode($request->getContent(), TRUE);
     if (!isset($requestData['search_description']) || $requestData['search_description'] === '-') {
-      $requestData['search_description'] = $this->createSearchDescription($requestData['elastic_query']);
+      $requestData['search_description'] = $this->createSearchDescription($requestData['elastic_query'], $requestData['query']);
     }
 
     if (!isset($requestData['site_id'])) {
@@ -84,7 +84,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
         ],
       ]);
 
-      $event = new SubscriptionEvent($requestObject->getElasticQuery());
+      $event = new SubscriptionEvent($requestObject->getElasticQuery(), $requestObject->getQueryParameters());
       $this->eventDispatcher->dispatch($event, SubscriptionEvent::EVENT_NAME);
     }
     catch (GuzzleException $e) {
@@ -106,8 +106,8 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    * @return string
    *   Comma separated string containing all hakuvahti filters.
    */
-  private function createSearchDescription(string $query): string {
-    $data = $this->tracker->parseQuery($query, 'fi', TRUE);
+  private function createSearchDescription(string $query, string $queryParameters): string {
+    $data = $this->tracker->parseQuery($query, $queryParameters, 'fi', TRUE);
     $string = '';
     foreach ($data as $items) {
       foreach ($items as $item) {

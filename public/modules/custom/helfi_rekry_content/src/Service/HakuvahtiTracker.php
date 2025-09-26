@@ -218,6 +218,8 @@ class HakuvahtiTracker {
    *
    * @param string $query
    *   The elasticsearch query.
+   * @param string $queryParameters
+   *   The url query parameters.
    * @param string $langcode
    *   Which language should be used to translate the value.
    * @param bool $includeKeyword
@@ -226,7 +228,7 @@ class HakuvahtiTracker {
    * @return array
    *   Array of selected filters.
    */
-  public function parseQuery(string $query, string $langcode = 'fi', bool $includeKeyword = false): array {
+  public function parseQuery(string $query, string $queryParameters = '', string $langcode = 'fi', bool $includeKeyword = false): array {
     $elasticQuery = base64_decode($query);
     $queryAsArray = json_decode($elasticQuery, TRUE);
     $data = [];
@@ -237,8 +239,8 @@ class HakuvahtiTracker {
       str_contains($elasticQuery, 'combined_fields') &&
       $combinedFields = $this->sliceTree($queryAsArray['query']['bool']['must'], 'combined_fields')
     ) {
-      $query = $combinedFields['query'] ?? '';
-      $data['vapaa-sana'] = [$query];
+      $keyword = $combinedFields['query'] ?? '';
+      $data['vapaa-sana'] = [$keyword];
     }
 
     $taskAreaField = 'task_area_external_id';
@@ -260,7 +262,7 @@ class HakuvahtiTracker {
     }
 
     $area_filter_labels = [];
-    if ($area_filters = $this->extractQueryParameters($query, 'area_filter')) {
+    if ($area_filters = $this->extractQueryParameters($queryParameters, 'area_filter')) {
       foreach ($area_filters as $area) {
         $area_filter_labels[] = $this->translateString($area, $langcode);
       }

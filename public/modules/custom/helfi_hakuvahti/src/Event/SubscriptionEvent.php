@@ -19,10 +19,16 @@ final class SubscriptionEvent extends Event {
   private string $query;
 
   /**
+   * The url query parameters.
+   */
+  private string $queryParameters;
+
+  /**
    * The constructor.
    */
-  public function __construct(string $query) {
+  public function __construct(string $query, string $queryParameters) {
     $this->query = $query;
+    $this->queryParameters = $queryParameters;
   }
 
   /**
@@ -33,6 +39,19 @@ final class SubscriptionEvent extends Event {
    */
   public function getQuery(): string {
     return $this->query;
+  }
+
+  /**
+   * Get the url query parameters.
+   *
+   * The location data is taken from url instead of elastic query for
+   * a reason unknown.
+   *
+   * @return string
+   *   The elasticsearch query.
+   */
+  public function getQueryParameters(): string {
+    return $this->queryParameters;
   }
 
 }

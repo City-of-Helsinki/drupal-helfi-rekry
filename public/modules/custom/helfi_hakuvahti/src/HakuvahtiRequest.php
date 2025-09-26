@@ -114,4 +114,14 @@ class HakuvahtiRequest {
     return $this->searchDescription;
   }
 
+  /**
+   * Get the query parameters from url.
+   *
+   * @return string
+   *   Query parameter string.
+   */
+  public function getQueryParameters(): string {
+    return $this->query;
+  }
+
 }
