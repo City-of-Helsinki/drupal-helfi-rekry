@@ -38,7 +38,7 @@ class HakuvahtiTracker {
 
   public function __construct(
     private readonly Connection $connection,
-    #[Autowire(service: 'logger.channel.helfi_hakuvahti')]
+    #[Autowire(service: 'logger.channel.helfi_rekry_content')]
     private readonly LoggerInterface $logger,
     private readonly EntityTypeManagerInterface $entityTypeManager,
   ) {
