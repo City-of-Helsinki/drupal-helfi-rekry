@@ -31,6 +31,50 @@ function helfi_rekry_content_install($is_syncing) {
 }
 
 /**
+ * The schema for hakuvahti selected filters.
+ */
+function helfi_rekry_content_schema(): array {
+  $schema['hakuvahti_selected_filters'] = [
+    'description' => 'The table for storing selected hakuvahti filters.',
+    'fields' => [
+      'id'  => [
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      // Can be used to get the count of created hakuvahti-subscriptions.
+      'token' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'filter_name' => [
+        'description' => 'The name of the filter.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'filter_value' => [
+        'description' => 'Selected filter value.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'created_at' => [
+        'description' => 'Hakuvahti subscription date and time.',
+        'type' => 'varchar',
+        'mysql_type' => 'datetime',
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+  return $schema;
+}
+
+/**
  * HELfi rekry content update 9003.
  */
 function helfi_rekry_content_update_9003() {

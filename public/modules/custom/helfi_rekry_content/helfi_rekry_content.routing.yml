@@ -7,3 +7,13 @@ helfi_rekry_content.settings:
     _permission: 'administer site configuration'
   options:
     _admin_route: TRUE
+
+helfi_hakuvahti.csv_download_form:
+  path: '/admin/tools/hakuvahti-csv-download'
+  defaults:
+    _form: '\Drupal\helfi_hakuvahti\Form\SelectedFiltersCsvForm'
+    _title: 'Hakuvahti csv download'
+  requirements:
+    _role: 'editor+admin+super_administrator'
+  options:
+    _admin_route: TRUE
