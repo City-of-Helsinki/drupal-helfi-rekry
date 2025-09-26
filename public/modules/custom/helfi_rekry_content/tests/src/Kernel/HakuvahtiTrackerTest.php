@@ -25,8 +25,8 @@ class HakuvahtiTrackerTest extends KernelTestBase {
   /**
    * {@inheritDoc}
    */
-  public function setUp($switch_to_memory_queue = TRUE): void {
-    parent::setUp($switch_to_memory_queue);
+  public function setUp(): void {
+    parent::setUp();
     $this->installSchema('helfi_rekry_content', ['hakuvahti_selected_filters']);
   }
 
