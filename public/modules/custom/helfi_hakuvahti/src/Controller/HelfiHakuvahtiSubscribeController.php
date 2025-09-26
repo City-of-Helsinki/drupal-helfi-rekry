@@ -7,6 +7,7 @@ namespace Drupal\helfi_hakuvahti\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\helfi_hakuvahti\Event\SubscriptionEvent;
 use Drupal\helfi_hakuvahti\HakuvahtiRequest;
+use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
@@ -28,8 +29,12 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     private readonly ClientInterface $client,
     #[Autowire(service: 'logger.channel.helfi_hakuvahti')]
     private readonly LoggerInterface $logger,
+    #[Autowire(service: 'event_dispatcher')]
     private readonly EventDispatcherInterface $eventDispatcher,
+    #[Autowire(service: 'Drupal\helfi_rekry_content\Service\HakuvahtiTracker')]
+    private readonly HakuvahtiTracker $tracker,
   ) {
+    // @todo UHF-12318 Remove HakuvahtiTracker dependency.
   }
 
   /**
@@ -44,9 +49,19 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       return new JsonResponse(['success' => FALSE, 'error' => 'Unable to process the request.'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
-    // @todo The request should contain the complete search_description.
+    // @todo UHF-12318 remove this if react sends the data: just pass the data
+    // to HakuvahtiRequest on line 58.
+    $requestData = json_decode($request->getContent(), TRUE);
+    if (!isset($requestData['search_description']) || $requestData['search_description'] === '-') {
+      $requestData['search_description'] = $this->createSearchDescription($requestData['elastic_query']);
+    }
+
+    if (!isset($requestData['site_id'])) {
+      $requestData['site_id'] = getenv('PROJECT_NAME');
+    }
+
     try {
-      $requestObject = new HakuvahtiRequest(json_decode($request->getContent(), TRUE));
+      $requestObject = new HakuvahtiRequest($requestData);
     }
     catch (\InvalidArgumentException $e) {
       // The frontend should not send invalid requests.
@@ -78,6 +93,30 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     }
 
     return new JsonResponse(['success' => TRUE], Response::HTTP_OK);
+  }
+
+  /**
+   * Backward compatibility until React sends the search_description.
+   *
+   * @todo UHF-12318 remove this
+   *
+   * @param string $query
+   *   Base64 encoded elasticsearch query.
+   *
+   * @return string
+   *   Comma separated string containing all hakuvahti filters.
+   */
+  private function createSearchDescription(string $query): string {
+    $data = $this->tracker->parseQuery($query, 'fi', TRUE);
+    $string = '';
+    foreach ($data as $items) {
+      foreach ($items as $item) {
+        if ($item) {
+          $string .= $item . ', ';
+        }
+      }
+    }
+    return rtrim($string, ', ');
   }
 
 }

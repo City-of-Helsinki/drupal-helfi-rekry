@@ -19,6 +19,21 @@ class HakuvahtiRequest {
   private string $email;
 
   /**
+   * Language id.
+   */
+  private string $lang;
+
+  /**
+   * The site id.
+   */
+  private string $siteId;
+
+  /**
+   * The request parameters from the request uli.
+   */
+  private string $query;
+
+  /**
    * The elastic query as base64-encoded string.
    *
    * The query that is used to find out if there are new hits in elasticsearch.
@@ -35,24 +50,27 @@ class HakuvahtiRequest {
   private string $searchDescription;
 
   public function __construct(array $requestData) {
-    $requiredFields = ['email', 'elastic_query', 'search_description'];
+    $requiredFields = ['email', 'lang', 'site_id', 'query', 'elastic_query', 'search_description'];
 
-    foreach ($requestData as $field) {
-      if (!in_array($field, $requiredFields)) {
-        throw new InvalidArgumentException("Request is missing field: $field");
+    foreach ($requiredFields as $fieldName) {
+      if (!isset($requestData[$fieldName])) {
+        throw new \InvalidArgumentException("Request is missing field: $fieldName");
       }
     }
 
     if (!filter_var($requestData['email'], FILTER_VALIDATE_EMAIL)) {
-      throw new InvalidArgumentException("Email must be a valid email address");
+      throw new \InvalidArgumentException("Email must be a valid email address");
     }
 
     // @todo Approve this change, we ought to have some limits.
     if (strlen($requestData['search_description']) > 999) {
-      throw new InvalidArgumentException("Search description is too long.");
+      throw new \InvalidArgumentException("Search description is too long.");
     }
 
     $this->email = $requestData['email'];
+    $this->lang = $requestData['lang'];
+    $this->siteId = $requestData['site_id'];
+    $this->query = $requestData['query'];
     $this->elasticQuery = $requestData['elastic_query'];
     $this->searchDescription = $requestData['search_description'];
   }
@@ -66,6 +84,9 @@ class HakuvahtiRequest {
   public function getServiceRequestData(): array {
     return [
       'email' => $this->email,
+      'lang' => $this->lang,
+      'site_id' => $this->siteId,
+      'query' => $this->query,
       'elastic_query' => $this->elasticQuery,
       'search_description' => $this->searchDescription,
     ];

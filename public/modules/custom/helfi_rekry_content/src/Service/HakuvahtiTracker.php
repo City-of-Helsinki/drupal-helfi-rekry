@@ -214,16 +214,32 @@ class HakuvahtiTracker {
    * This used to be part of rekry-hakuvahti and was moved to
    * this module in order to make the original implementation
    * more generic.
+   * @todo UHF-12318 keyword and related code may be removed.
    *
    * @param string $query
    *   The elasticsearch query.
+   * @param string $langcode
+   *   Which language should be used to translate the value.
+   * @param bool $includeKeyword
+   *   Include search keyword (for search_description).
    *
    * @return array
    *   Array of selected filters.
    */
-  public function parseQuery(string $query): array {
+  public function parseQuery(string $query, string $langcode = 'fi', bool $includeKeyword = false): array {
     $elasticQuery = base64_decode($query);
     $queryAsArray = json_decode($elasticQuery, TRUE);
+    $data = [];
+
+    // Free text search.
+    if (
+      $includeKeyword &&
+      str_contains($elasticQuery, 'combined_fields') &&
+      $combinedFields = $this->sliceTree($queryAsArray['query']['bool']['must'], 'combined_fields')
+    ) {
+      $query = $combinedFields['query'] ?? '';
+      $data['vapaa-sana'] = [$query];
+    }
 
     $taskAreaField = 'task_area_external_id';
     $task_area_labels = [];
@@ -231,7 +247,7 @@ class HakuvahtiTracker {
       str_contains($elasticQuery, $taskAreaField) &&
       $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $taskAreaField)
     ) {
-      $task_area_labels = $this->getLabelsByExternalId($taskAreaIds, 'fi');
+      $task_area_labels = $this->getLabelsByExternalId($taskAreaIds, $langcode);
     }
 
     $employment_type_labels = [];
@@ -240,13 +256,13 @@ class HakuvahtiTracker {
       str_contains($elasticQuery, $employmentTypeField) &&
       $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $employmentTypeField)
     ) {
-      $employment_type_labels = $this->getLabelsByTermIds($employmentIds, 'fi');
+      $employment_type_labels = $this->getLabelsByTermIds($employmentIds, $langcode);
     }
 
     $area_filter_labels = [];
     if ($area_filters = $this->extractQueryParameters($query, 'area_filter')) {
       foreach ($area_filters as $area) {
-        $area_filter_labels[] = $this->translateString($area, 'fi');
+        $area_filter_labels[] = $this->translateString($area, $langcode);
       }
     }
 
@@ -254,7 +270,7 @@ class HakuvahtiTracker {
     $language = empty($language) ? '' : $language;
 
     // These are used as csv headers, therefore in finnish.
-    return [
+    return $data + [
       'Ammattiala' => $task_area_labels,
       'Palvelussuhteen tyyppi' => $employment_type_labels,
       'Sijainti' => $area_filter_labels,
