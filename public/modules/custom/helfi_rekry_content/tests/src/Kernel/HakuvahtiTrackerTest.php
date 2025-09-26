@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
 use Drupal\Core\Form\FormState;
-use Drupal\helfi_hakuvahti\Form\SelectedFiltersCsvForm;
+use Drupal\helfi_rekry_content\Form\SelectedFiltersCsvForm;
 use Drupal\Tests\purge\Kernel\KernelTestBase;
 
 /**
@@ -33,8 +33,8 @@ class HakuvahtiTrackerTest extends KernelTestBase {
    * Test saving filters.
    */
   public function testSaveAndLoadFilters(): void {
-    /** @var \Drupal\helfi_hakuvahti\HakuvahtiTracker $tracker */
-    $tracker = $this->container->get('Drupal\helfi_hakuvahti\HakuvahtiTracker');
+    /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
+    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
 
     $week_ago = new \DateTime(date('Y-m-d H:i.s', strtotime('-1 week')));
     $now = new \DateTime();
@@ -68,8 +68,8 @@ class HakuvahtiTrackerTest extends KernelTestBase {
       'Another filter' => ['Qwerty'],
     ];
 
-    /** @var \Drupal\helfi_hakuvahti\HakuvahtiTracker $tracker */
-    $tracker = $this->container->get('Drupal\helfi_hakuvahti\HakuvahtiTracker');
+    /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
+    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
     $tracker->saveSelectedFilters($filters);
 
     $form_state = new FormState();
