@@ -17,7 +17,7 @@ class HakuvahtiSubscriptionSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents(): array {
-    return [SubscriptionEvent::EVENT_NAME => 'hakuvahtiSubscriptionActions'];
+    return [SubscriptionEvent::class => 'hakuvahtiSubscriptionActions'];
   }
 
   public function __construct(private HakuvahtiTracker $hakuvahtiTracker) {

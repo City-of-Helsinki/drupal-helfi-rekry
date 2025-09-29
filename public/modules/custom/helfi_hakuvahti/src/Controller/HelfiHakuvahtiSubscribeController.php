@@ -85,7 +85,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       ]);
 
       $event = new SubscriptionEvent($requestObject->getElasticQuery(), $requestObject->getQueryParameters());
-      $this->eventDispatcher->dispatch($event, SubscriptionEvent::EVENT_NAME);
+      $this->eventDispatcher->dispatch($event);
     }
     catch (GuzzleException $e) {
       $this->logger->error("Unable to send Hakuvahti-request - Code {$e->getCode()}: {$e->getMessage()}");
