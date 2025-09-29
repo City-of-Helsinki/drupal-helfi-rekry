@@ -9,8 +9,7 @@
     "require": {
         "composer/installers": "^2.0",
         "cweagans/composer-patches": "^1.6.7",
-        "drupal/core": "^10.0",
-        "drupal/core-composer-scaffold": "^10.0",
+        "drupal/core-composer-scaffold": "^10|^11",
         "drupal/disable_field": "^3.0",
         "drupal/hdbt": "^6.0",
         "drupal/hdbt_admin": "^3.0",
@@ -24,12 +23,13 @@
         "drupal/migrate_plus": "^6.0",
         "drupal/redis": "^1.5",
         "google/apiclient": "^2.17",
+        "mglaman/composer-drupal-lenient": "*",
         "paragonie/constant_time_encoding": "^2"
     },
     "require-dev": {
         "dg/bypass-finals": "^1.5",
         "donatj/mock-webserver": "^2.4",
-        "drupal/core-dev": "^10",
+        "drupal/core-dev": "^10|^11",
         "jangregor/phpstan-prophecy": "^1.0",
         "phpstan/phpstan-deprecation-rules": "^1.1",
         "weitzman/drupal-test-traits": "^2.0"
@@ -53,7 +53,8 @@
             "drupal/core-composer-scaffold": true,
             "php-http/discovery": false,
             "phpstan/extension-installer": true,
-            "tbachert/spi": false
+            "tbachert/spi": false,
+            "mglaman/composer-drupal-lenient": true
         },
         "audit": {
             "abandoned": "report",
@@ -105,7 +106,10 @@
         },
         "google/apiclient-services": [
             "Indexing"
-        ]
+        ],
+        "drupal-lenient": {
+            "allowed-list": ["drupal/big_pipe_sessionless"]
+        }
     },
     "repositories": [
         {
