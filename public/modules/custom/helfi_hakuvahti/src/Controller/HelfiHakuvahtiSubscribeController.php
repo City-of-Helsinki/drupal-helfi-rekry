@@ -102,6 +102,8 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
    *
    * @param string $query
    *   Base64 encoded elasticsearch query.
+   * @param string $queryParameters
+   *   The query parameters from request url.
    *
    * @return string
    *   Comma separated string containing all hakuvahti filters.

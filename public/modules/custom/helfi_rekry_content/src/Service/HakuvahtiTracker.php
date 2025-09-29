@@ -214,6 +214,7 @@ class HakuvahtiTracker {
    * This used to be part of rekry-hakuvahti and was moved to
    * this module in order to make the original implementation
    * more generic.
+   *
    * @todo UHF-12318 keyword and related code may be removed.
    *
    * @param string $query
@@ -228,7 +229,7 @@ class HakuvahtiTracker {
    * @return array
    *   Array of selected filters.
    */
-  public function parseQuery(string $query, string $queryParameters = '', string $langcode = 'fi', bool $includeKeyword = false): array {
+  public function parseQuery(string $query, string $queryParameters = '', string $langcode = 'fi', bool $includeKeyword = FALSE): array {
     $elasticQuery = base64_decode($query);
     $queryAsArray = json_decode($elasticQuery, TRUE);
     $data = [];

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_hakuvahti;
 
-use http\Exception\InvalidArgumentException;
-
 /**
  * Hakuvahti request data object.
  *
