@@ -8,7 +8,7 @@ helfi_rekry_content.settings:
   options:
     _admin_route: TRUE
 
-helfi_hakuvahti.csv_download_form:
+helfi_rekry_content.csv_download_form:
   path: '/admin/tools/hakuvahti-csv-download'
   defaults:
     _form: '\Drupal\helfi_rekry_content\Form\SelectedFiltersCsvForm'
