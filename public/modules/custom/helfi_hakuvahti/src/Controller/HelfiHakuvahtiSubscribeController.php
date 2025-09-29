@@ -50,7 +50,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
     }
 
     // @todo UHF-12318 remove this if react sends the data: just pass the data
-    // to HakuvahtiRequest on line 58.
+    // to HakuvahtiRequest class.
     $requestData = json_decode($request->getContent(), TRUE);
     if (!isset($requestData['search_description']) || $requestData['search_description'] === '-') {
       $requestData['search_description'] = $this->createSearchDescription($requestData['elastic_query'], $requestData['query']);
