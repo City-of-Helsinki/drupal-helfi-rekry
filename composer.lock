@@ -2042,7 +2042,7 @@
                 "shasum": "e894f61cb862511b3a79ed256f83c2c8fb98d5c7"
             },
             "require": {
-                "drupal/core": "^9 || ^10"
+                "drupal/core": "^8 || ^9 || ^10 || ^11 || ^12"
             },
             "type": "drupal-module",
             "extra": {
@@ -3153,17 +3153,17 @@
         },
         {
             "name": "drupal/elasticsearch_connector",
-            "version": "8.0.0-alpha4",
+            "version": "8.0.0-alpha5",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/elasticsearch_connector.git",
-                "reference": "8.0.0-alpha4"
+                "reference": "8.0.0-alpha5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/elasticsearch_connector-8.0.0-alpha4.zip",
-                "reference": "8.0.0-alpha4",
-                "shasum": "f2c0448ad77268fb2716187691e6e0a80f9806db"
+                "url": "https://ftp.drupal.org/files/projects/elasticsearch_connector-8.0.0-alpha5.zip",
+                "reference": "8.0.0-alpha5",
+                "shasum": "d277fd5f7cd8c91b8aff3b1fcb0c5dd8a1b20c54"
             },
             "require": {
                 "drupal/core": "^10.2 || ^11",
@@ -3175,12 +3175,14 @@
             "require-dev": {
                 "drupal/coder": "^8.3",
                 "drupal/devel": "^4.0|^5.0",
-                "drupal/geofield": "1.x-dev",
+                "drupal/geofield": "^1",
+                "drupal/key": "^1",
                 "drush/drush": "^12.0 || ^13",
                 "phayes/geophp": "^1.2"
             },
             "suggest": {
                 "drupal/facets": "Provides facetted search.",
+                "drupal/key": "API Key storage for connecting to Elastic Cloud.",
                 "drupal/search_api_autocomplete": "Provides auto complete for search boxes.",
                 "drupal/search_api_location": "Provides location searches.",
                 "drupal/search_api_spellcheck": "Provides spell checking and 'Did You Mean?'."
@@ -3188,8 +3190,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.0.0-alpha4",
-                    "datestamp": "1740168985",
+                    "version": "8.0.0-alpha5",
+                    "datestamp": "1759189826",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
@@ -4201,16 +4203,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "6.14.19",
+            "version": "6.14.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "eb325ae105afb68b09e4eda7f4739800b720e62e"
+                "reference": "b48703d5d1cca7e0e61832a32f748400e47fd5a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/eb325ae105afb68b09e4eda7f4739800b720e62e",
-                "reference": "eb325ae105afb68b09e4eda7f4739800b720e62e",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/b48703d5d1cca7e0e61832a32f748400e47fd5a7",
+                "reference": "b48703d5d1cca7e0e61832a32f748400e47fd5a7",
                 "shasum": ""
             },
             "require": {
@@ -4229,10 +4231,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.14.19",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.14.21",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2025-09-29T16:39:03+00:00"
+            "time": "2025-10-01T10:08:54+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -4538,16 +4540,16 @@
         },
         {
             "name": "drupal/helfi_platform_config",
-            "version": "4.16.31",
+            "version": "4.16.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config.git",
-                "reference": "5eeb286bb639f27c9f0702f22a524278e9670c80"
+                "reference": "7e1cf55182b115a47163300d0a4be614846cf85b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/5eeb286bb639f27c9f0702f22a524278e9670c80",
-                "reference": "5eeb286bb639f27c9f0702f22a524278e9670c80",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/7e1cf55182b115a47163300d0a4be614846cf85b",
+                "reference": "7e1cf55182b115a47163300d0a4be614846cf85b",
                 "shasum": ""
             },
             "require": {
@@ -4668,10 +4670,10 @@
             ],
             "description": "HELfi platform config",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/4.16.31",
+                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/4.16.32",
                 "issues": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/issues"
             },
-            "time": "2025-09-29T13:30:35+00:00"
+            "time": "2025-09-30T10:38:46+00:00"
         },
         {
             "name": "drupal/helfi_proxy",
