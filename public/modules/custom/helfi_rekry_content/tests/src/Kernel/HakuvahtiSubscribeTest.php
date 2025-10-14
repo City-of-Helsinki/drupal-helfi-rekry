@@ -24,7 +24,10 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
   use PropertyTrait;
   use TaxonomyTestTrait;
 
-  protected $strictConfigSchema = FALSE;
+  /**
+   * {@inheritdoc}
+   */
+  protected $strictConfigSchema = FALSE; // phpcs:ignore
 
   /**
    * {@inheritdoc}
