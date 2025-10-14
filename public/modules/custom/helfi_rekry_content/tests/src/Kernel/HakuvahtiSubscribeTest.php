@@ -72,8 +72,6 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
       'name' => 'Practical nurses',
       'field_external_id' => 33,
     ]);
-
-    $term->field_external_id = 33;
     $term->save();
   }
 
