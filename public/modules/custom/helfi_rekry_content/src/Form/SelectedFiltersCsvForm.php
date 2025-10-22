@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Drupal\helfi_hakuvahti\Form;
+namespace Drupal\helfi_rekry_content\Form;
 
 use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
-use Drupal\helfi_hakuvahti\HakuvahtiTracker;
+use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,7 +23,7 @@ final class SelectedFiltersCsvForm extends FormBase {
   /**
    * The constructor.
    *
-   * @param \Drupal\helfi_hakuvahti\HakuvahtiTracker $tracker
+   * @param \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker
    *   The hakuvahti tracker.
    */
   public function __construct(

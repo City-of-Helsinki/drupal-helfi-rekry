@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Drupal\Tests\helfi_hakuvahti\Kernel;
+namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
 use Drupal\Core\Form\FormState;
-use Drupal\helfi_hakuvahti\Form\SelectedFiltersCsvForm;
-use Drupal\Tests\purge\Kernel\KernelTestBase;
+use Drupal\helfi_rekry_content\Form\SelectedFiltersCsvForm;
+use Drupal\KernelTests\KernelTestBase;
 
 /**
  * Hakuvahti tracker test.
@@ -18,29 +18,30 @@ class HakuvahtiTrackerTest extends KernelTestBase {
    */
   protected static $modules = [
     'system',
-    'helfi_hakuvahti',
+    'taxonomy',
+    'helfi_rekry_content',
   ];
 
   /**
    * {@inheritDoc}
    */
-  public function setUp($switch_to_memory_queue = TRUE): void {
-    parent::setUp($switch_to_memory_queue);
-    $this->installSchema('helfi_hakuvahti', ['hakuvahti_selected_filters']);
+  public function setUp(): void {
+    parent::setUp();
+    $this->installSchema('helfi_rekry_content', ['hakuvahti_selected_filters']);
   }
 
   /**
    * Test saving filters.
    */
   public function testSaveAndLoadFilters(): void {
-    /** @var \Drupal\helfi_hakuvahti\HakuvahtiTracker $tracker */
-    $tracker = $this->container->get('Drupal\helfi_hakuvahti\HakuvahtiTracker');
+    /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
+    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
 
     $week_ago = new \DateTime(date('Y-m-d H:i.s', strtotime('-1 week')));
     $now = new \DateTime();
 
     try {
-      $csv = $tracker->createCsvString($week_ago, $now);
+      $tracker->createCsvString($week_ago, $now);
     }
     catch (\Exception $e) {
       $this->assertTrue(TRUE, 'No results should be found.');
@@ -68,8 +69,8 @@ class HakuvahtiTrackerTest extends KernelTestBase {
       'Another filter' => ['Qwerty'],
     ];
 
-    /** @var \Drupal\helfi_hakuvahti\HakuvahtiTracker $tracker */
-    $tracker = $this->container->get('Drupal\helfi_hakuvahti\HakuvahtiTracker');
+    /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
+    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
     $tracker->saveSelectedFilters($filters);
 
     $form_state = new FormState();
