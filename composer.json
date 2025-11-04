@@ -8,7 +8,7 @@
     "prefer-stable": true,
     "require": {
         "composer/installers": "^2.0",
-        "cweagans/composer-patches": "^1.6.7",
+        "cweagans/composer-patches": "^2.0.0",
         "drupal/core-composer-scaffold": "^10|^11",
         "drupal/disable_field": "^3.0",
         "drupal/hdbt": "^6.0",
