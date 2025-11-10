@@ -9,36 +9,36 @@ namespace Drupal\helfi_hakuvahti;
  *
  * Contains required fields & data for hakuvahti service request.
  */
-class HakuvahtiRequest {
+final readonly class HakuvahtiRequest {
 
   private const MAX_SEARCH_DESCRIPTION_LENGTH = 999;
 
   /**
    * The email address.
    */
-  private string $email;
+  public string $email;
 
   /**
    * Language id.
    */
-  private string $lang;
+  public string $lang;
 
   /**
    * The site id.
    */
-  private string $siteId;
+  public string $siteId;
 
   /**
    * The request parameters from the request uli.
    */
-  private string $query;
+  public string $query;
 
   /**
    * The elastic query as base64-encoded string.
    *
    * The query that is used to find out if there are new hits in elasticsearch.
    */
-  private string $elasticQuery;
+  public string $elasticQuery;
 
   /**
    * The search description.
@@ -47,7 +47,7 @@ class HakuvahtiRequest {
    * the initial spec, it's a comma-separated string of the selected search
    * filters, but it could be any other string as well.
    */
-  private string $searchDescription;
+  public string $searchDescription;
 
   public function __construct(array $requestData) {
     $requiredFields = ['email', 'lang', 'site_id', 'query', 'elastic_query', 'search_description'];
@@ -89,38 +89,6 @@ class HakuvahtiRequest {
       'elastic_query' => $this->elasticQuery,
       'search_description' => $this->searchDescription,
     ];
-  }
-
-  /**
-   * Get the elastic query string.
-   *
-   * The string that is used to query elasticsearch for new hits.
-   *
-   * @return string
-   *   The elastic query string.
-   */
-  public function getElasticQuery(): string {
-    return $this->elasticQuery;
-  }
-
-  /**
-   * Get the search description.
-   *
-   * @return string
-   *   The search description.
-   */
-  public function getSearchDescription(): string {
-    return $this->searchDescription;
-  }
-
-  /**
-   * Get the query parameters from url.
-   *
-   * @return string
-   *   Query parameter string.
-   */
-  public function getQueryParameters(): string {
-    return $this->query;
   }
 
 }

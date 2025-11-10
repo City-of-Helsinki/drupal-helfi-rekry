@@ -229,7 +229,7 @@ class HakuvahtiTracker {
    * @return array
    *   Array of selected filters.
    */
-  private function parseQuery(string $query, string $queryParameters = '', string $langcode = 'fi', bool $includeKeyword = FALSE): array {
+  public function parseQuery(string $query, string $queryParameters = '', string $langcode = 'fi', bool $includeKeyword = FALSE): array {
     $elasticQuery = base64_decode($query);
     $queryAsArray = json_decode($elasticQuery, TRUE);
     $data = [];

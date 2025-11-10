@@ -5,28 +5,14 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Event;
 
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\helfi_hakuvahti\HakuvahtiRequest;
 
 /**
  * Event which is dispatched when hakuvahti is created successfully.
  */
 final class SubscriptionEvent extends Event {
 
-  /**
-   * The elasticsearch query.
-   */
-  private string $query;
-
-  /**
-   * The url query parameters.
-   */
-  private string $queryParameters;
-
-  /**
-   * The constructor.
-   */
-  public function __construct(string $query, string $queryParameters) {
-    $this->query = $query;
-    $this->queryParameters = $queryParameters;
+  public function __construct(public readonly HakuvahtiRequest $request) {
   }
 
   /**
@@ -36,7 +22,7 @@ final class SubscriptionEvent extends Event {
    *   The elasticsearch query.
    */
   public function getQuery(): string {
-    return $this->query;
+    return $this->request->elasticQuery;
   }
 
   /**
@@ -49,7 +35,7 @@ final class SubscriptionEvent extends Event {
    *   The elasticsearch query.
    */
   public function getQueryParameters(): string {
-    return $this->queryParameters;
+    return $this->request->query;
   }
 
 }
