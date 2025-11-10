@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the helfi_hakuvahti module.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_install().
+ */
+function helfi_hakuvahti_install(): void {
+  // Create default configuration from environment variable.
+  if ($projectName = getenv('PROJECT_NAME')) {
+    $storage = \Drupal::entityTypeManager()->getStorage('hakuvahti_config');
+
+    if (!$storage->load('default')) {
+      $config = $storage->create([
+        'id' => 'default',
+        'label' => 'Default',
+        'site_id' => $projectName,
+      ]);
+      $config->save();
+    }
+  }
+}
+
+/**
+ * Create default hakuvahti configuration from environment.
+ */
+function helfi_hakuvahti_update_9001(): void {
+  if ($projectName = getenv('PROJECT_NAME')) {
+    $storage = \Drupal::entityTypeManager()->getStorage('hakuvahti_config');
+
+    if (!$storage->load('default')) {
+      $config = $storage->create([
+        'id' => 'default',
+        'label' => 'Default',
+        'site_id' => $projectName,
+      ]);
+      $config->save();
+    }
+  }
+}

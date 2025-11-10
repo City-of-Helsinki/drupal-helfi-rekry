@@ -56,8 +56,24 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $requestData['search_description'] = $this->createSearchDescription($requestData['elastic_query'], $requestData['query']);
     }
 
-    if (!isset($requestData['site_id'])) {
-      $requestData['site_id'] = getenv('PROJECT_NAME');
+    // Get config ID from query parameter, default to 'default'.
+    $configId = $request->query->get('config') ?? 'default';
+
+    // Try to load configuration entity.
+    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $config */
+    $config = $this->entityTypeManager()
+      ->getStorage('hakuvahti_config')
+      ->load($configId);
+
+    if ($config) {
+      // Use site_id from configuration entity.
+      $requestData['site_id'] = $config->getSiteId();
+    }
+    else {
+      // Fallback to ENV if config not found.
+      if (!isset($requestData['site_id'])) {
+        $requestData['site_id'] = getenv('PROJECT_NAME');
+      }
     }
 
     try {
