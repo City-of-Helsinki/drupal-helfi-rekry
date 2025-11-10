@@ -5,6 +5,7 @@ helfi_hakuvahti.subscribe:
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiSubscribeController::post'
   requirements:
     _permission: 'access content'
+
 helfi_hakuvahti.confirm:
   path: '/hakuvahti/confirm'
   defaults:
@@ -12,6 +13,7 @@ helfi_hakuvahti.confirm:
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiController::confirm'
   requirements:
     _permission: 'access content'
+
 helfi_hakuvahti.unsubscribe:
   path: '/hakuvahti/unsubscribe'
   defaults:

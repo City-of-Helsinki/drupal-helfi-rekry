@@ -42,9 +42,21 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase implements 
     try {
       $requestData = json_decode($request->getContent(), TRUE, flags: JSON_THROW_ON_ERROR);
 
-      if (!isset($requestData['site_id'])) {
-        $requestData['site_id'] = $this->environmentResolver->getActiveProject()->getName();
+      // Get config ID from query parameter, default to 'default'.
+      $configId = $request->query->get('config') ?? 'default';
+
+      // Try to load configuration entity.
+      /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $config */
+      $config = $this->entityTypeManager()
+        ->getStorage('hakuvahti_config')
+        ->load($configId);
+
+      if (!$config) {
+        throw new \InvalidArgumentException("Hakuvahti configuration '$configId' not found.");
       }
+
+      // Use site_id from configuration entity.
+      $requestData['site_id'] = $config->getSiteId();
 
       $requestObject = new HakuvahtiRequest($requestData);
     }
