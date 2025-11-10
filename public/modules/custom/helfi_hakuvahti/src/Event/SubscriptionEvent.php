@@ -11,8 +11,6 @@ use Drupal\Component\EventDispatcher\Event;
  */
 final class SubscriptionEvent extends Event {
 
-  const EVENT_NAME = 'hakuvahti.subscribe';
-
   /**
    * The elasticsearch query.
    */

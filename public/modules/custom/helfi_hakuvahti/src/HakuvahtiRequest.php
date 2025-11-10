@@ -11,6 +11,8 @@ namespace Drupal\helfi_hakuvahti;
  */
 class HakuvahtiRequest {
 
+  private const MAX_SEARCH_DESCRIPTION_LENGTH = 999;
+
   /**
    * The email address.
    */
@@ -41,8 +43,8 @@ class HakuvahtiRequest {
   /**
    * The search description.
    *
-   * Search description is a string that is required by hakuvahti. By the
-   * initial spec it's a comma separated string of the selected search
+   * Search description is a string required by hakuvahti. According to
+   * the initial spec, it's a comma-separated string of the selected search
    * filters, but it could be any other string as well.
    */
   private string $searchDescription;
@@ -60,8 +62,7 @@ class HakuvahtiRequest {
       throw new \InvalidArgumentException("Email must be a valid email address");
     }
 
-    // @todo Approve this change, we ought to have some limits.
-    if (strlen($requestData['search_description']) > 999) {
+    if (strlen($requestData['search_description']) > self::MAX_SEARCH_DESCRIPTION_LENGTH) {
       throw new \InvalidArgumentException("Search description is too long.");
     }
 
