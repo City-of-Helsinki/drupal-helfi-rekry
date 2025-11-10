@@ -8,7 +8,6 @@ use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\helfi_api_base\Traits\ApiTestTrait;
 use Drupal\Tests\user\Traits\UserCreationTrait;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -35,24 +34,22 @@ class HakuvahtiControllerTest extends KernelTestBase {
   ];
 
   /**
-   * {@inheritDoc}
-   */
-  public function setUp(): void {
-    parent::setUp();
-
-    $this->setUpCurrentUser(permissions: ['access content']);
-  }
-
-  /**
    * Tests handleConfirmFormSubmission.
    */
   public function testHandleConfirmFormSubmission(): void {
-    $this->container->set(ClientInterface::class, $this->createMockHttpClient([
+    $this->setupMockHttpClient([
       new Response(200, body: 'success'),
       new Response(404, body: 'not found'),
       new Response(500, body: 'fail'),
       new RequestException("womp womp", new Request('POST', 'test')),
-    ]));
+    ]);
+
+    $this
+      ->config('helfi_hakuvahti.settings')
+      ->set('base_url', 'https://example.com')
+      ->save();
+
+    $this->setUpCurrentUser(permissions: ['access content']);
 
     $logger = $this->prophesize(LoggerInterface::class);
     $this->container->set('logger.channel.helfi_hakuvahti', $logger->reveal());
