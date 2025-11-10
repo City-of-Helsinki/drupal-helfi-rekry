@@ -43,9 +43,7 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
    * Tests handleConfirmFormSubmission.
    */
   public function testHandleConfirmFormSubmission(): void {
-    putenv('HAKUVAHTI_URL=123');
-
-    $client = $this->createMockHttpClient([
+    $client = $this->setupMockHttpClient([
       new RequestException('Test error', new Request('POST', 'test'), new Response(400)),
       new Response(200),
     ]);
@@ -62,6 +60,21 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     // Subscribe with bad request.
     $response = $this->makeRequest([]);
     $this->assertEquals(400, $response->getStatusCode());
+
+    // Missing config.
+    $response = $this->makeRequest([
+      'email' => 'valid@email.fi',
+      'lang' => 'fi',
+      'site_id' => 'rekry',
+      'query' => '?query=123&parameters=4567',
+      'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
+      'search_description' => 'This, is the query filters string, separated, by comma',
+    ]);
+    $this->assertEquals(500, $response->getStatusCode());
+
+    $this->config('helfi_hakuvahti.settings')
+      ->set('base_url', 'https://example.com')
+      ->save();
 
     // Subscribe with api error.
     $response = $this->makeRequest([
