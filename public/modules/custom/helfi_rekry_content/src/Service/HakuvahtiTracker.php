@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Service;
 
 use Drupal\Core\Database\Connection;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\taxonomy\TermInterface;
@@ -29,20 +28,12 @@ class HakuvahtiTracker {
    */
   private const CSV_HEADERS = ['id', 'tunniste', 'suodatin', 'valittu arvo', 'luontiaika'];
 
-  /**
-   * The term storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  private EntityStorageInterface $termStorage;
-
   public function __construct(
     private readonly Connection $connection,
     #[Autowire(service: 'logger.channel.helfi_rekry_content')]
     private readonly LoggerInterface $logger,
     private readonly EntityTypeManagerInterface $entityTypeManager,
   ) {
-    $this->termStorage = $entityTypeManager->getStorage('taxonomy_term');
   }
 
   /**
@@ -294,7 +285,9 @@ class HakuvahtiTracker {
    */
   private function getLabelsByTermIds(array $term_ids, string $language): array {
     $labels = [];
-    $terms = $this->termStorage->loadMultiple($term_ids);
+    $terms = $this->entityTypeManager
+      ->getStorage('taxonomy_term')
+      ->loadMultiple($term_ids);
     foreach ($terms as $term) {
       assert($term instanceof TermInterface);
       $translated_term = $term->hasTranslation($language) ? $term->getTranslation($language) : $term;
@@ -317,7 +310,9 @@ class HakuvahtiTracker {
    */
   private function getLabelsByExternalId(array $external_ids, string $language): array {
     $labels = [];
-    $terms = $this->termStorage->loadByProperties(['field_external_id' => $external_ids]);
+    $terms = $this->entityTypeManager
+      ->getStorage('taxonomy_term')
+      ->loadByProperties(['field_external_id' => $external_ids]);
     foreach ($terms as $term) {
       assert($term instanceof TermInterface);
       $translated_term = $term->hasTranslation($language) ? $term->getTranslation($language) : $term;
