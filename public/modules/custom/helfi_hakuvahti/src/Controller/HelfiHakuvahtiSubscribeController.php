@@ -70,9 +70,9 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase {
       $requestData['site_id'] = $config->getSiteId();
     }
     else {
-      // Fallback to ENV if config not found.
+      // Fallback to envresolver if config not found.
       if (!isset($requestData['site_id'])) {
-        $requestData['site_id'] = getenv('PROJECT_NAME');
+        $requestData['site_id'] = $this->environmentResolver->getActiveProject()->getName();
       }
     }
 
