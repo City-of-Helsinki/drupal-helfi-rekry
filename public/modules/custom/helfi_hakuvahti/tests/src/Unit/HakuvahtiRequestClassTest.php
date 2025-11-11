@@ -41,9 +41,9 @@ class HakuvahtiRequestClassTest extends UnitTestCase {
 
     $serviceRequestData = $request->getServiceRequestData();
     $this->assertEquals($serviceRequestData, $this->getRequiredData());
-    $this->assertEquals($serviceRequestData['elastic_query'], $request->getElasticQuery());
-    $this->assertEquals($serviceRequestData['search_description'], $request->getSearchDescription());
-    $this->assertEquals($serviceRequestData['query'], $request->getQueryParameters());
+    $this->assertEquals($serviceRequestData['elastic_query'], $request->elasticQuery);
+    $this->assertEquals($serviceRequestData['search_description'], $request->searchDescription);
+    $this->assertEquals($serviceRequestData['query'], $request->query);
   }
 
   /**

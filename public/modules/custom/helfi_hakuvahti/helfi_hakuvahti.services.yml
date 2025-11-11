@@ -7,4 +7,7 @@ services:
     parent: logger.channel_base
     arguments: ['helfi_hakuvahti']
 
+  Drupal\helfi_hakuvahti\HakuvahtiInterface:
+    class: Drupal\helfi_hakuvahti\Hakuvahti
+
   Drupal\helfi_hakuvahti\HelfiHakuvahtiSubscribeController: ~
