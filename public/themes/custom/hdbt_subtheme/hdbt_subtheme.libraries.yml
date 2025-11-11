@@ -4,6 +4,13 @@ global-styling:
     theme:
       dist/css/styles.min.css: {}
 
+hakuvahti-autosubmit:
+  version: 1.0
+  js:
+    src/js/hakuvahti_autosubmit.js: {}
+  dependencies:
+    - core/drupal
+
 siteimprove-analytics:
   version: 1.x
   js:
