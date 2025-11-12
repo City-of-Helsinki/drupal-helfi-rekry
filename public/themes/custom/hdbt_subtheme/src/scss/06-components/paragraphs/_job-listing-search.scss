@@ -63,6 +63,7 @@ $sort-minimum-width: 283px;
   @include breakpoint($breakpoint-l) {
     width: 50%;
   }
+
   .job-search-form__dropdown {
     // HDS has 420px max-width set for selects. This is OK when the form is limited to 860px width but not here.
     max-width: unset;
@@ -115,16 +116,13 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
 
 
 .job-search-form__search-monitor {
+  background-color: var(--color-fog-light);
   margin-bottom: $spacing-double;
+  padding: $spacing-double;
 
-  div[role=heading] {
+  div[role="heading"] {
     flex: 0 1 auto;
   }
-}
-
-.job-search-form__search-monitor {
-  background-color: var(--color-fog-light);
-  padding: $spacing-double;
 }
 
 .job-search-form__search-monitor__heading {
