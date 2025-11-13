@@ -51,16 +51,12 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase implements 
         ->getStorage('hakuvahti_config')
         ->load($configId);
 
-      if ($config) {
-        // Use site_id from configuration entity.
-        $requestData['site_id'] = $config->getSiteId();
+      if (!$config) {
+        throw new \InvalidArgumentException("Hakuvahti configuration '$configId' not found.");
       }
-      else {
-        // Fallback to envresolver if config not found.
-        if (!isset($requestData['site_id'])) {
-          $requestData['site_id'] = $this->environmentResolver->getActiveProject()->getName();
-        }
-      }
+
+      // Use site_id from configuration entity.
+      $requestData['site_id'] = $config->getSiteId();
 
       $requestObject = new HakuvahtiRequest($requestData);
     }
