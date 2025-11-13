@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_hakuvahti\Kernel;
 
-use Drupal\helfi_api_base\Environment\EnvironmentEnum;
-use Drupal\helfi_api_base\Environment\Project;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\helfi_api_base\Traits\EnvironmentResolverTrait;
 use Symfony\Component\HttpFoundation\Request;
