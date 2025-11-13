@@ -1,5 +1,0 @@
-entity.hakuvahti_config.add_form:
-  route_name: entity.hakuvahti_config.add_form
-  title: 'Add Hakuvahti Configuration'
-  appears_on:
-    - entity.hakuvahti_config.collection
