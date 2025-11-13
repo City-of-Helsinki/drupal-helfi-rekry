@@ -85,15 +85,9 @@ class HakuvahtiConfigParameterTest extends KernelTestBase {
   }
 
   /**
-   * Tests fallback to EnvironmentResolver when config doesn't exist.
+   * Tests that non-existent config throws error.
    */
-  public function testFallbackToEnvWhenConfigNotFound(): void {
-    // Mock EnvironmentResolver.
-    $this->container->set(
-      'helfi_api_base.environment_resolver',
-      $this->getEnvironmentResolver(Project::REKRY, EnvironmentEnum::Local)
-    );
-
+  public function testNonExistentConfigThrowsError(): void {
     $storage = $this->container->get('entity_type.manager')
       ->getStorage('hakuvahti_config');
 
@@ -104,16 +98,9 @@ class HakuvahtiConfigParameterTest extends KernelTestBase {
     /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $config */
     $config = $storage->load($configId);
 
-    // Config doesn't exist, so fallback to EnvironmentResolver.
-    if (!$config) {
-      $environmentResolver = $this->container->get('helfi_api_base.environment_resolver');
-      $siteId = $environmentResolver->getActiveProject()->getName();
-    }
-    else {
-      $siteId = $config->getSiteId();
-    }
-
-    $this->assertEquals(Project::REKRY, $siteId);
+    // Config doesn't exist - this should be an error condition.
+    $this->assertNull($config, 'Non-existent config should return null');
+    $this->assertEquals('nonexistent', $configId);
   }
 
   /**
