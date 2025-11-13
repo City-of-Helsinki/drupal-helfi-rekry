@@ -55,7 +55,7 @@ class HakuvahtiInstallTest extends KernelTestBase {
    */
   public function testInstallPopulatesSiteId(): void {
     // Mock EnvironmentResolver.
-    $this->mockEnvironmentResolver(Project::ASUMINEN);
+    $this->mockEnvironmentResolver(Project::REKRY);
 
     // Run hook_install().
     helfi_hakuvahti_install();
@@ -65,7 +65,7 @@ class HakuvahtiInstallTest extends KernelTestBase {
 
     $this->assertEquals('default', $config->get('id'));
     $this->assertEquals('Default', $config->get('label'));
-    $this->assertEquals(Project::ASUMINEN, $config->get('site_id'));
+    $this->assertEquals(Project::REKRY, $config->get('site_id'));
   }
 
   /**
@@ -84,7 +84,7 @@ class HakuvahtiInstallTest extends KernelTestBase {
    */
   public function testInstallOverwritesSiteId(): void {
     // Mock EnvironmentResolver.
-    $this->mockEnvironmentResolver(Project::ASUMINEN);
+    $this->mockEnvironmentResolver(Project::REKRY);
 
     // Manually set a different site_id first.
     \Drupal::configFactory()
@@ -97,7 +97,7 @@ class HakuvahtiInstallTest extends KernelTestBase {
 
     // Verify site_id was updated.
     $config = $this->config('helfi_hakuvahti.config.default');
-    $this->assertEquals(Project::ASUMINEN, $config->get('site_id'), 'site_id should be updated from environment');
+    $this->assertEquals(Project::REKRY, $config->get('site_id'), 'site_id should be updated from environment');
   }
 
   /**
@@ -105,7 +105,7 @@ class HakuvahtiInstallTest extends KernelTestBase {
    */
   public function testUpdateHookCreatesDefaultConfig(): void {
     // Mock EnvironmentResolver.
-    $this->mockEnvironmentResolver(Project::ASUMINEN);
+    $this->mockEnvironmentResolver(Project::REKRY);
 
     // Clear the config first to simulate upgrade scenario.
     \Drupal::configFactory()
@@ -119,7 +119,7 @@ class HakuvahtiInstallTest extends KernelTestBase {
     $config = $this->config('helfi_hakuvahti.config.default');
     $this->assertEquals('default', $config->get('id'));
     $this->assertEquals('Default', $config->get('label'));
-    $this->assertEquals(Project::ASUMINEN, $config->get('site_id'));
+    $this->assertEquals(Project::REKRY, $config->get('site_id'));
   }
 
   /**
@@ -127,7 +127,7 @@ class HakuvahtiInstallTest extends KernelTestBase {
    */
   public function testUpdateHookDoesNotOverwriteExistingSiteId(): void {
     // Mock EnvironmentResolver.
-    $this->mockEnvironmentResolver(Project::ASUMINEN);
+    $this->mockEnvironmentResolver(Project::REKRY);
 
     // Set existing site_id.
     \Drupal::configFactory()
@@ -159,7 +159,7 @@ class HakuvahtiInstallTest extends KernelTestBase {
    */
   public function testUpdateHookIsIdempotent(): void {
     // Mock EnvironmentResolver.
-    $this->mockEnvironmentResolver(Project::ASUMINEN);
+    $this->mockEnvironmentResolver(Project::REKRY);
 
     // Clear config first.
     \Drupal::configFactory()
@@ -182,7 +182,7 @@ class HakuvahtiInstallTest extends KernelTestBase {
    */
   public function testInstallAndUpdateHookConsistency(): void {
     // Mock EnvironmentResolver.
-    $this->mockEnvironmentResolver(Project::ASUMINEN);
+    $this->mockEnvironmentResolver(Project::REKRY);
 
     // Test install hook.
     helfi_hakuvahti_install();

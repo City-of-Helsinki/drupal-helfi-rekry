@@ -91,7 +91,7 @@ class HakuvahtiConfigParameterTest extends KernelTestBase {
     // Mock EnvironmentResolver.
     $this->container->set(
       'helfi_api_base.environment_resolver',
-      $this->getEnvironmentResolver(Project::ASUMINEN, EnvironmentEnum::Local)
+      $this->getEnvironmentResolver(Project::REKRY, EnvironmentEnum::Local)
     );
 
     $storage = $this->container->get('entity_type.manager')
@@ -113,7 +113,7 @@ class HakuvahtiConfigParameterTest extends KernelTestBase {
       $siteId = $config->getSiteId();
     }
 
-    $this->assertEquals(Project::ASUMINEN, $siteId);
+    $this->assertEquals(Project::REKRY, $siteId);
   }
 
   /**

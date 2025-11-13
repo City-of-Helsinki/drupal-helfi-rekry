@@ -49,7 +49,7 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     ]);
 
     $this->container->set(ClientInterface::class, $client);
-    $this->container->set(EnvironmentResolverInterface::class, $this->getEnvironmentResolver(Project::ASUMINEN, EnvironmentEnum::Test));
+    $this->container->set(EnvironmentResolverInterface::class, $this->getEnvironmentResolver(Project::REKRY, EnvironmentEnum::Test));
 
     // Subscribe without permissions.
     $response = $this->makeRequest([]);
