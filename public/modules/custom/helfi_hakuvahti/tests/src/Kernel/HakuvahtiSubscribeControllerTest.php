@@ -40,11 +40,29 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
   ];
 
   /**
+   * {@inheritdoc}
+   */
+  protected function setUp(): void {
+    parent::setUp();
+    $this->installConfig(['helfi_hakuvahti']);
+
+    // Populate site_id in default config using entity storage.
+    $storage = $this->container->get('entity_type.manager')
+      ->getStorage('hakuvahti_config');
+    $config = $storage->load('default');
+    if ($config) {
+      $config->set('site_id', 'rekry');
+      $config->save();
+    }
+  }
+
+  /**
    * Tests handleConfirmFormSubmission.
    */
   public function testHandleConfirmFormSubmission(): void {
     $client = $this->setupMockHttpClient([
       new RequestException('Test error', new Request('POST', 'test'), new Response(400)),
+      new Response(200),
       new Response(200),
     ]);
 
@@ -61,17 +79,7 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     $response = $this->makeRequest([]);
     $this->assertEquals(400, $response->getStatusCode());
 
-    // Missing config.
-    $response = $this->makeRequest([
-      'email' => 'valid@email.fi',
-      'lang' => 'fi',
-      'site_id' => 'rekry',
-      'query' => '?query=123&parameters=4567',
-      'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
-      'search_description' => 'This, is the query filters string, separated, by comma',
-    ]);
-    $this->assertEquals(500, $response->getStatusCode());
-
+    // Set base_url config for subsequent requests.
     $this->config('helfi_hakuvahti.settings')
       ->set('base_url', 'https://example.com')
       ->save();
@@ -80,7 +88,6 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     $response = $this->makeRequest([
       'email' => 'valid@email.fi',
       'lang' => 'fi',
-      'site_id' => 'rekry',
       'query' => '?query=123&parameters=4567',
       'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
       'search_description' => 'This, is the query filters string, separated, by comma',
@@ -91,7 +98,6 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     $response = $this->makeRequest([
       'email' => 'valid@email.fi',
       'lang' => 'fi',
-      'site_id' => 'rekry',
       'query' => '?query=123&parameters=4567',
       'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
       'search_description' => 'This, is the query filters string, separated, by comma',
@@ -100,13 +106,36 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
   }
 
   /**
+   * Tests that non-existent config returns error.
+   */
+  public function testNonExistentConfigReturnsError(): void {
+    $this->setUpCurrentUser(permissions: ['access content']);
+
+    // Request with non-existent config parameter.
+    $url = Url::fromRoute('helfi_hakuvahti.subscribe', [], ['query' => ['config' => 'nonexistent']]);
+    $request = $this->getMockedRequest($url->toString(), 'POST', document: [
+      'email' => 'valid@email.fi',
+      'lang' => 'fi',
+      'query' => '?query=123',
+      'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
+      'search_description' => 'Test',
+    ]);
+
+    $response = $this->processRequest($request);
+
+    // Should return 400 error.
+    $this->assertEquals(400, $response->getStatusCode());
+    $data = json_decode($response->getContent(), TRUE);
+    $this->assertFalse($data['success']);
+    $this->assertStringContainsString('not found', $data['error']);
+  }
+
+  /**
    * Process a request.
    */
   private function makeRequest(array $body = []): SymfonyResponse {
     $url = Url::fromRoute('helfi_hakuvahti.subscribe');
-
     $request = $this->getMockedRequest($url->toString(), 'POST', document: $body);
-
     return $this->processRequest($request);
   }
 
