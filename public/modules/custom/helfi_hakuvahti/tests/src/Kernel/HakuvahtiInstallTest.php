@@ -4,20 +4,26 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_hakuvahti\Kernel;
 
+use Drupal\helfi_api_base\Environment\EnvironmentEnum;
+use Drupal\helfi_api_base\Environment\Project;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\helfi_api_base\Traits\EnvironmentResolverTrait;
 
 /**
- * Tests for Hakuvahti install and update hooks.
+ * Tests install and update hooks for helfi_hakuvahti module.
  *
  * @group helfi_hakuvahti
  */
 class HakuvahtiInstallTest extends KernelTestBase {
+
+  use EnvironmentResolverTrait;
 
   /**
    * {@inheritdoc}
    */
   protected static $modules = [
     'helfi_hakuvahti',
+    'helfi_api_base',
   ];
 
   /**
@@ -32,218 +38,165 @@ class HakuvahtiInstallTest extends KernelTestBase {
   }
 
   /**
-   * Tests that hook_install() creates default config with PROJECT_NAME.
+   * Helper to mock EnvironmentResolver with a project name.
+   *
+   * @param string $projectName
+   *   The project name to set.
    */
-  public function testInstallCreatesDefaultConfig(): void {
-    // Set PROJECT_NAME environment variable.
-    putenv('PROJECT_NAME=test-project');
+  protected function mockEnvironmentResolver(string $projectName): void {
+    $this->container->set(
+      'helfi_api_base.environment_resolver',
+      $this->getEnvironmentResolver($projectName, EnvironmentEnum::Local)
+    );
+  }
+
+  /**
+   * Tests that hook_install() populates site_id from EnvironmentResolver.
+   */
+  public function testInstallPopulatesSiteId(): void {
+    // Mock EnvironmentResolver.
+    $this->mockEnvironmentResolver(Project::ASUMINEN);
 
     // Run hook_install().
     helfi_hakuvahti_install();
 
-    // Verify default config was created.
-    $storage = $this->container->get('entity_type.manager')
-      ->getStorage('hakuvahti_config');
+    // Verify site_id was populated in config.
+    $config = $this->config('helfi_hakuvahti.config.default');
 
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $default */
-    $default = $storage->load('default');
-
-    $this->assertNotNull($default, 'Default config should be created');
-    $this->assertEquals('default', $default->id());
-    $this->assertEquals('Default', $default->label());
-    $this->assertEquals('test-project', $default->getSiteId());
-
-    // Cleanup.
-    putenv('PROJECT_NAME');
+    $this->assertEquals('default', $config->get('id'));
+    $this->assertEquals('Default', $config->get('label'));
+    $this->assertEquals(Project::ASUMINEN, $config->get('site_id'));
   }
 
   /**
-   * Tests that hook_install() doesn't create config without PROJECT_NAME.
+   * Tests hook_install() without EnvironmentResolver throws error.
    */
   public function testInstallWithoutProjectName(): void {
-    // Ensure PROJECT_NAME is not set.
-    putenv('PROJECT_NAME');
+    // Don't mock EnvironmentResolver - should throw exception.
+    $this->expectException(\Exception::class);
 
     // Run hook_install().
     helfi_hakuvahti_install();
-
-    // Verify no config was created.
-    $storage = $this->container->get('entity_type.manager')
-      ->getStorage('hakuvahti_config');
-
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $default */
-    $default = $storage->load('default');
-
-    $this->assertNull($default, 'Default config should not be created without PROJECT_NAME');
   }
 
   /**
-   * Tests that hook_install() doesn't overwrite existing config.
+   * Tests that hook_install() overwrites site_id in existing config.
    */
-  public function testInstallDoesNotOverwriteExistingConfig(): void {
-    putenv('PROJECT_NAME=original-project');
+  public function testInstallOverwritesSiteId(): void {
+    // Mock EnvironmentResolver.
+    $this->mockEnvironmentResolver(Project::ASUMINEN);
 
-    // Create a default config manually first.
-    $storage = $this->container->get('entity_type.manager')
-      ->getStorage('hakuvahti_config');
-
-    $storage->create([
-      'id' => 'default',
-      'label' => 'Custom Default',
-      'site_id' => 'custom-site-id',
-    ])->save();
+    // Manually set a different site_id first.
+    \Drupal::configFactory()
+      ->getEditable('helfi_hakuvahti.config.default')
+      ->set('site_id', 'old-value')
+      ->save();
 
     // Run hook_install().
     helfi_hakuvahti_install();
 
-    // Verify original config is unchanged.
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $default */
-    $default = $storage->load('default');
-
-    $this->assertNotNull($default);
-    $this->assertEquals('Custom Default', $default->label(), 'Existing config should not be overwritten');
-    $this->assertEquals('custom-site-id', $default->getSiteId(), 'Existing site_id should not be overwritten');
-
-    // Cleanup.
-    putenv('PROJECT_NAME');
+    // Verify site_id was updated.
+    $config = $this->config('helfi_hakuvahti.config.default');
+    $this->assertEquals(Project::ASUMINEN, $config->get('site_id'), 'site_id should be updated from environment');
   }
 
   /**
    * Tests that update hook 9001 creates default config.
    */
   public function testUpdateHookCreatesDefaultConfig(): void {
-    putenv('PROJECT_NAME=update-project');
+    // Mock EnvironmentResolver.
+    $this->mockEnvironmentResolver(Project::ASUMINEN);
+
+    // Clear the config first to simulate upgrade scenario.
+    \Drupal::configFactory()
+      ->getEditable('helfi_hakuvahti.config.default')
+      ->delete();
 
     // Run update hook.
     helfi_hakuvahti_update_9001();
 
-    // Verify default config was created.
-    $storage = $this->container->get('entity_type.manager')
-      ->getStorage('hakuvahti_config');
-
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $default */
-    $default = $storage->load('default');
-
-    $this->assertNotNull($default, 'Update hook should create default config');
-    $this->assertEquals('default', $default->id());
-    $this->assertEquals('Default', $default->label());
-    $this->assertEquals('update-project', $default->getSiteId());
-
-    // Cleanup.
-    putenv('PROJECT_NAME');
+    // Verify config was created.
+    $config = $this->config('helfi_hakuvahti.config.default');
+    $this->assertEquals('default', $config->get('id'));
+    $this->assertEquals('Default', $config->get('label'));
+    $this->assertEquals(Project::ASUMINEN, $config->get('site_id'));
   }
 
   /**
-   * Tests that update hook doesn't overwrite existing config.
+   * Tests that update hook doesn't overwrite existing site_id.
    */
-  public function testUpdateHookDoesNotOverwriteExistingConfig(): void {
-    putenv('PROJECT_NAME=new-project');
+  public function testUpdateHookDoesNotOverwriteExistingSiteId(): void {
+    // Mock EnvironmentResolver.
+    $this->mockEnvironmentResolver(Project::ASUMINEN);
 
-    $storage = $this->container->get('entity_type.manager')
-      ->getStorage('hakuvahti_config');
-
-    // Create existing default config.
-    $storage->create([
-      'id' => 'default',
-      'label' => 'Existing Default',
-      'site_id' => 'existing-site',
-    ])->save();
+    // Set existing site_id.
+    \Drupal::configFactory()
+      ->getEditable('helfi_hakuvahti.config.default')
+      ->set('site_id', 'existing-site')
+      ->save();
 
     // Run update hook.
     helfi_hakuvahti_update_9001();
 
-    // Verify existing config is unchanged.
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $default */
-    $default = $storage->load('default');
-
-    $this->assertNotNull($default);
-    $this->assertEquals('Existing Default', $default->label(), 'Update hook should not overwrite existing config');
-    $this->assertEquals('existing-site', $default->getSiteId(), 'Update hook should not overwrite existing site_id');
-
-    // Cleanup.
-    putenv('PROJECT_NAME');
+    // Verify existing site_id is unchanged.
+    $config = $this->config('helfi_hakuvahti.config.default');
+    $this->assertEquals('existing-site', $config->get('site_id'), 'Update hook should not overwrite existing site_id');
   }
 
   /**
-   * Tests that update hook 9001 doesn't create config without PROJECT_NAME.
+   * Tests update hook 9001 without EnvironmentResolver throws error.
    */
   public function testUpdateHookWithoutProjectName(): void {
-    // Ensure PROJECT_NAME is not set.
-    putenv('PROJECT_NAME');
+    // Don't mock EnvironmentResolver - should throw exception.
+    $this->expectException(\Exception::class);
 
     // Run update hook.
     helfi_hakuvahti_update_9001();
-
-    // Verify no config was created.
-    $storage = $this->container->get('entity_type.manager')
-      ->getStorage('hakuvahti_config');
-
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $default */
-    $default = $storage->load('default');
-
-    $this->assertNull($default, 'Update hook should not create config without PROJECT_NAME');
   }
 
   /**
-   * Tests that running update hook multiple times is safe.
+   * Tests that running update hook multiple times is safe (idempotent).
    */
-  public function testUpdateHookMultipleRuns(): void {
-    putenv('PROJECT_NAME=multi-project');
+  public function testUpdateHookIsIdempotent(): void {
+    // Mock EnvironmentResolver.
+    $this->mockEnvironmentResolver(Project::ASUMINEN);
+
+    // Clear config first.
+    \Drupal::configFactory()
+      ->getEditable('helfi_hakuvahti.config.default')
+      ->delete();
 
     // Run update hook first time.
     helfi_hakuvahti_update_9001();
-
-    $storage = $this->container->get('entity_type.manager')
-      ->getStorage('hakuvahti_config');
-
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $first */
-    $first = $storage->load('default');
-    $this->assertNotNull($first);
-    $firstSiteId = $first->getSiteId();
+    $firstSiteId = $this->config('helfi_hakuvahti.config.default')->get('site_id');
 
     // Run update hook second time.
     helfi_hakuvahti_update_9001();
+    $secondSiteId = $this->config('helfi_hakuvahti.config.default')->get('site_id');
 
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $second */
-    $second = $storage->load('default');
-    $this->assertNotNull($second);
-    $this->assertEquals($firstSiteId, $second->getSiteId(), 'Multiple runs should not change config');
-
-    // Verify only one config exists (no duplicates).
-    $allConfigs = $storage->loadMultiple();
-    $this->assertCount(1, $allConfigs, 'Should only have one default config');
-
-    // Cleanup.
-    putenv('PROJECT_NAME');
+    $this->assertEquals($firstSiteId, $secondSiteId, 'Multiple runs should not change config');
   }
 
   /**
-   * Tests that install and update hooks create identical configs.
+   * Tests that install and update hooks set site_id consistently.
    */
   public function testInstallAndUpdateHookConsistency(): void {
-    putenv('PROJECT_NAME=consistency-test');
-
-    $storage = $this->container->get('entity_type.manager')
-      ->getStorage('hakuvahti_config');
+    // Mock EnvironmentResolver.
+    $this->mockEnvironmentResolver(Project::ASUMINEN);
 
     // Test install hook.
     helfi_hakuvahti_install();
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $installConfig */
-    $installConfig = $storage->load('default');
-    $installConfig->delete();
+    $installSiteId = $this->config('helfi_hakuvahti.config.default')->get('site_id');
 
-    // Test update hook.
+    // Clear and test update hook.
+    \Drupal::configFactory()
+      ->getEditable('helfi_hakuvahti.config.default')
+      ->delete();
     helfi_hakuvahti_update_9001();
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $updateConfig */
-    $updateConfig = $storage->load('default');
+    $updateSiteId = $this->config('helfi_hakuvahti.config.default')->get('site_id');
 
-    // Both should create identical configs.
-    $this->assertEquals('default', $updateConfig->id());
-    $this->assertEquals('Default', $updateConfig->label());
-    $this->assertEquals('consistency-test', $updateConfig->getSiteId());
-
-    // Cleanup.
-    putenv('PROJECT_NAME');
+    // Both should set the same site_id.
+    $this->assertEquals($installSiteId, $updateSiteId, 'Install and update hooks should set identical site_id');
   }
 
 }

@@ -12,23 +12,7 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  * @ConfigEntityType(
  *   id = "hakuvahti_config",
  *   label = @Translation("Hakuvahti Configuration"),
- *   label_collection = @Translation("Hakuvahti Configurations"),
- *   label_singular = @Translation("hakuvahti configuration"),
- *   label_plural = @Translation("hakuvahti configurations"),
- *   label_count = @PluralTranslation(
- *     singular = "@count hakuvahti configuration",
- *     plural = "@count hakuvahti configurations",
- *   ),
- *   handlers = {
- *     "list_builder" = "Drupal\helfi_hakuvahti\HakuvahtiConfigListBuilder",
- *     "form" = {
- *       "add" = "Drupal\helfi_hakuvahti\Form\HakuvahtiConfigForm",
- *       "edit" = "Drupal\helfi_hakuvahti\Form\HakuvahtiConfigForm",
- *       "delete" = "Drupal\Core\Entity\EntityDeleteForm"
- *     }
- *   },
  *   config_prefix = "config",
- *   admin_permission = "administer site configuration",
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label"
@@ -37,12 +21,6 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *     "id",
  *     "label",
  *     "site_id"
- *   },
- *   links = {
- *     "collection" = "/admin/config/services/hakuvahti",
- *     "add-form" = "/admin/config/services/hakuvahti/add",
- *     "edit-form" = "/admin/config/services/hakuvahti/{hakuvahti_config}/edit",
- *     "delete-form" = "/admin/config/services/hakuvahti/{hakuvahti_config}/delete"
  *   }
  * )
  */

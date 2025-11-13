@@ -5,6 +5,7 @@ helfi_hakuvahti.subscribe:
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiSubscribeController::post'
   requirements:
     _permission: 'access content'
+
 helfi_hakuvahti.confirm:
   path: '/hakuvahti/confirm'
   defaults:
@@ -12,6 +13,7 @@ helfi_hakuvahti.confirm:
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiController::confirm'
   requirements:
     _permission: 'access content'
+
 helfi_hakuvahti.unsubscribe:
   path: '/hakuvahti/unsubscribe'
   defaults:
@@ -19,35 +21,3 @@ helfi_hakuvahti.unsubscribe:
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiController::unsubscribe'
   requirements:
     _permission: 'access content'
-
-entity.hakuvahti_config.collection:
-  path: '/admin/config/services/hakuvahti'
-  defaults:
-    _entity_list: 'hakuvahti_config'
-    _title: 'Hakuvahti Configurations'
-  requirements:
-    _permission: 'administer site configuration'
-
-entity.hakuvahti_config.add_form:
-  path: '/admin/config/services/hakuvahti/add'
-  defaults:
-    _entity_form: 'hakuvahti_config.add'
-    _title: 'Add Hakuvahti Configuration'
-  requirements:
-    _permission: 'administer site configuration'
-
-entity.hakuvahti_config.edit_form:
-  path: '/admin/config/services/hakuvahti/{hakuvahti_config}/edit'
-  defaults:
-    _entity_form: 'hakuvahti_config.edit'
-    _title: 'Edit Hakuvahti Configuration'
-  requirements:
-    _permission: 'administer site configuration'
-
-entity.hakuvahti_config.delete_form:
-  path: '/admin/config/services/hakuvahti/{hakuvahti_config}/delete'
-  defaults:
-    _entity_form: 'hakuvahti_config.delete'
-    _title: 'Delete Hakuvahti Configuration'
-  requirements:
-    _permission: 'administer site configuration'

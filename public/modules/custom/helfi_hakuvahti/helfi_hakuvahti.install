@@ -11,35 +11,34 @@ declare(strict_types=1);
  * Implements hook_install().
  */
 function helfi_hakuvahti_install(): void {
-  // Create default configuration from environment variable.
-  if ($projectName = getenv('PROJECT_NAME')) {
-    $storage = \Drupal::entityTypeManager()->getStorage('hakuvahti_config');
+  // Populate site_id in default configuration from environment.
+  /** @var \Drupal\helfi_api_base\Environment\EnvironmentResolverInterface $environmentResolver */
+  $environmentResolver = \Drupal::service('helfi_api_base.environment_resolver');
+  $projectName = $environmentResolver->getActiveProject()->getName();
 
-    if (!$storage->load('default')) {
-      $config = $storage->create([
-        'id' => 'default',
-        'label' => 'Default',
-        'site_id' => $projectName,
-      ]);
-      $config->save();
-    }
-  }
+  // Update the default config entity that was installed from YAML.
+  $config = \Drupal::configFactory()
+    ->getEditable('helfi_hakuvahti.config.default');
+  $config->set('site_id', $projectName)->save();
 }
 
 /**
  * Create default hakuvahti configuration from environment.
  */
 function helfi_hakuvahti_update_9001(): void {
-  if ($projectName = getenv('PROJECT_NAME')) {
-    $storage = \Drupal::entityTypeManager()->getStorage('hakuvahti_config');
+  /** @var \Drupal\helfi_api_base\Environment\EnvironmentResolverInterface $environmentResolver */
+  $environmentResolver = \Drupal::service('helfi_api_base.environment_resolver');
+  $projectName = $environmentResolver->getActiveProject()->getName();
 
-    if (!$storage->load('default')) {
-      $config = $storage->create([
-        'id' => 'default',
-        'label' => 'Default',
-        'site_id' => $projectName,
-      ]);
-      $config->save();
-    }
+  // Create or update the default config entity.
+  $config = \Drupal::configFactory()
+    ->getEditable('helfi_hakuvahti.config.default');
+  
+  // Only set site_id if not already set.
+  if (!$config->get('site_id')) {
+    $config->set('id', 'default');
+    $config->set('label', 'Default');
+    $config->set('site_id', $projectName);
+    $config->save();
   }
 }

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_hakuvahti\Kernel;
 
+use Drupal\helfi_api_base\Environment\EnvironmentEnum;
+use Drupal\helfi_api_base\Environment\Project;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\helfi_api_base\Traits\EnvironmentResolverTrait;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,11 +17,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class HakuvahtiConfigParameterTest extends KernelTestBase {
 
+  use EnvironmentResolverTrait;
+
   /**
    * {@inheritdoc}
    */
   protected static $modules = [
     'helfi_hakuvahti',
+    'helfi_api_base',
   ];
 
   /**
@@ -27,21 +33,15 @@ class HakuvahtiConfigParameterTest extends KernelTestBase {
   protected function setUp(): void {
     parent::setUp();
     $this->installConfig(['helfi_hakuvahti']);
-    putenv('PROJECT_NAME=test-project');
   }
 
   /**
    * Tests that default config is loaded when no ?config parameter.
    */
   public function testDefaultConfigParameter(): void {
-    // Create default config.
+    // Default config already exists from YAML install.
     $storage = $this->container->get('entity_type.manager')
       ->getStorage('hakuvahti_config');
-    $storage->create([
-      'id' => 'default',
-      'label' => 'Default',
-      'site_id' => 'default-site-id',
-    ])->save();
 
     // Simulate request without config parameter.
     $request = Request::create('/hakuvahti/subscribe', 'POST');
@@ -53,8 +53,8 @@ class HakuvahtiConfigParameterTest extends KernelTestBase {
     // Load config.
     /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $config */
     $config = $storage->load($configId);
-    $this->assertNotNull($config);
-    $this->assertEquals('default-site-id', $config->getSiteId());
+    $this->assertNotNull($config, 'Default config should exist from YAML');
+    $this->assertEquals('', $config->getSiteId(), 'site_id should be empty until install hook runs');
   }
 
   /**
@@ -85,9 +85,15 @@ class HakuvahtiConfigParameterTest extends KernelTestBase {
   }
 
   /**
-   * Tests fallback to env when config doesn't exist.
+   * Tests fallback to EnvironmentResolver when config doesn't exist.
    */
   public function testFallbackToEnvWhenConfigNotFound(): void {
+    // Mock EnvironmentResolver.
+    $this->container->set(
+      'helfi_api_base.environment_resolver',
+      $this->getEnvironmentResolver(Project::ASUMINEN, EnvironmentEnum::Local)
+    );
+
     $storage = $this->container->get('entity_type.manager')
       ->getStorage('hakuvahti_config');
 
@@ -98,15 +104,16 @@ class HakuvahtiConfigParameterTest extends KernelTestBase {
     /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $config */
     $config = $storage->load($configId);
 
-    // Config doesn't exist, so fallback to env.
+    // Config doesn't exist, so fallback to EnvironmentResolver.
     if (!$config) {
-      $siteId = getenv('PROJECT_NAME');
+      $environmentResolver = $this->container->get('helfi_api_base.environment_resolver');
+      $siteId = $environmentResolver->getActiveProject()->getName();
     }
     else {
       $siteId = $config->getSiteId();
     }
 
-    $this->assertEquals('test-project', $siteId);
+    $this->assertEquals(Project::ASUMINEN, $siteId);
   }
 
   /**
@@ -145,14 +152,6 @@ class HakuvahtiConfigParameterTest extends KernelTestBase {
 
     // Verify they're different.
     $this->assertNotEquals($config1->getSiteId(), $config2->getSiteId());
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function tearDown(): void {
-    putenv('PROJECT_NAME');
-    parent::tearDown();
   }
 
 }

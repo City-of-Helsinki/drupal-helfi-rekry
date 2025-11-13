@@ -133,12 +133,13 @@ class HakuvahtiConfigEntityTest extends KernelTestBase {
     // Load all configs.
     /** @var array<string, \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig> $configs */
     $configs = $storage->loadMultiple();
-    $this->assertCount(3, $configs);
+    $this->assertCount(4, $configs, 'Should have 3 created configs plus default from YAML');
 
     // Verify each has correct site_id.
     $this->assertEquals('jobs-site', $configs['jobs']->getSiteId());
     $this->assertEquals('news-site', $configs['news']->getSiteId());
     $this->assertEquals('events-site', $configs['events']->getSiteId());
+    $this->assertArrayHasKey('default', $configs, 'Default config should exist from YAML');
   }
 
   /**
