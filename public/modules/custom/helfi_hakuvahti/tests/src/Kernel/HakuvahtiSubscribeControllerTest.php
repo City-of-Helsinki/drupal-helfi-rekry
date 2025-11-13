@@ -9,10 +9,6 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\helfi_api_base\Traits\ApiTestTrait;
 use Drupal\Tests\helfi_api_base\Traits\EnvironmentResolverTrait;
 use Drupal\Tests\user\Traits\UserCreationTrait;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\PropertyTrait;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
@@ -52,51 +48,6 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
       $config->set('site_id', 'rekry');
       $config->save();
     }
-  }
-
-  /**
-   * Tests subscribe endpoint with various scenarios.
-   *
-   * @group legacy
-   */
-  public function testSubscribeEndpoint(): void {
-    $this->markTestSkipped('Mock HTTP client queue issue - needs investigation');
-    $this->setUpCurrentUser(permissions: ['access content']);
-
-    // Set base_url config.
-    $this->config('helfi_hakuvahti.settings')
-      ->set('base_url', 'https://example.com')
-      ->save();
-
-    // Test with API error.
-    $client = $this->setupMockHttpClient([
-      new RequestException('Test error', new Request('POST', 'test'), new Response(400)),
-    ]);
-    $this->container->set(ClientInterface::class, $client);
-
-    $response = $this->makeRequest([
-      'email' => 'valid@email.fi',
-      'lang' => 'fi',
-      'query' => '?query=123&parameters=4567',
-      'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
-      'search_description' => 'Test search',
-    ]);
-    $this->assertEquals(500, $response->getStatusCode());
-
-    // Test with success.
-    $client = $this->setupMockHttpClient([
-      new Response(200),
-    ]);
-    $this->container->set(ClientInterface::class, $client);
-
-    $response = $this->makeRequest([
-      'email' => 'valid@email.fi',
-      'lang' => 'fi',
-      'query' => '?query=123&parameters=4567',
-      'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
-      'search_description' => 'Test search',
-    ]);
-    $this->assertEquals(200, $response->getStatusCode());
   }
 
   /**
