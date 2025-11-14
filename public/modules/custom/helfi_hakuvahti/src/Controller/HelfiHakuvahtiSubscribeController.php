@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\helfi_api_base\Environment\EnvironmentResolverInterface;
 use Drupal\helfi_hakuvahti\Event\SubscriptionAlterEvent;
 use Drupal\helfi_hakuvahti\Event\SubscriptionEvent;
 use Drupal\helfi_hakuvahti\HakuvahtiException;
@@ -28,7 +27,6 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase implements 
   public function __construct(
     private readonly HakuvahtiInterface $hakuvahti,
     private readonly EventDispatcherInterface $eventDispatcher,
-    private readonly EnvironmentResolverInterface $environmentResolver,
   ) {
   }
 

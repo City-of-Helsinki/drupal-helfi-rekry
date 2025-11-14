@@ -5,5 +5,3 @@ package: HELfi
 core_version_requirement: ^10
 'interface translation project': helfi_hakuvahti
 'interface translation server pattern': modules/custom/helfi_hakuvahti/translations/%language.po
-dependencies:
-  - helfi_api_base:helfi_api_base

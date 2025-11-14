@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_hakuvahti\Kernel;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\helfi_api_base\Traits\ApiTestTrait;
 use Drupal\Tests\helfi_api_base\Traits\EnvironmentResolverTrait;
 use Drupal\Tests\user\Traits\UserCreationTrait;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\PropertyTrait;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
@@ -29,7 +34,6 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     'user',
     'system',
     'helfi_hakuvahti',
-    'helfi_api_base',
   ];
 
   /**
@@ -37,42 +41,72 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
    */
   protected function setUp(): void {
     parent::setUp();
-    $this->installConfig(['helfi_hakuvahti']);
+
+    $client = $this->setupMockHttpClient([
+      new RequestException('Test error', new Request('POST', 'test'), new Response(400)),
+      new Response(200),
+    ]);
+
+    $this->container->set(ClientInterface::class, $client);
 
     // Populate site_id in default config using entity storage.
-    $storage = $this->container->get('entity_type.manager')
-      ->getStorage('hakuvahti_config');
-    /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $config */
-    $config = $storage->load('default');
-    if ($config) {
-      $config->set('site_id', 'rekry');
-      $config->save();
-    }
+    $this->container->get(EntityTypeManagerInterface::class)
+      ->getStorage('hakuvahti_config')
+      ->create([
+        'id' => 'default',
+        'label' => 'Foobar',
+        'site_id' => 'rekry',
+      ])
+      ->save();
   }
 
   /**
-   * Tests that non-existent config returns error.
+   * Tests handleConfirmFormSubmission.
    */
-  public function testNonExistentConfigReturnsError(): void {
+  public function testHandleConfirmFormSubmission(): void {
+    // Subscribe without permissions.
+    $response = $this->makeRequest([]);
+    $this->assertEquals(403, $response->getStatusCode());
+
     $this->setUpCurrentUser(permissions: ['access content']);
 
-    // Request with non-existent config parameter.
-    $url = Url::fromRoute('helfi_hakuvahti.subscribe', [], ['query' => ['config' => 'nonexistent']]);
-    $request = $this->getMockedRequest($url->toString(), 'POST', document: [
+    // Subscribe with bad request.
+    $response = $this->makeRequest([]);
+    $this->assertEquals(400, $response->getStatusCode());
+
+    // Missing config.
+    $response = $this->makeRequest([
       'email' => 'valid@email.fi',
       'lang' => 'fi',
-      'query' => '?query=123',
+      'query' => '?query=123&parameters=4567',
       'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
-      'search_description' => 'Test',
+      'search_description' => 'This, is the query filters string, separated, by comma',
     ]);
+    $this->assertEquals(500, $response->getStatusCode());
 
-    $response = $this->processRequest($request);
+    $this->config('helfi_hakuvahti.settings')
+      ->set('base_url', 'https://example.com')
+      ->save();
 
-    // Should return 400 error.
-    $this->assertEquals(400, $response->getStatusCode());
-    $data = json_decode($response->getContent(), TRUE);
-    $this->assertFalse($data['success']);
-    $this->assertStringContainsString('not found', $data['error']);
+    // Subscribe with api error.
+    $response = $this->makeRequest([
+      'email' => 'valid@email.fi',
+      'lang' => 'fi',
+      'query' => '?query=123&parameters=4567',
+      'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
+      'search_description' => 'This, is the query filters string, separated, by comma',
+    ]);
+    $this->assertEquals(500, $response->getStatusCode());
+
+    // Success.
+    $response = $this->makeRequest([
+      'email' => 'valid@email.fi',
+      'lang' => 'fi',
+      'query' => '?query=123&parameters=4567',
+      'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
+      'search_description' => 'This, is the query filters string, separated, by comma',
+    ]);
+    $this->assertEquals(200, $response->getStatusCode());
   }
 
   /**
