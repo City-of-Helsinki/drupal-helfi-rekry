@@ -1,7 +1,7 @@
 {% set attributes = create_attribute({'class': ['hakuvahti-form']}) %}
 
-{# Hide the form and submit automatically with javascript. #}
 {% if autosubmit %}
+  {# Hide the form and submit automatically with javascript. #}
   {{ attach_library('helfi_hakuvahti/form') }}
   {% set attributes = attributes.addClass(['visually-hidden']) %}
 {% endif %}

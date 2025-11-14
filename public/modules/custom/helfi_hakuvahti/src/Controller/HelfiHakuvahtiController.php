@@ -57,7 +57,7 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
   }
 
   /**
-   * Handles the form submission for confirming a subscription.
+   * Handles the activation form submission.
    *
    * @param string $hash
    *   The hash parameter.
@@ -127,7 +127,7 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
   }
 
   /**
-   * Handles the form submission for unsubscribing from a subscription.
+   * Handles the unsubscribe form submission.
    *
    * @param string $hash
    *   The hash parameter.
