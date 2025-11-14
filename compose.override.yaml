@@ -1,7 +1,7 @@
 services:
   app:
     environment:
-      HAKUVAHTI_URL: 'https://hakuvahti.docker.so'
+      HAKUVAHTI_URL: 'http://hakuvahti:3000'
 networks:
   hakuvahti-network:
     external: true
