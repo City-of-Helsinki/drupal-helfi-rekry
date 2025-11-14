@@ -42,12 +42,12 @@ msgid "Confirming saved search failed. Please try again."
 msgstr "Bekräftelse av sparad sökning misslyckades. Försök igen."
 
 msgctxt "Hakuvahti"
-msgid "Please confirm the saved search to receive notifications. Click on the button below."
-msgstr "Bekräfta beställningen av sökvakten genom att klicka på knappen nedan."
+msgid "Please wait while the saved search is being enabled."
+msgstr "Vänligen vänta medan sökvakten aktiveras."
 
 msgctxt "Hakuvahti"
 msgid "Confirm saved search"
-msgstr "Bekräfta sökvakten"
+msgstr "Aktiverar sökvakten"
 
 msgctxt "Hakuvahti"
 msgid "Are you sure you wish to delete the saved search?"

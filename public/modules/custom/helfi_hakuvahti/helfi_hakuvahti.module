@@ -18,10 +18,9 @@ function helfi_hakuvahti_theme(): array {
       'variables' => [
         'title' => NULL,
         'message' => NULL,
+        'autosubmit' => FALSE,
         'button_text' => NULL,
         'action_url' => NULL,
-        'id' => NULL,
-        'form_id' => NULL,
       ],
     ],
     'hakuvahti_confirmation' => [

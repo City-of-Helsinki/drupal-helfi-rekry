@@ -22,7 +22,7 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
   use LoggerAwareTrait;
 
   public function __construct(
-    protected HakuvahtiInterface $hakuvahti,
+    protected readonly HakuvahtiInterface $hakuvahti,
   ) {
   }
 
@@ -36,9 +36,23 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
     $hash = $request->query->get('hash');
     $subscription = $request->query->get('subscription');
 
-    return $request->isMethod('POST')
-      ? $this->handleConfirmFormSubmission($hash, $subscription)
-      : $this->buildConfirmForm($hash, $subscription);
+    if ($request->isMethod('POST')) {
+      return $this->handleConfirmFormSubmission($hash, $subscription);
+    }
+
+    return [
+      '#theme' => 'hakuvahti_form',
+      '#title' => $this->t('Enabling saved search', [], ['context' => 'Hakuvahti']),
+      '#message' => $this->t('Please wait while the saved search is being enabled.', [], ['context' => 'Hakuvahti']),
+      '#button_text' => $this->t('Confirm saved search', [], ['context' => 'Hakuvahti']),
+      '#autosubmit' => TRUE,
+      '#action_url' => Url::fromRoute('helfi_hakuvahti.confirm', [], [
+        'query' => [
+          'hash' => $hash,
+          'subscription' => $subscription,
+        ],
+      ]),
+    ];
   }
 
   /**
@@ -83,30 +97,6 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
   }
 
   /**
-   * Builds the form for confirming a saved search.
-   *
-   * @return array
-   *   A render array for the confirmation form.
-   */
-  private function buildConfirmForm(string $hash, string $subscription): array {
-    return [
-      '#type' => 'form',
-      '#id' => 'hakuvahti_confirm_form',
-      '#form_id' => 'hakuvahti_confirm_form',
-      '#theme' => 'hakuvahti_form',
-      '#title' => $this->t('Confirm saved search', [], ['context' => 'Hakuvahti']),
-      '#message' => $this->t('Please confirm the saved search to receive notifications. Click on the button below.', [], ['context' => 'Hakuvahti']),
-      '#button_text' => $this->t('Confirm saved search', [], ['context' => 'Hakuvahti']),
-      '#action_url' => Url::fromRoute('helfi_hakuvahti.confirm', [], [
-        'query' => [
-          'hash' => $hash,
-          'subscription' => $subscription,
-        ],
-      ]),
-    ];
-  }
-
-  /**
    * Handles the unsubscription from a saved search.
    *
    * @return array
@@ -116,9 +106,23 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
     $hash = $request->query->get('hash');
     $subscription = $request->query->get('subscription');
 
-    return $request->isMethod('POST')
-      ? $this->handleUnsubscribeFormSubmission($hash, $subscription)
-      : $this->buildUnsubscribeForm($hash, $subscription);
+    if ($request->isMethod('POST')) {
+      return $this->handleUnsubscribeFormSubmission($hash, $subscription);
+    }
+
+    return [
+      '#theme' => 'hakuvahti_form',
+      '#title' => $this->t('Deleting saved search', [], ['context' => 'Hakuvahti']),
+      '#message' => $this->t('Please wait while the saved search is being deleted. If you have other searches saved on the City website, this link will not delete them.', [], ['context' => 'Hakuvahti']),
+      '#button_text' => $this->t('Delete saved search', [], ['context' => 'Hakuvahti']),
+      '#autosubmit' => TRUE,
+      '#action_url' => new Url('helfi_hakuvahti.unsubscribe', [], [
+        'query' => [
+          'hash' => $hash,
+          'subscription' => $subscription,
+        ],
+      ]),
+    ];
   }
 
   /**
@@ -153,27 +157,6 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
         '#message' => $this->t('Deleting saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
       ];
     }
-  }
-
-  /**
-   * Builds the form for unsubscribing from a saved search.
-   *
-   * @return array
-   *   A render array for the unsubscription form.
-   */
-  private function buildUnsubscribeForm(string $hash, string $subscription): array {
-    return [
-      '#theme' => 'hakuvahti_form',
-      '#title' => $this->t('Are you sure you wish to delete the saved search?', [], ['context' => 'Hakuvahti']),
-      '#message' => $this->t('Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them.', [], ['context' => 'Hakuvahti']),
-      '#button_text' => $this->t('Delete saved search', [], ['context' => 'Hakuvahti']),
-      '#action_url' => new Url('helfi_hakuvahti.unsubscribe', [], [
-        'query' => [
-          'hash' => $hash,
-          'subscription' => $subscription,
-        ],
-      ]),
-    ];
   }
 
 }
