@@ -2,28 +2,8 @@ msgid ""
 msgstr ""
 
 msgctxt "Hakuvahti"
-msgid "The saved search has been deleted"
-msgstr "Sökvakten har raderats"
-
-msgctxt "Hakuvahti"
 msgid "You can save more searches at any time."
 msgstr "Du kan när som helst beställa nya sökvakter."
-
-msgctxt "Hakuvahti"
-msgid "Return to open jobs front page"
-msgstr "Gå tillbaka till startsidan för lediga jobb."
-
-msgctxt "Hakuvahti"
-msgid "Deleting saved search failed. Please try again."
-msgstr ""
-
-msgctxt "Hakuvahti"
-msgid "Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them."
-msgstr "Bekräfta att du vill ta bort den här sökvakten. Om du har skapat andra sökvakter på stadens webbplats tar denna åtgärd inte bort dem."
-
-msgctxt "Hakuvahti"
-msgid "Delete saved search"
-msgstr "Radera sökvakten"
 
 msgctxt "Hakuvahti"
 msgid "Search saved successfully"
@@ -42,58 +22,43 @@ msgid "Confirming saved search failed. Please try again."
 msgstr "Bekräftelse av sparad sökning misslyckades. Försök igen."
 
 msgctxt "Hakuvahti"
+msgid "Enabling saved search"
+msgstr "Aktiverar sökvakten"
+
+msgctxt "Hakuvahti"
 msgid "Please wait while the saved search is being enabled."
 msgstr "Vänligen vänta medan sökvakten aktiveras."
 
 msgctxt "Hakuvahti"
-msgid "Confirm saved search"
-msgstr "Aktiverar sökvakten"
+msgid "Deleting saved search"
+msgstr "Tar bort sökvakten"
 
 msgctxt "Hakuvahti"
-msgid "Are you sure you wish to delete the saved search?"
-msgstr "Är du säker på att du vill ta bort sökvakten?"
+msgid "Please wait while the saved search is being deleted. If you have other searches saved on the City website, this link will not delete them."
+msgstr "Vänligen vänta medan sökvakten tas bort. Om du har skapat andra sökvakter på stadens webbplats tar denna åtgärd inte bort dem."
+
+msgctxt "Hakuvahti"
+msgid "Delete saved search"
+msgstr "Radera sökvakten"
 
 msgctxt "Hakuvahti"
 msgid "Deleting failed"
 msgstr "Radering misslyckades"
 
-msgid "Subscribe saved search"
-msgstr "Beställ sökvakten"
+msgctxt "Hakuvahti"
+msgid "Deleting saved search failed. Please try again."
+msgstr ""
+
+msgctxt "Hakuvahti"
+msgid "The saved search has been deleted"
+msgstr "Sökvakten har raderats"
+
+msgctxt "Hakuvahti"
+msgid "Return to open jobs front page"
+msgstr "Gå tillbaka till startsidan för lediga jobb."
 
 msgid "Confirm saved search"
 msgstr "Bekräfta sökvakten"
 
-msgid "Are you sure you wish to delete the saved search?"
-msgstr "Är du säker på att du vill ta bort sökvakten?"
-
-msgctxt "Hakuvahti empty filters"
-msgid "No search filters"
-msgstr "Inga ansökningskriterier"
-
-msgctxt "Search filter option: Central area"
-msgid "Central area"
-msgstr "Mellersta området"
-
-msgctxt "Search filter option: Eastern area"
-msgid  "Eastern area"
-msgstr "Östra området"
-
-msgctxt "Search filter option: Southern area"
-msgid  "Southern area"
-msgstr "Södra området"
-
-msgctxt "Search filter option: South-Eastern area"
-msgid  "South-Eastern area"
-msgstr "Sydöstra området"
-
-msgctxt "Search filter option: Western area area"
-msgid  "Western area"
-msgstr "Västra området"
-
-msgctxt "Search filter option: Northern area"
-msgid  "Northern area"
-msgstr "Norra området"
-
-msgctxt "Search filter option: North-Eastern area"
-msgid  "North-Eastern area"
-msgstr "Nordöstra området"
+msgid "Delete saved search"
+msgstr "Ta bort sökvakten"
