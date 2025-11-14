@@ -35,8 +35,10 @@ class HakuvahtiControllerTest extends KernelTestBase {
 
   /**
    * Tests handleConfirmFormSubmission.
+   *
+   * @dataProvider dataProvider
    */
-  public function testHandleConfirmFormSubmission(): void {
+  public function testHandleConfirmFormSubmission(string $route, array $tests): void {
     $this->setupMockHttpClient([
       new Response(200, body: 'success'),
       new Response(404, body: 'not found'),
@@ -54,30 +56,13 @@ class HakuvahtiControllerTest extends KernelTestBase {
     $logger = $this->prophesize(LoggerInterface::class);
     $this->container->set('logger.channel.helfi_hakuvahti', $logger->reveal());
 
-    // Get request.
-    $response = $this->makeRequest('GET', 'helfi_hakuvahti.confirm', ['hash' => 'a', 'subscription' => 'b']);
-    $this->assertEquals(200, $response->getStatusCode());
-    $this->assertStringContainsString('Confirm saved search', $response->getContent() ?? '');
+    foreach ($tests as $test) {
+      [$method, $message] = $test;
 
-    // Success.
-    $response = $this->makeRequest('POST', 'helfi_hakuvahti.confirm', ['hash' => 'a', 'subscription' => 'b']);
-    $this->assertEquals(200, $response->getStatusCode());
-    $this->assertStringContainsString('Search saved successfully', $response->getContent() ?? '');
-
-    // Not found.
-    $response = $this->makeRequest('POST', 'helfi_hakuvahti.confirm', ['hash' => 'a', 'subscription' => 'b']);
-    $this->assertEquals(200, $response->getStatusCode());
-    $this->assertStringContainsString('Confirmation failed', $response->getContent() ?? '');
-
-    // Server error.
-    $response = $this->makeRequest('POST', 'helfi_hakuvahti.confirm', ['hash' => 'a', 'subscription' => 'b']);
-    $this->assertEquals(200, $response->getStatusCode());
-    $this->assertStringContainsString('Confirmation failed', $response->getContent() ?? '');
-
-    // Guzzle exception.
-    $response = $this->makeRequest('POST', 'helfi_hakuvahti.confirm', ['hash' => 'a', 'subscription' => 'b']);
-    $this->assertEquals(200, $response->getStatusCode());
-    $this->assertStringContainsString('Confirmation failed', $response->getContent() ?? '');
+      $response = $this->makeRequest($method, $route, ['hash' => 'a', 'subscription' => 'b']);
+      $this->assertEquals(200, $response->getStatusCode());
+      $this->assertStringContainsString($message, $response->getContent() ?? '');
+    }
   }
 
   /**
@@ -101,6 +86,32 @@ class HakuvahtiControllerTest extends KernelTestBase {
     $request = $this->getMockedRequest($url->toString(), $method);
 
     return $this->processRequest($request);
+  }
+
+  /**
+   * Data provider for tests. Lists routes to test.
+   */
+  private function dataProvider(): array {
+    return [
+      [
+        'helfi_hakuvahti.confirm',
+        [
+          ['GET', 'Confirm saved search'],
+          ['POST', 'Search saved successfully'],
+          ['POST', 'Confirmation failed'],
+          ['POST', 'Confirmation failed'],
+        ],
+      ],
+      [
+        'helfi_hakuvahti.unsubscribe',
+        [
+          ['GET', 'Delete saved search'],
+          ['POST', 'The saved search has been deleted'],
+          ['POST', 'Deleting failed'],
+          ['POST', 'Deleting failed'],
+        ],
+      ],
+    ];
   }
 
 }

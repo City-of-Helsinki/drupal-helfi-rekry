@@ -2,28 +2,8 @@ msgid ""
 msgstr ""
 
 msgctxt "Hakuvahti"
-msgid "The saved search has been deleted"
-msgstr "Hakuvahti on poistettu"
-
-msgctxt "Hakuvahti"
 msgid "You can save more searches at any time."
 msgstr "Voit koska tahansa tilata uusia hakuvahteja."
-
-msgctxt "Hakuvahti"
-msgid "Return to open jobs front page"
-msgstr "Palaa avoimien työpaikkojen etusivulle."
-
-msgctxt "Hakuvahti"
-msgid "Deleting saved search failed. Please try again."
-msgstr "Hakuvahdin poisto epäonnistui. Yritä uudelleen."
-
-msgctxt "Hakuvahti"
-msgid "Please confirm that you wish to delete the saved search. If you have other searches saved on the City website, this link will not delete them."
-msgstr "Vahvista, että haluat poistaa tämän hakuvahdin. Jos olet tehnyt muita hakuvahteja kaupungin verkkosivustolla, tämä ei poista niitä."
-
-msgctxt "Hakuvahti"
-msgid "Delete saved search"
-msgstr "Poista hakuvahti"
 
 msgctxt "Hakuvahti"
 msgid "Search saved successfully"
@@ -42,54 +22,43 @@ msgid "Confirming saved search failed. Please try again."
 msgstr "Hakuvahdin vahvistus epäonnistui. Yritä uudelleen."
 
 msgctxt "Hakuvahti"
-msgid "Please confirm the saved search to receive notifications. Click on the button below."
-msgstr "Vahvista hakuvahdin tilaus klikkaamalla alla olevaa painiketta."
+msgid "Enabling saved search"
+msgstr "Hakuvahtia aktivoidaan"
 
 msgctxt "Hakuvahti"
-msgid "Confirm saved search"
-msgstr "Vahvista hakuvahti"
+msgid "Please wait while the saved search is being enabled."
+msgstr "Hakuvahtia aktivoidaan, odota hetki."
 
 msgctxt "Hakuvahti"
-msgid "Are you sure you wish to delete the saved search?"
-msgstr "Haluatko varmasti poistaa hakuvahdin?"
+msgid "Deleting saved search"
+msgstr "Hakuvahtia poistetaan"
+
+msgctxt "Hakuvahti"
+msgid "Please wait while the saved search is being deleted. If you have other searches saved on the City website, this link will not delete them."
+msgstr "Hakuvahtia poistetaan, odota hetki. Jos olet tehnyt muita hakuvahteja kaupungin verkkosivustolla, tämä ei poista niitä."
+
+msgctxt "Hakuvahti"
+msgid "Delete saved search"
+msgstr "Poista hakuvahti"
 
 msgctxt "Hakuvahti"
 msgid "Deleting failed"
 msgstr "Poistaminen epäonnistui"
 
-msgid "Subscribe saved search"
-msgstr "Tilaa hakuvahti"
+msgctxt "Hakuvahti"
+msgid "Deleting saved search failed. Please try again."
+msgstr "Hakuvahdin poisto epäonnistui. Yritä uudelleen."
+
+msgctxt "Hakuvahti"
+msgid "The saved search has been deleted"
+msgstr "Hakuvahti on poistettu"
+
+msgctxt "Hakuvahti"
+msgid "Return to open jobs front page"
+msgstr "Palaa avoimien työpaikkojen etusivulle."
 
 msgid "Confirm saved search"
 msgstr "Vahvista hakuvahti"
 
-msgid "Are you sure you wish to delete the saved search?"
-msgstr "Haluatko varmasti poistaa hakuvahdin?"
-
-msgctxt "Search filter option: Central area"
-msgid "Central area"
-msgstr "Keskinen alue"
-
-msgctxt "Search filter option: Eastern area"
-msgid  "Eastern area"
-msgstr "Itäinen alue"
-
-msgctxt "Search filter option: Southern area"
-msgid  "Southern area"
-msgstr "Eteläinen alue"
-
-msgctxt "Search filter option: South-Eastern area"
-msgid  "South-Eastern area"
-msgstr "Kaakkoinen alue"
-
-msgctxt "Search filter option: Western area area"
-msgid  "Western area"
-msgstr "Läntinen alue"
-
-msgctxt "Search filter option: Northern area"
-msgid  "Northern area"
-msgstr "Pohjoinen alue"
-
-msgctxt "Search filter option: North-Eastern area"
-msgid  "North-Eastern area"
-msgstr "Koillinen alue"
+msgid "Delete saved search"
+msgstr "Poista hakuvahti"

@@ -1,0 +1,11 @@
+{% set attributes = create_attribute({'class': ['hakuvahti-form']}) %}
+
+{% if autosubmit %}
+  {# Hide the form and submit automatically with javascript. #}
+  {{ attach_library('helfi_hakuvahti/form') }}
+  {% set attributes = attributes.addClass(['visually-hidden']) %}
+{% endif %}
+
+<form {{ attributes }} method="post" action="{{ action_url }}">
+  <button type="submit" data-hds-component="button">{{ button_text }}</button>
+</form>
