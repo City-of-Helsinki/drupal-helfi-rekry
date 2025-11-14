@@ -1,7 +1,7 @@
 services:
   app:
     environment:
-      HAKUVAHTI_URL: 'http://helfi-rekry.docker.so:3000'
+      HAKUVAHTI_URL: 'http://hakuvahti:3000'
 networks:
   hakuvahti-network:
     external: true
