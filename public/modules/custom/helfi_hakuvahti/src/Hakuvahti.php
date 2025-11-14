@@ -66,6 +66,7 @@ final readonly class Hakuvahti implements HakuvahtiInterface {
           'Content-Type' => 'application/json',
           'token' => $token,
         ],
+        RequestOptions::TIMEOUT => 5,
       ], $options));
     }
     catch (GuzzleException $exception) {
