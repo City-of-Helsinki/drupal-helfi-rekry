@@ -27,8 +27,7 @@ function helfi_hakuvahti_theme(): array {
       'variables' => [
         'title' => NULL,
         'message' => NULL,
-        'link_text' => NULL,
-        'link_url' => NULL,
+        'link' => NULL,
       ],
     ],
   ];

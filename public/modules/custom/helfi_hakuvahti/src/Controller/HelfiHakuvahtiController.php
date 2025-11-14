@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
 use Drupal\helfi_hakuvahti\HakuvahtiException;
@@ -144,8 +145,7 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
         '#theme' => 'hakuvahti_confirmation',
         '#title' => $this->t('The saved search has been deleted', [], ['context' => 'Hakuvahti']),
         '#message' => $this->t('You can save more searches at any time.', [], ['context' => 'Hakuvahti']),
-        '#link_text' => $this->t('Return to open jobs front page', [], ['context' => 'Hakuvahti']),
-        '#link_url' => Url::fromUri('internal:/'),
+        '#link' => Link::fromTextAndUrl($this->t('Return to open jobs front page', [], ['context' => 'Hakuvahti']), Url::fromUri('internal:/')),
       ];
     }
     catch (HakuvahtiException $exception) {
