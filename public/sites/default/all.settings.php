@@ -21,6 +21,7 @@ if (getenv('HELBIT_TEST_CLIENT_ID')) {
   ];
 }
 
+$config['helfi_hakuvahti.settings']['api_key'] = getenv('HAKUVAHTI_API_KEY');
 $config['helfi_hakuvahti.settings']['base_url'] = getenv('HAKUVAHTI_URL');
 
 // Elastic proxy URL.

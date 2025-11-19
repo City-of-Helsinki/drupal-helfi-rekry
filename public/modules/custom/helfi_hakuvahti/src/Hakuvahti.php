@@ -51,19 +51,19 @@ final readonly class Hakuvahti implements HakuvahtiInterface {
    * @throws \Drupal\helfi_hakuvahti\HakuvahtiException
    */
   private function makeRequest(string $method, string $url, array $options = []): ResponseInterface {
-    if (!$baseUrl = $this->configFactory->get('helfi_hakuvahti.settings')->get('base_url')) {
+    $settings = $this->configFactory->get('helfi_hakuvahti.settings');
+    if (!$baseUrl = $settings->get('base_url')) {
       throw new HakuvahtiException('Hakuvahti base url is not configured.');
     }
 
-    // @todo hakuvahti has no use for Drupal tokens https://github.com/City-of-Helsinki/helfi-hakuvahti/blob/main/src/plugins/token.ts#L19.
-    // Maybe this value could be kind of api-key, so
-    // that only allowed services can talk to hakuvahti?
-    $token = '123';
+    $apiKey = $settings->get('api_key');
 
     try {
       return $this->client->request($method, "$baseUrl$url", NestedArray::mergeDeep([
         RequestOptions::HEADERS => [
-          'token' => $token,
+          'Authorization' => "api-key $apiKey",
+          // @todo remove this when we have fully migrated to new Hakuvahti.
+          'token' => '123',
         ],
         RequestOptions::TIMEOUT => 5,
       ], $options));
