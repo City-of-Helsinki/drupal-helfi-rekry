@@ -63,7 +63,6 @@ final readonly class Hakuvahti implements HakuvahtiInterface {
     try {
       return $this->client->request($method, "$baseUrl$url", NestedArray::mergeDeep([
         RequestOptions::HEADERS => [
-          'Content-Type' => 'application/json',
           'token' => $token,
         ],
         RequestOptions::TIMEOUT => 5,
