@@ -47,6 +47,34 @@ msgctxt "Hakuvahti empty filters"
 msgid "No search filters"
 msgstr "Ei hakuehtoja"
 
+msgctxt "Search filter option: Central area"
+msgid "Central area"
+msgstr "Keskinen alue"
+
+msgctxt "Search filter option: Eastern area"
+msgid  "Eastern area"
+msgstr "Itäinen alue"
+
+msgctxt "Search filter option: Southern area"
+msgid  "Southern area"
+msgstr "Eteläinen alue"
+
+msgctxt "Search filter option: South-Eastern area"
+msgid  "South-Eastern area"
+msgstr "Kaakkoinen alue"
+
+msgctxt "Search filter option: Western area area"
+msgid  "Western area"
+msgstr "Läntinen alue"
+
+msgctxt "Search filter option: Northern area"
+msgid  "Northern area"
+msgstr "Pohjoinen alue"
+
+msgctxt "Search filter option: North-Eastern area"
+msgid  "North-Eastern area"
+msgstr "Koillinen alue"
+
 msgid "Unable to handle the given date"
 msgstr "Tarkista päivämäärät"
 
