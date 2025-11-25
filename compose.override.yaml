@@ -2,7 +2,5 @@ services:
   app:
     environment:
       HAKUVAHTI_URL: 'http://hakuvahti:3000'
+      HAKUVAHTI_API_KEY: '123'
       HELBIT_CLIENT_ID: '${HELBIT_CLIENT_ID:-""}'
-networks:
-  hakuvahti-network:
-    external: true

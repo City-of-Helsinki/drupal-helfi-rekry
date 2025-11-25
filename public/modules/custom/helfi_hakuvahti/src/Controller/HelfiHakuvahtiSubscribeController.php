@@ -61,7 +61,7 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase implements 
     catch (\InvalidArgumentException | \JsonException $e) {
       // The frontend should not send invalid requests.
       $this->logger?->error('Hakuvahti initial subscription failed: ' . $e->getMessage());
-      return new JsonResponse(['success' => FALSE, 'error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+      return new JsonResponse(['success' => FALSE, 'error' => 'Error while handling the request.'], Response::HTTP_BAD_REQUEST);
     }
 
     // Allows other modules to alter the request.
