@@ -1,0 +1,22 @@
+helfi_hakuvahti.config.*:
+  type: config_entity
+  label: 'Hakuvahti configuration'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    site_id:
+      type: string
+      label: 'Site ID'
+
+helfi_hakuvahti.settings:
+  type: config_object
+  label: 'Helfi hakuvahti settings'
+  mapping:
+    api_key:
+      type: string
+    base_url:
+      type: string

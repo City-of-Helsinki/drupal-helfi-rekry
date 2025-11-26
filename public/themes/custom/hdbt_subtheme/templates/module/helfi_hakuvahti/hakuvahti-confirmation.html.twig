@@ -1,7 +1,5 @@
-{% if link_text and link_url %}
-  {% set link %}
-    <p><a href="{{ link_url }}">{{ link_text }}</a></p>
-  {% endset %}
-{% endif %}
+{% set content %}
+  <p>{{ link }}</p>
+{% endset %}
 
-{% include "@hdbt_subtheme/module/helfi_hakuvahti/hakuvahti-action-wrapper.twig" with { message: message, content: link, } %}
+{% include "@hdbt_subtheme/module/helfi_hakuvahti/hakuvahti-action-wrapper.twig" with { message: message, content: content } %}

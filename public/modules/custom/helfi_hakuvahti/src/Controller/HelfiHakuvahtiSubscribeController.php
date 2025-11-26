@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\helfi_hakuvahti\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\helfi_api_base\Environment\EnvironmentResolverInterface;
 use Drupal\helfi_hakuvahti\Event\SubscriptionAlterEvent;
 use Drupal\helfi_hakuvahti\Event\SubscriptionEvent;
 use Drupal\helfi_hakuvahti\HakuvahtiException;
@@ -28,7 +27,6 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase implements 
   public function __construct(
     private readonly HakuvahtiInterface $hakuvahti,
     private readonly EventDispatcherInterface $eventDispatcher,
-    private readonly EnvironmentResolverInterface $environmentResolver,
   ) {
   }
 
@@ -42,16 +40,28 @@ final class HelfiHakuvahtiSubscribeController extends ControllerBase implements 
     try {
       $requestData = json_decode($request->getContent(), TRUE, flags: JSON_THROW_ON_ERROR);
 
-      if (!isset($requestData['site_id'])) {
-        $requestData['site_id'] = $this->environmentResolver->getActiveProject()->getName();
+      // Get config ID from query parameter, default to 'default'.
+      $configId = $request->query->get('config') ?? 'default';
+
+      // Try to load configuration entity.
+      /** @var \Drupal\helfi_hakuvahti\Entity\HakuvahtiConfig|null $config */
+      $config = $this->entityTypeManager()
+        ->getStorage('hakuvahti_config')
+        ->load($configId);
+
+      if (!$config) {
+        throw new \InvalidArgumentException("Hakuvahti configuration '$configId' not found.");
       }
+
+      // Use site_id from configuration entity.
+      $requestData['site_id'] = $config->getSiteId();
 
       $requestObject = new HakuvahtiRequest($requestData);
     }
     catch (\InvalidArgumentException | \JsonException $e) {
       // The frontend should not send invalid requests.
       $this->logger?->error('Hakuvahti initial subscription failed: ' . $e->getMessage());
-      return new JsonResponse(['success' => FALSE, 'error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+      return new JsonResponse(['success' => FALSE, 'error' => 'Error while handling the request.'], Response::HTTP_BAD_REQUEST);
     }
 
     // Allows other modules to alter the request.

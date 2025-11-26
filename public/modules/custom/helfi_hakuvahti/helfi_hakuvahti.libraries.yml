@@ -1,0 +1,7 @@
+form:
+  version: 1.0
+  js:
+    assets/hakuvahti_form.js: {}
+  dependencies:
+    - core/drupal
+

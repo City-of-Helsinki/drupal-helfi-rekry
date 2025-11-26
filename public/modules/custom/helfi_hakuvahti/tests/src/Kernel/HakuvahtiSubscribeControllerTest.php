@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_hakuvahti\Kernel;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Url;
-use Drupal\helfi_api_base\Environment\EnvironmentEnum;
-use Drupal\helfi_api_base\Environment\EnvironmentResolverInterface;
-use Drupal\helfi_api_base\Environment\Project;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\helfi_api_base\Traits\ApiTestTrait;
 use Drupal\Tests\helfi_api_base\Traits\EnvironmentResolverTrait;
@@ -36,21 +34,36 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     'user',
     'system',
     'helfi_hakuvahti',
-    'helfi_api_base',
   ];
 
   /**
-   * Tests handleConfirmFormSubmission.
+   * {@inheritdoc}
    */
-  public function testHandleConfirmFormSubmission(): void {
+  protected function setUp(): void {
+    parent::setUp();
+
     $client = $this->setupMockHttpClient([
       new RequestException('Test error', new Request('POST', 'test'), new Response(400)),
       new Response(200),
     ]);
 
     $this->container->set(ClientInterface::class, $client);
-    $this->container->set(EnvironmentResolverInterface::class, $this->getEnvironmentResolver(Project::ASUMINEN, EnvironmentEnum::Test));
 
+    // Populate site_id in default config using entity storage.
+    $this->container->get(EntityTypeManagerInterface::class)
+      ->getStorage('hakuvahti_config')
+      ->create([
+        'id' => 'default',
+        'label' => 'Foobar',
+        'site_id' => 'rekry',
+      ])
+      ->save();
+  }
+
+  /**
+   * Tests handleConfirmFormSubmission.
+   */
+  public function testHandleConfirmFormSubmission(): void {
     // Subscribe without permissions.
     $response = $this->makeRequest([]);
     $this->assertEquals(403, $response->getStatusCode());
@@ -65,7 +78,6 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     $response = $this->makeRequest([
       'email' => 'valid@email.fi',
       'lang' => 'fi',
-      'site_id' => 'rekry',
       'query' => '?query=123&parameters=4567',
       'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
       'search_description' => 'This, is the query filters string, separated, by comma',
@@ -80,7 +92,6 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     $response = $this->makeRequest([
       'email' => 'valid@email.fi',
       'lang' => 'fi',
-      'site_id' => 'rekry',
       'query' => '?query=123&parameters=4567',
       'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
       'search_description' => 'This, is the query filters string, separated, by comma',
@@ -91,7 +102,6 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
     $response = $this->makeRequest([
       'email' => 'valid@email.fi',
       'lang' => 'fi',
-      'site_id' => 'rekry',
       'query' => '?query=123&parameters=4567',
       'elastic_query' => 'eyJxdWVyeSI6eyJib29sIjp7ImZpbHRlciI6W3sidGVybSI6eyJlbnRpdHlfdHlwZSI6Im5vZGUifX1dfX19',
       'search_description' => 'This, is the query filters string, separated, by comma',
@@ -104,9 +114,7 @@ class HakuvahtiSubscribeControllerTest extends KernelTestBase {
    */
   private function makeRequest(array $body = []): SymfonyResponse {
     $url = Url::fromRoute('helfi_hakuvahti.subscribe');
-
     $request = $this->getMockedRequest($url->toString(), 'POST', document: $body);
-
     return $this->processRequest($request);
   }
 
