@@ -41,6 +41,13 @@ final readonly class Hakuvahti implements HakuvahtiInterface {
   /**
    * {@inheritdoc}
    */
+  public function renew(string $subscriptionHash, string $subscriptionId): void {
+    $this->makeRequest('GET', "/subscription/renew/{$subscriptionId}/{$subscriptionHash}");
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function unsubscribe(string $hash, string $subscription): void {
     $this->makeRequest('DELETE', "/subscription/delete/{$subscription}/{$hash}");
   }
