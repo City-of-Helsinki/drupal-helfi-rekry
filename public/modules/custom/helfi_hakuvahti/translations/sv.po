@@ -30,6 +30,34 @@ msgid "Please wait while the saved search is being enabled."
 msgstr "Vänligen vänta medan sökvakten aktiveras."
 
 msgctxt "Hakuvahti"
+msgid "Renewing saved search"
+msgstr "Förnyar sökvakten"
+
+msgctxt "Hakuvahti"
+msgid "Please wait while the saved search is being renewed."
+msgstr "Vänligen vänta medan sökvakten förnyas."
+
+msgctxt "Hakuvahti"
+msgid "Renew saved search"
+msgstr "Förnya sökvakten"
+
+msgctxt "Hakuvahti"
+msgid "Search renewed successfully"
+msgstr "Förnyelsen av sökvakten lyckades"
+
+msgctxt "Hakuvahti"
+msgid "Your saved search has been renewed."
+msgstr "Din sökvakt har förnyats."
+
+msgctxt "Hakuvahti"
+msgid "Renewal failed"
+msgstr "Förnyelse misslyckades"
+
+msgctxt "Hakuvahti"
+msgid "Renewing saved search failed. Please try again."
+msgstr "Förnyelse av sparad sökning misslyckades. Försök igen."
+
+msgctxt "Hakuvahti"
 msgid "Deleting saved search"
 msgstr "Tar bort sökvakten"
 

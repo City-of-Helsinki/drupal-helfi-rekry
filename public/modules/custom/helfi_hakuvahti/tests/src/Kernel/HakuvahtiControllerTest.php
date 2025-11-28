@@ -103,6 +103,15 @@ class HakuvahtiControllerTest extends KernelTestBase {
         ],
       ],
       [
+        'helfi_hakuvahti.renew',
+        [
+          ['GET', 'Renew saved search'],
+          ['POST', 'Search renewed successfully'],
+          ['POST', 'Renewal failed'],
+          ['POST', 'Renewal failed'],
+        ],
+      ],
+      [
         'helfi_hakuvahti.unsubscribe',
         [
           ['GET', 'Delete saved search'],

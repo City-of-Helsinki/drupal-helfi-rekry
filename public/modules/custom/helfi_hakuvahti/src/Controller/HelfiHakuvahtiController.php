@@ -98,6 +98,75 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
   }
 
   /**
+   * Handles the renewal of a saved search.
+   *
+   * @return array
+   *   A render array for the renewal form.
+   */
+  public function renew(Request $request): array {
+    $hash = $request->query->get('hash');
+    $subscription = $request->query->get('subscription');
+
+    if ($request->isMethod('POST')) {
+      return $this->handleRenewFormSubmission($hash, $subscription);
+    }
+
+    return [
+      '#theme' => 'hakuvahti_form',
+      '#title' => $this->t('Renewing saved search', [], ['context' => 'Hakuvahti']),
+      '#message' => $this->t('Please wait while the saved search is being renewed.', [], ['context' => 'Hakuvahti']),
+      '#button_text' => $this->t('Renew saved search', [], ['context' => 'Hakuvahti']),
+      '#autosubmit' => TRUE,
+      '#action_url' => Url::fromRoute('helfi_hakuvahti.renew', [], [
+        'query' => [
+          'hash' => $hash,
+          'subscription' => $subscription,
+        ],
+      ]),
+    ];
+  }
+
+  /**
+   * Handles the renewal form submission.
+   *
+   * @param string $hash
+   *   The hash parameter.
+   * @param string $subscription
+   *   The subscription parameter.
+   *
+   * @return array
+   *   A render array for the renewal result.
+   */
+  private function handleRenewFormSubmission(string $hash, string $subscription): array {
+    try {
+      $this->hakuvahti->renew($hash, $subscription);
+
+      return [
+        '#theme' => 'hakuvahti_confirmation',
+        '#title' => $this->t('Search renewed successfully', [], ['context' => 'Hakuvahti']),
+        '#message' => $this->t('Your saved search has been renewed.', [], ['context' => 'Hakuvahti']),
+      ];
+    }
+    catch (HakuvahtiException $exception) {
+      // 404 error is returned if:
+      // * Submission has been deleted after it expired.
+      // * Submission does not exist.
+      if ($exception->getCode() === 404) {
+        $this->logger?->info('Hakuvahti renewal request failed: ' . $exception->getMessage());
+      }
+      else {
+        $this->logger?->error('Hakuvahti renewal request failed: ' . $exception->getMessage());
+      }
+    }
+
+    return [
+      '#theme' => 'hakuvahti_confirmation',
+      '#title' => $this->t('Renewal failed', [], ['context' => 'Hakuvahti']),
+      '#message' => $this->t('Renewing saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
+    ];
+  }
+
+  /**
    * Handles the unsubscription from a saved search.
    *
    * @return array
