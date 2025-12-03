@@ -24,6 +24,13 @@ interface HakuvahtiInterface {
   public function confirm(string $subscriptionHash, string $subscriptionId): void;
 
   /**
+   * Renew hakuvahti subscription.
+   *
+   * @throws \Drupal\helfi_hakuvahti\HakuvahtiException
+   */
+  public function renew(string $subscriptionHash, string $subscriptionId): void;
+
+  /**
    * Unsubscribe hakuvahti subscription.
    *
    * @throws \Drupal\helfi_hakuvahti\HakuvahtiException

@@ -30,6 +30,34 @@ msgid "Please wait while the saved search is being enabled."
 msgstr "Hakuvahtia aktivoidaan, odota hetki."
 
 msgctxt "Hakuvahti"
+msgid "Renewing saved search"
+msgstr "Hakuvahdin tilauksen jatkaminen"
+
+msgctxt "Hakuvahti"
+msgid "Please wait while the saved search is being renewed."
+msgstr "Hakuvahdin tilausta jatketaan, odota hetki."
+
+msgctxt "Hakuvahti"
+msgid "Renew saved search"
+msgstr "Jatka hakuvahdin tilausta"
+
+msgctxt "Hakuvahti"
+msgid "Search renewed successfully"
+msgstr "Hakuvahdin tilauksen jatkaminen onnistui"
+
+msgctxt "Hakuvahti"
+msgid "Your saved search has been renewed."
+msgstr "Hakuvahtisi tilausta on jatkettu."
+
+msgctxt "Hakuvahti"
+msgid "Renewal failed"
+msgstr "Tilauksen jatkaminen epäonnistui"
+
+msgctxt "Hakuvahti"
+msgid "Renewing saved search failed. Please try again."
+msgstr "Hakuvahdin tilauksen jatkaminen epäonnistui. Yritä uudelleen."
+
+msgctxt "Hakuvahti"
 msgid "Deleting saved search"
 msgstr "Hakuvahtia poistetaan"
 
