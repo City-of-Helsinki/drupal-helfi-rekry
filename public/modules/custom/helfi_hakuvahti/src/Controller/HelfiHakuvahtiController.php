@@ -69,19 +69,34 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
    */
   private function handleConfirmFormSubmission(string $hash, string $subscription): array {
     try {
-      $this->hakuvahti->confirm($hash, $subscription);
+      // Check subscription status first.
+      $status = $this->hakuvahti->getStatus($hash, $subscription);
 
-      return [
-        '#theme' => 'hakuvahti_confirmation',
-        '#title' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
-        '#message' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
-      ];
+      // Already confirmed.
+      if ($status === 'active') {
+        return [
+          '#theme' => 'hakuvahti_confirmation',
+          '#title' => $this->t('Saved search already confirmed', [], ['context' => 'Hakuvahti']),
+          '#message' => [
+            ['#markup' => '<p>' . $this->t('You have already confirmed this saved search.', [], ['context' => 'Hakuvahti']) . '</p>'],
+            ['#markup' => '<p>' . $this->t('You will receive email alerts about new search results up to once a day.', [], ['context' => 'Hakuvahti']) . '</p>'],
+            ['#markup' => '<p>' . $this->t('Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time.', [], ['context' => 'Hakuvahti']) . '</p>'],
+          ],
+        ];
+      }
+
+      // Status is 'inactive' - proceed with confirmation.
+      if ($status === 'inactive') {
+        $this->hakuvahti->confirm($hash, $subscription);
+
+        return [
+          '#theme' => 'hakuvahti_confirmation',
+          '#title' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
+          '#message' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
+        ];
+      }
     }
     catch (HakuvahtiException $exception) {
-      // 404 error is returned if:
-      // * Submission has been deleted after it expired.
-      // * Submission has already been confirmed.
-      // * Submission does not exist.
       if ($exception->getCode() === 404) {
         $this->logger?->info('Hakuvahti confirmation request failed: ' . $exception->getMessage());
       }
