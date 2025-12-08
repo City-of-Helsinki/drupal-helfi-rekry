@@ -30,6 +30,22 @@ msgid "Please wait while the saved search is being enabled."
 msgstr "Hakuvahtia aktivoidaan, odota hetki."
 
 msgctxt "Hakuvahti"
+msgid "Saved search already confirmed"
+msgstr "Hakuvahti on jo vahvistettu"
+
+msgctxt "Hakuvahti"
+msgid "You have already confirmed this saved search."
+msgstr "Olet jo vahvistanut tämän hakuvahdin."
+
+msgctxt "Hakuvahti"
+msgid "You will receive email alerts about new search results up to once a day."
+msgstr "Saat sähköpostiisi tiedon uusista osumista korkeintaan kerran päivässä."
+
+msgctxt "Hakuvahti"
+msgid "Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time."
+msgstr "Jokaisessa sähköpostissa on peruutuslinkki, josta voit lopettaa tämän hakuvahdin tilauksen. Voit koska tahansa tilata uusia hakuvahteja."
+
+msgctxt "Hakuvahti"
 msgid "Renewing saved search"
 msgstr "Hakuvahdin tilauksen jatkaminen"
 

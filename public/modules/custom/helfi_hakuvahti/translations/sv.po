@@ -30,6 +30,22 @@ msgid "Please wait while the saved search is being enabled."
 msgstr "Vänligen vänta medan sökvakten aktiveras."
 
 msgctxt "Hakuvahti"
+msgid "Saved search already confirmed"
+msgstr "Sökvakten har redan bekräftats"
+
+msgctxt "Hakuvahti"
+msgid "You have already confirmed this saved search."
+msgstr "Du har redan bekräftat denna sökvakt."
+
+msgctxt "Hakuvahti"
+msgid "You will receive email alerts about new search results up to once a day."
+msgstr "Du får information om nya träffar till din e-post högst en gång per dag."
+
+msgctxt "Hakuvahti"
+msgid "Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time."
+msgstr "Varje e-postmeddelande innehåller en annulleringslänk via vilken du kan sluta beställningen av denna sökvakt. Du kan när som helst beställa nya sökvakter."
+
+msgctxt "Hakuvahti"
 msgid "Renewing saved search"
 msgstr "Förnyar sökvakten"
 
