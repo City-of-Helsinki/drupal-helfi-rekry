@@ -1,2 +1,8 @@
-<p>{{ message }}</p>
+{% if message is iterable %}
+  {% for item in message %}
+    <p>{{ item }}</p>
+  {% endfor %}
+{% else %}
+  <p>{{ message }}</p>
+{% endif %}
 <div class="page-divider"></div>

@@ -41,8 +41,34 @@ final readonly class Hakuvahti implements HakuvahtiInterface {
   /**
    * {@inheritdoc}
    */
-  public function unsubscribe(string $hash, string $subscription): void {
-    $this->makeRequest('DELETE', "/subscription/delete/{$subscription}/{$hash}");
+  public function renew(string $subscriptionHash, string $subscriptionId): void {
+    $this->makeRequest('GET', "/subscription/renew/{$subscriptionId}/{$subscriptionHash}");
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function unsubscribe(string $subscriptionHash, string $subscriptionId): void {
+    $this->makeRequest('DELETE', "/subscription/delete/{$subscriptionId}/{$subscriptionHash}");
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getStatus(string $subscriptionHash, string $subscriptionId): ?string {
+    try {
+      $response = $this->makeRequest('GET', "/subscription/status/{$subscriptionId}/{$subscriptionHash}");
+    }
+    catch (HakuvahtiException $exception) {
+      // 404 means subscription not found.
+      if ($exception->getCode() === 404) {
+        return NULL;
+      }
+      throw $exception;
+    }
+
+    $data = json_decode($response->getBody()->getContents(), TRUE);
+    return $data['subscriptionStatus'] ?? NULL;
   }
 
   /**

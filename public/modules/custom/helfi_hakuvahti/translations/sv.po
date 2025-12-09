@@ -30,6 +30,50 @@ msgid "Please wait while the saved search is being enabled."
 msgstr "Vänligen vänta medan sökvakten aktiveras."
 
 msgctxt "Hakuvahti"
+msgid "Saved search already confirmed"
+msgstr "Sökvakten har redan bekräftats"
+
+msgctxt "Hakuvahti"
+msgid "You have already confirmed this saved search."
+msgstr "Du har redan bekräftat denna sökvakt."
+
+msgctxt "Hakuvahti"
+msgid "You will receive email alerts about new search results up to once a day."
+msgstr "Du får information om nya träffar till din e-post högst en gång per dag."
+
+msgctxt "Hakuvahti"
+msgid "Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time."
+msgstr "Varje e-postmeddelande innehåller en annulleringslänk via vilken du kan sluta beställningen av denna sökvakt. Du kan när som helst beställa nya sökvakter."
+
+msgctxt "Hakuvahti"
+msgid "Renewing saved search"
+msgstr "Förnyar sökvakten"
+
+msgctxt "Hakuvahti"
+msgid "Please wait while the saved search is being renewed."
+msgstr "Vänta medan sökvakten förnyas."
+
+msgctxt "Hakuvahti"
+msgid "Renew saved search"
+msgstr "Fortsätt beväkningen"
+
+msgctxt "Hakuvahti"
+msgid "Search renewed successfully"
+msgstr "Sökvakten förnyades"
+
+msgctxt "Hakuvahti"
+msgid "Your saved search has been renewed."
+msgstr "Din sökvakt har förnyats."
+
+msgctxt "Hakuvahti"
+msgid "Renewal failed"
+msgstr "Sökvakten förnyades inte"
+
+msgctxt "Hakuvahti"
+msgid "Renewing saved search failed. Please try again."
+msgstr "Det gick inte att förnya sökvakten. Försök på nytt."
+
+msgctxt "Hakuvahti"
 msgid "Deleting saved search"
 msgstr "Tar bort sökvakten"
 
