@@ -78,9 +78,9 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
           '#theme' => 'hakuvahti_confirmation',
           '#title' => $this->t('Saved search already confirmed', [], ['context' => 'Hakuvahti']),
           '#message' => [
-            ['#markup' => '<p>' . $this->t('You have already confirmed this saved search.', [], ['context' => 'Hakuvahti']) . '</p>'],
-            ['#markup' => '<p>' . $this->t('You will receive email alerts about new search results up to once a day.', [], ['context' => 'Hakuvahti']) . '</p>'],
-            ['#markup' => '<p>' . $this->t('Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time.', [], ['context' => 'Hakuvahti']) . '</p>'],
+            $this->t('You have already confirmed this saved search.', [], ['context' => 'Hakuvahti']),
+            $this->t('You will receive email alerts about new search results up to once a day.', [], ['context' => 'Hakuvahti']),
+            $this->t('Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time.', [], ['context' => 'Hakuvahti']),
           ],
         ];
       }
