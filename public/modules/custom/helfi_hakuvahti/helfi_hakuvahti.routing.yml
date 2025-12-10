@@ -13,6 +13,14 @@ helfi_hakuvahti.confirm:
   requirements:
     _permission: 'access content'
 
+helfi_hakuvahti.renew:
+  path: '/hakuvahti/renew'
+  defaults:
+    _title: 'Renew saved search'
+    _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiController::renew'
+  requirements:
+    _permission: 'access content'
+
 helfi_hakuvahti.unsubscribe:
   path: '/hakuvahti/unsubscribe'
   defaults:

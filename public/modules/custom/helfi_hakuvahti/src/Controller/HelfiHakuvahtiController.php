@@ -69,19 +69,34 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
    */
   private function handleConfirmFormSubmission(string $hash, string $subscription): array {
     try {
-      $this->hakuvahti->confirm($hash, $subscription);
+      // Check subscription status first.
+      $status = $this->hakuvahti->getStatus($hash, $subscription);
 
-      return [
-        '#theme' => 'hakuvahti_confirmation',
-        '#title' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
-        '#message' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
-      ];
+      // Already confirmed.
+      if ($status === 'active') {
+        return [
+          '#theme' => 'hakuvahti_confirmation',
+          '#title' => $this->t('Saved search already confirmed', [], ['context' => 'Hakuvahti']),
+          '#message' => [
+            $this->t('You have already confirmed this saved search.', [], ['context' => 'Hakuvahti']),
+            $this->t('You will receive email alerts about new search results up to once a day.', [], ['context' => 'Hakuvahti']),
+            $this->t('Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time.', [], ['context' => 'Hakuvahti']),
+          ],
+        ];
+      }
+
+      // Status is 'inactive' - proceed with confirmation.
+      if ($status === 'inactive') {
+        $this->hakuvahti->confirm($hash, $subscription);
+
+        return [
+          '#theme' => 'hakuvahti_confirmation',
+          '#title' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
+          '#message' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
+        ];
+      }
     }
     catch (HakuvahtiException $exception) {
-      // 404 error is returned if:
-      // * Submission has been deleted after it expired.
-      // * Submission has already been confirmed.
-      // * Submission does not exist.
       if ($exception->getCode() === 404) {
         $this->logger?->info('Hakuvahti confirmation request failed: ' . $exception->getMessage());
       }
@@ -94,6 +109,75 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
       '#theme' => 'hakuvahti_confirmation',
       '#title' => $this->t('Confirmation failed', [], ['context' => 'Hakuvahti']),
       '#message' => $this->t('Confirming saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
+    ];
+  }
+
+  /**
+   * Handles the renewal of a saved search.
+   *
+   * @return array
+   *   A render array for the renewal form.
+   */
+  public function renew(Request $request): array {
+    $hash = $request->query->get('hash');
+    $subscription = $request->query->get('subscription');
+
+    if ($request->isMethod('POST')) {
+      return $this->handleRenewFormSubmission($hash, $subscription);
+    }
+
+    return [
+      '#theme' => 'hakuvahti_form',
+      '#title' => $this->t('Renewing saved search', [], ['context' => 'Hakuvahti']),
+      '#message' => $this->t('Please wait while the saved search is being renewed.', [], ['context' => 'Hakuvahti']),
+      '#button_text' => $this->t('Renew saved search', [], ['context' => 'Hakuvahti']),
+      '#autosubmit' => TRUE,
+      '#action_url' => Url::fromRoute('helfi_hakuvahti.renew', [], [
+        'query' => [
+          'hash' => $hash,
+          'subscription' => $subscription,
+        ],
+      ]),
+    ];
+  }
+
+  /**
+   * Handles the renewal form submission.
+   *
+   * @param string $hash
+   *   The hash parameter.
+   * @param string $subscription
+   *   The subscription parameter.
+   *
+   * @return array
+   *   A render array for the renewal result.
+   */
+  private function handleRenewFormSubmission(string $hash, string $subscription): array {
+    try {
+      $this->hakuvahti->renew($hash, $subscription);
+
+      return [
+        '#theme' => 'hakuvahti_confirmation',
+        '#title' => $this->t('Search renewed successfully', [], ['context' => 'Hakuvahti']),
+        '#message' => $this->t('Your saved search has been renewed.', [], ['context' => 'Hakuvahti']),
+      ];
+    }
+    catch (HakuvahtiException $exception) {
+      // 404 error is returned if:
+      // * Submission has been deleted after it expired.
+      // * Submission does not exist.
+      if ($exception->getCode() === 404) {
+        $this->logger?->info('Hakuvahti renewal request failed: ' . $exception->getMessage());
+      }
+      else {
+        $this->logger?->error('Hakuvahti renewal request failed: ' . $exception->getMessage());
+      }
+    }
+
+    return [
+      '#theme' => 'hakuvahti_confirmation',
+      '#title' => $this->t('Renewal failed', [], ['context' => 'Hakuvahti']),
+      '#message' => $this->t('Renewing saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
     ];
   }
 
