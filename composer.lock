@@ -2262,17 +2262,17 @@
         },
         {
             "name": "drupal/ckeditor5_paste_filter",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/ckeditor5_paste_filter.git",
-                "reference": "1.1.0"
+                "reference": "1.1.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/ckeditor5_paste_filter-1.1.0.zip",
-                "reference": "1.1.0",
-                "shasum": "cb0ea9c1a0b070e38ad4caeefe05f8a1d0e81c9f"
+                "url": "https://ftp.drupal.org/files/projects/ckeditor5_paste_filter-1.1.1.zip",
+                "reference": "1.1.1",
+                "shasum": "a028a8a744c64a0dcc5168e00deec7d38119c1ce"
             },
             "require": {
                 "drupal/core": "^9.3 || ^10 || ^11"
@@ -2280,8 +2280,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.1.0",
-                    "datestamp": "1740597815",
+                    "version": "1.1.1",
+                    "datestamp": "1765403902",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -2516,16 +2516,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "10.5.7",
+            "version": "10.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "6f1320aba17a410ed1c90720e2facbe81f4d23c4"
+                "reference": "cbb75682c431418e35d14bd40be939fb433b2def"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/6f1320aba17a410ed1c90720e2facbe81f4d23c4",
-                "reference": "6f1320aba17a410ed1c90720e2facbe81f4d23c4",
+                "url": "https://api.github.com/repos/drupal/core/zipball/cbb75682c431418e35d14bd40be939fb433b2def",
+                "reference": "cbb75682c431418e35d14bd40be939fb433b2def",
                 "shasum": ""
             },
             "require": {
@@ -2675,13 +2675,13 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "support": {
-                "source": "https://github.com/drupal/core/tree/10.5.7"
+                "source": "https://github.com/drupal/core/tree/10.5.8"
             },
-            "time": "2025-12-04T08:22:44+00:00"
+            "time": "2025-12-09T19:27:53+00:00"
         },
         {
             "name": "drupal/core-composer-scaffold",
-            "version": "10.5.7",
+            "version": "10.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core-composer-scaffold.git",
@@ -2725,7 +2725,7 @@
                 "drupal"
             ],
             "support": {
-                "source": "https://github.com/drupal/core-composer-scaffold/tree/10.6.0-beta1"
+                "source": "https://github.com/drupal/core-composer-scaffold/tree/10.6.0-rc1"
             },
             "time": "2024-08-22T14:31:30+00:00"
         },
@@ -4396,16 +4396,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "6.16.9",
+            "version": "6.16.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "885611a3574d536040e5f20a23ed15bb955f4637"
+                "reference": "7737bb078755ae8fa4c78652a7cf7eb6624934d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/885611a3574d536040e5f20a23ed15bb955f4637",
-                "reference": "885611a3574d536040e5f20a23ed15bb955f4637",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/7737bb078755ae8fa4c78652a7cf7eb6624934d0",
+                "reference": "7737bb078755ae8fa4c78652a7cf7eb6624934d0",
                 "shasum": ""
             },
             "require": {
@@ -4424,10 +4424,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.16.9",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.16.10",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2025-12-08T12:43:39+00:00"
+            "time": "2025-12-11T08:03:37+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
