@@ -8,7 +8,7 @@ helfi_hakuvahti.subscribe:
 helfi_hakuvahti.confirm:
   path: '/hakuvahti/confirm'
   defaults:
-    _title: 'Confirm saved search'
+    _title: 'Saved search confirmation'
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiController::confirm'
   requirements:
     _permission: 'access content'
@@ -24,7 +24,7 @@ helfi_hakuvahti.renew:
 helfi_hakuvahti.unsubscribe:
   path: '/hakuvahti/unsubscribe'
   defaults:
-    _title: 'Delete saved search'
+    _title: 'Saved search deletion'
     _controller: '\Drupal\helfi_hakuvahti\Controller\HelfiHakuvahtiController::unsubscribe'
   requirements:
     _permission: 'access content'

@@ -92,7 +92,11 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
         return [
           '#theme' => 'hakuvahti_confirmation',
           '#title' => $this->t('Search saved successfully', [], ['context' => 'Hakuvahti']),
-          '#message' => $this->t('You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages.', [], ['context' => 'Hakuvahti']),
+          '#message' => [
+            $this->t('You will receive email alerts about new search results up to once a day.', [], ['context' => 'Hakuvahti']),
+            $this->t('Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time.', [], ['context' => 'Hakuvahti']),
+            $this->t('Each saved search is valid for 6 months.', [], ['context' => 'Hakuvahti']),
+          ]
         ];
       }
     }
@@ -107,8 +111,8 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
 
     return [
       '#theme' => 'hakuvahti_confirmation',
-      '#title' => $this->t('Confirmation failed', [], ['context' => 'Hakuvahti']),
-      '#message' => $this->t('Confirming saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
+      '#title' => $this->t('Confirmation of saved search failed', [], ['context' => 'Hakuvahti']),
+      '#message' => $this->t('The confirmation of your saved search failed. You can try confirming your saved search again from your email.', [], ['context' => 'Hakuvahti']),
     ];
   }
 
@@ -227,9 +231,12 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
 
       return [
         '#theme' => 'hakuvahti_confirmation',
-        '#title' => $this->t('The saved search has been deleted', [], ['context' => 'Hakuvahti']),
-        '#message' => $this->t('You can save more searches at any time.', [], ['context' => 'Hakuvahti']),
-        '#link' => Link::fromTextAndUrl($this->t('Return to open jobs front page', [], ['context' => 'Hakuvahti']), Url::fromUri('internal:/')),
+        '#title' => $this->t('Saved search deleted', [], ['context' => 'Hakuvahti']),
+        '#message' => [
+          $this->t('The saved search was successfully deleted.', [], ['context' => 'Hakuvahti']),
+          $this->t('You can save more searches at any time.', [], ['context' => 'Hakuvahti']),
+        ],
+        '#link' => Link::fromTextAndUrl($this->t('Save a new search for jobs', [], ['context' => 'Hakuvahti']), Url::fromUri('internal:/')),
       ];
     }
     catch (HakuvahtiException $exception) {
@@ -237,8 +244,8 @@ final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwa
 
       return [
         '#theme' => 'hakuvahti_confirmation',
-        '#title' => $this->t('Deleting failed', [], ['context' => 'Hakuvahti']),
-        '#message' => $this->t('Deleting saved search failed. Please try again.', [], ['context' => 'Hakuvahti']),
+        '#title' => $this->t('Failed to delete saved search', [], ['context' => 'Hakuvahti']),
+        '#message' => $this->t('Failed to delete saved search. You can try deleting the saved search again from your email.', [], ['context' => 'Hakuvahti']),
       ];
     }
   }
