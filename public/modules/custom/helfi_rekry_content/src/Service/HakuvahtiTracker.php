@@ -133,7 +133,7 @@ class HakuvahtiTracker {
 
     try {
       // Set csv headers.
-      fputcsv($handle, $this::CSV_HEADERS, $delimiter);
+      fputcsv($handle, $this::CSV_HEADERS, $delimiter, escape: '');
 
       // Add new rows to csv.
       foreach ($rows as $row) {

@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Controller for handling Hakuvahti confirmations and unsubscriptions.
  */
-final class HelfiHakuvahtiController extends ControllerBase implements LoggerAwareInterface {
+final class HakuvahtiController extends ControllerBase implements LoggerAwareInterface {
 
   use StringTranslationTrait;
   use LoggerAwareTrait;
