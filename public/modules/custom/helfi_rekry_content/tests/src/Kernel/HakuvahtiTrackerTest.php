@@ -110,4 +110,74 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     $this->assertContains($needle, explode(';', $csv));
   }
 
+  /**
+   * Test deleting old entries.
+   */
+  public function testDeleteOldEntries(): void {
+    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
+    $database = $this->container->get('database');
+
+    $tracker->saveSelectedFilters([
+      'Ammattiala' => ['Sosiaali- ja terveysala'],
+      'Sijainti' => ['Helsinki'],
+    ]);
+
+    // Insert an old entry directly (4 years ago).
+    $old_date = (new \DateTime())->modify('-4 years')->format('Y-m-d H:i:s');
+    $database->insert('hakuvahti_selected_filters')
+      ->fields([
+        'token' => 'old_token_123',
+        'filter_name' => 'Palvelussuhteen tyyppi',
+        'filter_value' => 'Vakituinen',
+        'created_at' => $old_date,
+      ])
+      ->execute();
+
+    // Verify total count in DB is 3.
+    $count = $database->select('hakuvahti_selected_filters')->countQuery()->execute()->fetchField();
+    $this->assertEquals(3, $count, 'Database should contain 3 rows before cleanup.');
+
+    // Run the deletion logic.
+    $deleted = $tracker->deleteOldEntries();
+    $this->assertEquals(1, $deleted, 'Should return 1 deleted row.');
+
+    // Verify DB state.
+    $remaining_rows = $database->select('hakuvahti_selected_filters', 't')
+      ->fields('t', ['token'])
+      ->execute()
+      ->fetchAll();
+
+    $this->assertCount(2, $remaining_rows, 'Database should have 2 rows remaining.');
+
+    // Ensure the specific "old" token is gone.
+    foreach ($remaining_rows as $row) {
+      $this->assertNotEquals('old_token_123', $row->token, 'The old token entry should have been deleted.');
+    }
+  }
+
+  /**
+   * Test that deleteOldEntries returns 0 when no old entries exist.
+   */
+  public function testDeleteOldEntriesNoOldEntries(): void {
+    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
+    $database = $this->container->get('database');
+
+    // Save recent filters only.
+    $tracker->saveSelectedFilters([
+      'Kieli' => ['fi'],
+    ]);
+
+    // Verify entry exists.
+    $count = $database->select('hakuvahti_selected_filters')->countQuery()->execute()->fetchField();
+    $this->assertEquals(1, $count, 'Database should contain 1 row.');
+
+    // Delete should return 0 since no entries are older than 3 years.
+    $deleted = $tracker->deleteOldEntries();
+    $this->assertEquals(0, $deleted, 'Should return 0 deleted rows.');
+
+    // Verify the entry still exists.
+    $count = $database->select('hakuvahti_selected_filters')->countQuery()->execute()->fetchField();
+    $this->assertEquals(1, $count, 'Database should still contain 1 row.');
+  }
+
 }
