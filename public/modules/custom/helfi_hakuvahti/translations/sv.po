@@ -10,16 +10,24 @@ msgid "Search saved successfully"
 msgstr "Beställningen av sökvakten lyckades"
 
 msgctxt "Hakuvahti"
-msgid "You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages."
-msgstr "Du får e-post om sökvaktens nya träffar. Du kan ta bort sökvakten via avbeställningslänkarna i e-postmeddelandena."
+msgid "You will receive email alerts about new search results up to once a day."
+msgstr "Du får information om nya träffar till din e-post högst en gång per dag."
 
 msgctxt "Hakuvahti"
-msgid "Confirmation failed"
-msgstr "Bekräftelse misslyckades"
+msgid "Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time."
+msgstr "Varje e-postmeddelande innehåller en annulleringslänk via vilken du kan sluta beställningen av denna sökvakt. Du kan när som helst beställa nya sökvakter."
 
 msgctxt "Hakuvahti"
-msgid "Confirming saved search failed. Please try again."
-msgstr "Bekräftelse av sparad sökning misslyckades. Försök igen."
+msgid "Each saved search is valid for 6 months."
+msgstr "En sökvakt är i kraft i sex månader."
+
+msgctxt "Hakuvahti"
+msgid "Confirmation of saved search failed"
+msgstr "Beställningen av sökvakten misslyckades"
+
+msgctxt "Hakuvahti"
+msgid "The confirmation of your saved search failed. You can try confirming your saved search again from your email."
+msgstr "Beställningen av sökvakten misslyckades. Du kan försöka bekräfta sökvakten på nytt via din e-post."
 
 msgctxt "Hakuvahti"
 msgid "Enabling saved search"
@@ -86,23 +94,31 @@ msgid "Delete saved search"
 msgstr "Radera sökvakten"
 
 msgctxt "Hakuvahti"
-msgid "Deleting failed"
-msgstr "Radering misslyckades"
+msgid "Failed to delete saved search"
+msgstr "Raderingen av sökvakten misslyckades"
 
 msgctxt "Hakuvahti"
-msgid "Deleting saved search failed. Please try again."
-msgstr ""
+msgid "Failed to delete saved search. You can try deleting the saved search again from your email."
+msgstr "Raderingen av sökvakten misslyckades. Du kan försöka radera sökvakten på nytt via din e-post."
 
 msgctxt "Hakuvahti"
-msgid "The saved search has been deleted"
+msgid "Saved search deleted"
 msgstr "Sökvakten har raderats"
 
 msgctxt "Hakuvahti"
-msgid "Return to open jobs front page"
-msgstr "Gå tillbaka till startsidan för lediga jobb."
+msgid "The saved search was successfully deleted."
+msgstr "Sökvakten har nu raderats."
 
-msgid "Confirm saved search"
-msgstr "Bekräfta sökvakten"
+msgctxt "Hakuvahti"
+msgid "You can save more searches at any time."
+msgstr "Du kan när som helst beställa nya sökvakter."
 
-msgid "Delete saved search"
-msgstr "Ta bort sökvakten"
+msgctxt "Hakuvahti"
+msgid "Save a new search for jobs"
+msgstr "Beställ en ny sökvakt för lediga jobb"
+
+msgid "Saved search confirmation"
+msgstr "Bekräftelse av sökvakten"
+
+msgid "Saved search deletion"
+msgstr "Radering av sökvakten"

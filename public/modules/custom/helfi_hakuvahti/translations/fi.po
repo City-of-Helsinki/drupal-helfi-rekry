@@ -10,16 +10,24 @@ msgid "Search saved successfully"
 msgstr "Hakuvahdin tilaus onnistui"
 
 msgctxt "Hakuvahti"
-msgid "You will receive an email notification of any new results matching your saved search criteria. You can delete the saved search via the cancellation link in the email messages."
-msgstr "Saat sähköpostia hakuvahdin uusista osumista. Voit halutessasi poistaa hakuvahdin sähköpostien peruutuslinkeistä."
+msgid "You will receive email alerts about new search results up to once a day."
+msgstr "Saat sähköpostiisi tiedon uusista osumista korkeintaan kerran päivässä."
 
 msgctxt "Hakuvahti"
-msgid "Confirmation failed"
-msgstr "Vahvistus epäonnistui."
+msgid "Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time."
+msgstr "Jokaisessa sähköpostissa on peruutuslinkki, josta voit lopettaa tämän hakuvahdin tilauksen. Voit koska tahansa tilata uusia hakuvahteja."
 
 msgctxt "Hakuvahti"
-msgid "Confirming saved search failed. Please try again."
-msgstr "Hakuvahdin vahvistus epäonnistui. Yritä uudelleen."
+msgid "Each saved search is valid for 6 months."
+msgstr "Hakuvahti on voimassa 6 kuukautta."
+
+msgctxt "Hakuvahti"
+msgid "Confirmation of saved search failed"
+msgstr "Hakuvahdin vahvistus epäonnistui"
+
+msgctxt "Hakuvahti"
+msgid "The confirmation of your saved search failed. You can try confirming your saved search again from your email."
+msgstr "Hakuvahdin vahvistus epäonnistui. Voit kokeilla vahvistaa hakuvahdin uudelleen sähköpostistasi."
 
 msgctxt "Hakuvahti"
 msgid "Enabling saved search"
@@ -86,23 +94,31 @@ msgid "Delete saved search"
 msgstr "Poista hakuvahti"
 
 msgctxt "Hakuvahti"
-msgid "Deleting failed"
-msgstr "Poistaminen epäonnistui"
+msgid "Failed to delete saved search"
+msgstr "Hakuvahdin poistaminen epäonnistui"
 
 msgctxt "Hakuvahti"
-msgid "Deleting saved search failed. Please try again."
-msgstr "Hakuvahdin poisto epäonnistui. Yritä uudelleen."
+msgid "Failed to delete saved search. You can try deleting the saved search again from your email."
+msgstr "Hakuvahdin poistaminen epäonnistui. Voit kokeilla poistaa hakuvahdin uudelleen sähköpostistasi."
 
 msgctxt "Hakuvahti"
-msgid "The saved search has been deleted"
+msgid "Saved search deleted"
 msgstr "Hakuvahti on poistettu"
 
 msgctxt "Hakuvahti"
-msgid "Return to open jobs front page"
-msgstr "Palaa avoimien työpaikkojen etusivulle."
+msgid "The saved search was successfully deleted."
+msgstr "Hakuvahti on nyt poistettu."
 
-msgid "Confirm saved search"
-msgstr "Vahvista hakuvahti"
+msgctxt "Hakuvahti"
+msgid "You can save more searches at any time."
+msgstr "Voit koska tahansa tilata uusia hakuvahteja."
 
-msgid "Delete saved search"
-msgstr "Poista hakuvahti"
+msgctxt "Hakuvahti"
+msgid "Save a new search for jobs"
+msgstr "Tilaa uusi avoimien työpaikkojen hakuvahti"
+
+msgid "Saved search confirmation"
+msgstr "Hakuvahdin vahvistaminen"
+
+msgid "Saved search deletion"
+msgstr "Hakuvahdin poistaminen"
