@@ -27,7 +27,7 @@ msgstr "Hakuvahdin vahvistus epäonnistui"
 
 msgctxt "Hakuvahti"
 msgid "The confirmation of your saved search failed. You can try confirming your saved search again from your email."
-msgstr "HHakuvahdin vahvistus epäonnistui. Voit kokeilla vahvistaa hakuvahdin uudelleen sähköpostistasi."
+msgstr "Hakuvahdin vahvistus epäonnistui. Voit kokeilla vahvistaa hakuvahdin uudelleen sähköpostistasi."
 
 msgctxt "Hakuvahti"
 msgid "Enabling saved search"
