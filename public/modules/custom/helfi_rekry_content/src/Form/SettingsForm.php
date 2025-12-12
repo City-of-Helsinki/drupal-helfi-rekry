@@ -5,53 +5,26 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\TypedConfigManagerInterface;
+use Drupal\Core\DependencyInjection\AutowireTrait;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\node\Entity\Node;
 use Drupal\path_alias\AliasManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Change helfi_rekry_content settings, e.g. set job listings 403 redirect path.
  */
 class SettingsForm extends ConfigFormBase {
 
-  /**
-   * The path alias manager.
-   *
-   * @var \Drupal\path_alias\AliasManagerInterface
-   */
-  protected AliasManagerInterface $aliasManager;
+  use AutowireTrait;
 
-  /**
-   * The path validator.
-   *
-   * @var \Drupal\Core\Path\PathValidatorInterface
-   */
-  protected PathValidatorInterface $pathValidator;
-
-  /**
-   * Constructs a SettingsForm object for helfi_rekry_content.
-   *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The factory for configuration objects.
-   * @param \Drupal\path_alias\AliasManagerInterface $alias_manager
-   *   The path alias manager.
-   */
-  public function __construct(ConfigFactoryInterface $config_factory, AliasManagerInterface $alias_manager) {
-    parent::__construct($config_factory);
-    $this->aliasManager = $alias_manager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) : self {
-    return new self(
-      $container->get('config.factory'),
-      $container->get('path_alias.manager'),
-    );
+  public function __construct(
+    ConfigFactoryInterface $configFactory,
+    TypedConfigManagerInterface $typedConfigManager,
+    protected readonly AliasManagerInterface $aliasManager,
+  ) {
+    parent::__construct($configFactory, $typedConfigManager);
   }
 
   /**
