@@ -649,3 +649,33 @@ function helfi_rekry_content_migration_plugins_alter(array &$migrations): void {
     $migrations['helfi_rekry_images']['source']['constants']['DRUPAL_FILE_DIRECTORY'] = 'public://job_listing_images/';
   }
 }
+
+/**
+ * Implements hook_cron().
+ *
+ * Deletes hakuvahti filter entries older than 3 years.
+ * Runs once per day using state-based throttling.
+ */
+function helfi_rekry_content_cron(): void {
+  $state = \Drupal::state();
+  $last_run = $state->get('helfi_rekry_content.hakuvahti_cleanup_last_run', 0);
+  $request_time = \Drupal::time()->getRequestTime();
+
+  // 24 hours in seconds.
+  $one_day = 86400;
+
+  // Only run once per day.
+  if ($request_time - $last_run < $one_day) {
+    return;
+  }
+
+  try {
+    /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
+    $tracker = \Drupal::service('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
+    $tracker->deleteOldEntries();
+    $state->set('helfi_rekry_content.hakuvahti_cleanup_last_run', $request_time);
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('helfi_rekry_content')->error('Hakuvahti cleanup failed: @message', ['@message' => $e->getMessage()]);
+  }
+}
