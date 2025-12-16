@@ -6,6 +6,7 @@ namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
 use Drupal\Core\Form\FormState;
 use Drupal\helfi_rekry_content\Form\SelectedFiltersCsvForm;
+use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
 use Drupal\KernelTests\KernelTestBase;
 
 /**
@@ -35,7 +36,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
    */
   public function testSaveAndLoadFilters(): void {
     /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
-    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
+    $tracker = $this->container->get(HakuvahtiTracker::class);
 
     $week_ago = new \DateTime(date('Y-m-d H:i.s', strtotime('-1 week')));
     $now = new \DateTime();
@@ -70,7 +71,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
     ];
 
     /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
-    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
+    $tracker = $this->container->get(HakuvahtiTracker::class);
     $tracker->saveSelectedFilters($filters);
 
     $form_state = new FormState();
@@ -114,7 +115,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
    * Test deleting old entries.
    */
   public function testDeleteOldEntries(): void {
-    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
+    $tracker = $this->container->get(HakuvahtiTracker::class);
     $database = $this->container->get('database');
 
     $tracker->saveSelectedFilters([
@@ -159,7 +160,7 @@ class HakuvahtiTrackerTest extends KernelTestBase {
    * Test that deleteOldEntries returns 0 when no old entries exist.
    */
   public function testDeleteOldEntriesNoOldEntries(): void {
-    $tracker = $this->container->get('Drupal\helfi_rekry_content\Service\HakuvahtiTracker');
+    $tracker = $this->container->get(HakuvahtiTracker::class);
     $database = $this->container->get('database');
 
     // Save recent filters only.
