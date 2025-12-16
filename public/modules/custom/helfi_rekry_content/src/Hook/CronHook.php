@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Hook;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Hook\Attribute\Hook;
 use Drupal\Core\State\StateInterface;
 use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
@@ -18,8 +19,7 @@ class CronHook {
   public function __construct(
     private readonly HakuvahtiTracker $hakuvahtiTracker,
     private readonly StateInterface $state,
-    #[Autowire(service: 'datetime.time')]
-    private readonly \Drupal\Component\Datetime\TimeInterface $time,
+    private readonly TimeInterface $time,
     #[Autowire(service: 'logger.channel.helfi_rekry_content')]
     private readonly LoggerInterface $logger,
   ) {}
