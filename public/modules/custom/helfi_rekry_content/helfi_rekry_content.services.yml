@@ -23,3 +23,5 @@ services:
   Drupal\helfi_rekry_content\Service\JobListingCleaner: ~
 
   Drupal\helfi_rekry_content\Service\HakuvahtiTracker: ~
+
+  Drupal\helfi_rekry_content\Hook\CronHook: ~
