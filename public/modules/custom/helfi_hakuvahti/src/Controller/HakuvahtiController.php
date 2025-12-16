@@ -96,7 +96,7 @@ final class HakuvahtiController extends ControllerBase implements LoggerAwareInt
             $this->t('You will receive email alerts about new search results up to once a day.', [], ['context' => 'Hakuvahti']),
             $this->t('Each email contains an unsubscribe link that you can use to unsubscribe from saved search alerts. You can save a new search at any time.', [], ['context' => 'Hakuvahti']),
             $this->t('Each saved search is valid for 6 months.', [], ['context' => 'Hakuvahti']),
-          ]
+          ],
         ];
       }
     }
