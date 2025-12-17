@@ -25,8 +25,8 @@ display:
         access:
           label: 'Senast åtkomst'
           settings:
-            past_format: '@interval sedan'
             future_format: '@interval därav'
+            past_format: '@interval sedan'
         operations:
           label: Funktioner
         mail:
