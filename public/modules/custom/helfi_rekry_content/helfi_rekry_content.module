@@ -649,4 +649,3 @@ function helfi_rekry_content_migration_plugins_alter(array &$migrations): void {
     $migrations['helfi_rekry_images']['source']['constants']['DRUPAL_FILE_DIRECTORY'] = 'public://job_listing_images/';
   }
 }
-
