@@ -114,17 +114,6 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
   list-style-type: none;
 }
 
-
-.job-search-form__search-monitor {
-  background-color: var(--color-fog-light);
-  margin-bottom: $spacing-double;
-  padding: $spacing-double;
-
-  div[role="heading"] {
-    flex: 0 1 auto;
-  }
-}
-
 .job-search-form__search-monitor__heading {
   margin-top: 0;
 
@@ -139,14 +128,6 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
     @include font('body');
     margin-top: $spacing-and-half;
   }
-
-  &[aria-hidden='true'] {
-    display: none;
-  }
-}
-
-.job-search-form__search-monitor__content__heading {
-  margin-top: $spacing-double;
 }
 
 .job-search-form__search-monitor__terms-link {
