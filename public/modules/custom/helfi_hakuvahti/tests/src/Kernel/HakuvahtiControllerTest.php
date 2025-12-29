@@ -64,8 +64,8 @@ class HakuvahtiControllerTest extends KernelTestBase {
       ['GET', 'Confirm saved search'],
       ['POST', 'Search saved successfully'],
       ['POST', 'Saved search already confirmed'],
-      ['POST', 'Confirmation failed'],
-      ['POST', 'Confirmation failed'],
+      ['POST', 'Confirmation of saved search failed'],
+      ['POST', 'Confirmation of saved search failed'],
     ];
 
     foreach ($tests as $test) {
@@ -150,9 +150,9 @@ class HakuvahtiControllerTest extends KernelTestBase {
         'helfi_hakuvahti.unsubscribe',
         [
           ['GET', 'Delete saved search'],
-          ['POST', 'The saved search has been deleted'],
-          ['POST', 'Deleting failed'],
-          ['POST', 'Deleting failed'],
+          ['POST', 'The saved search was successfully deleted.'],
+          ['POST', 'Failed to delete saved search'],
+          ['POST', 'Failed to delete saved search'],
         ],
       ],
     ];

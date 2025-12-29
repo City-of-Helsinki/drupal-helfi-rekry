@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Service;
 
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\taxonomy\TermInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -133,7 +135,7 @@ class HakuvahtiTracker {
 
     try {
       // Set csv headers.
-      fputcsv($handle, $this::CSV_HEADERS, $delimiter);
+      fputcsv($handle, $this::CSV_HEADERS, $delimiter, escape: '');
 
       // Add new rows to csv.
       foreach ($rows as $row) {
@@ -178,6 +180,42 @@ class HakuvahtiTracker {
 
     return $query->execute()
       ->fetchAllAssoc('id');
+  }
+
+  /**
+   * Delete entries older than 3 years.
+   *
+   * @return int
+   *   Number of deleted entries.
+   */
+  public function deleteOldEntries(): int {
+    $retention_years = 3;
+
+    $date = new DrupalDateTime('now', 'UTC');
+    $date->modify("-{$retention_years} years");
+    $cutoff_date = $date->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
+
+    try {
+      $deleted = $this->connection
+        ->delete('hakuvahti_selected_filters')
+        ->condition('created_at', $cutoff_date, '<')
+        ->execute();
+
+      if ($deleted > 0) {
+        $this->logger->info('Deleted @count hakuvahti filter entries older than @years years.', [
+          '@count' => $deleted,
+          '@years' => $retention_years,
+        ]);
+      }
+
+      return (int) $deleted;
+    }
+    catch (\Exception $e) {
+      $this->logger->error('Failed to delete old hakuvahti entries: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      return 0;
+    }
   }
 
   /**

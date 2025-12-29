@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Creates new subscription.
  */
-final class HelfiHakuvahtiSubscribeController extends ControllerBase implements LoggerAwareInterface {
+final class HakuvahtiSubscribeController extends ControllerBase implements LoggerAwareInterface {
 
   use LoggerAwareTrait;
 
