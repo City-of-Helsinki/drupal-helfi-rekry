@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de018316421e64bb20127657d3146962",
+    "content-hash": "c5405f1e9571c12137a0b64755f182ce",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4650,6 +4650,39 @@
                 "issues": "https://github.com/City-of-Helsinki/drupal-tools/issues"
             },
             "time": "2025-12-08T13:55:35+00:00"
+        },
+        {
+            "name": "drupal/helfi_hakuvahti",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-hakuvahti.git",
+                "reference": "09873a1e8b868635d0ddaf71d013b18675f1bdd6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-hakuvahti/zipball/09873a1e8b868635d0ddaf71d013b18675f1bdd6",
+                "reference": "09873a1e8b868635d0ddaf71d013b18675f1bdd6",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/helfi_api_base": "*"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+                "drupal/coder": "^8.3"
+            },
+            "default-branch": true,
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "description": "Helfi - Hakuvahti",
+            "support": {
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-hakuvahti/tree/main",
+                "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-hakuvahti/issues"
+            },
+            "time": "2026-01-07T07:49:51+00:00"
         },
         {
             "name": "drupal/helfi_navigation",
@@ -21123,11 +21156,12 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/helfi_drupal_tools": 20
+        "drupal/helfi_drupal_tools": 20,
+        "drupal/helfi_hakuvahti": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
