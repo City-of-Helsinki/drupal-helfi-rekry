@@ -1,11 +1,19 @@
 // Minimum width for the sort element. Stops weird behavior on wider screens.
 $sort-minimum-width: 283px;
+
 // Set explicitly to mirror adjacent dropdown styles (hds-defined).
 $monitor-button-max-width: 420px;
+
 // Monitor button min width on larger screens.
 $monitor-button-min-width: 288px;
+
 // Dialog control buttons max width (from sketches).
 $monitor-control-max-width: 200px;
+
+// Fixes a weird issue with hds dialog element. Should be removed if HDS issue is ever fixed.
+html.Dialog-module_dialogVisibleBodyWithHiddenScrollbars__3M__P {
+  overflow: visible !important;
+}
 
 .component--job-listing-search {
   background-color: $color-black-5;
@@ -151,9 +159,9 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
 }
 
 .job-search-form__search-monitor__buttons-container {
+  column-gap: $spacing;
   display: flex;
   flex-wrap: wrap;
-  column-gap: $spacing;
   margin-top: $spacing;
 
   > .job-search-form__search-monitor__submit-button,
