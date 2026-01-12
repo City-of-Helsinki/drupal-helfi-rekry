@@ -114,10 +114,6 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-hakuvahti"
-        },
-        {
             "type": "composer",
             "url": "https://repository.drupal.hel.ninja"
         },
