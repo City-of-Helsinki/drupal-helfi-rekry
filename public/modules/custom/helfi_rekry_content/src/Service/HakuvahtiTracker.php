@@ -244,8 +244,6 @@ class HakuvahtiTracker {
    * this module in order to make the original implementation
    * more generic.
    *
-   * @todo UHF-12318 keyword and related code may be removed.
-   *
    * @param string $query
    *   The elasticsearch query.
    * @param string $queryParameters
