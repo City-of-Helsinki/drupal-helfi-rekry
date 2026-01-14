@@ -1,6 +1,20 @@
 // Minimum width for the sort element. Stops weird behavior on wider screens.
 $sort-minimum-width: 283px;
 
+// Set explicitly to mirror adjacent dropdown styles (hds-defined).
+$monitor-button-max-width: 420px;
+
+// Monitor button min width on larger screens.
+$monitor-button-min-width: 288px;
+
+// Dialog control buttons max width (from sketches).
+$monitor-control-max-width: 200px;
+
+// Fixes a weird issue with hds dialog element. Should be removed if HDS issue is ever fixed.
+html.Dialog-module_dialogVisibleBodyWithHiddenScrollbars__3M__P {
+  overflow: visible !important;
+}
+
 .component--job-listing-search {
   background-color: $color-black-5;
 }
@@ -114,40 +128,72 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
   list-style-type: none;
 }
 
+.job-search-form__search-monitor__content .job-search-form__search-monitor__heading {
+  @include font(h4);
+}
 
 .job-search-form__search-monitor {
-  background-color: var(--color-fog-light);
   margin-bottom: $spacing-double;
-  padding: $spacing-double;
 
-  div[role="heading"] {
-    flex: 0 1 auto;
-  }
-}
-
-.job-search-form__search-monitor__heading {
-  margin-top: 0;
-
-  &:focus-visible {
-    outline: 2px solid $color-black;
-    outline-offset: $spacing-half;
-  }
-}
-
-.job-search-form__search-monitor__content {
-  > p {
+  > p, > section:not(.job-search-form__search-monitor__no-selections) {
     @include font('body');
     margin-top: $spacing-and-half;
   }
 
-  &[aria-hidden='true'] {
-    display: none;
+  > a {
+    display: block;
+    margin-top: $spacing-and-half;
   }
 }
 
-.job-search-form__search-monitor__content__heading {
+.job-search-form__search-monitor__selections-heading {
+  @include font(small);
+  font-weight: $font-weight-medium;
+  line-height: $lineheight-l;
   margin-top: $spacing-double;
 }
+
+.job-search-form__search-monitor__no-selections,
+.job-search-form__search-monitor__selection-tags {
+  margin-top: $spacing-quarter;
+}
+
+.job-search-form__search-monitor__buttons-container {
+  column-gap: $spacing;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: $spacing;
+
+  > .job-search-form__search-monitor__submit-button,
+  > .job-search-form__search-monitor__cancel-button {
+    margin-bottom: 0;
+    margin-top: $spacing;
+    max-width: none;
+    width: 100%;
+
+    @include breakpoint($breakpoint-l) {
+      max-width: $monitor-control-max-width;
+      width: auto;
+    }
+  }
+
+  > .job-search-form__search-monitor__cancel-button {
+    width: 100%;
+  }
+}
+
+.hdbt-search--react__result-top-area-item button.job-search-form__search-monitor__button {
+  max-width: $monitor-button-max-width;
+  width: 100%;
+
+  @include breakpoint($breakpoint-l) {
+    margin-bottom: $spacing-half;
+    max-width: unset;
+    min-width: $monitor-button-min-width;
+    width: auto;
+  }
+}
+
 
 .job-search-form__search-monitor__terms-link {
   @include font('small');
@@ -156,12 +202,6 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
     outline: 2px solid $color-black;
     outline-offset: $spacing-quarter;
   }
-}
-
-// The terms are required but there is no indicator on the label. This is why the '*' is added here.
-.job-search-form__search-monitor__terms::after {
-  content: '*';
-  margin-left: $spacing-quarter;
 }
 
 .job-search-form__search-monitor__error {
