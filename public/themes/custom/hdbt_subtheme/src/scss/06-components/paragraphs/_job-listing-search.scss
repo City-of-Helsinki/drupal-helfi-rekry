@@ -137,7 +137,7 @@ html.Dialog-module_dialogVisibleBodyWithHiddenScrollbars__3M__P {
   width: 100%;
 
   @include breakpoint($breakpoint-l) {
-    margin-bottom: $spacing-half;
+    margin-block: $spacing-and-half $spacing-half;
     max-width: unset;
     min-width: $monitor-button-min-width;
     width: auto;
@@ -154,12 +154,23 @@ html.Dialog-module_dialogVisibleBodyWithHiddenScrollbars__3M__P {
   @include breakpoint($breakpoint-l) {
     padding-inline: $spacing-double;
   }
+
+  // Override HDS-default style.
+  // The closing button focus is done using box-shadow with blue color,
+  // but we want the focus ring to be black-90.
+  > *:not(.job-search-form__search-monitor) button:focus {
+    box-shadow: 0 0 0 3px $color-black-90;
+  }
 }
 
 // Override HDS-default dialog style.
 // The dialog header needs to be larger than the HDS-version.
 .job-search-form__search-monitor__content .job-search-form__search-monitor__heading {
   @include font(h3);
+
+  &:focus::after {
+    border-color: $color-black-90;
+  }
 }
 
 .job-search-form__search-monitor {
@@ -175,7 +186,7 @@ html.Dialog-module_dialogVisibleBodyWithHiddenScrollbars__3M__P {
   }
 
   a:focus-visible {
-    outline: 3px solid $color-black;
+    outline: 3px solid $color-black-90;
     outline-offset: $spacing-quarter;
   }
 }
@@ -238,7 +249,7 @@ html.Dialog-module_dialogVisibleBodyWithHiddenScrollbars__3M__P {
   margin-top: $spacing-and-half;
 
   > div:focus-visible {
-    outline: 3px solid $color-black;
+    outline: 3px solid $color-black-90;
     outline-offset: $spacing-half;
   }
 
