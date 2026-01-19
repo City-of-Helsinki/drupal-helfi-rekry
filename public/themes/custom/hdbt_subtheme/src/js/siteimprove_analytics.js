@@ -1,7 +1,5 @@
-// eslint-disable-next-line func-names
-(function(Drupal) {
+((Drupal) => {
   const loadSiteimproveAnalytics = () => {
-
     // Load Siteimprove analytics only if statistics cookies are allowed.
     if (Drupal.cookieConsent.getConsentStatus(['statistics'])) {
       // eslint-disable-next-line no-multi-assign

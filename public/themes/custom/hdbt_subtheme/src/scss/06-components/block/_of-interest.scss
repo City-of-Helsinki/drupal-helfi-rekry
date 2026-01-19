@@ -1,0 +1,23 @@
+$-block--of-interes-padding-top-and-bottom: 80px;
+
+.block--of-interest {
+  background-color: $color-black-5;
+  margin-bottom: calc((#{$footer-koro-height} + #{$spacing-triple}) * -1);
+  margin-top: $spacing-quadruple;
+  padding: $-block--of-interes-padding-top-and-bottom 0;
+
+  .block--of-interest__content-container {
+    @include components-container-max-width;
+    @include component-side-padding;
+    margin: auto;
+  }
+
+  h2 {
+    margin-bottom: $spacing-triple;
+    margin-top: 0;
+  }
+
+  .block--of-interest__more-link {
+    margin-top: $spacing-triple;
+  }
+}

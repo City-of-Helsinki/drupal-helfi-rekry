@@ -294,8 +294,6 @@ if ($amq_brokers && $amq_destination) {
   // @see https://github.com/City-of-Helsinki/drupal-helfi-platform/blob/main/documentation/queue.md
 }
 
-$config['filelog.settings']['rotation']['schedule'] = 'never';
-
 if (
   ($redis_host = getenv('REDIS_HOST')) &&
   file_exists('modules/contrib/redis/redis.services.yml') &&
@@ -393,6 +391,14 @@ if (getenv('SENTRY_DSN_PUBLIC')) {
 if (getenv('SENTRY_CRON_MONITOR_ID')) {
   // Preferably the id should be {site-name}-{env-name}-cron-monitor
   $config['raven.settings']['cron_monitor_id'] = getenv('SENTRY_CRON_MONITOR_ID');
+}
+
+// OpenAI api keys:
+// See: https://helsinkisolutionoffice.atlassian.net/browse/UHF-12237.
+if (getenv('OPENAI_KEY')) {
+  $config['helfi_search.settings']['openai_api_key'] = getenv('OPENAI_KEY');
+  $config['helfi_search.settings']['openai_base_url'] = getenv('OPENAI_BASE_URL');
+  $config['helfi_search.settings']['openai_model'] = getenv('OPENAI_MODEL');
 }
 
 // Environment specific overrides.

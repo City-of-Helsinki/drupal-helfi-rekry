@@ -42,3 +42,53 @@ msgstr "Hakuvahdin käyttöehtojen URL-osoite"
 
 msgid "URL for the webpage or pdf to the Hakuvahti terms of service."
 msgstr "URL-osoite verkkosivulle tai pdf-tiedostoon Hakuvahdin käyttöehtoihin."
+
+msgctxt "Hakuvahti empty filters"
+msgid "No search filters"
+msgstr "Ei hakuehtoja"
+
+msgctxt "Search filter option: Central area"
+msgid "Central area"
+msgstr "Keskinen alue"
+
+msgctxt "Search filter option: Eastern area"
+msgid  "Eastern area"
+msgstr "Itäinen alue"
+
+msgctxt "Search filter option: Southern area"
+msgid  "Southern area"
+msgstr "Eteläinen alue"
+
+msgctxt "Search filter option: South-Eastern area"
+msgid  "South-Eastern area"
+msgstr "Kaakkoinen alue"
+
+msgctxt "Search filter option: Western area area"
+msgid  "Western area"
+msgstr "Läntinen alue"
+
+msgctxt "Search filter option: Northern area"
+msgid  "Northern area"
+msgstr "Pohjoinen alue"
+
+msgctxt "Search filter option: North-Eastern area"
+msgid  "North-Eastern area"
+msgstr "Koillinen alue"
+
+msgid "Unable to handle the given date"
+msgstr "Tarkista päivämäärät"
+
+msgid "Start date cannot be after End date"
+msgstr "Aloituspäivämäärä ei voi olla Lopetuspäivämäärän jälkeen"
+
+msgid "Something went wrong: @message"
+msgstr "Jokin meni pieleen: @message"
+
+msgid "Hakuvahti csv download"
+msgstr "Hakuvahti seuranta"
+
+msgid "CSV Delimiter"
+msgstr "CSV erotinmerkki"
+
+msgid "Change the delimiter if the csv file won't open properly."
+msgstr "Vaihda erotinmerkkiä jos csv-tiedosto ei avaudu formatoituna käyttämässäsi ohjelmistossa."
