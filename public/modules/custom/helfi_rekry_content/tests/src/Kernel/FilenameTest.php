@@ -33,7 +33,7 @@ class FilenameTest extends KernelTestBase {
    * @return array
    *   The data.
    */
-  public function filenameData(): array {
+  public static function filenameData(): array {
     return [
       [
         NULL,
