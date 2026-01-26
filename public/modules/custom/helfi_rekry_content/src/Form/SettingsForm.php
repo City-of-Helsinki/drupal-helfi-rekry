@@ -107,6 +107,12 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('URL for the webpage or pdf to the Hakuvahti terms of service.'),
     ];
 
+    $form['job_listings']['hakuvahti_instructions_link_url'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('More detailed instructions on how to use saved searches'),
+      '#default_value' => $siteConfig->get('hakuvahti_instructions_link_url'),
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -122,6 +128,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('hakuvahti_tos_checkbox_label', $form_state->getValue('hakuvahti_tos_checkbox_label'))
       ->set('hakuvahti_tos_link_text', $form_state->getValue('hakuvahti_tos_link_text'))
       ->set('hakuvahti_tos_link_url', $form_state->getValue('hakuvahti_tos_link_url'))
+      ->set('hakuvahti_instructions_link_url', $form_state->getValue('hakuvahti_instructions_link_url'))
       ->save();
     parent::submitForm($form, $form_state);
   }

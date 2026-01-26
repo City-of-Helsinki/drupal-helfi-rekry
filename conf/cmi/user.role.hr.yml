@@ -27,6 +27,7 @@ permissions:
   - 'delete own files'
   - 'disable own tfa'
   - 'edit any job_listing content'
+  - 'rebuild node access permissions'
   - 'schedule publishing of nodes'
   - 'setup own tfa'
   - 'use text format full_html'
