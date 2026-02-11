@@ -28,7 +28,7 @@ class HakuvahtiEventSubscriberTest extends KernelTestBase {
    */
   public function testHakuvahtiEventSubscriber(): void {
     $tracker = $this->prophesize(HakuvahtiTracker::class);
-    // Changing the request language to 'sv' to ensure it's not defaulting to 'fi'.
+
     $tracker->parseQuery(Argument::any(), Argument::any(), 'sv', Argument::any())
       ->shouldBeCalled()
       ->willReturn([['a', 'b', 'c'], ['d']]);
