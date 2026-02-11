@@ -28,14 +28,16 @@ class HakuvahtiEventSubscriberTest extends KernelTestBase {
    */
   public function testHakuvahtiEventSubscriber(): void {
     $tracker = $this->prophesize(HakuvahtiTracker::class);
-    $tracker->parseQuery(Argument::any(), Argument::any(), Argument::any(), Argument::any())
+
+    $tracker->parseQuery(Argument::any(), Argument::any(), 'sv', Argument::any())
+      ->shouldBeCalled()
       ->willReturn([['a', 'b', 'c'], ['d']]);
 
     $this->container->set(HakuvahtiTracker::class, $tracker->reveal());
 
     $alterEvent = new SubscriptionAlterEvent(new HakuvahtiRequest([
       'email' => 'valid@email.fi',
-      'lang' => 'fi',
+      'lang' => 'sv',
       'site_id' => 'rekry',
       'query' => '?query=123&parameters=4567',
       'elastic_query' => 'this-is_the_base64_encoded_elasticsearch_query',

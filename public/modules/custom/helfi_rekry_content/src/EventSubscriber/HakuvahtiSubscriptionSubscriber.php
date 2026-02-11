@@ -37,7 +37,12 @@ class HakuvahtiSubscriptionSubscriber implements EventSubscriberInterface {
    */
   public function hakuvahtiAlterSubscription(SubscriptionAlterEvent $event): void {
     $request = $event->getHakuvahtiRequest();
-    $filters = $this->hakuvahtiTracker->parseQuery($request->elasticQuery, includeKeyword: TRUE);
+    $filters = $this->hakuvahtiTracker->parseQuery(
+      $request->elasticQuery,
+      $request->query,
+      $request->lang,
+      includeKeyword: TRUE
+    );
     $data = $request->getServiceRequestData();
 
     // Extract free search term if present, limit to 10 characters.
