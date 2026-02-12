@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 use Drupal\Core\Entity\TranslatableInterface;
+use Drupal\language\ConfigurableLanguageManagerInterface;
 use Drupal\media\Entity\Media;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
@@ -489,4 +490,67 @@ function helfi_rekry_content_update_9011(): void {
       ->schema()
       ->dropTable($table_name);
   }
+}
+
+/**
+ * Implements hook_update_dependencies().
+ */
+function helfi_rekry_content_update_dependencies(): array {
+  return [
+    'helfi_rekry_content' => [
+      11001 => [
+        'helfi_hakuvahti' => 11001,
+      ],
+    ],
+  ];
+}
+
+/**
+ * UHF-12723: Move hakuvahti settings to hakuvahti module.
+ */
+function helfi_rekry_content_update_11001(): void {
+  $rekryConfig = \Drupal::configFactory()->getEditable('helfi_rekry_content.job_listings');
+
+  if ($rekryConfig->isNew()) {
+    return;
+  }
+
+  $languageManager = \Drupal::languageManager();
+  assert($languageManager instanceof ConfigurableLanguageManagerInterface);
+
+  $config = \Drupal::configFactory()
+    ->getEditable('helfi_hakuvahti.settings');
+
+  $config
+    ->set('hakuvahti_tos_checkbox_label', $rekryConfig->get('hakuvahti_tos_checkbox_label'))
+    ->set('hakuvahti_tos_link_text', $rekryConfig->get('hakuvahti_tos_link_text'))
+    ->set('hakuvahti_tos_link_text', $rekryConfig->get('hakuvahti_tos_link_text'))
+    ->set('hakuvahti_instructions_link_url', $rekryConfig->get('hakuvahti_instructions_link_url'))
+    ->save();
+
+  foreach (['fi', 'sv'] as $langcode) {
+    $original = $languageManager->getLanguageConfigOverride($langcode, 'helfi_rekry_content.job_listings');
+    $override = $languageManager->getLanguageConfigOverride($langcode, 'helfi_hakuvahti.settings');
+
+    $override
+      ->set('hakuvahti_tos_checkbox_label', $original->get('hakuvahti_tos_checkbox_label'))
+      ->set('hakuvahti_tos_link_text', $original->get('hakuvahti_tos_link_text'))
+      ->set('hakuvahti_tos_link_text', $original->get('hakuvahti_tos_link_text'))
+      ->set('hakuvahti_instructions_link_url', $original->get('hakuvahti_instructions_link_url'))
+      ->save();
+
+    $original
+      ->clear('hakuvahti_tos_checkbox_label')
+      ->clear('hakuvahti_tos_link_text')
+      ->clear('hakuvahti_tos_link_url')
+      ->clear('hakuvahti_instructions_link_url')
+      ->save();
+  }
+
+  $rekryConfig
+    ->clear('hakuvahti_tos_checkbox_label')
+    ->clear('hakuvahti_tos_link_text')
+    ->clear('hakuvahti_tos_link_url')
+    ->clear('hakuvahti_instructions_link_url')
+    ->save();
 }
