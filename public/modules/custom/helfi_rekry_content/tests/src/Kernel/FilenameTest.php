@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
-use Drupal\KernelTests\KernelTestBase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests file name transliteration.
- *
- * @group helfi_rekry_content
  */
-class FilenameTest extends KernelTestBase {
+#[Group('helfi_rekry_content')]
+#[RunTestsInSeparateProcesses]
+class FilenameTest extends RekryKernelTestBase {
 
   /**
    * {@inheritdoc}

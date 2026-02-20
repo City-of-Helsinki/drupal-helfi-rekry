@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\EventSubscriber;
 
+use Drupal\Component\Utility\Unicode;
 use Drupal\helfi_hakuvahti\Event\SubscriptionAlterEvent;
 use Drupal\helfi_hakuvahti\Event\SubscriptionEvent;
 use Drupal\helfi_hakuvahti\HakuvahtiRequest;
@@ -11,9 +12,9 @@ use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * {@inheritdoc}
+ * Hakuvahti event subscriber.
  */
-class HakuvahtiSubscriptionSubscriber implements EventSubscriberInterface {
+readonly class HakuvahtiSubscriptionSubscriber implements EventSubscriberInterface {
 
   /**
    * {@inheritdoc}
@@ -37,21 +38,17 @@ class HakuvahtiSubscriptionSubscriber implements EventSubscriberInterface {
    */
   public function hakuvahtiAlterSubscription(SubscriptionAlterEvent $event): void {
     $request = $event->getHakuvahtiRequest();
-    $filters = $this->hakuvahtiTracker->parseQuery($request->elasticQuery, includeKeyword: TRUE);
-    $data = $request->getServiceRequestData();
+    $filters = $this->hakuvahtiTracker->parseQuery(
+      $request->elasticQuery,
+      $request->query,
+      $request->lang,
+      includeKeyword: TRUE
+    );
 
     // Extract free search term if present, limit to 10 characters.
-    $freeSearchTerm = $filters['vapaa-sana'][0] ?? '';
+    $parts[] = Unicode::truncate($filters['vapaa-sana'][0] ?? '', 10, add_ellipsis: TRUE);
+
     unset($filters['vapaa-sana']);
-    if (mb_strlen($freeSearchTerm) > 10) {
-      $freeSearchTerm = mb_substr($freeSearchTerm, 0, 10) . '...';
-    }
-
-    $parts = [];
-    if ($freeSearchTerm) {
-      $parts[] = $freeSearchTerm;
-    }
-
     foreach ($filters as $items) {
       foreach ($items as $item) {
         if ($item) {
@@ -60,8 +57,8 @@ class HakuvahtiSubscriptionSubscriber implements EventSubscriberInterface {
       }
     }
 
-    $event->setHakuvahtiRequest(new HakuvahtiRequest(array_merge($data, [
-      'search_description' => implode(', ', $parts),
+    $event->setHakuvahtiRequest(new HakuvahtiRequest(array_merge((array) $request, [
+      'searchDescription' => implode(', ', array_filter($parts)),
     ])));
   }
 
