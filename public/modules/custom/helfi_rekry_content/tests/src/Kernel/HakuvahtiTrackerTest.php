@@ -7,12 +7,15 @@ namespace Drupal\Tests\helfi_rekry_content\Kernel;
 use Drupal\Core\Form\FormState;
 use Drupal\helfi_rekry_content\Form\SelectedFiltersCsvForm;
 use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
-use Drupal\KernelTests\KernelTestBase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Hakuvahti tracker test.
  */
-class HakuvahtiTrackerTest extends KernelTestBase {
+#[RunTestsInSeparateProcesses]
+#[Group('helfi_rekry_content')]
+class HakuvahtiTrackerTest extends RekryKernelTestBase {
 
   /**
    * {@inheritdoc}
@@ -20,7 +23,6 @@ class HakuvahtiTrackerTest extends KernelTestBase {
   protected static $modules = [
     'system',
     'taxonomy',
-    'helfi_rekry_content',
   ];
 
   /**

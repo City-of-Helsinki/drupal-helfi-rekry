@@ -7,48 +7,70 @@ namespace Drupal\Tests\helfi_hakuvahti\Kernel;
 use Drupal\helfi_hakuvahti\Event\SubscriptionAlterEvent;
 use Drupal\helfi_hakuvahti\HakuvahtiRequest;
 use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
-use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\helfi_rekry_content\Kernel\RekryKernelTestBase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Prophecy\Argument;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Tests hakuvahti event subscriber.
  */
-class HakuvahtiEventSubscriberTest extends KernelTestBase {
+#[RunTestsInSeparateProcesses]
+class HakuvahtiEventSubscriberTest extends RekryKernelTestBase {
 
   /**
-   * {@inheritdoc}
+   * Data provider for search description tests.
    */
-  protected static $modules = [
-    'helfi_rekry_content',
-  ];
+  public static function searchDescriptionDataProvider(): array {
+    return [
+      'filters are joined' => [
+        [['a', 'b', 'c'], ['d']],
+        'a, b, c, d',
+      ],
+      'vapaa-sana is included' => [
+        ['vapaa-sana' => ['search'], 'other' => ['filter1', 'filter2']],
+        'search, filter1, filter2',
+      ],
+      'empty filters' => [
+        [],
+        '',
+      ],
+      'user-provided description is replaced' => [
+        [['safe-filter']],
+        'safe-filter',
+      ],
+      'vapaa-sana is truncated' => [
+        ['vapaa-sana' => ['some keyword']],
+        'some keyw…',
+      ],
+    ];
+  }
 
   /**
-   * Tests alter event.
+   * Tests that searchDescription is computed correctly from filters.
    */
-  public function testHakuvahtiEventSubscriber(): void {
+  #[DataProvider('searchDescriptionDataProvider')]
+  public function testSearchDescription(array $filters, string $expected): void {
     $tracker = $this->prophesize(HakuvahtiTracker::class);
-
-    $tracker->parseQuery(Argument::any(), Argument::any(), 'sv', Argument::any())
+    $tracker->parseQuery(Argument::any(), Argument::any(), Argument::any(), Argument::any())
       ->shouldBeCalled()
-      ->willReturn([['a', 'b', 'c'], ['d']]);
-
+      ->willReturn($filters);
     $this->container->set(HakuvahtiTracker::class, $tracker->reveal());
 
-    $alterEvent = new SubscriptionAlterEvent(new HakuvahtiRequest([
+    $event = new SubscriptionAlterEvent(new HakuvahtiRequest([
       'email' => 'valid@email.fi',
       'lang' => 'sv',
-      'site_id' => 'rekry',
+      'siteId' => 'rekry',
       'query' => '?query=123&parameters=4567',
-      'elastic_query' => 'this-is_the_base64_encoded_elasticsearch_query',
-      'search_description' => 'This, is the query filters string, separated, by comma',
+      'elasticQuery' => 'this-is_the_base64_encoded_elasticsearch_query',
+      'searchDescription' => 'Original description',
     ]));
 
     $dispatcher = $this->container->get(EventDispatcherInterface::class);
-    $dispatcher->dispatch($alterEvent);
+    $dispatcher->dispatch($event);
 
-    // Alter event replaces the search description provided by the user.
-    $this->assertEquals('a, b, c, d', $alterEvent->getHakuvahtiRequest()->searchDescription);
+    $this->assertEquals($expected, $event->getHakuvahtiRequest()->searchDescription);
   }
 
 }

@@ -7,9 +7,10 @@ namespace Drupal\Tests\helfi_rekry_content\Kernel;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\helfi_platform_config\EntityVersionMatcher;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
@@ -18,10 +19,10 @@ use Prophecy\PhpUnit\ProphecyTrait;
  * Tests covered:
  * - Entity type detection for structured data injection
  * - Verification that non-JobListing entities receive no structured data.
- *
- * @group helfi_rekry_content
  */
-class StructuredDataTest extends KernelTestBase {
+#[RunTestsInSeparateProcesses]
+#[Group('helfi_rekry_content')]
+class StructuredDataTest extends RekryKernelTestBase {
 
   use ProphecyTrait;
 
@@ -42,7 +43,6 @@ class StructuredDataTest extends KernelTestBase {
     'field',
     'text',
     'datetime',
-    'helfi_rekry_content',
   ];
 
   /**
