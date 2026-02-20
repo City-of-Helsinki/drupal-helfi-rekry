@@ -9,7 +9,6 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\helfi_hakuvahti\DrupalSettings;
 use Drupal\helfi_rekry_content\Hook\JobListingTheme;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
 use Drupal\paragraphs\Entity\Paragraph;
@@ -22,7 +21,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
  */
 #[Group('helfi_rekry_content')]
 #[RunTestsInSeparateProcesses]
-class JobListingThemeTest extends KernelTestBase {
+class JobListingThemeTest extends RekryKernelTestBase {
 
   use ProphecyTrait;
 
@@ -37,8 +36,6 @@ class JobListingThemeTest extends KernelTestBase {
     'text',
     'filter',
     'language',
-    'helfi_hakuvahti',
-    'helfi_rekry_content',
   ];
 
   /**

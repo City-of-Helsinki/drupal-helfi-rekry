@@ -8,12 +8,14 @@ use Drupal\helfi_rekry_content\Helbit\HelbitEnvironment;
 use Drupal\helfi_rekry_content\Helbit\Settings;
 use Drupal\helfi_rekry_content\Plugin\Deriver\HelbitMigrationDeriver;
 use Drupal\KernelTests\KernelTestBase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests migration deriver.
- *
- * @group helfi_rekry_content
  */
+#[RunTestsInSeparateProcesses]
+#[Group('helfi_rekry_content')]
 class HelbitMigrationDeriverTest extends KernelTestBase {
 
   private const TEST_HELBIT_KEY = '1234';

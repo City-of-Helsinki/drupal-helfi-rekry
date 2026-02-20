@@ -7,7 +7,7 @@ namespace Drupal\Tests\helfi_hakuvahti\Kernel;
 use Drupal\helfi_hakuvahti\Event\SubscriptionAlterEvent;
 use Drupal\helfi_hakuvahti\HakuvahtiRequest;
 use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
-use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\helfi_rekry_content\Kernel\RekryKernelTestBase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Prophecy\Argument;
@@ -17,14 +17,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
  * Tests hakuvahti event subscriber.
  */
 #[RunTestsInSeparateProcesses]
-class HakuvahtiEventSubscriberTest extends KernelTestBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  protected static $modules = [
-    'helfi_rekry_content',
-  ];
+class HakuvahtiEventSubscriberTest extends RekryKernelTestBase {
 
   /**
    * Data provider for search description tests.

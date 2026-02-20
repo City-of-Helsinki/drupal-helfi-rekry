@@ -4,27 +4,23 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\media\OEmbed\Provider;
 use Drupal\media\OEmbed\ProviderException;
 use Drupal\media\OEmbed\UrlResolverInterface;
 use Drupal\migrate\MigrateSkipRowException;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Job migration tests.
  */
-class JobMigrationTest extends KernelTestBase {
+#[RunTestsInSeparateProcesses]
+#[Group('helfi_rekry_content')]
+class JobMigrationTest extends RekryKernelTestBase {
 
   use ProphecyTrait;
-
-  /**
-   * {@inheritdoc}
-   */
-  protected static $modules = [
-    'helfi_rekry_content',
-  ];
 
   /**
    * Test video URL sanitization.
