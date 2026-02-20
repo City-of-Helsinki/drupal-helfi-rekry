@@ -522,8 +522,6 @@ function helfi_rekry_content_update_11001(): void {
     ->getEditable('helfi_hakuvahti.settings');
 
   $config
-    ->set('hakuvahti_tos_checkbox_label', $rekryConfig->get('hakuvahti_tos_checkbox_label'))
-    ->set('hakuvahti_tos_link_text', $rekryConfig->get('hakuvahti_tos_link_text'))
     ->set('hakuvahti_tos_link_url', $rekryConfig->get('hakuvahti_tos_link_url'))
     ->set('hakuvahti_instructions_link_url', $rekryConfig->get('hakuvahti_instructions_link_url'))
     ->save();
@@ -533,8 +531,6 @@ function helfi_rekry_content_update_11001(): void {
     $override = $languageManager->getLanguageConfigOverride($langcode, 'helfi_hakuvahti.settings');
 
     $override
-      ->set('hakuvahti_tos_checkbox_label', $original->get('hakuvahti_tos_checkbox_label'))
-      ->set('hakuvahti_tos_link_text', $original->get('hakuvahti_tos_link_text'))
       ->set('hakuvahti_tos_link_url', $original->get('hakuvahti_tos_link_url'))
       ->set('hakuvahti_instructions_link_url', $original->get('hakuvahti_instructions_link_url'))
       ->save();
