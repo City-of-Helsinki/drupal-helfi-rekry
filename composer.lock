@@ -16737,22 +16737,22 @@
         },
         {
             "name": "donatj/mock-webserver",
-            "version": "v2.9.0",
+            "version": "v2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/donatj/mock-webserver.git",
-                "reference": "959257b911f2ee44472e0eb87ebddef8de498f7c"
+                "reference": "5074522d25f4e83953b1c5417a884c995d0dfa91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/donatj/mock-webserver/zipball/959257b911f2ee44472e0eb87ebddef8de498f7c",
-                "reference": "959257b911f2ee44472e0eb87ebddef8de498f7c",
+                "url": "https://api.github.com/repos/donatj/mock-webserver/zipball/5074522d25f4e83953b1c5417a884c995d0dfa91",
+                "reference": "5074522d25f4e83953b1c5417a884c995d0dfa91",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-sockets": "*",
-                "php": ">=7.1",
+                "php": ">=7.2",
                 "ralouphie/getallheaders": "~2.0 || ~3.0"
             },
             "require-dev": {
@@ -16760,7 +16760,7 @@
                 "donatj/drop": "^1.0",
                 "ext-curl": "*",
                 "friendsofphp/php-cs-fixer": "^3.1",
-                "phpunit/phpunit": "~7|~9",
+                "phpunit/phpunit": "~8|~9",
                 "squizlabs/php_codesniffer": "^3.6"
             },
             "type": "library",
@@ -16793,7 +16793,7 @@
             ],
             "support": {
                 "issues": "https://github.com/donatj/mock-webserver/issues",
-                "source": "https://github.com/donatj/mock-webserver/tree/v2.9.0"
+                "source": "https://github.com/donatj/mock-webserver/tree/v2.10.0"
             },
             "funding": [
                 {
@@ -16809,7 +16809,7 @@
                     "type": "ko_fi"
                 }
             ],
-            "time": "2025-11-04T18:31:41+00:00"
+            "time": "2026-02-20T18:53:16+00:00"
         },
         {
             "name": "drupal/coder",
@@ -21341,5 +21341,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }
