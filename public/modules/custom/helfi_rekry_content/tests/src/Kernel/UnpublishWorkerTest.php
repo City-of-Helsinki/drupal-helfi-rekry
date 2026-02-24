@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\KernelTests\KernelTestBase;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\node\Traits\NodeCreationTrait;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Unpublish worker test.
  */
-class UnpublishWorkerTest extends KernelTestBase {
+#[RunTestsInSeparateProcesses]
+#[Group('helfi_rekry_content')]
+class UnpublishWorkerTest extends RekryKernelTestBase {
 
   use NodeCreationTrait;
   use ContentTypeCreationTrait;
@@ -31,7 +34,6 @@ class UnpublishWorkerTest extends KernelTestBase {
     'filter',
     'scheduler',
     'language',
-    'helfi_rekry_content',
   ];
 
   /**

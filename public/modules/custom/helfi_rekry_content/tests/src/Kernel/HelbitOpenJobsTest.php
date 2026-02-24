@@ -10,14 +10,16 @@ use Drupal\helfi_rekry_content\Plugin\migrate\source\HelbitOpenJobs;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\migrate\Plugin\MigrateIdMapInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Tests migration source plugin.
- *
- * @group helfi_rekry_content
  */
+#[RunTestsInSeparateProcesses]
+#[Group('helfi_rekry_content')]
 class HelbitOpenJobsTest extends KernelTestBase {
 
   use ProphecyTrait;

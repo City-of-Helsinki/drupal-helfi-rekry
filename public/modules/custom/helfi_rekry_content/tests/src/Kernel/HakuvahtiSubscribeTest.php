@@ -10,14 +10,16 @@ use Drupal\taxonomy\TermStorage;
 use Drupal\Tests\helfi_api_base\Traits\ApiTestTrait;
 use Drupal\Tests\helfi_media\Kernel\HelfiMediaKernelTestBase;
 use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\Loader\Configurator\Traits\PropertyTrait;
 
 /**
  * Tests file name transliteration.
- *
- * @group helfi_rekry_content
  */
+#[RunTestsInSeparateProcesses]
+#[Group('helfi_rekry_content')]
 class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
 
   use ApiTestTrait;
@@ -38,6 +40,7 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
     'taxonomy',
     'options',
     'readonly_field_widget',
+    'helfi_hakuvahti',
     'helfi_rekry_content',
   ];
 
