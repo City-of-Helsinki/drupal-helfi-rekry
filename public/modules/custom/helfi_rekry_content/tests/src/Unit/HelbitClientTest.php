@@ -6,19 +6,21 @@ namespace Drupal\Tests\helfi_rekry_content\Unit;
 
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
 use Drupal\helfi_rekry_content\Helbit\HelbitEnvironment;
+use Drupal\helfi_rekry_content\Helbit\HelbitException;
 use Drupal\helfi_rekry_content\Helbit\Settings;
 use Drupal\Tests\helfi_rekry_content\Traits\HelbitTestTrait;
 use Drupal\Tests\UnitTestCase;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\Group;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Psr\Log\LoggerInterface;
 
 /**
  * Tests helbit client.
- *
- * @group helfi_rekry_content
  */
+#[Group('helfi_rekry_content')]
 class HelbitClientTest extends UnitTestCase {
 
   use ProphecyTrait;
@@ -31,12 +33,23 @@ class HelbitClientTest extends UnitTestCase {
    *   The Helbit client.
    */
   private function getSut(ClientInterface $client): HelbitClient {
-    $logger = $this->prophesize(LoggerInterface::class)->reveal();
     $settings = new Settings([
       new HelbitEnvironment('123', 'https://example.com'),
     ]);
 
-    return new HelbitClient($logger, $client, $settings);
+    return new HelbitClient($client, $settings);
+  }
+
+  /**
+   * Assert that an exception is thrown when response is fails.
+   */
+  public function testJobListingErrors(): void {
+    $client = $this->createMockHttpClient([
+      new BadResponseException('fail', new Request('GET', 'https://example.com'), new Response(418)),
+    ]);
+
+    $this->expectException(HelbitException::class);
+    $this->getSut($client)->getJobListings('fi');
   }
 
   /**

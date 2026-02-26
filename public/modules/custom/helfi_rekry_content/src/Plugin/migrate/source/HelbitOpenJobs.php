@@ -6,17 +6,17 @@ namespace Drupal\helfi_rekry_content\Plugin\migrate\source;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
+use Drupal\migrate\Attribute\MigrateSource;
 use Drupal\migrate\Plugin\migrate\source\SourcePluginBase;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Source plugin for helbit open jobs.
- *
- * @MigrateSource(
- *   id = "helbit_open_jobs"
- * )
  */
+#[MigrateSource(
+  id: 'helbit_open_jobs',
+)]
 final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryPluginInterface {
 
   /**
