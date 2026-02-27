@@ -34,3 +34,6 @@ helfi_rekry_content.job_listings:
       type: text
       label: 'City description text'
       translatable: true
+    disable_unpublishing:
+      type: boolean
+      label: 'Disable automatic unpublishing'
