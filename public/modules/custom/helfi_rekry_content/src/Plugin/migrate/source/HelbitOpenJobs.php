@@ -21,8 +21,6 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
 
   /**
    * Helbit client.
-   *
-   * @var \Drupal\helfi_rekry_content\Helbit\HelbitClient
    */
   private HelbitClient $helbit;
 
