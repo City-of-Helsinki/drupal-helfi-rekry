@@ -20,12 +20,12 @@ final class JobListingCleaner {
   /**
    * Value used to determined if a listing is considered expired.
    */
-  private const EXPIRE_THRESHOLD = '-1 week';
+  private const string EXPIRE_THRESHOLD = '-1 week';
 
   /**
    * Maximum number of job listings that are cleaned in a single operation.
    */
-  private const BATCH_SIZE = 100;
+  private const int BATCH_SIZE = 100;
 
   /**
    * Job listing storage.
