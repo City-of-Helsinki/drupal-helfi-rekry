@@ -71,6 +71,8 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
 
     // Set status code to 410.
     $response = new TrustedRedirectResponse($url);
+    $response->addCacheableDependency($config);
+    $response->addCacheableDependency($node);
     $response->setStatusCode(410);
     $event->setResponse($response);
   }
@@ -116,7 +118,7 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
 
     $url = $node->toUrl('canonical', ['language' => $node->language()])->toString();
     $response = new TrustedRedirectResponse($url);
-    $response->addCacheableDependency($url);
+    $response->addCacheableDependency($node);
     $event->setResponse($response);
   }
 
