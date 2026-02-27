@@ -14,6 +14,8 @@ source:
   ids:
     id:
       type: string
+    langcode:
+      type: string
   plugin: helbit_open_jobs
   track_changes: true
   fields:
