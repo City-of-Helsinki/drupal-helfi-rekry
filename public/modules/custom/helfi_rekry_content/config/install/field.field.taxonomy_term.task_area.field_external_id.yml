@@ -5,12 +5,7 @@ dependencies:
   config:
     - field.storage.taxonomy_term.field_external_id
     - taxonomy.vocabulary.task_area
-  module:
-    - disable_field
-third_party_settings:
-  disable_field:
-    add_disable: none
-    edit_disable: none
+third_party_settings: {}
 id: taxonomy_term.task_area.field_external_id
 field_name: field_external_id
 entity_type: taxonomy_term

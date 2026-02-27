@@ -7,18 +7,7 @@ dependencies:
     - node.type.job_listing
   module:
     - disable_field
-third_party_settings:
-  disable_field:
-    add_disable: roles_enable
-    add_roles:
-      - admin
-      - content_producer
-      - editor
-    edit_disable: roles_enable
-    edit_roles:
-      - admin
-      - content_producer
-      - editor
+third_party_settings: {}
 id: node.job_listing.field_promoted
 field_name: field_promoted
 entity_type: node

@@ -37,6 +37,10 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
     'readonly_field_widget',
     'helfi_hakuvahti',
     'helfi_rekry_content',
+    'text',
+    'pathauto',
+    'token',
+    'path_alias',
     'migrate',
   ];
 

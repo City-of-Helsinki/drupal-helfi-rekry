@@ -6,11 +6,8 @@ dependencies:
     - field.storage.node.field_organization_description
     - node.type.job_listing
   module:
-    - allowed_formats
     - text
-third_party_settings:
-  allowed_formats:
-    allowed_formats: {  }
+third_party_settings: {}
 id: node.job_listing.field_organization_description
 field_name: field_organization_description
 entity_type: node
