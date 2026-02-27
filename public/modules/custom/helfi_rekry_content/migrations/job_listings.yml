@@ -19,7 +19,7 @@ source:
   fields:
     -
       name: id
-      label: Id
+      label: 'Recruitment id'
       selector: jobAdvertisement/id
     -
       name: title
@@ -90,10 +90,6 @@ source:
       label: 'Postal code'
       selector: jobAdvertisement/postalCode
     -
-      name: recruitment_id
-      label: 'Recruitment id'
-      selector: jobAdvertisement/id
-    -
       name: salary
       label: Salary
       selector: jobAdvertisement/salary
@@ -138,11 +134,6 @@ source:
       label: 'Base URL'
       selector: baseUrl
 process:
-  id: id
-  nid:
-    plugin: callback
-    callable: _helfi_rekry_content_lookup_job_nid
-    source: id
   title: title
   langcode: langcode
   job_description/value:
@@ -212,7 +203,7 @@ process:
   field_organization_name: organization_name
   field_postal_area: postal_area
   field_postal_code: postal_code
-  field_recruitment_id: recruitment_id
+  field_recruitment_id: id
   field_salary: salary
   field_salary_class: salary_class
   field_task_area/target_id:
