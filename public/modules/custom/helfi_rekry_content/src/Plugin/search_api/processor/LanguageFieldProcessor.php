@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Plugin\search_api\processor;
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\search_api\Attribute\SearchApiProcessor;
 use Drupal\search_api\Datasource\DatasourceInterface;
 use Drupal\search_api\Item\ItemInterface;
 use Drupal\search_api\Processor\ProcessorPluginBase;
@@ -17,18 +19,17 @@ use Drupal\search_api\Processor\ProcessorProperty;
  * renamed to `search_api_language` in elasticsearch_connector v8 update. We
  * cannot modify rekry search api index without breaking existing hakuvahti
  * queries.
- *
- * @SearchApiProcessor(
- *   id = "language_field",
- *   label = @Translation("Language field"),
- *   description = @Translation("Add _language field to the index."),
- *   stages = {
- *     "add_properties" = 20,
- *   },
- *   locked = true,
- *   hidden = true,
- * )
  */
+#[SearchApiProcessor(
+  id: 'language_field',
+  label: new TranslatableMarkup('Language field'),
+  description: new TranslatableMarkup('Add _language field to the index.'),
+  stages: [
+    'add_properties' => 20,
+  ],
+  locked: TRUE,
+  hidden: TRUE,
+)]
 class LanguageFieldProcessor extends ProcessorPluginBase {
 
   /**
