@@ -88,6 +88,32 @@ class UnpublishWorkerTest extends RekryKernelTestBase {
   }
 
   /**
+   * Tests that unpublishing is skipped when disabled via config.
+   */
+  public function testUnpublishWorkerDisabled(): void {
+    $this->config('helfi_rekry_content.job_listings')
+      ->set('disable_unpublishing', TRUE)
+      ->save();
+
+    $manager = $this->container->get('plugin.manager.queue_worker');
+    $sut = $manager->createInstance('job_listing_unpublish_worker');
+
+    $node = $this->createNode([
+      'type' => 'job_listing',
+      'status' => NodeInterface::PUBLISHED,
+    ]);
+
+    $sut->processItem(['nid' => $node->id()]);
+
+    /** @var \Drupal\node\NodeInterface $reloaded */
+    $reloaded = $this->container->get(EntityTypeManagerInterface::class)
+      ->getStorage('node')
+      ->loadUnchanged($node->id());
+
+    $this->assertTrue($reloaded->isPublished());
+  }
+
+  /**
    * Asserts that node is no longer published.
    */
   private function assertNodeIsUnpublished(string $nid): void {
