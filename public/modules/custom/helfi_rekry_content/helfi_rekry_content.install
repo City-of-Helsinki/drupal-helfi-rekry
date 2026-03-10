@@ -550,3 +550,14 @@ function helfi_rekry_content_update_11001(): void {
     ->clear('hakuvahti_instructions_link_url')
     ->save();
 }
+
+/**
+ * Clear invalid key from config.
+ */
+function helfi_rekry_content_update_11002(): void {
+  // The redirect feature uses `redirect_403_page`.
+  \Drupal::configFactory()
+    ->getEditable('helfi_rekry_content.job_listings')
+    ->clear('redirect_403')
+    ->save();
+}
