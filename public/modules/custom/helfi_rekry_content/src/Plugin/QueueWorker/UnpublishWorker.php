@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Plugin\QueueWorker;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\Attribute\QueueWorker;
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\node\NodeInterface;
+use Drupal\helfi_rekry_content\Entity\JobListing;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -23,26 +24,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 )]
 final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
-  /**
-   * Constructs a new UnpublishWorker object.
-   *
-   * @param array $configuration
-   *   Configuration array.
-   * @param mixed $plugin_id
-   *   The plugin id.
-   * @param mixed $plugin_definition
-   *   The plugin definition.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entity type manager.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   Logger channel.
-   */
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
     protected EntityTypeManagerInterface $entityTypeManager,
     protected LoggerInterface $logger,
+    protected ConfigFactoryInterface $configFactory,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
@@ -55,8 +43,9 @@ final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryP
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager'),
+      $container->get(EntityTypeManagerInterface::class),
       $container->get('logger.channel.helfi_rekry_content'),
+      $container->get(ConfigFactoryInterface::class),
     );
   }
 
@@ -70,30 +59,36 @@ final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryP
     }
 
     $nid = $data['nid'];
-    $nodeStorage = $this->entityTypeManager->getStorage('node');
-    $node = $nodeStorage->load($nid);
+    $disableUnpublishing = (bool) $this->configFactory
+      ->get('helfi_rekry_content.job_listings')
+      ->get('disable_unpublishing');
 
-    // Unpublish all translations.
-    if ($node instanceof NodeInterface && $node->getType() == 'job_listing') {
-      foreach ($node->getTranslationLanguages() as $language) {
-        $langcode = $language->getId();
+    if (!$disableUnpublishing) {
+      $nodeStorage = $this->entityTypeManager->getStorage('node');
+      $node = $nodeStorage->load($nid);
 
-        // Unpublish the job listing node as it's still published, but it's
-        // no longer available at the source.
-        if (!$node->hasTranslation($langcode)) {
-          continue;
+      // Unpublish all translations.
+      if ($node instanceof JobListing) {
+        foreach ($node->getTranslationLanguages() as $language) {
+          $langcode = $language->getId();
+
+          // Unpublish the job listing node as it's still published, but it's
+          // no longer available at the source.
+          if (!$node->hasTranslation($langcode)) {
+            continue;
+          }
+
+          $translation = $node->getTranslation($langcode);
+          $translation->setUnpublished();
+
+          // Also, clear the published on date so the translation
+          // is not going to be re-published.
+          if ($translation->hasField('publish_on') && !empty($translation->get('publish_on')->getValue())) {
+            $translation->set('publish_on', NULL);
+          }
+
+          $translation->save();
         }
-
-        $translation = $node->getTranslation($langcode);
-        $translation->setUnpublished();
-
-        // Also clear the published on date so the translation
-        // is not going to be re-published.
-        if ($translation->hasField('publish_on') && !empty($translation->get('publish_on')->getValue())) {
-          $translation->set('publish_on', NULL);
-        }
-
-        $translation->save();
       }
     }
 

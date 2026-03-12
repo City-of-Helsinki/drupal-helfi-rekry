@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_rekry_content\Helbit;
 
-use Drupal\Core\Utility\Error;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Utils;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Helbit API client.
@@ -21,8 +18,6 @@ class HelbitClient {
    * Constructs a HelbitClient object.
    */
   public function __construct(
-    #[Autowire(service: 'logger.channel.helfi_rekry_content')]
-    private readonly LoggerInterface $logger,
     private readonly ClientInterface $client,
     private readonly Settings $config,
   ) {
@@ -38,6 +33,8 @@ class HelbitClient {
    *
    * @return array
    *   Job listing data.
+   *
+   * @throws \Drupal\helfi_rekry_content\Helbit\HelbitException
    */
   public function getJobListings(string $language, array $query = []): array {
     $jobListings = [];
@@ -61,13 +58,11 @@ class HelbitClient {
           $jobListings = array_merge($jobListings, $response['jobAdvertisements'] ?? []);
         }
         else {
-          $this->logger->error('Failed retrieving data from Helbit. Request failed with code: @status_code', [
-            '@status_code' => $response['status'] ?? '',
-          ]);
+          throw new HelbitException('Failed retrieving data from Helbit. Request failed with code: ' . $response['status'] ?? '');
         }
       }
       catch (RequestException | GuzzleException $e) {
-        Error::logException($this->logger, $e);
+        throw new HelbitException('Failed retrieving data from Helbit. Request failed with code: ' . $e->getCode(), previous: $e);
       }
     }
 
