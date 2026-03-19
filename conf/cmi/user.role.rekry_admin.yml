@@ -1,0 +1,9 @@
+uuid: ad900a76-ffc6-4bae-a939-12def06d3278
+langcode: en
+status: true
+dependencies: {  }
+id: rekry_admin
+label: 'Rekry administrator'
+weight: -4
+is_admin: false
+permissions: {  }
