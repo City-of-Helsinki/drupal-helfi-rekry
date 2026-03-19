@@ -19,7 +19,7 @@ final readonly class PlatformConfig {
   #[Hook('platform_config_grant_permissions')]
   public function permissions(): array {
     return [
-      'admin' => [
+      'rekry_admin' => [
         'delete any job_listing content',
         'delete job_listing revisions',
         'delete own job_listing content',
