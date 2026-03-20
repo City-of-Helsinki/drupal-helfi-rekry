@@ -33,7 +33,7 @@ $config['openid_connect.client.tunnistamo']['settings']['ad_roles'] = [
   ],
   [
     'ad_role' => 'Drupal_Helfi_Rekry_paakayttajat',
-    'roles' => ['admin'],
+    'roles' => ['rekry_admin'],
   ],
   [
     'ad_role' => 'Drupal_Helfi_Rekry_sisallontuottajat_laaja',
