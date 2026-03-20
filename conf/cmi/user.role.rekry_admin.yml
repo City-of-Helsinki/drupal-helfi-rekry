@@ -1,9 +1,32 @@
 uuid: ad900a76-ffc6-4bae-a939-12def06d3278
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  config:
+    - media.type.job_listing_image
+    - node.type.job_listing
+  module:
+    - content_translation
+    - media
+    - node
+    - publication_date
+    - tfa
 id: rekry_admin
 label: 'Rekry administrator'
 weight: -4
 is_admin: false
-permissions: {  }
+permissions:
+  - 'delete any job_listing content'
+  - 'delete job_listing revisions'
+  - 'delete own job_listing content'
+  - 'disable own tfa'
+  - 'edit any job_listing content'
+  - 'edit any job_listing_image media'
+  - 'edit own job_listing content'
+  - 'edit own job_listing_image media'
+  - 'revert job_listing revisions'
+  - 'set job_listing published on date'
+  - 'setup own tfa'
+  - 'translate job_listing node'
+  - 'view job_listing published on date'
+  - 'view job_listing revisions'
