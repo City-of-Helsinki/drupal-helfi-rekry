@@ -19,6 +19,14 @@ final readonly class PlatformConfig {
   #[Hook('platform_config_grant_permissions')]
   public function permissions(): array {
     return [
+      'admin' => [
+        'edit any job_listing content',
+        'edit any job_listing_image media',
+        'edit own job_listing content',
+        'edit own job_listing_image media',
+        'revert job_listing revisions',
+        'view job_listing revisions',
+      ],
       'rekry_admin' => [
         'delete any job_listing content',
         'delete job_listing revisions',
