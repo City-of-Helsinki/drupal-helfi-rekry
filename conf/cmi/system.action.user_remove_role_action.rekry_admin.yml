@@ -1,0 +1,14 @@
+uuid: 51f50483-507a-4464-9597-77b11e4509b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.rekry_admin
+  module:
+    - user
+id: user_remove_role_action.rekry_admin
+label: 'Remove the Rekry administrator role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: rekry_admin

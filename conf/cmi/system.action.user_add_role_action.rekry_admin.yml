@@ -1,0 +1,14 @@
+uuid: d7e92084-e2c0-42c5-b1db-34f930d288fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.rekry_admin
+  module:
+    - user
+id: user_add_role_action.rekry_admin
+label: 'Add the Rekry administrator role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: rekry_admin
