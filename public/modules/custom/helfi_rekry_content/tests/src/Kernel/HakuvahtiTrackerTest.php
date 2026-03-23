@@ -185,14 +185,12 @@ class HakuvahtiTrackerTest extends RekryKernelTestBase {
 
   /**
    * Test empty query.
-   *
-   * @return void
    */
   public function testEmptyQuery(): void {
     /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
     $tracker = $this->container->get(HakuvahtiTracker::class);
 
-    $result = $tracker->parseQuery('',  '', 'fi', false);
+    $result = $tracker->parseQuery('', '', 'fi', FALSE);
     $this->assertTrue(is_array($result));
     $this->assertTrue(empty($result));
   }
