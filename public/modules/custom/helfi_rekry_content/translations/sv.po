@@ -35,3 +35,6 @@ msgstr "Nordöstra området"
 
 msgid "More detailed instructions on how to use saved searches"
 msgstr "Närmare anvisningar för hur du använder sökvakten"
+
+msgid "This content is automatically imported from the API. Manual changes may be overwritten during the import."
+msgstr "Detta innehåll importeras automatiskt från API:et. Manuella ändringar kan skrivas över under importen."

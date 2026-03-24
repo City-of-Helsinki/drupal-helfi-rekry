@@ -258,8 +258,19 @@ class HakuvahtiTracker {
    */
   public function parseQuery(string $query, string $queryParameters = '', string $langcode = 'fi', bool $includeKeyword = FALSE): array {
     $elasticQuery = base64_decode($query);
-    $queryAsArray = json_decode($elasticQuery, TRUE);
+    $queryAsArray = json_decode($elasticQuery, TRUE) ?? [];
     $data = [];
+
+    $area_filter_labels = [];
+    if ($area_filters = $this->extractQueryParameters($queryParameters, 'area_filter')) {
+      foreach ($area_filters as $area) {
+        $area_filter_labels[] = $this->translateString($area, $langcode);
+      }
+    }
+
+    if (!$queryAsArray) {
+      return $data;
+    }
 
     // Free text search.
     if (
@@ -287,13 +298,6 @@ class HakuvahtiTracker {
       $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $employmentTypeField)
     ) {
       $employment_type_labels = $this->getLabelsByTermIds($employmentIds, $langcode);
-    }
-
-    $area_filter_labels = [];
-    if ($area_filters = $this->extractQueryParameters($queryParameters, 'area_filter')) {
-      foreach ($area_filters as $area) {
-        $area_filter_labels[] = $this->translateString($area, $langcode);
-      }
     }
 
     $language = $this->sliceTree($queryAsArray['query']['bool']['filter'], '_language');

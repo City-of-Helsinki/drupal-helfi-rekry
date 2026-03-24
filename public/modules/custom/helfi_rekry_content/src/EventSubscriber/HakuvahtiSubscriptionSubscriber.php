@@ -67,6 +67,11 @@ readonly class HakuvahtiSubscriptionSubscriber implements EventSubscriberInterfa
    */
   public function hakuvahtiSubscriptionActions(SubscriptionEvent $event): void {
     $filters = $this->hakuvahtiTracker->parseQuery($event->getQuery(), $event->getQueryParameters());
+
+    if (empty($filters)) {
+      return;
+    }
+
     $this->hakuvahtiTracker->saveSelectedFilters($filters);
   }
 
