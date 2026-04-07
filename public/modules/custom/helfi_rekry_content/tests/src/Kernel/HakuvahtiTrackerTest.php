@@ -183,4 +183,16 @@ class HakuvahtiTrackerTest extends RekryKernelTestBase {
     $this->assertEquals(1, $count, 'Database should still contain 1 row.');
   }
 
+  /**
+   * Test empty query.
+   */
+  public function testEmptyQuery(): void {
+    /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
+    $tracker = $this->container->get(HakuvahtiTracker::class);
+
+    $result = $tracker->parseQuery('', '', 'fi', FALSE);
+    $this->assertTrue(is_array($result));
+    $this->assertTrue(empty($result));
+  }
+
 }

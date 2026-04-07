@@ -13,11 +13,6 @@ services:
   Drupal\helfi_rekry_content\EventSubscriber\JobListingRedirectSubscriber: ~
   Drupal\helfi_rekry_content\EventSubscriber\HakuvahtiSubscriptionSubscriber: ~
 
-  Drupal\helfi_rekry_content\EventSubscriber\ResponseSubscriber:
-    class: Drupal\helfi_rekry_content\EventSubscriber\ResponseSubscriber
-    tags:
-      - { name: event_subscriber }
-
   Drupal\helfi_rekry_content\Helbit\SettingsFactory:
   Drupal\helfi_rekry_content\Helbit\Settings:
     factory:

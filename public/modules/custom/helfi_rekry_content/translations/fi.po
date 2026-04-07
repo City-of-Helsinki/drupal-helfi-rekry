@@ -95,3 +95,6 @@ msgstr "Vaihda erotinmerkkiä jos csv-tiedosto ei avaudu formatoituna käyttäm�
 
 msgid "More detailed instructions on how to use saved searches"
 msgstr "Tarkemmat ohjeet hakuvahdin käyttöön"
+
+msgid "This content is automatically imported from the API. Manual changes may be overwritten during the import."
+msgstr "Tämä sisältö tuodaan automaattisesti rajapinnasta. Käsintehdyt muutokset voivat yliajautua tuonnin yhteydessä."

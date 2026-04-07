@@ -16,6 +16,7 @@ use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Event\ReindexScheduledEvent;
 use Drupal\search_api\Event\SearchApiEvents;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\user\Entity\Role;
 
 /**
  * Implements hook_install().
@@ -548,5 +549,37 @@ function helfi_rekry_content_update_11001(): void {
     ->clear('hakuvahti_tos_link_text')
     ->clear('hakuvahti_tos_link_url')
     ->clear('hakuvahti_instructions_link_url')
+    ->save();
+}
+
+/**
+ * Clear invalid key from config.
+ */
+function helfi_rekry_content_update_11002(): void {
+  // The redirect feature uses `redirect_403_page`.
+  \Drupal::configFactory()
+    ->getEditable('helfi_rekry_content.job_listings')
+    ->clear('redirect_403')
+    ->save();
+}
+
+/**
+ * Install 'rekry_admin' role.
+ */
+function helfi_rekry_content_update_11003(): void {
+  if (Role::load('rekry_admin')) {
+    return;
+  }
+  Role::create([
+    'id' => 'rekry_admin',
+    'label' => 'Rekry administrator',
+    'status' => TRUE,
+    'weight' => -4,
+  ])->save();
+
+  $languageManager = \Drupal::languageManager();
+  assert($languageManager instanceof ConfigurableLanguageManagerInterface);
+  $languageManager->getLanguageConfigOverride('fi', 'user.role.rekry_admin')
+    ->set('label', 'Rekry pääkäyttäjä')
     ->save();
 }
