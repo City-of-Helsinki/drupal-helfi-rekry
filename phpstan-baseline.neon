@@ -1,0 +1,716 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Property Drupal\\\\helfi_google_api\\\\Drush\\\\Commands\\\\GoogleIndexingApiCommands\\:\\:\\$aliasManager is never read, only written\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Drush/Commands/GoogleIndexingApiCommands.php
+
+		-
+			message: "#^Property Drupal\\\\helfi_google_api\\\\Drush\\\\Commands\\\\GoogleIndexingApiCommands\\:\\:\\$entityTypeManager is never read, only written\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Drush/Commands/GoogleIndexingApiCommands.php
+
+		-
+			message: "#^Property Drupal\\\\helfi_google_api\\\\Drush\\\\Commands\\\\GoogleIndexingApiCommands\\:\\:\\$languageManager is never read, only written\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Drush/Commands/GoogleIndexingApiCommands.php
+
+		-
+			message: "#^Property Drupal\\\\helfi_google_api\\\\Drush\\\\Commands\\\\GoogleIndexingApiCommands\\:\\:\\$urlGenerator is never read, only written\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Drush/Commands/GoogleIndexingApiCommands.php
+
+		-
+			message: "#^Right side of && is always false\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/EventSubscriber/JobMigrationSubscriber.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_google_api\\\\GoogleApi\\:\\:indexBatch\\(\\) has parameter \\$urls with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/GoogleApi.php
+
+		-
+			message: "#^Parameter \\$body of class GuzzleHttp\\\\Psr7\\\\Request constructor expects Psr\\\\Http\\\\Message\\\\StreamInterface\\|resource\\|string\\|null, string\\|false given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/GoogleApi.php
+
+		-
+			message: "#^Binary operation \"\\.\" between Drupal\\\\Core\\\\GeneratedUrl\\|string and string results in an error\\.$#"
+			count: 2
+			path: public/modules/custom/helfi_google_api/src/JobIndexingService.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_google_api\\\\JobIndexingService\\:\\:createTemporaryRedirectUrl\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/JobIndexingService.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_google_api\\\\JobIndexingService\\:\\:handleIndexingRequest\\(\\) has parameter \\$urls with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/JobIndexingService.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_google_api\\\\Plugin\\\\QueueWorker\\\\IndexingWorker\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Plugin/QueueWorker/IndexingWorker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_google_api\\\\Plugin\\\\QueueWorker\\\\IndexingWorker\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Plugin/QueueWorker/IndexingWorker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_google_api\\\\Response\\:\\:__construct\\(\\) has parameter \\$errors with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Response.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_google_api\\\\Response\\:\\:__construct\\(\\) has parameter \\$urls with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Response.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_google_api\\\\Response\\:\\:getErrors\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Response.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_google_api\\\\Response\\:\\:getUrls\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/src/Response.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_google_api\\\\Kernel\\\\IndexingTest\\:\\:getSut\\(\\) has parameter \\$errors with no type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/tests/src/Kernel/IndexingTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_google_api\\\\Kernel\\\\IndexingTest\\:\\:testIndexingErrors\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/tests/src/Kernel/IndexingTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_google_api\\\\Kernel\\\\IndexingTest\\:\\:testIndexingExceptions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/tests/src/Kernel/IndexingTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_google_api\\\\Kernel\\\\IndexingTest\\:\\:testQueue\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/tests/src/Kernel/IndexingTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$entity of method Drupal\\\\helfi_google_api\\\\JobIndexingService\\:\\:deindexEntity\\(\\) expects Drupal\\\\helfi_rekry_content\\\\Entity\\\\JobListing, Drupal\\\\node\\\\NodeInterface given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/tests/src/Kernel/IndexingTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$entity of method Drupal\\\\helfi_google_api\\\\JobIndexingService\\:\\:indexEntity\\(\\) expects Drupal\\\\helfi_rekry_content\\\\Entity\\\\JobListing, Drupal\\\\node\\\\NodeInterface given\\.$#"
+			count: 3
+			path: public/modules/custom/helfi_google_api/tests/src/Kernel/IndexingTest.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\helfi_google_api\\\\Kernel\\\\IndexingTest\\:\\:\\$modules has no type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_google_api/tests/src/Kernel/IndexingTest.php
+
+		-
+			message: "#^Cannot call method addTranslation\\(\\) on Drupal\\\\taxonomy\\\\Entity\\\\Term\\|false\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Cannot call method hasTranslation\\(\\) on Drupal\\\\taxonomy\\\\Entity\\\\Term\\|false\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Cannot call method removeTranslation\\(\\) on Drupal\\\\taxonomy\\\\Entity\\\\Term\\|false\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Function helfi_rekry_content_install\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Function helfi_rekry_content_install\\(\\) has parameter \\$is_syncing with no type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Function helfi_rekry_content_schema\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Function helfi_rekry_content_update_9003\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Function helfi_rekry_content_update_9005\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Function helfi_rekry_content_update_9006\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Function helfi_rekry_content_update_dependencies\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Parameter \\#1 \\$migration of class Drupal\\\\migrate\\\\MigrateExecutable constructor expects Drupal\\\\migrate\\\\Plugin\\\\MigrationInterface, object given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Using nullsafe method call on non\\-nullable type Drupal\\\\Core\\\\Field\\\\FieldItemListInterface\\<Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\>\\. Use \\-\\> instead\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.install
+
+		-
+			message: "#^Function _helfi_rekry_content_lookup_employment\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function _helfi_rekry_content_lookup_employment_type\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function _helfi_rekry_content_lookup_organization_tid\\(\\) has parameter \\$external_id with no type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function _helfi_rekry_content_lookup_task_area_tid\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_entity_bundle_info_alter\\(\\) has parameter \\$bundles with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_first_paragraph_grey_alter\\(\\) has parameter \\$paragraphs with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_helfi_paragraph_types\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_migration_plugins_alter\\(\\) has parameter \\$migrations with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_page_attachments\\(\\) has parameter \\$attachments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_page_attachments_alter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_page_attachments_alter\\(\\) has parameter \\$attachments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_preprocess_field\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_preprocess_field\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_theme\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Function helfi_rekry_content_views_query_alter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Parameter \\#1 \\$string of function urldecode expects string, string\\|false given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Entity\\\\JobListing\\:\\:getCityDescriptions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Entity/JobListing.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Entity\\\\JobListing\\:\\:getOrganizationDefaultImage\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Entity/JobListing.php
+
+		-
+			message: "#^Using nullsafe method call on non\\-nullable type Drupal\\\\Core\\\\Entity\\\\Plugin\\\\DataType\\\\EntityAdapter\\. Use \\-\\> instead\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Entity/JobListing.php
+
+		-
+			message: "#^Using nullsafe method call on non\\-nullable type Drupal\\\\Core\\\\Entity\\\\Plugin\\\\DataType\\\\EntityReference\\. Use \\-\\> instead\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Entity/JobListing.php
+
+		-
+			message: "#^Using nullsafe method call on non\\-nullable type Drupal\\\\Core\\\\Field\\\\FieldItemListInterface\\<Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\>\\. Use \\-\\> instead\\.$#"
+			count: 2
+			path: public/modules/custom/helfi_rekry_content/src/Entity/JobListing.php
+
+		-
+			message: "#^Using nullsafe method call on non\\-nullable type Drupal\\\\media\\\\Entity\\\\Media\\. Use \\-\\> instead\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Entity/JobListing.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\EventSubscriber\\\\ImageImportSubscriber\\:\\:getImageMigrations\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/EventSubscriber/ImageImportSubscriber.php
+
+		-
+			message: "#^Parameter \\#1 \\$filename of function file_exists expects string, string\\|false given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/EventSubscriber/ImageImportSubscriber.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\EventSubscriber\\\\JobListingHideMissingSubscriber\\:\\:getJobListingMigrations\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/EventSubscriber/JobListingHideMissingSubscriber.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\EventSubscriber\\\\JobListingRedirectSubscriber\\:\\:getHandledFormats\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/EventSubscriber/JobListingRedirectSubscriber.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Form\\\\SelectedFiltersCsvForm\\:\\:buildForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Form/SelectedFiltersCsvForm.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Form\\\\SelectedFiltersCsvForm\\:\\:buildForm\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Form/SelectedFiltersCsvForm.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Form\\\\SelectedFiltersCsvForm\\:\\:submitForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Form/SelectedFiltersCsvForm.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Form\\\\SettingsForm\\:\\:buildForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Form/SettingsForm.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Form\\\\SettingsForm\\:\\:buildForm\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Form/SettingsForm.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Form\\\\SettingsForm\\:\\:getEditableConfigNames\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Form/SettingsForm.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Form\\\\SettingsForm\\:\\:submitForm\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Form/SettingsForm.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: string$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:getJobListings\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:getJobListings\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:makeRequest\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:makeRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:makeRequest\\(\\) should return array but returns array\\|bool\\|float\\|int\\|object\\|string\\|null\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Hook\\\\JobListingNodeHook\\:\\:jobListingNodeFormAlter\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Hook/JobListingNodeHook.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Hook\\\\JobListingTheme\\:\\:preprocessParagraph\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Hook/JobListingTheme.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Hook\\\\PlatformConfig\\:\\:permissions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Hook/PlatformConfig.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\Block\\\\OrganizationInformation\\:\\:build\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/Block/OrganizationInformation.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\Deriver\\\\HelbitMigrationDeriver\\:\\:getDerivativeDefinitions\\(\\) has parameter \\$base_plugin_definition with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/Deriver/HelbitMigrationDeriver.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\Deriver\\\\HelbitMigrationDeriver\\:\\:getDerivativeDefinitions\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/Deriver/HelbitMigrationDeriver.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\Deriver\\\\HelbitMigrationDeriver\\:\\:getDerivativeValues\\(\\) has parameter \\$base_plugin_definition with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/Deriver/HelbitMigrationDeriver.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\Deriver\\\\HelbitMigrationDeriver\\:\\:getDerivativeValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/Deriver/HelbitMigrationDeriver.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\QueueWorker\\\\UnpublishWorker\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/QueueWorker/UnpublishWorker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\QueueWorker\\\\UnpublishWorker\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/QueueWorker/UnpublishWorker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\process\\\\SkipPastDateForPublished\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/process/SkipPastDateForPublished.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\process\\\\SkipPastDateForPublished\\:\\:__construct\\(\\) has parameter \\$plugin_definition with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/process/SkipPastDateForPublished.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\process\\\\SkipPastDateForPublished\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/process/SkipPastDateForPublished.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\source\\\\HelbitOpenJobs\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/source/HelbitOpenJobs.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\source\\\\HelbitOpenJobs\\:\\:fields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/source/HelbitOpenJobs.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\source\\\\HelbitOpenJobs\\:\\:getFieldsFromRow\\(\\) has parameter \\$row with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/source/HelbitOpenJobs.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\source\\\\HelbitOpenJobs\\:\\:getFieldsFromRow\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/source/HelbitOpenJobs.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\source\\\\HelbitOpenJobs\\:\\:getIds\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/source/HelbitOpenJobs.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\search_api\\\\processor\\\\LanguageFieldProcessor\\:\\:addFieldValues\\(\\) has parameter \\$item with no value type specified in iterable type Drupal\\\\search_api\\\\Item\\\\ItemInterface\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Plugin/search_api/processor/LanguageFieldProcessor.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:createCsvStringFromArray\\(\\) has parameter \\$rows with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:createCsvStringFromArray\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:extractQueryParameters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:getLabelsByExternalId\\(\\) has parameter \\$external_ids with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:getLabelsByExternalId\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:getLabelsByTermIds\\(\\) has parameter \\$term_ids with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:getLabelsByTermIds\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:getSavedFilters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:parseQuery\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:saveSelectedFilters\\(\\) has parameter \\$filters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:sliceTree\\(\\) has parameter \\$tree with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:sliceTree\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Parameter \\#1 \\$external_ids of method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:getLabelsByExternalId\\(\\) expects array, array\\|string given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			count: 2
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fputcsv expects resource, resource\\|false given\\.$#"
+			count: 2
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function rewind expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function stream_get_contents expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Parameter \\#1 \\$term_ids of method Drupal\\\\helfi_rekry_content\\\\Service\\\\HakuvahtiTracker\\:\\:getLabelsByTermIds\\(\\) expects array, array\\|string given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/HakuvahtiTracker.php
+
+		-
+			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Service\\\\JobListingCleaner\\:\\:findExpiredJobListings\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/JobListingCleaner.php
+
+		-
+			message: "#^Property Drupal\\\\helfi_rekry_content\\\\Service\\\\JobListingCleaner\\:\\:\\$jobListingCache type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/src/Service/JobListingCleaner.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\FilenameTest\\:\\:filenameData\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/FilenameTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_hakuvahti\\\\Kernel\\\\HakuvahtiEventSubscriberTest\\:\\:searchDescriptionDataProvider\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/HakuvahtiEventSubscriberTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_hakuvahti\\\\Kernel\\\\HakuvahtiEventSubscriberTest\\:\\:testSearchDescription\\(\\) has parameter \\$filters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/HakuvahtiEventSubscriberTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/HakuvahtiSubscribeTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$csv of method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\HakuvahtiTrackerTest\\:\\:assertCsv\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/HakuvahtiTrackerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\HelbitOpenJobsTest\\:\\:getSut\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/HelbitOpenJobsTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\JobMigrationTest\\:\\:testVideoUrlSanitization\\(\\) has parameter \\$videoUrls with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/JobMigrationTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\JobMigrationTest\\:\\:videoUrlData\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/JobMigrationTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\StructuredDataTest\\:\\:extractJsonLdFromAttachments\\(\\) has parameter \\$attachments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/StructuredDataTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\StructuredDataTest\\:\\:extractJsonLdFromAttachments\\(\\) is unused\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/StructuredDataTest.php
+
+		-
+			message: "#^Property Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\StructuredDataTest\\:\\:\\$entityVersionMatcher with generic class Prophecy\\\\Prophecy\\\\ObjectProphecy does not specify its types\\: T$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/StructuredDataTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$nid of method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\UnpublishWorkerTest\\:\\:assertNodeIsUnpublished\\(\\) expects string, int\\|string\\|null given\\.$#"
+			count: 3
+			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/UnpublishWorkerTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Unit\\\\HelbitClientTest\\:\\:createMockHttpClient\\(\\) has parameter \\$handlers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Unit/HelbitClientTest.php
+
+		-
+			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Unit\\\\HelbitClientTest\\:\\:createMockResponse\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Unit/HelbitClientTest.php
+
+		-
+			message: "#^Parameter \\$body of class GuzzleHttp\\\\Psr7\\\\Response constructor expects Psr\\\\Http\\\\Message\\\\StreamInterface\\|resource\\|string\\|null, string\\|false given\\.$#"
+			count: 1
+			path: public/modules/custom/helfi_rekry_content/tests/src/Unit/HelbitClientTest.php
+
+		-
+			message: "#^Function _update_job_search_task_area_page_title_tag\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function _update_job_search_task_area_page_title_tag\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_preprocess_block\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_preprocess_block__views_block__of_interest\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_preprocess_field\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_preprocess_html\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_preprocess_node\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_preprocess_page\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_theme_suggestions_block_alter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_theme_suggestions_block_alter\\(\\) has parameter \\$suggestions with no type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_theme_suggestions_menu_alter\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_theme_suggestions_menu_alter\\(\\) has parameter \\$suggestions with no type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Function hdbt_subtheme_theme_suggestions_menu_alter\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
+
+		-
+			message: "#^Using nullsafe method call on non\\-nullable type Drupal\\\\Core\\\\Field\\\\FieldItemListInterface\\<Drupal\\\\Core\\\\Field\\\\FieldItemInterface\\>\\. Use \\-\\> instead\\.$#"
+			count: 1
+			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme
