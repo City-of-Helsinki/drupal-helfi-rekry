@@ -298,18 +298,7 @@ class HakuvahtiTracker {
       $employment_type_labels = $this->getLabelsByTermIds($employmentIds, $langcode);
     }
 
-    $employment_search_id_labels = [];
-    if (str_contains($elasticQuery, 'employment_search_id')) {
-      $search_ids = [];
-      foreach ($queryAsArray['query']['bool']['should'] ?? [] as $clause) {
-        if (isset($clause['term']['employment_search_id'])) {
-          $search_ids[] = $clause['term']['employment_search_id'];
-        }
-      }
-      if ($search_ids) {
-        $employment_search_id_labels = $this->getLabelsBySearchId(array_unique($search_ids), $langcode);
-      }
-    }
+    $employment_search_id_labels = $this->parseEmploymentSearchIds($elasticQuery, $queryAsArray, $langcode);
 
     $language = $this->sliceTree($queryAsArray['query']['bool']['filter'], '_language');
     $language = empty($language) ? '' : $language;
@@ -411,6 +400,34 @@ class HakuvahtiTracker {
     }
 
     return $query_parameters;
+  }
+
+  /**
+   * Parses employment_search_id terms and resolves them to taxonomy labels.
+   *
+   * @param string $elasticQuery
+   *   The decoded elasticsearch query JSON string (for early-out check).
+   * @param array $queryAsArray
+   *   The decoded elasticsearch query as an associative array.
+   * @param string $langcode
+   *   The language code for label translation.
+   *
+   * @return string[]
+   *   Translated taxonomy labels for matching field_search_id values.
+   */
+  private function parseEmploymentSearchIds(string $elasticQuery, array $queryAsArray, string $langcode): array {
+    if (!str_contains($elasticQuery, 'employment_search_id')) {
+      return [];
+    }
+    $search_ids = [];
+    foreach ($queryAsArray['query']['bool']['should'] ?? [] as $clause) {
+      if (isset($clause['term']['employment_search_id'])) {
+        $search_ids[] = $clause['term']['employment_search_id'];
+      }
+    }
+    return $search_ids
+      ? $this->getLabelsBySearchId(array_unique($search_ids), $langcode)
+      : [];
   }
 
   /**
