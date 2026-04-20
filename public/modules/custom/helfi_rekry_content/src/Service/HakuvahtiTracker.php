@@ -282,22 +282,33 @@ class HakuvahtiTracker {
       $data['vapaa-sana'] = [$keyword];
     }
 
-    $taskAreaField = 'task_area_external_id';
     $task_area_labels = [];
     if (
-      str_contains($elasticQuery, $taskAreaField) &&
-      $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $taskAreaField)
+      str_contains($elasticQuery, 'task_area_external_id') &&
+      $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], 'task_area_external_id')
     ) {
       $task_area_labels = $this->getLabelsByExternalId($taskAreaIds, $langcode);
     }
 
     $employment_type_labels = [];
-    $employmentTypeField = 'employment_type_id';
     if (
-      str_contains($elasticQuery, $employmentTypeField) &&
-      $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $employmentTypeField)
+      str_contains($elasticQuery, 'employment_type_id') &&
+      $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], 'employment_type_id')
     ) {
       $employment_type_labels = $this->getLabelsByTermIds($employmentIds, $langcode);
+    }
+
+    $employment_search_id_labels = [];
+    if (str_contains($elasticQuery, 'employment_search_id')) {
+      $search_ids = [];
+      foreach ($queryAsArray['query']['bool']['should'] ?? [] as $clause) {
+        if (isset($clause['term']['employment_search_id'])) {
+          $search_ids[] = $clause['term']['employment_search_id'];
+        }
+      }
+      if ($search_ids) {
+        $employment_search_id_labels = $this->getLabelsBySearchId(array_unique($search_ids), $langcode);
+      }
     }
 
     $language = $this->sliceTree($queryAsArray['query']['bool']['filter'], '_language');
@@ -307,6 +318,7 @@ class HakuvahtiTracker {
     return $data + [
       'Ammattiala' => $task_area_labels,
       'Palvelussuhteen tyyppi' => $employment_type_labels,
+      'Erityishaku' => $employment_search_id_labels,
       'Sijainti' => $area_filter_labels,
       'Kieli' => [$language],
     ];
@@ -399,6 +411,30 @@ class HakuvahtiTracker {
     }
 
     return $query_parameters;
+  }
+
+  /**
+   * Retrieves taxonomy labels by field_search_id values in a given language.
+   *
+   * @param array $search_ids
+   *   An array of field_search_id values to match (e.g. 'continuous').
+   * @param string $language
+   *   The language code for the desired translation.
+   *
+   * @return array
+   *   An array of taxonomy term labels in the specified language.
+   */
+  private function getLabelsBySearchId(array $search_ids, string $language): array {
+    $labels = [];
+    $terms = $this->entityTypeManager
+      ->getStorage('taxonomy_term')
+      ->loadByProperties(['field_search_id' => $search_ids]);
+    foreach ($terms as $term) {
+      assert($term instanceof TermInterface);
+      $translated_term = $term->hasTranslation($language) ? $term->getTranslation($language) : $term;
+      $labels[] = $translated_term->label();
+    }
+    return $labels;
   }
 
   /**

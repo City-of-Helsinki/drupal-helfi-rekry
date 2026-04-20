@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
 use Drupal\Core\Form\FormState;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\helfi_rekry_content\Form\SelectedFiltersCsvForm;
 use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
@@ -23,6 +27,9 @@ class HakuvahtiTrackerTest extends RekryKernelTestBase {
   protected static $modules = [
     'system',
     'taxonomy',
+    'field',
+    'text',
+    'filter',
   ];
 
   /**
@@ -31,6 +38,51 @@ class HakuvahtiTrackerTest extends RekryKernelTestBase {
   public function setUp(): void {
     parent::setUp();
     $this->installSchema('helfi_rekry_content', ['hakuvahti_selected_filters']);
+    $this->installEntitySchema('taxonomy_term');
+    $this->installConfig(['taxonomy']);
+
+    $vocabularies = [
+      'employment' => 'Employment',
+      'employment_type' => 'Employment type',
+    ];
+    foreach ($vocabularies as $vid => $name) {
+      Vocabulary::create(['vid' => $vid, 'name' => $name])->save();
+    }
+
+    FieldStorageConfig::create([
+      'field_name' => 'field_search_id',
+      'entity_type' => 'taxonomy_term',
+      'type' => 'string',
+      'translatable' => TRUE,
+    ])->save();
+    foreach (array_keys($vocabularies) as $vid) {
+      FieldConfig::create([
+        'field_name' => 'field_search_id',
+        'entity_type' => 'taxonomy_term',
+        'bundle' => $vid,
+      ])->save();
+    }
+
+    $fixtures = [
+      'employment' => [
+        'continuous' => 'Open-ended vacancies',
+        'summer_jobs' => 'Summer jobs and summer temporary posts',
+        'youth_summer_jobs' => 'Young summer workers aged 16-17',
+        'cool_summer_project' => 'Siisti kesä! Project',
+      ],
+      'employment_type' => [
+        'training' => 'Practical training',
+      ],
+    ];
+    foreach ($fixtures as $vid => $terms) {
+      foreach ($terms as $search_id => $name) {
+        Term::create([
+          'vid' => $vid,
+          'name' => $name,
+          'field_search_id' => $search_id,
+        ])->save();
+      }
+    }
   }
 
   /**
@@ -193,6 +245,34 @@ class HakuvahtiTrackerTest extends RekryKernelTestBase {
     $result = $tracker->parseQuery('', '', 'fi', FALSE);
     $this->assertTrue(is_array($result));
     $this->assertTrue(empty($result));
+  }
+
+  /**
+   * Test that employment_search_id terms resolve to taxonomy labels.
+   */
+  public function testEmploymentSearchIdsResolveToTaxonomyLabels(): void {
+    /** @var \Drupal\helfi_rekry_content\Service\HakuvahtiTracker $tracker */
+    $tracker = $this->container->get(HakuvahtiTracker::class);
+
+    $elasticQuery = base64_encode(json_encode([
+      'query' => [
+        'bool' => [
+          'should' => [
+            ['term' => ['employment_search_id' => 'continuous']],
+            ['term' => ['employment_search_id' => 'training']],
+            ['term' => ['employment_search_id' => 'unknown_id']],
+          ],
+        ],
+      ],
+    ]));
+
+    $result = $tracker->parseQuery($elasticQuery, '', 'fi', FALSE);
+
+    $this->assertEqualsCanonicalizing(
+      ['Open-ended vacancies', 'Practical training'],
+      $result['Erityishaku'],
+      'Unknown ids are skipped; known ids resolve across vocabularies.',
+    );
   }
 
 }
