@@ -407,7 +407,7 @@ class HakuvahtiTracker {
    *
    * @param string $elasticQuery
    *   The decoded elasticsearch query JSON string (for early-out check).
-   * @param array $queryAsArray
+   * @param array<string, mixed> $queryAsArray
    *   The decoded elasticsearch query as an associative array.
    * @param string $langcode
    *   The language code for label translation.
