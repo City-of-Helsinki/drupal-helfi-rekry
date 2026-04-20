@@ -26,6 +26,7 @@ class HakuvahtiTrackerTest extends RekryKernelTestBase {
    */
   protected static $modules = [
     'system',
+    'user',
     'taxonomy',
     'field',
     'text',
@@ -38,6 +39,7 @@ class HakuvahtiTrackerTest extends RekryKernelTestBase {
   public function setUp(): void {
     parent::setUp();
     $this->installSchema('helfi_rekry_content', ['hakuvahti_selected_filters']);
+    $this->installEntitySchema('user');
     $this->installEntitySchema('taxonomy_term');
     $this->installConfig(['taxonomy']);
 
@@ -257,6 +259,7 @@ class HakuvahtiTrackerTest extends RekryKernelTestBase {
     $elasticQuery = base64_encode(json_encode([
       'query' => [
         'bool' => [
+          'filter' => [['term' => ['entity_type' => 'node']]],
           'should' => [
             ['term' => ['employment_search_id' => 'continuous']],
             ['term' => ['employment_search_id' => 'training']],
