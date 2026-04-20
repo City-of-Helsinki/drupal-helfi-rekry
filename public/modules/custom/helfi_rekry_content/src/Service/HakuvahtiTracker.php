@@ -432,7 +432,7 @@ class HakuvahtiTracker {
     foreach ($terms as $term) {
       assert($term instanceof TermInterface);
       $translated_term = $term->hasTranslation($language) ? $term->getTranslation($language) : $term;
-      $labels[] = $translated_term->label();
+      $labels[] = (string) $translated_term->label();
     }
     return $labels;
   }
