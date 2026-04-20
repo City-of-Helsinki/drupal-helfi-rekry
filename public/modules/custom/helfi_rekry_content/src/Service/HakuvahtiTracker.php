@@ -416,12 +416,12 @@ class HakuvahtiTracker {
   /**
    * Retrieves taxonomy labels by field_search_id values in a given language.
    *
-   * @param array $search_ids
+   * @param string[] $search_ids
    *   An array of field_search_id values to match (e.g. 'continuous').
    * @param string $language
    *   The language code for the desired translation.
    *
-   * @return array
+   * @return string[]
    *   An array of taxonomy term labels in the specified language.
    */
   private function getLabelsBySearchId(array $search_ids, string $language): array {

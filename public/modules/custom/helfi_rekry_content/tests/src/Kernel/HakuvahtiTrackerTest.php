@@ -264,7 +264,7 @@ class HakuvahtiTrackerTest extends RekryKernelTestBase {
           ],
         ],
       ],
-    ]));
+    ], JSON_THROW_ON_ERROR));
 
     $result = $tracker->parseQuery($elasticQuery, '', 'fi', FALSE);
 
