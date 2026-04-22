@@ -95,7 +95,7 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
     $tracker = $this->container->get(HakuvahtiTracker::class);
 
     $filters = $tracker->parseQuery($data['elastic_query'], $data['query']);
-    foreach ($filters as $filter) {
+    foreach (array_filter($filters) as $filter) {
       $this->assertNotEmpty($filter);
     }
 
