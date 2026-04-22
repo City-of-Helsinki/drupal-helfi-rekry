@@ -282,23 +282,23 @@ class HakuvahtiTracker {
       $data['vapaa-sana'] = [$keyword];
     }
 
-    $taskAreaField = 'task_area_external_id';
     $task_area_labels = [];
     if (
-      str_contains($elasticQuery, $taskAreaField) &&
-      $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $taskAreaField)
+      str_contains($elasticQuery, 'task_area_external_id') &&
+      $taskAreaIds = $this->sliceTree($queryAsArray['query']['bool']['must'], 'task_area_external_id')
     ) {
       $task_area_labels = $this->getLabelsByExternalId($taskAreaIds, $langcode);
     }
 
     $employment_type_labels = [];
-    $employmentTypeField = 'employment_type_id';
     if (
-      str_contains($elasticQuery, $employmentTypeField) &&
-      $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], $employmentTypeField)
+      str_contains($elasticQuery, 'employment_type_id') &&
+      $employmentIds = $this->sliceTree($queryAsArray['query']['bool']['must'], 'employment_type_id')
     ) {
       $employment_type_labels = $this->getLabelsByTermIds($employmentIds, $langcode);
     }
+
+    $employment_search_id_labels = $this->parseEmploymentSearchIds($elasticQuery, $queryAsArray, $langcode);
 
     $language = $this->sliceTree($queryAsArray['query']['bool']['filter'], '_language');
     $language = empty($language) ? '' : $language;
@@ -307,6 +307,7 @@ class HakuvahtiTracker {
     return $data + [
       'Ammattiala' => $task_area_labels,
       'Palvelussuhteen tyyppi' => $employment_type_labels,
+      'Erityishaku' => $employment_search_id_labels,
       'Sijainti' => $area_filter_labels,
       'Kieli' => [$language],
     ];
@@ -399,6 +400,58 @@ class HakuvahtiTracker {
     }
 
     return $query_parameters;
+  }
+
+  /**
+   * Parses employment_search_id terms and resolves them to taxonomy labels.
+   *
+   * @param string $elasticQuery
+   *   The decoded elasticsearch query JSON string (for early-out check).
+   * @param array<string, mixed> $queryAsArray
+   *   The decoded elasticsearch query as an associative array.
+   * @param string $langcode
+   *   The language code for label translation.
+   *
+   * @return string[]
+   *   Translated taxonomy labels for matching field_search_id values.
+   */
+  private function parseEmploymentSearchIds(string $elasticQuery, array $queryAsArray, string $langcode): array {
+    if (!str_contains($elasticQuery, 'employment_search_id')) {
+      return [];
+    }
+    $search_ids = [];
+    foreach ($queryAsArray['query']['bool']['should'] ?? [] as $clause) {
+      if (isset($clause['term']['employment_search_id'])) {
+        $search_ids[] = $clause['term']['employment_search_id'];
+      }
+    }
+    return $search_ids
+      ? $this->getLabelsBySearchId(array_unique($search_ids), $langcode)
+      : [];
+  }
+
+  /**
+   * Retrieves taxonomy labels by field_search_id values in a given language.
+   *
+   * @param string[] $search_ids
+   *   An array of field_search_id values to match (e.g. 'continuous').
+   * @param string $language
+   *   The language code for the desired translation.
+   *
+   * @return string[]
+   *   An array of taxonomy term labels in the specified language.
+   */
+  private function getLabelsBySearchId(array $search_ids, string $language): array {
+    $labels = [];
+    $terms = $this->entityTypeManager
+      ->getStorage('taxonomy_term')
+      ->loadByProperties(['field_search_id' => $search_ids]);
+    foreach ($terms as $term) {
+      assert($term instanceof TermInterface);
+      $translated_term = $term->hasTranslation($language) ? $term->getTranslation($language) : $term;
+      $labels[] = (string) $translated_term->label();
+    }
+    return $labels;
   }
 
   /**
