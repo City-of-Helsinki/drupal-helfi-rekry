@@ -17,6 +17,7 @@ abstract class RekryKernelTestBase extends KernelTestBase {
   protected static $modules = [
     'helfi_rekry_content',
     'helfi_hakuvahti',
+    'migrate',
   ];
 
 }

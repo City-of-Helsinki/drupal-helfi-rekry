@@ -6,12 +6,8 @@ dependencies:
     - field.storage.node.field_original_language
     - node.type.job_listing
   module:
-    - disable_field
     - options
-third_party_settings:
-  disable_field:
-    add_disable: none
-    edit_disable: none
+third_party_settings: {}
 id: node.job_listing.field_original_language
 field_name: field_original_language
 entity_type: node

@@ -9,7 +9,10 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
+use Drupal\migrate\Plugin\MigrateIdMapInterface;
+use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -20,12 +23,17 @@ final class JobListingCleaner {
   /**
    * Value used to determined if a listing is considered expired.
    */
-  private const EXPIRE_THRESHOLD = '-1 week';
+  private const string EXPIRE_THRESHOLD = '-1 week';
 
   /**
    * Maximum number of job listings that are cleaned in a single operation.
    */
-  private const BATCH_SIZE = 100;
+  private const int BATCH_SIZE = 100;
+
+  /**
+   * The migration ID for job listings.
+   */
+  private const string MIGRATION_ID = 'helfi_rekry_jobs';
 
   /**
    * Job listing storage.
@@ -44,6 +52,7 @@ final class JobListingCleaner {
    */
   public function __construct(
     private readonly HelbitClient $client,
+    private readonly MigrationPluginManagerInterface $migrationPluginManager,
     EntityTypeManagerInterface $entityTypeManager,
   ) {
     $this->storage = $entityTypeManager->getStorage('node');
@@ -51,6 +60,8 @@ final class JobListingCleaner {
 
   /**
    * Clean expired job listings.
+   *
+   * Uses migrate rollback to remove entities and their migration map entries.
    *
    * @return int
    *   Number of entities deleted.
@@ -61,17 +72,43 @@ final class JobListingCleaner {
     $ids = $this->findExpiredJobListings();
     $jobListings = $this->storage->loadMultiple($ids);
 
+    $idMap = $this->getMigrationIdMap();
+
     foreach ($jobListings as $jobListing) {
-      assert($jobListing instanceof FieldableEntityInterface);
+      assert($jobListing instanceof JobListing);
 
       // The job listing should be deleted if it is not present in the API.
-      if (!$this->isJobListingInHelbit($jobListing)) {
+      if ($this->isJobListingInHelbit($jobListing)) {
+        $recruitmentId = $jobListing->get('field_recruitment_id')->getString();
+
+        foreach ($jobListing->getTranslationLanguages() as $language) {
+          // Clean up the migration map entry.
+          $idMap?->delete([$recruitmentId, $language->getId()]);
+        }
+
         $jobListing->delete();
+
         $count += 1;
       }
     }
 
     return $count;
+  }
+
+  /**
+   * Get the ID map for the job listings migration.
+   *
+   * @return \Drupal\migrate\Plugin\MigrateIdMapInterface|null
+   *   The migration ID map, or NULL if the migration could not be loaded.
+   */
+  private function getMigrationIdMap(): ?MigrateIdMapInterface {
+    try {
+      $migration = $this->migrationPluginManager->createInstance(self::MIGRATION_ID);
+      return $migration->getIdMap();
+    }
+    catch (\Exception) {
+      return NULL;
+    }
   }
 
   /**

@@ -23,12 +23,12 @@ class HakuvahtiTracker {
   /**
    * Csv header fields which matches the database fields.
    */
-  private const FIELDS = ['token', 'filter_name', 'filter_value', 'created_at'];
+  private const array FIELDS = ['token', 'filter_name', 'filter_value', 'created_at'];
 
   /**
    * The csv headers.
    */
-  private const CSV_HEADERS = ['id', 'tunniste', 'suodatin', 'valittu arvo', 'luontiaika'];
+  private const array CSV_HEADERS = ['id', 'tunniste', 'suodatin', 'valittu arvo', 'luontiaika'];
 
   public function __construct(
     private readonly Connection $connection,

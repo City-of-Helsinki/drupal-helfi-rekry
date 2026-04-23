@@ -11,7 +11,7 @@ type: 'canonical_entities:node'
 pattern: '[node:menu-link:parents:join-path]/avoimet-tyopaikat/[node:field_recruitment_id]'
 selection_criteria:
   cde1330d-3305-41ef-90cb-6b53cbb71fa4:
-    id: node_type
+    id: 'entity_bundle:node'
     negate: false
     uuid: cde1330d-3305-41ef-90cb-6b53cbb71fa4
     context_mapping:

@@ -29,11 +29,6 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $strictConfigSchema = FALSE; // phpcs:ignore
-
-  /**
-   * {@inheritdoc}
-   */
   protected static $modules = [
     'text',
     'node',
@@ -42,6 +37,11 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
     'readonly_field_widget',
     'helfi_hakuvahti',
     'helfi_rekry_content',
+    'text',
+    'pathauto',
+    'token',
+    'path_alias',
+    'migrate',
   ];
 
   /**
