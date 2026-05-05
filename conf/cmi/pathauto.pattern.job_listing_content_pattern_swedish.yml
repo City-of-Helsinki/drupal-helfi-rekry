@@ -2,18 +2,19 @@ uuid: d2358f9e-5cd0-49ad-958b-6aeabdb698ee
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.job_listing
   module:
     - language
     - node
 id: job_listing_content_pattern_swedish
 label: 'Job listing content pattern - Swedish'
 type: 'canonical_entities:node'
-pattern: '[node:menu-link:parents:join-path]/lediga-jobb/[node:field_recruitment_id]'
+pattern: '/[node:menu-link:parents:join-path]/lediga-jobb/[node:field_recruitment_id]'
 selection_criteria:
   251a7a05-1a9b-467a-a702-9609a4c24e23:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 251a7a05-1a9b-467a-a702-9609a4c24e23
     context_mapping:
       node: node
     bundles:
@@ -21,7 +22,6 @@ selection_criteria:
   a776a37d-f651-4687-85b6-d13f11cfd01b:
     id: language
     negate: false
-    uuid: a776a37d-f651-4687-85b6-d13f11cfd01b
     context_mapping:
       language: 'node:langcode:language'
     langcodes:
