@@ -9,8 +9,7 @@ trigger:
     exclude:
     - '*.md'
     - '.github/'
-    - 'pipelines/drupal-production.yml'
-    - 'pipelines/drupal-staging.yml'
+    - 'pipelines/drupal-release.yml'
 
 # Pull request (PR) triggers cause a pipeline to run whenever a pull request is
 # opened with one of the specified target branches, or when updates are made to
@@ -37,11 +36,3 @@ resources:
 extends:
   # Filename in Azure DevOps Repository
   template: components/drupal/pipelines/drupal-test.yml@helfi-rekry-pipelines
-  # parameters:
-    # Application build arguments and config map values as key value pairs.
-    # Does not contain all buildArguments or configMap values, the rest located in helfi-rekry-pipelines
-    # The values here will override the values defined in the helfi-rekry-pipelines repository
-    # buildArgs:
-    #   DEBUG: 1
-    # configMap: # pod environment variables
-    #   DEBUG: 1
