@@ -145,6 +145,17 @@ function hdbt_subtheme_preprocess_node(&$variables): void {
       $variables['task_area_rekry_search_url'] = Url::fromRoute('entity.node.canonical', ['node' => $search_page_nid], $options);
     }
   }
+
+  if ($employment_term = $node->get('field_employment')?->first()?->get('entity')?->getValue()) {
+    $search_id = $employment_term->get('field_search_id')?->value;
+    $variables['tag_color'] = match ($search_id) {
+      'seasonal_job' => 'gold',
+      'summer_jobs' => 'copper',
+      'youth_summer_jobs' => 'bus',
+      'cool_summer_project' => 'bus',
+      default => NULL,
+    };
+  }
 }
 
 /**
