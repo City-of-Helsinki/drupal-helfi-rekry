@@ -586,16 +586,6 @@ parameters:
 			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/HelbitOpenJobsTest.php
 
 		-
-			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\JobMigrationTest\\:\\:testVideoUrlSanitization\\(\\) has parameter \\$videoUrls with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/JobMigrationTest.php
-
-		-
-			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\JobMigrationTest\\:\\:videoUrlData\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/JobMigrationTest.php
-
-		-
 			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\StructuredDataTest\\:\\:extractJsonLdFromAttachments\\(\\) has parameter \\$attachments with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/StructuredDataTest.php
