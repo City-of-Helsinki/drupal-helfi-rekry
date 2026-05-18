@@ -426,21 +426,6 @@ parameters:
 			path: public/modules/custom/helfi_rekry_content/src/Plugin/QueueWorker/UnpublishWorker.php
 
 		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\process\\\\SkipPastDateForPublished\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/process/SkipPastDateForPublished.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\process\\\\SkipPastDateForPublished\\:\\:__construct\\(\\) has parameter \\$plugin_definition with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/process/SkipPastDateForPublished.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\process\\\\SkipPastDateForPublished\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/process/SkipPastDateForPublished.php
-
-		-
 			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\source\\\\HelbitOpenJobs\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/source/HelbitOpenJobs.php
