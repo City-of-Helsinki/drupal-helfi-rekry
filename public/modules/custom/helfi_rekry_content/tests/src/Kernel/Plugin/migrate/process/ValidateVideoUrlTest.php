@@ -7,8 +7,6 @@ namespace Drupal\Tests\helfi_rekry_content\Kernel\Plugin\migrate\process;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\helfi_rekry_content\Plugin\migrate\process\ValidateVideoUrl;
 use Drupal\media\OEmbed\Provider;
-use Drupal\media\OEmbed\ProviderException;
-use Drupal\media\OEmbed\ResourceException;
 use Drupal\media\OEmbed\ResourceFetcherInterface;
 use Drupal\media\OEmbed\UrlResolverInterface;
 use Drupal\migrate\MigrateExecutableInterface;
@@ -17,9 +15,6 @@ use Drupal\Tests\helfi_rekry_content\Kernel\RekryKernelTestBase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 
 /**
  * Tests the validate_video_url migrate process plugin.
@@ -33,7 +28,7 @@ class ValidateVideoUrlTest extends RekryKernelTestBase {
    */
   private function plugin(
     ?UrlResolverInterface $urlResolver = NULL,
-    ?ResourceFetcherInterface $resourceFetcher = NULL
+    ?ResourceFetcherInterface $resourceFetcher = NULL,
   ): ValidateVideoUrl {
     if (!$urlResolver) {
       $urlResolver = $this->prophesize(UrlResolverInterface::class)->reveal();

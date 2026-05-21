@@ -72,7 +72,7 @@ class HelbitClient implements LoggerAwareInterface {
 
     $this->logger?->info('Helbit API returned {count} job listings for {language}', [
       'count' => count($jobListings),
-      'language' => $language
+      'language' => $language,
     ]);
 
     return $jobListings;
