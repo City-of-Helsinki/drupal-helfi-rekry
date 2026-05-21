@@ -7,6 +7,8 @@ namespace Drupal\Tests\helfi_rekry_content\Kernel\Plugin\migrate\process;
 use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\helfi_rekry_content\Plugin\migrate\process\ValidateVideoUrl;
 use Drupal\media\OEmbed\Provider;
+use Drupal\media\OEmbed\ProviderException;
+use Drupal\media\OEmbed\ResourceException;
 use Drupal\media\OEmbed\ResourceFetcherInterface;
 use Drupal\media\OEmbed\UrlResolverInterface;
 use Drupal\migrate\MigrateExecutableInterface;
@@ -15,6 +17,7 @@ use Drupal\Tests\helfi_rekry_content\Kernel\RekryKernelTestBase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use Prophecy\Argument;
 
 /**
  * Tests the validate_video_url migrate process plugin.
@@ -96,6 +99,68 @@ class ValidateVideoUrlTest extends RekryKernelTestBase {
       'canonical passthru' => ['https://www.youtube.com/watch?v=g2eYKMjE8ew'],
       'extra query params' => ['https://www.youtube.com/watch?foo=bar&v=g2eYKMjE8ew&bar=foo'],
     ];
+  }
+
+  /**
+   * Providers outside the allow-list are rejected and resource is not fetched.
+   */
+  public function testReturnsNullForDisallowedProvider(): void {
+    $url = 'https://vimeo.com/123456789';
+    $provider = new Provider('Vimeo', 'https://vimeo.com', [
+      ['url' => 'https://vimeo.com/api/oembed.json'],
+    ]);
+
+    $urlResolver = $this->prophesize(UrlResolverInterface::class);
+    $urlResolver->getProviderByUrl($url)->willReturn($provider);
+    $urlResolver->getResourceUrl(Argument::any())->shouldNotBeCalled();
+
+    $resourceFetcher = $this->prophesize(ResourceFetcherInterface::class);
+    $resourceFetcher->fetchResource(Argument::any())->shouldNotBeCalled();
+
+    $plugin = $this->plugin($urlResolver->reveal(), $resourceFetcher->reveal());
+
+    $this->assertNull($this->transform($plugin, $url));
+  }
+
+  /**
+   * Exceptions from the provider lookup short-circuit to NULL.
+   */
+  public function testReturnsNullWhenProviderLookupThrows(): void {
+    $url = 'https://vimeo.com/123456789';
+
+    $urlResolver = $this->prophesize(UrlResolverInterface::class);
+    $urlResolver->getProviderByUrl($url)->willThrow(new ProviderException('boom'));
+    $urlResolver->getResourceUrl(Argument::any())->shouldNotBeCalled();
+
+    $resourceFetcher = $this->prophesize(ResourceFetcherInterface::class);
+    $resourceFetcher->fetchResource(Argument::any())->shouldNotBeCalled();
+
+    $plugin = $this->plugin($urlResolver->reveal(), $resourceFetcher->reveal());
+
+    $this->assertNull($this->transform($plugin, $url));
+  }
+
+  /**
+   * Failures while fetching the oEmbed resource return NULL.
+   */
+  public function testReturnsNullWhenResourceFetchFails(): void {
+    $url = 'https://www.youtube.com/watch?v=g2eYKMjE8ew';
+    $resourceUrl = 'https://oembed.example/?url=' . $url;
+    $provider = new Provider('YouTube', 'https://youtube.com', [
+      ['url' => 'https://www.youtube.com/oembed'],
+    ]);
+
+    $urlResolver = $this->prophesize(UrlResolverInterface::class);
+    $urlResolver->getProviderByUrl($url)->willReturn($provider);
+    $urlResolver->getResourceUrl($url)->willReturn($resourceUrl);
+
+    $resourceFetcher = $this->prophesize(ResourceFetcherInterface::class);
+    $resourceFetcher->fetchResource($resourceUrl)
+      ->willThrow(new ResourceException('upstream 404', $resourceUrl));
+
+    $plugin = $this->plugin($urlResolver->reveal(), $resourceFetcher->reveal());
+
+    $this->assertNull($this->transform($plugin, $url));
   }
 
 }
