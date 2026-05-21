@@ -341,41 +341,6 @@ parameters:
 			path: public/modules/custom/helfi_rekry_content/src/Form/SettingsForm.php
 
 		-
-			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Match expression does not handle remaining value\\: string$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:getJobListings\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:getJobListings\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:makeRequest\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:makeRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:makeRequest\\(\\) should return array but returns array\\|bool\\|float\\|int\\|object\\|string\\|null\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
 			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Hook\\\\JobListingNodeHook\\:\\:jobListingNodeFormAlter\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/src/Hook/JobListingNodeHook.php
