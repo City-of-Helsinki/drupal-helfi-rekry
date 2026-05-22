@@ -341,41 +341,6 @@ parameters:
 			path: public/modules/custom/helfi_rekry_content/src/Form/SettingsForm.php
 
 		-
-			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Match expression does not handle remaining value\\: string$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:getJobListings\\(\\) has parameter \\$query with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:getJobListings\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:makeRequest\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:makeRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Helbit\\\\HelbitClient\\:\\:makeRequest\\(\\) should return array but returns array\\|bool\\|float\\|int\\|object\\|string\\|null\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Helbit/HelbitClient.php
-
-		-
 			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Hook\\\\JobListingNodeHook\\:\\:jobListingNodeFormAlter\\(\\) has parameter \\$form with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/src/Hook/JobListingNodeHook.php
@@ -424,21 +389,6 @@ parameters:
 			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\QueueWorker\\\\UnpublishWorker\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/src/Plugin/QueueWorker/UnpublishWorker.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\process\\\\SkipPastDateForPublished\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/process/SkipPastDateForPublished.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\process\\\\SkipPastDateForPublished\\:\\:__construct\\(\\) has parameter \\$plugin_definition with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/process/SkipPastDateForPublished.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\process\\\\SkipPastDateForPublished\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Plugin/migrate/process/SkipPastDateForPublished.php
 
 		-
 			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\migrate\\\\source\\\\HelbitOpenJobs\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
@@ -599,16 +549,6 @@ parameters:
 			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\HelbitOpenJobsTest\\:\\:getSut\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/HelbitOpenJobsTest.php
-
-		-
-			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\JobMigrationTest\\:\\:testVideoUrlSanitization\\(\\) has parameter \\$videoUrls with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/JobMigrationTest.php
-
-		-
-			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\JobMigrationTest\\:\\:videoUrlData\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/JobMigrationTest.php
 
 		-
 			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\StructuredDataTest\\:\\:extractJsonLdFromAttachments\\(\\) has parameter \\$attachments with no value type specified in iterable type array\\.$#"

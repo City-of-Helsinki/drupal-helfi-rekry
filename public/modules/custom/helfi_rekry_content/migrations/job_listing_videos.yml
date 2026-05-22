@@ -29,12 +29,13 @@ process:
       method: row
       source: video
     -
-      plugin: callback
-      callable: _helfi_rekry_content_sanitize_video_url
+      plugin: validate_video_url
       source: video
     -
-      plugin: callback
-      callable: _helfi_rekry_content_get_video_url
+      plugin: skip_on_empty
+      method: row
+      save_to_map: false
+      message: 'Video URL failed validation'
   langcode: langcode
   type:
     plugin: default_value
