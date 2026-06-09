@@ -4803,16 +4803,16 @@
         },
         {
             "name": "drupal/helfi_platform_config",
-            "version": "5.1.67",
+            "version": "5.1.69",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config.git",
-                "reference": "82d7044032c89a7b61f8fdb2d2b8a2aeb7ff4a63"
+                "reference": "91f70f091b5d78c70189eb69a1be72d4ea79a2be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/82d7044032c89a7b61f8fdb2d2b8a2aeb7ff4a63",
-                "reference": "82d7044032c89a7b61f8fdb2d2b8a2aeb7ff4a63",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/91f70f091b5d78c70189eb69a1be72d4ea79a2be",
+                "reference": "91f70f091b5d78c70189eb69a1be72d4ea79a2be",
                 "shasum": ""
             },
             "require": {
@@ -4930,10 +4930,10 @@
             ],
             "description": "HELfi platform config",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/5.1.67",
+                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/5.1.69",
                 "issues": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/issues"
             },
-            "time": "2026-06-04T08:24:50+00:00"
+            "time": "2026-06-08T16:07:40+00:00"
         },
         {
             "name": "drupal/helfi_proxy",
@@ -6462,17 +6462,17 @@
         },
         {
             "name": "drupal/raven",
-            "version": "7.3.9",
+            "version": "7.4.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/raven.git",
-                "reference": "7.3.9"
+                "reference": "7.4.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/raven-7.3.9.zip",
-                "reference": "7.3.9",
-                "shasum": "1d7802d80f051cee5b04710b5250d6e3e10e46e2"
+                "url": "https://ftp.drupal.org/files/projects/raven-7.4.0.zip",
+                "reference": "7.4.0",
+                "shasum": "7db0bc2d6ea9cd89081f0b168a0c98b86a9634f1"
             },
             "require": {
                 "drupal/core": "^11.1",
@@ -6487,8 +6487,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "7.3.9",
-                    "datestamp": "1778094781",
+                    "version": "7.4.0",
+                    "datestamp": "1780596460",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6808,24 +6808,26 @@
         },
         {
             "name": "drupal/scheduler",
-            "version": "2.2.2",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/scheduler.git",
-                "reference": "2.2.2"
+                "reference": "2.3.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/scheduler-2.2.2.zip",
-                "reference": "2.2.2",
-                "shasum": "e763779860e98f5d3554abec6678554da540fdd3"
+                "url": "https://ftp.drupal.org/files/projects/scheduler-2.3.0.zip",
+                "reference": "2.3.0",
+                "shasum": "c79ff70ac5300d7e95f5da2e31d95eee52c152aa"
             },
             "require": {
-                "drupal/core": "^8 || ^9 || ^10 || ^11"
+                "drupal/core": "^9 || ^10 || ^11"
             },
             "require-dev": {
+                "doctrine/annotations": "*",
                 "drupal/commerce": "^2 || ^3",
-                "drupal/devel_generate": ">=4",
+                "drupal/devel": "*",
+                "drupal/devel_generate": "*",
                 "drupal/rules": "^3 || ^4",
                 "drupal/workbench_moderation": "*",
                 "drupal/workbench_moderation_actions": "*",
@@ -6834,8 +6836,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.2.2",
-                    "datestamp": "1760885783",
+                    "version": "2.3.0",
+                    "datestamp": "1780654272",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6882,17 +6884,17 @@
         },
         {
             "name": "drupal/search_api",
-            "version": "1.40.0",
+            "version": "1.41.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/search_api.git",
-                "reference": "8.x-1.40"
+                "reference": "8.x-1.41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/search_api-8.x-1.40.zip",
-                "reference": "8.x-1.40",
-                "shasum": "64ac71887786da63ced27a43e37342ea3b765a88"
+                "url": "https://ftp.drupal.org/files/projects/search_api-8.x-1.41.zip",
+                "reference": "8.x-1.41",
+                "shasum": "bb030951ee9a09fac67e8cde5b495c3b67e2949d"
             },
             "require": {
                 "drupal/core": "^10.3 || ^11"
@@ -6914,8 +6916,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.40",
-                    "datestamp": "1762031191",
+                    "version": "8.x-1.41",
+                    "datestamp": "1780907071",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -8701,16 +8703,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.443.0",
+            "version": "v0.444.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "102aba0523d5105adaffdcac6c0c74a527f2bbfc"
+                "reference": "b38b3329e67bf68ef184997c047e6ff5952feca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/102aba0523d5105adaffdcac6c0c74a527f2bbfc",
-                "reference": "102aba0523d5105adaffdcac6c0c74a527f2bbfc",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/b38b3329e67bf68ef184997c047e6ff5952feca5",
+                "reference": "b38b3329e67bf68ef184997c047e6ff5952feca5",
                 "shasum": ""
             },
             "require": {
@@ -8739,9 +8741,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.443.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.444.0"
             },
-            "time": "2026-05-29T01:56:23+00:00"
+            "time": "2026-06-08T01:52:31+00:00"
         },
         {
             "name": "google/auth",
@@ -8915,16 +8917,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.11.0",
+            "version": "7.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "c987f8ce84b8434fa430795eca0f3430663da72b"
+                "reference": "5af96f374e0ab4ebd747b8310888c99d3adb0a8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/c987f8ce84b8434fa430795eca0f3430663da72b",
-                "reference": "c987f8ce84b8434fa430795eca0f3430663da72b",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/5af96f374e0ab4ebd747b8310888c99d3adb0a8c",
+                "reference": "5af96f374e0ab4ebd747b8310888c99d3adb0a8c",
                 "shasum": ""
             },
             "require": {
@@ -8943,7 +8945,7 @@
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "ext-curl": "*",
                 "guzzle/client-integration-tests": "3.0.2",
-                "guzzlehttp/test-server": "^0.4",
+                "guzzlehttp/test-server": "^0.5",
                 "php-http/message-factory": "^1.1",
                 "phpunit/phpunit": "^8.5.52 || ^9.6.34",
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
@@ -9023,7 +9025,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.11.0"
+                "source": "https://github.com/guzzle/guzzle/tree/7.11.1"
             },
             "funding": [
                 {
@@ -9039,7 +9041,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-06-02T12:40:51+00:00"
+            "time": "2026-06-07T22:54:06+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -16716,16 +16718,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.10.0",
+            "version": "2.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "c13824d95608b15913a7c0def0a3dea4474b71fc"
+                "reference": "4120703b9bda8795075047b40361d7ec4d2abe49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/c13824d95608b15913a7c0def0a3dea4474b71fc",
-                "reference": "c13824d95608b15913a7c0def0a3dea4474b71fc",
+                "url": "https://api.github.com/repos/composer/composer/zipball/4120703b9bda8795075047b40361d7ec4d2abe49",
+                "reference": "4120703b9bda8795075047b40361d7ec4d2abe49",
                 "shasum": ""
             },
             "require": {
@@ -16813,7 +16815,7 @@
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
                 "security": "https://github.com/composer/composer/security/policy",
-                "source": "https://github.com/composer/composer/tree/2.10.0"
+                "source": "https://github.com/composer/composer/tree/2.10.1"
             },
             "funding": [
                 {
@@ -16825,7 +16827,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-05-28T09:22:08+00:00"
+            "time": "2026-06-04T08:25:59+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -17215,16 +17217,16 @@
         },
         {
             "name": "dg/bypass-finals",
-            "version": "v1.10.0",
+            "version": "v1.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/bypass-finals.git",
-                "reference": "03e27acff5aa4e1704db371505e7d3da915b4307"
+                "reference": "62d4ea18f8937af7d794b3358c125ecb52862e98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/03e27acff5aa4e1704db371505e7d3da915b4307",
-                "reference": "03e27acff5aa4e1704db371505e7d3da915b4307",
+                "url": "https://api.github.com/repos/dg/bypass-finals/zipball/62d4ea18f8937af7d794b3358c125ecb52862e98",
+                "reference": "62d4ea18f8937af7d794b3358c125ecb52862e98",
                 "shasum": ""
             },
             "require": {
@@ -17262,9 +17264,9 @@
             ],
             "support": {
                 "issues": "https://github.com/dg/bypass-finals/issues",
-                "source": "https://github.com/dg/bypass-finals/tree/v1.10.0"
+                "source": "https://github.com/dg/bypass-finals/tree/v1.10.1"
             },
-            "time": "2026-06-01T16:48:55+00:00"
+            "time": "2026-06-04T15:48:46+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -17623,16 +17625,16 @@
         },
         {
             "name": "justinrainbow/json-schema",
-            "version": "6.8.2",
+            "version": "6.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jsonrainbow/json-schema.git",
-                "reference": "2c89ebb95ca9cedc9347f780333f7b25792dcb76"
+                "reference": "bd1bda2ebfc8bff418565941771ea8f03c557886"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/2c89ebb95ca9cedc9347f780333f7b25792dcb76",
-                "reference": "2c89ebb95ca9cedc9347f780333f7b25792dcb76",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/bd1bda2ebfc8bff418565941771ea8f03c557886",
+                "reference": "bd1bda2ebfc8bff418565941771ea8f03c557886",
                 "shasum": ""
             },
             "require": {
@@ -17642,7 +17644,7 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "3.3.0",
-                "json-schema/json-schema-test-suite": "dev-main",
+                "json-schema/json-schema-test-suite": "^23.2",
                 "marc-mabe/php-enum-phpstan": "^2.0",
                 "phpspec/prophecy": "^1.19",
                 "phpstan/phpstan": "^1.12",
@@ -17692,9 +17694,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jsonrainbow/json-schema/issues",
-                "source": "https://github.com/jsonrainbow/json-schema/tree/6.8.2"
+                "source": "https://github.com/jsonrainbow/json-schema/tree/6.9.0"
             },
-            "time": "2026-05-05T05:39:01+00:00"
+            "time": "2026-06-05T14:05:24+00:00"
         },
         {
             "name": "lullabot/mink-selenium2-driver",
