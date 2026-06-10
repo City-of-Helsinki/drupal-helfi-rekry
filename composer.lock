@@ -4432,16 +4432,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "6.17.22",
+            "version": "6.17.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "c556abaeeaacb93c41ca6397a40337f050dee749"
+                "reference": "54835d4e963d1b708ca7246e5f4c2bb0bead668c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/c556abaeeaacb93c41ca6397a40337f050dee749",
-                "reference": "c556abaeeaacb93c41ca6397a40337f050dee749",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/54835d4e963d1b708ca7246e5f4c2bb0bead668c",
+                "reference": "54835d4e963d1b708ca7246e5f4c2bb0bead668c",
                 "shasum": ""
             },
             "require": {
@@ -4460,10 +4460,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.17.22",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.17.23",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2026-06-09T12:59:27+00:00"
+            "time": "2026-06-10T06:31:29+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -8747,16 +8747,16 @@
         },
         {
             "name": "google/auth",
-            "version": "v1.50.2",
+            "version": "v1.51.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "58788f86d47e59de692c0dae0bb0c006bd0b6018"
+                "reference": "4c4776e398ff255e81b3b8c4373983f5e1b765bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/58788f86d47e59de692c0dae0bb0c006bd0b6018",
-                "reference": "58788f86d47e59de692c0dae0bb0c006bd0b6018",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/4c4776e398ff255e81b3b8c4373983f5e1b765bf",
+                "reference": "4c4776e398ff255e81b3b8c4373983f5e1b765bf",
                 "shasum": ""
             },
             "require": {
@@ -8803,9 +8803,9 @@
             "support": {
                 "docs": "https://cloud.google.com/php/docs/reference/auth/latest",
                 "issues": "https://github.com/googleapis/google-auth-library-php/issues",
-                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.50.2"
+                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.51.0"
             },
-            "time": "2026-05-29T19:22:31+00:00"
+            "time": "2026-06-10T00:39:33+00:00"
         },
         {
             "name": "grasmash/expander",
