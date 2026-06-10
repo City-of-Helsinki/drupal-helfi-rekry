@@ -206,6 +206,7 @@ process:
       source: video
     - plugin: migration_lookup
       migration: helfi_rekry_videos
+      no_stub: true
       source:
         - video
         - langcode

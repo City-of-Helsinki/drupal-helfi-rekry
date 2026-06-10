@@ -11,11 +11,6 @@ use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\helfi_platform_config\DTO\ParagraphTypeCollection;
 use Drupal\helfi_rekry_content\Entity\JobListing;
-use Drupal\media\OEmbed\ProviderException;
-use Drupal\media\OEmbed\ResourceException;
-use Drupal\media\OEmbed\ResourceFetcherInterface;
-use Drupal\media\OEmbed\UrlResolverInterface;
-use Drupal\migrate\MigrateSkipRowException;
 use Drupal\node\NodeInterface;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\ViewExecutable;
@@ -91,87 +86,6 @@ function _helfi_rekry_content_get_media_image(string|NULL $fid = NULL): ?string 
   }
 
   return NULL;
-}
-
-/**
- * Validate and return video url, used in migration.
- *
- * @param string $url
- *   The video url.
- *
- * @return string
- *   Valid video url
- *
- * @throws \Drupal\migrate\MigrateSkipRowException
- */
-function _helfi_rekry_content_get_video_url(string $url): string {
-  try {
-    /** @var \Drupal\media\OEmbed\UrlResolverInterface $resolver */
-    $resolver = \Drupal::service(UrlResolverInterface::class);
-
-    $provider = $resolver->getProviderByUrl($url);
-
-    if (!in_array($provider->getName(), ['YouTube', 'Icareus Suite'])) {
-      throw new MigrateSkipRowException(save_to_map: FALSE);
-    }
-  }
-  catch (ResourceException | ProviderException | InvalidArgumentException $e) {
-    \Drupal::logger('helfi_rekry_content')
-      ->notice('Video embed url "' . $url . '" failed validation with message: ' . $e->getMessage());
-
-    throw new MigrateSkipRowException(save_to_map: FALSE);
-  }
-
-  // Ticket #UHF-9069 prevent migrating bad oembed links.
-  try {
-    // Use the same validation used in field validation.
-    $resource_url = $resolver->getResourceUrl($url);
-    \Drupal::service(ResourceFetcherInterface::class)
-      ->fetchResource($resource_url);
-    return $url;
-  }
-  catch (ResourceException | ProviderException $e) {
-    // fetchResource fails, the link is no good.
-    \Drupal::logger('helfi_rekry_content')
-      ->error('Bad video url rejected by oembed-validation: ' . $url);
-
-    throw new MigrateSkipRowException(save_to_map: FALSE);
-  }
-}
-
-/**
- * Sanitize video url.
- *
- * @param string $url
- *   Previous video url.
- *
- * @returns string
- *   New video url.
- */
-function _helfi_rekry_content_sanitize_video_url(string $url): string {
-  if (!$url || !($url = trim($url))) {
-    return $url;
-  }
-
-  // Some valid YouTube links are not recognized by drupal/oembed_providers
-  // module, which triggers additional network requests that attempt to sniff
-  // oembed links directly from YouTube. However, YouTube does not like
-  // automated traffic from datacenters, so these requests often fail in
-  // production.
-  //
-  // This regex tries to pick video id from following patters and
-  // formats the links to the expected format.
-  //
-  // Features:
-  // - https:// or www. missing.
-  // - youtube.com/v/[id].
-  // - youtu.be/[id] short links.
-  // - youtube.com/embed/[id].
-  if (preg_match("/youtu(?:.*\/v\/|.*v=|\.be\/|.*\/embed\/)([A-Za-z0-9_\-]{11})/", $url, $matches)) {
-    $url = sprintf("https://www.youtube.com/watch?v=%s", $matches[1]);
-  }
-
-  return $url;
 }
 
 /**

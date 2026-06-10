@@ -8,11 +8,15 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Utils;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Helbit API client.
  */
-class HelbitClient {
+class HelbitClient implements LoggerAwareInterface {
+
+  use LoggerAwareTrait;
 
   /**
    * Constructs a HelbitClient object.
@@ -28,10 +32,10 @@ class HelbitClient {
    *
    * @param string $language
    *   Result langcode.
-   * @param array $query
+   * @param array<string, string> $query
    *   Additional query parameters.
    *
-   * @return array
+   * @return array<string, mixed>
    *   Job listing data.
    *
    * @throws \Drupal\helfi_rekry_content\Helbit\HelbitException
@@ -58,13 +62,18 @@ class HelbitClient {
           $jobListings = array_merge($jobListings, $response['jobAdvertisements'] ?? []);
         }
         else {
-          throw new HelbitException('Failed retrieving data from Helbit. Request failed with code: ' . $response['status'] ?? '');
+          throw new HelbitException('Failed retrieving data from Helbit. Request failed with code: ' . ($response['status'] ?? ''));
         }
       }
       catch (RequestException | GuzzleException $e) {
         throw new HelbitException('Failed retrieving data from Helbit. Request failed with code: ' . $e->getCode(), previous: $e);
       }
     }
+
+    $this->logger?->info('Helbit API returned {count} job listings for {language}', [
+      'count' => count($jobListings),
+      'language' => $language,
+    ]);
 
     return $jobListings;
   }
@@ -76,10 +85,10 @@ class HelbitClient {
    *   Helbit environment.
    * @param string $endpoint
    *   Api endpoint.
-   * @param array $options
+   * @param array<string, mixed> $options
    *   Http client options.
    *
-   * @return array
+   * @return array<string, mixed>
    *   Parsed response.
    *
    * @throws \GuzzleHttp\Exception\GuzzleException
@@ -90,7 +99,12 @@ class HelbitClient {
 
     $response = $this->client->request('GET', "$baseUrl/portal-api/recruitment/v2.3$endpoint", $options);
 
-    return Utils::jsonDecode($response->getBody()->getContents(), TRUE);
+    $result = Utils::jsonDecode($response->getBody()->getContents(), TRUE);
+    if (!is_array($result)) {
+      throw new HelbitException('Failed retrieving data from Helbit. Response is not valid JSON.');
+    }
+
+    return $result;
   }
 
   /**
@@ -107,6 +121,7 @@ class HelbitClient {
       'sv' => 'sv_SE',
       'en' => 'en_US',
       'fi' => 'fi_FI',
+      default => throw new HelbitException("Unsupported language: $langcode"),
     };
   }
 
