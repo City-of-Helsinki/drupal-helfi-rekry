@@ -3,6 +3,24 @@ $sort-minimum-width: 283px;
 
 .component--job-listing-search {
   background-color: $color-black-5;
+
+  > .component__container {
+    padding-bottom: $spacing-double;
+    padding-top: $spacing-double;
+
+    @include breakpoint($breakpoint-m) {
+      padding-bottom: $spacing-quadruple;
+      padding-top: $spacing-quadruple;
+    }
+  }
+  
+  .components--hard-coded {
+    margin-block-start: $spacing-double;
+    
+    @include breakpoint($breakpoint-m) {
+      margin-block-start: $spacing-quadruple;
+    }
+  }
 }
 
 // If the job listing search is just before footer it needs to function the same way as unit search.
@@ -15,16 +33,6 @@ $sort-minimum-width: 283px;
   align-items: flex-end;
   display: flex;
   justify-content: space-between;
-}
-
-.component--job-listing-search .component__container {
-  padding-bottom: $spacing-double;
-  padding-top: $spacing-double;
-
-  @include breakpoint($breakpoint-m) {
-    padding-bottom: $spacing-quadruple;
-    padding-top: $spacing-quadruple;
-  }
 }
 
 .job-listing-search__sort {
