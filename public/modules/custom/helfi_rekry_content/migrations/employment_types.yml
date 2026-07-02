@@ -23,6 +23,8 @@ source:
   ids:
     id:
       type: string
+    langcode:
+      type: string
 process:
   tid:
     -
