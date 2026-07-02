@@ -84,6 +84,8 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
   public function testSubscriptionController(): void {
     $requestData = file_get_contents(__DIR__ . "/../../fixtures/subscribe_request.json");
 
+    $this->assertNotEmpty($requestData);
+
     $data = json_decode($requestData, TRUE);
     $data['search_description'] = '-';
 

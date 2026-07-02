@@ -44,7 +44,7 @@ final class JobListingCleaner {
   /**
    * Known job listings.
    *
-   * @var array
+   * @var array<string, array<string, bool>>
    */
   private static array $jobListingCache = [];
 
@@ -150,7 +150,7 @@ final class JobListingCleaner {
   /**
    * Query for expired job listings from the database.
    *
-   * @return array
+   * @return array<string|int>
    *   Job listings entity ids.
    */
   private function findExpiredJobListings(): array {
