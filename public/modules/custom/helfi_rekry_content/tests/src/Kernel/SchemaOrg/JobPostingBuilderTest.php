@@ -45,10 +45,9 @@ final class JobPostingBuilderTest extends RekryKernelTestBase {
     $this->installConfig(['system', 'node', 'field', 'text']);
     $this->installSchema('node', ['node_access']);
 
-    NodeType::create(['type' => 'job_listing', 'name' => 'Job Listing'])->save();
     NodeType::create(['type' => 'page', 'name' => 'Page'])->save();
 
-    $this->createJobListingFields();
+    $this->createJobListingContentType();
   }
 
   /**

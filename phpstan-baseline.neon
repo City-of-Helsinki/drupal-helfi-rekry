@@ -551,21 +551,6 @@ parameters:
 			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/UnpublishWorkerTest.php
 
 		-
-			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Unit\\\\HelbitClientTest\\:\\:createMockHttpClient\\(\\) has parameter \\$handlers with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Unit/HelbitClientTest.php
-
-		-
-			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Unit\\\\HelbitClientTest\\:\\:createMockResponse\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Unit/HelbitClientTest.php
-
-		-
-			message: "#^Parameter \\$body of class GuzzleHttp\\\\Psr7\\\\Response constructor expects Psr\\\\Http\\\\Message\\\\StreamInterface\\|resource\\|string\\|null, string\\|false given\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Unit/HelbitClientTest.php
-
-		-
 			message: "#^Function _update_job_search_task_area_page_title_tag\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: public/themes/custom/hdbt_subtheme/hdbt_subtheme.theme

@@ -136,6 +136,15 @@ source:
       label: 'Base URL'
       selector: baseUrl
 process:
+  # Get nid of an existing job listing with the same recruitment id.
+  # Without this, `translations: true` creates new node for every row.
+  nid:
+    plugin: entity_lookup
+    entity_type: node
+    bundle_key: type
+    bundle: job_listing
+    value_key: field_recruitment_id
+    source: id
   title: title
   langcode: langcode
   job_description/value:
