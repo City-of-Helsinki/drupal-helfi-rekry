@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Queue Worker for removing job listings not present in source.
  */
 #[QueueWorker(
-  id: 'job_listing_unpublish_worker',
+  id: self::class,
   title: new TranslatableMarkup('Job listing unpublish worker'),
   cron: ['time' => 60],
 )]

@@ -7,6 +7,7 @@ namespace Drupal\helfi_rekry_content\EventSubscriber;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\helfi_rekry_content\Plugin\QueueWorker\UnpublishWorker;
 use Drupal\node\NodeInterface;
 use Drush\Drupal\Migrate\MigrateMissingSourceRowsEvent;
 use Psr\Log\LoggerInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  * Subscribe to job listing import events for hiding missing items.
  */
 class JobListingHideMissingSubscriber implements EventSubscriberInterface {
+
   use StringTranslationTrait;
 
   /**
@@ -102,7 +104,7 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
 
     foreach ($nids as $nid) {
       $job = ['nid' => $nid];
-      $this->queueFactory->get('job_listing_unpublish_worker')->createItem($job);
+      $this->queueFactory->get(UnpublishWorker::class)->createItem($job);
     }
   }
 
