@@ -12,6 +12,7 @@ use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
 use Drupal\migrate\Plugin\MigrateIdMapInterface;
+use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 use Webmozart\Assert\Assert;
 
@@ -61,8 +62,6 @@ final class JobListingCleaner {
   /**
    * Clean expired job listings.
    *
-   * Uses migrate rollback to remove entities and their migration map entries.
-   *
    * @return int
    *   Number of entities deleted.
    */
@@ -104,6 +103,7 @@ final class JobListingCleaner {
   private function getMigrationIdMap(): ?MigrateIdMapInterface {
     try {
       $migration = $this->migrationPluginManager->createInstance(self::MIGRATION_ID);
+      assert($migration instanceof MigrationInterface);
       return $migration->getIdMap();
     }
     catch (\Exception) {
