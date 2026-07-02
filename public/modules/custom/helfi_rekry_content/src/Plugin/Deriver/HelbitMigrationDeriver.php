@@ -33,8 +33,11 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
 
   /**
    * {@inheritdoc}
+   *
+   * @phpstan-param array<string, mixed> $base_plugin_definition
+   * @phpstan-return array<string, mixed>
    */
-  public function getDerivativeDefinitions($base_plugin_definition): array {
+  public function getDerivativeDefinitions(mixed $base_plugin_definition): array {
     $langcodes = ['fi', 'sv', 'en'];
 
     foreach ($langcodes as $langcode) {
@@ -47,12 +50,12 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
   /**
    * Creates a derivative definition for each available language.
    *
-   * @param array $base_plugin_definition
+   * @param array<string, mixed> $base_plugin_definition
    *   Base migration definitions.
    * @param string $langcode
    *   Langcode.
    *
-   * @return array
+   * @return array<string, mixed>
    *   Modified plugin definition for derivative.
    */
   private function getDerivativeValues(array $base_plugin_definition, string $langcode): array {
