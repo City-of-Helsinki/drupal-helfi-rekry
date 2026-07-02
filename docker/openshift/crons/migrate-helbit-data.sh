@@ -18,13 +18,11 @@ while true
 do
   echo "Running helbit migrations: $(date)"
 
-  for migration in "${migrations[@]}"; do
-    # Allow migrations to be run every 1.5 hours, reset stuck migrations every 12 hours.
-    drush migrate:import "$migration" --reset-threshold 43200 --interval 5400 --no-progress
-  done
-
-  drush helfi-rekry-content:clean-expired-listings
-
   # Sleep for 3 hours.
   sleep 10800
+
+  # Reset stuck migrations every 30 minutes.
+  drush migrate:import --tag helfi_rekry_taxonomies --no-progress --reset-threshold 1800 --verbose
+
+  drush helfi-rekry-content:clean-expired-listings
 done
