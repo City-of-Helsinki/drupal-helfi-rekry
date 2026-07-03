@@ -17,18 +17,20 @@ class JoblistingRedirectTest extends ExistingSiteTestBase {
    * Test job listing 404 redirect.
    */
   public function test404Redirect(): void {
+    $recruitmentId = 'TESTI-' . random_int(1000, 9999) . '-' . random_int(10, 99) . '-' . random_int(1000, 9999);
+
     $node = $this->createNode([
       'type' => 'job_listing',
       'langcode' => 'sv',
       'title' => 'en jobb',
-      'field_recruitment_id' => 'TESTI-1234-56-7890',
+      'field_recruitment_id' => $recruitmentId,
     ]);
 
-    $path = $node->toUrl()->toString();
-    $recruitmentId = array_reverse(explode('/', $path))[0];
+    $expected = '/sv/lediga-jobb/lediga-jobb/' . strtolower($recruitmentId);
+    $this->assertStringEndsWith($expected, $node->toUrl()->toString());
 
-    $this->drupalGetWithLanguage("/fi/avoimet-tyopaikat/avoimet-tyopaikat/$recruitmentId", 'fi');
-    $this->assertStringEndsWith($this->getSession()->getCurrentUrl(), '/sv/lediga-jobb/lediga-jobb/testi-1234-56-7890');
+    $this->drupalGetWithLanguage('/fi/avoimet-tyopaikat/avoimet-tyopaikat/' . strtolower($recruitmentId), 'fi');
+    $this->assertStringEndsWith($expected, $this->getSession()->getCurrentUrl());
   }
 
 }
