@@ -53,7 +53,7 @@ final class JobPostingBuilder implements SchemaBuilderInterface {
         'identifier' => [
           '@type' => 'PropertyValue',
           'name' => 'City of Helsinki',
-          'value' => $entity->get('field_recruitment_id')->value,
+          'value' => $entity->getRecruitmentId(),
         ],
         'datePosted' => $entity->getFormattedStartTime(),
         'validThrough' => $entity->get('field_publication_ends')->value,

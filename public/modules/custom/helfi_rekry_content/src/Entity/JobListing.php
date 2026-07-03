@@ -8,11 +8,20 @@ use Drupal\Core\Language\LanguageInterface;
 use Drupal\filter\Render\FilteredMarkup;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\TermInterface;
+use Webmozart\Assert\Assert;
 
 /**
  * Bundle class for JobListing paragraph.
  */
 class JobListing extends Node {
+
+  /**
+   * Get recruitment id.
+   */
+  public function getRecruitmentId() : string {
+    Assert::true($this->hasField('field_recruitment_id'));
+    return $this->get('field_recruitment_id')->getString();
+  }
 
   /**
    * Get job description or override value.

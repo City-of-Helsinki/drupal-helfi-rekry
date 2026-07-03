@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_rekry_content\Unit\Entity;
 
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ImmutableConfig;
@@ -20,9 +21,9 @@ use Prophecy\PhpUnit\ProphecyTrait;
  * - getOrganizationName: Organization field without override
  * - getCityDescriptions: Configuration-based content retrieval.
  *
- * @group helfi_rekry_content
  * @coversDefaultClass \Drupal\helfi_rekry_content\Entity\JobListing
  */
+#[Group('helfi_rekry_content')]
 class JobListingTest extends UnitTestCase {
 
   use ProphecyTrait;

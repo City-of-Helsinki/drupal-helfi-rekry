@@ -5,16 +5,13 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Service;
 
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
 use Drupal\migrate\Plugin\MigrateIdMapInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
-use Webmozart\Assert\Assert;
 
 /**
  * Service for removing expired job listings.
@@ -73,7 +70,7 @@ final class JobListingCleaner {
 
       // The job listing should be deleted if it is not present in the API.
       if ($this->isJobListingInHelbit($jobListing)) {
-        $recruitmentId = $jobListing->get('field_recruitment_id')->getString();
+        $recruitmentId = $jobListing->getRecruitmentId();
 
         foreach ($jobListing->getTranslationLanguages() as $language) {
           // Clean up the migration map entry.
@@ -111,15 +108,13 @@ final class JobListingCleaner {
    *
    * If the listing is not removed, it should not be deleted from Drupal.
    *
-   * @param \Drupal\Core\Entity\FieldableEntityInterface $jobListing
+   * @param \Drupal\helfi_rekry_content\Entity\JobListing $jobListing
    *   Job listing entity.
    *
    * @return bool
    *   TRUE if job listing is removed from Helbit API.
    */
-  private function isJobListingInHelbit(FieldableEntityInterface $jobListing): bool {
-    Assert::true($jobListing->hasField('field_recruitment_id'));
-
+  private function isJobListingInHelbit(JobListing $jobListing): bool {
     $language = $jobListing->language();
     $langcode = $language->getId();
 
@@ -137,9 +132,7 @@ final class JobListingCleaner {
       }
     }
 
-    $id = $jobListing->get('field_recruitment_id')->getString();
-
-    return self::$jobListingCache[$langcode][$id] ?? FALSE;
+    return self::$jobListingCache[$langcode][$jobListing->getRecruitmentId()] ?? FALSE;
   }
 
   /**
