@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Entity;
 
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItem;
 use Drupal\filter\Render\FilteredMarkup;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\TermInterface;
@@ -21,6 +22,31 @@ class JobListing extends Node {
   public function getRecruitmentId() : string {
     Assert::true($this->hasField('field_recruitment_id'));
     return $this->get('field_recruitment_id')->getString();
+  }
+
+  /**
+   * Check if this listing has been publicly visible at some point.
+   *
+   * @return bool
+   *   TRUE if the listing is or has been published.
+   */
+  public function hasBeenPublic(): bool {
+    if ($this->isPublished()) {
+      return TRUE;
+    }
+
+    if ($this->hasField('publish_on') && !$this->get('publish_on')->isEmpty()) {
+      return FALSE;
+    }
+
+    // UnpublishWorker clears publish_on also for listings that were removed
+    // from Helbit before ever being published. A publication start date in
+    // the future means the listing cannot have been public.
+    $item = $this->get('field_publication_starts')->first();
+    assert($item === NULL || $item instanceof DateTimeItem);
+    $starts = $item?->date;
+
+    return $starts === NULL || $starts->getTimestamp() <= \Drupal::time()->getRequestTime();
   }
 
   /**

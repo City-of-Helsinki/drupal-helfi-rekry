@@ -583,3 +583,10 @@ function helfi_rekry_content_update_11003(): void {
     ->set('label', 'Rekry pääkäyttäjä')
     ->save();
 }
+
+/**
+ * UHF-12599 Reindex job listings to include expired listings.
+ */
+function helfi_rekry_content_update_11004(): void {
+  Index::load('job_listings')?->reindex();
+}
