@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_rekry_content\Unit\Entity;
 
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -20,10 +21,11 @@ use Prophecy\PhpUnit\ProphecyTrait;
  * - getJobDescription: Override vs default field behavior
  * - getOrganizationName: Organization field without override
  * - getCityDescriptions: Configuration-based content retrieval.
- *
- * @coversDefaultClass \Drupal\helfi_rekry_content\Entity\JobListing
  */
 #[Group('helfi_rekry_content')]
+#[CoversMethod(JobListing::class, 'getJobDescription')]
+#[CoversMethod(JobListing::class, 'getOrganizationName')]
+#[CoversMethod(JobListing::class, 'getCityDescriptions')]
 class JobListingTest extends UnitTestCase {
 
   use ProphecyTrait;
@@ -50,8 +52,6 @@ class JobListingTest extends UnitTestCase {
 
   /**
    * Tests getJobDescription with override value.
-   *
-   * @covers ::getJobDescription
    */
   public function testGetJobDescriptionWithOverride(): void {
     $override_field = $this->createMockField('Override job description');
@@ -67,8 +67,6 @@ class JobListingTest extends UnitTestCase {
 
   /**
    * Tests getJobDescription without override value.
-   *
-   * @covers ::getJobDescription
    */
   public function testGetJobDescriptionWithoutOverride(): void {
     $override_field = $this->createMockField(NULL);
@@ -87,8 +85,6 @@ class JobListingTest extends UnitTestCase {
 
   /**
    * Tests getJobDescription with empty fields.
-   *
-   * @covers ::getJobDescription
    */
   public function testGetJobDescriptionWithEmptyFields(): void {
     $override_field = $this->createMockField(NULL);
@@ -107,8 +103,6 @@ class JobListingTest extends UnitTestCase {
 
   /**
    * Tests getOrganizationName without override.
-   *
-   * @covers ::getOrganizationName
    */
   public function testGetOrganizationNameWithoutOverride(): void {
     $override_field = $this->createMockFieldWithFirst(FALSE);
@@ -127,8 +121,6 @@ class JobListingTest extends UnitTestCase {
 
   /**
    * Tests getCityDescriptions.
-   *
-   * @covers ::getCityDescriptions
    */
   public function testGetCityDescriptions(): void {
     $config = $this->prophesize(ImmutableConfig::class);
