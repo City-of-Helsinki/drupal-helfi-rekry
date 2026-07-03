@@ -28,8 +28,7 @@ class JoblistingRedirectTest extends ExistingSiteTestBase {
     $recruitmentId = array_reverse(explode('/', $path))[0];
 
     $this->drupalGetWithLanguage("/fi/avoimet-tyopaikat/avoimet-tyopaikat/$recruitmentId", 'fi');
-    $url = $this->getSession()->getCurrentUrl();
-    $this->assertTrue(str_ends_with($url, '/sv/lediga-jobb/lediga-jobb/testi-1234-56-7890'));
+    $this->assertStringEndsWith($this->getSession()->getCurrentUrl(), '/sv/lediga-jobb/lediga-jobb/testi-1234-56-7890');
   }
 
 }
