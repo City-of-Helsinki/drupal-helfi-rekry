@@ -351,16 +351,6 @@ parameters:
 			path: public/modules/custom/helfi_rekry_content/src/Plugin/Block/OrganizationInformation.php
 
 		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\QueueWorker\\\\UnpublishWorker\\:\\:__construct\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Plugin/QueueWorker/UnpublishWorker.php
-
-		-
-			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\QueueWorker\\\\UnpublishWorker\\:\\:create\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/Plugin/QueueWorker/UnpublishWorker.php
-
-		-
 			message: "#^Method Drupal\\\\helfi_rekry_content\\\\Plugin\\\\search_api\\\\processor\\\\LanguageFieldProcessor\\:\\:addFieldValues\\(\\) has parameter \\$item with no value type specified in iterable type Drupal\\\\search_api\\\\Item\\\\ItemInterface\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/src/Plugin/search_api/processor/LanguageFieldProcessor.php

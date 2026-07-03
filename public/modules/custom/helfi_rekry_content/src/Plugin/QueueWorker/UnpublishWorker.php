@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Plugin\QueueWorker;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\DependencyInjection\AutowiredInstanceTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Queue\Attribute\QueueWorker;
@@ -12,6 +13,7 @@ use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -24,11 +26,19 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 )]
 final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryPluginInterface {
 
+  use AutowiredInstanceTrait;
+
+  /**
+   * The constructor.
+   *
+   * @phpstan-param array<string, mixed> $configuration
+   */
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
     protected EntityTypeManagerInterface $entityTypeManager,
+    #[Autowire(service: 'logger.channel.helfi_rekry_content')]
     protected LoggerInterface $logger,
     protected ConfigFactoryInterface $configFactory,
   ) {
@@ -37,16 +47,11 @@ final class UnpublishWorker extends QueueWorkerBase implements ContainerFactoryP
 
   /**
    * {@inheritdoc}
+   *
+   * @phpstan-param array<string, mixed> $configuration
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) : self {
-    return new self(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get(EntityTypeManagerInterface::class),
-      $container->get('logger.channel.helfi_rekry_content'),
-      $container->get(ConfigFactoryInterface::class),
-    );
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): self {
+    return self::createInstanceAutowired($container, $configuration, $plugin_id, $plugin_definition);
   }
 
   /**
