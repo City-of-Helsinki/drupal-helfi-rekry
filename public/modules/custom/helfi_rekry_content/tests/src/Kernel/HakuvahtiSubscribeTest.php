@@ -29,11 +29,6 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $strictConfigSchema = FALSE; // phpcs:ignore
-
-  /**
-   * {@inheritdoc}
-   */
   protected static $modules = [
     'text',
     'node',
@@ -42,6 +37,11 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
     'readonly_field_widget',
     'helfi_hakuvahti',
     'helfi_rekry_content',
+    'text',
+    'pathauto',
+    'token',
+    'path_alias',
+    'migrate',
   ];
 
   /**
@@ -83,6 +83,8 @@ class HakuvahtiSubscribeTest extends HelfiMediaKernelTestBase {
    */
   public function testSubscriptionController(): void {
     $requestData = file_get_contents(__DIR__ . "/../../fixtures/subscribe_request.json");
+
+    $this->assertNotEmpty($requestData);
 
     $data = json_decode($requestData, TRUE);
     $data['search_description'] = '-';

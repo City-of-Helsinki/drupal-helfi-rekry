@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\helfi_rekry_content\Plugin\QueueWorker\UnpublishWorker;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\node\NodeInterface;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
@@ -54,7 +55,7 @@ class UnpublishWorkerTest extends RekryKernelTestBase {
    */
   public function testUnpublishWorker(): void {
     $manager = $this->container->get('plugin.manager.queue_worker');
-    $sut = $manager->createInstance('job_listing_unpublish_worker');
+    $sut = $manager->createInstance(UnpublishWorker::class);
 
     $published_node = $this->createNode([
       'type' => 'job_listing',
@@ -96,7 +97,7 @@ class UnpublishWorkerTest extends RekryKernelTestBase {
       ->save();
 
     $manager = $this->container->get('plugin.manager.queue_worker');
-    $sut = $manager->createInstance('job_listing_unpublish_worker');
+    $sut = $manager->createInstance(UnpublishWorker::class);
 
     $node = $this->createNode([
       'type' => 'job_listing',

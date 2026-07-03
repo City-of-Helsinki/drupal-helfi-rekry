@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Service;
 
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
-use Webmozart\Assert\Assert;
+use Drupal\helfi_rekry_content\Helbit\HelbitException;
+use Drupal\migrate\Plugin\MigrateIdMapInterface;
+use Drupal\migrate\Plugin\MigrationInterface;
+use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 
 /**
  * Service for removing expired job listings.
@@ -20,22 +22,22 @@ final class JobListingCleaner {
   /**
    * Value used to determined if a listing is considered expired.
    */
-  private const EXPIRE_THRESHOLD = '-1 week';
+  private const string EXPIRE_THRESHOLD = '-6 months';
 
   /**
    * Maximum number of job listings that are cleaned in a single operation.
    */
-  private const BATCH_SIZE = 100;
+  private const int BATCH_SIZE = 100;
 
   /**
-   * Job listing storage.
+   * The migration ID for job listings.
    */
-  private readonly EntityStorageInterface $storage;
+  private const string MIGRATION_ID = 'helfi_rekry_jobs';
 
   /**
    * Known job listings.
    *
-   * @var array
+   * @var array<string, array<string, bool>>
    */
   private static array $jobListingCache = [];
 
@@ -44,9 +46,9 @@ final class JobListingCleaner {
    */
   public function __construct(
     private readonly HelbitClient $client,
-    EntityTypeManagerInterface $entityTypeManager,
+    private readonly MigrationPluginManagerInterface $migrationPluginManager,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
   ) {
-    $this->storage = $entityTypeManager->getStorage('node');
   }
 
   /**
@@ -59,14 +61,25 @@ final class JobListingCleaner {
     $count = 0;
 
     $ids = $this->findExpiredJobListings();
-    $jobListings = $this->storage->loadMultiple($ids);
+    $jobListings = $this->entityTypeManager->getStorage('node')
+      ->loadMultiple($ids);
+
+    $idMap = $this->getMigrationIdMap();
 
     foreach ($jobListings as $jobListing) {
-      assert($jobListing instanceof FieldableEntityInterface);
+      assert($jobListing instanceof JobListing);
 
       // The job listing should be deleted if it is not present in the API.
-      if (!$this->isJobListingInHelbit($jobListing)) {
+      if ($this->isJobListingRemovedFromHelbit($jobListing)) {
+        $recruitmentId = $jobListing->getRecruitmentId();
+
+        foreach ($jobListing->getTranslationLanguages() as $language) {
+          // Clean up the migration map entry.
+          $idMap?->delete([$recruitmentId, $language->getId()]);
+        }
+
         $jobListing->delete();
+
         $count += 1;
       }
     }
@@ -75,24 +88,43 @@ final class JobListingCleaner {
   }
 
   /**
-   * Check if the given job listing is removed from Helbit.
+   * Get the ID map for the job listings migration.
    *
-   * If the listing is not removed, it should not be deleted from Drupal.
+   * @return \Drupal\migrate\Plugin\MigrateIdMapInterface|null
+   *   The migration ID map, or NULL if the migration could not be loaded.
+   */
+  private function getMigrationIdMap(): ?MigrateIdMapInterface {
+    try {
+      $migration = $this->migrationPluginManager->createInstance(self::MIGRATION_ID);
+      assert($migration instanceof MigrationInterface);
+      return $migration->getIdMap();
+    }
+    catch (\Exception) {
+      return NULL;
+    }
+  }
+
+  /**
+   * Check if the given job listing has been removed from Helbit.
    *
-   * @param \Drupal\Core\Entity\FieldableEntityInterface $jobListing
+   * @param \Drupal\helfi_rekry_content\Entity\JobListing $jobListing
    *   Job listing entity.
    *
    * @return bool
-   *   TRUE if job listing is removed from Helbit API.
+   *   TRUE if the job listing is no longer present in the Helbit API.
    */
-  private function isJobListingInHelbit(FieldableEntityInterface $jobListing): bool {
-    Assert::true($jobListing->hasField('field_recruitment_id'));
-
+  private function isJobListingRemovedFromHelbit(JobListing $jobListing): bool {
     $language = $jobListing->language();
     $langcode = $language->getId();
 
     if (empty(self::$jobListingCache[$langcode])) {
-      if (empty($results = $this->client->getJobListings($langcode))) {
+      try {
+        if (empty($results = $this->client->getJobListings($langcode))) {
+          // Empty response, we don't know if this entity is deleted.
+          return FALSE;
+        }
+      }
+      catch (HelbitException) {
         // API error, we don't know if this entity is deleted.
         return FALSE;
       }
@@ -105,19 +137,18 @@ final class JobListingCleaner {
       }
     }
 
-    $id = $jobListing->get('field_recruitment_id')->getString();
-
-    return self::$jobListingCache[$langcode][$id] ?? FALSE;
+    // The listing is removed when the API did not return its recruitment id.
+    return !isset(self::$jobListingCache[$langcode][$jobListing->getRecruitmentId()]);
   }
 
   /**
    * Query for expired job listings from the database.
    *
-   * @return array
+   * @return array<string|int>
    *   Job listings entity ids.
    */
   private function findExpiredJobListings(): array {
-    $query = $this->storage
+    $query = $this->entityTypeManager->getStorage('node')
       ->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'job_listing')

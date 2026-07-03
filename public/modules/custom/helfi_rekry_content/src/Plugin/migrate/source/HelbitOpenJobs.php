@@ -21,13 +21,13 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
 
   /**
    * Helbit client.
-   *
-   * @var \Drupal\helfi_rekry_content\Helbit\HelbitClient
    */
   private HelbitClient $helbit;
 
   /**
    * {@inheritdoc}
+   *
+   * @phpstan-param array<string, mixed> $configuration
    */
   public static function create(
     ContainerInterface $container,
@@ -73,7 +73,9 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
   /**
    * Get configured fields from Helbit response.
    *
-   * @return array
+   * @phpstan-param array<string, mixed> $row
+   *
+   * @return array<string, mixed>
    *   Configured fields.
    */
   private function getFieldsFromRow(array $row): array {
@@ -112,6 +114,8 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
 
   /**
    * {@inheritDoc}
+   *
+   * @phpstan-return array<string, mixed>
    */
   public function fields(): array {
     $fields = [];
@@ -127,6 +131,8 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
 
   /**
    * {@inheritDoc}
+   *
+   * @phpstan-return array<string, mixed>
    */
   public function getIds(): array {
     if (empty($this->configuration['ids'])) {
