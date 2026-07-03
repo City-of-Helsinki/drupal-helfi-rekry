@@ -21,16 +21,6 @@ class JobListingHideMissingSubscriber implements EventSubscriberInterface {
 
   use StringTranslationTrait;
 
-  /**
-   * Constructs a new JobListingHideMissingSubscriber object.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entity type manager.
-   * @param \Psr\Log\LoggerInterface $logger
-   *   Logger channel.
-   * @param \Drupal\Core\Queue\QueueFactory $queueFactory
-   *   The queue factory.
-   */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
     #[Autowire(service: 'logger.channel.helfi_rekry_content')]
