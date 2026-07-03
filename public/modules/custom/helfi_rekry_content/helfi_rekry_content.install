@@ -12,6 +12,7 @@ use Drupal\language\ConfigurableLanguageManagerInterface;
 use Drupal\media\Entity\Media;
 use Drupal\migrate\MigrateExecutable;
 use Drupal\migrate\MigrateMessage;
+use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Event\ReindexScheduledEvent;
 use Drupal\search_api\Event\SearchApiEvents;
@@ -589,4 +590,23 @@ function helfi_rekry_content_update_11003(): void {
  */
 function helfi_rekry_content_update_11004(): void {
   Index::load('job_listings')?->reindex();
+}
+
+/**
+ * UHF-12599 Drop stale Helbit migrate maps for the new composite ids.
+ */
+function helfi_rekry_content_update_11005(): void {
+  $base_ids = [
+    'helfi_rekry_jobs',
+    'helfi_rekry_employment_types',
+    'helfi_rekry_employments',
+  ];
+
+  $manager = \Drupal::service(MigrationPluginManagerInterface::class);
+
+  foreach ($manager->createInstances([]) as $migration) {
+    if (in_array($migration->getBaseId(), $base_ids, TRUE)) {
+      $migration->getIdMap()->destroy();
+    }
+  }
 }
