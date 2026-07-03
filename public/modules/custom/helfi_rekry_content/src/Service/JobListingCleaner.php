@@ -37,11 +37,6 @@ final class JobListingCleaner {
   private const string MIGRATION_ID = 'helfi_rekry_jobs';
 
   /**
-   * Job listing storage.
-   */
-  private readonly EntityStorageInterface $storage;
-
-  /**
    * Known job listings.
    *
    * @var array<string, array<string, bool>>
@@ -54,9 +49,8 @@ final class JobListingCleaner {
   public function __construct(
     private readonly HelbitClient $client,
     private readonly MigrationPluginManagerInterface $migrationPluginManager,
-    EntityTypeManagerInterface $entityTypeManager,
+    private readonly EntityTypeManagerInterface $entityTypeManager,
   ) {
-    $this->storage = $entityTypeManager->getStorage('node');
   }
 
   /**
@@ -69,7 +63,8 @@ final class JobListingCleaner {
     $count = 0;
 
     $ids = $this->findExpiredJobListings();
-    $jobListings = $this->storage->loadMultiple($ids);
+    $jobListings = $this->entityTypeManager->getStorage('node')
+      ->loadMultiple($ids);
 
     $idMap = $this->getMigrationIdMap();
 
@@ -154,7 +149,7 @@ final class JobListingCleaner {
    *   Job listings entity ids.
    */
   private function findExpiredJobListings(): array {
-    $query = $this->storage
+    $query = $this->entityTypeManager->getStorage('node')
       ->getQuery()
       ->accessCheck(FALSE)
       ->condition('type', 'job_listing')
