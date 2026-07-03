@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
+use Drupal\helfi_rekry_content\Helbit\HelbitException;
 use Drupal\migrate\Plugin\MigrateIdMapInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
@@ -69,7 +70,7 @@ final class JobListingCleaner {
       assert($jobListing instanceof JobListing);
 
       // The job listing should be deleted if it is not present in the API.
-      if ($this->isJobListingInHelbit($jobListing)) {
+      if ($this->isJobListingRemovedFromHelbit($jobListing)) {
         $recruitmentId = $jobListing->getRecruitmentId();
 
         foreach ($jobListing->getTranslationLanguages() as $language) {
@@ -104,22 +105,26 @@ final class JobListingCleaner {
   }
 
   /**
-   * Check if the given job listing is removed from Helbit.
-   *
-   * If the listing is not removed, it should not be deleted from Drupal.
+   * Check if the given job listing has been removed from Helbit.
    *
    * @param \Drupal\helfi_rekry_content\Entity\JobListing $jobListing
    *   Job listing entity.
    *
    * @return bool
-   *   TRUE if job listing is removed from Helbit API.
+   *   TRUE if the job listing is no longer present in the Helbit API.
    */
-  private function isJobListingInHelbit(JobListing $jobListing): bool {
+  private function isJobListingRemovedFromHelbit(JobListing $jobListing): bool {
     $language = $jobListing->language();
     $langcode = $language->getId();
 
     if (empty(self::$jobListingCache[$langcode])) {
-      if (empty($results = $this->client->getJobListings($langcode))) {
+      try {
+        if (empty($results = $this->client->getJobListings($langcode))) {
+          // Empty response, we don't know if this entity is deleted.
+          return FALSE;
+        }
+      }
+      catch (HelbitException) {
         // API error, we don't know if this entity is deleted.
         return FALSE;
       }
@@ -132,7 +137,8 @@ final class JobListingCleaner {
       }
     }
 
-    return self::$jobListingCache[$langcode][$jobListing->getRecruitmentId()] ?? FALSE;
+    // The listing is removed when the API did not return its recruitment id.
+    return !isset(self::$jobListingCache[$langcode][$jobListing->getRecruitmentId()]);
   }
 
   /**
