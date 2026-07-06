@@ -35,6 +35,7 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
    * {@inheritdoc}
    */
   public function getDerivativeDefinitions($base_plugin_definition): array {
+    assert(is_array($base_plugin_definition));
     $langcodes = ['fi', 'sv', 'en'];
 
     foreach ($langcodes as $langcode) {
