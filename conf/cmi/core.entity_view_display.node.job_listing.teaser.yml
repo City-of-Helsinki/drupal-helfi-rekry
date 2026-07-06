@@ -73,6 +73,7 @@ content:
     weight: 0
     region: content
 hidden:
+  ai_summary: true
   field_address: true
   field_anonymous: true
   field_contacts: true
