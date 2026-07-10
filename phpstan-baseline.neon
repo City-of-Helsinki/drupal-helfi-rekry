@@ -216,11 +216,6 @@ parameters:
 			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
 
 		-
-			message: "#^Function helfi_rekry_content_page_attachments\\(\\) has parameter \\$attachments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
-
-		-
 			message: "#^Function helfi_rekry_content_page_attachments_alter\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/helfi_rekry_content.module
@@ -549,21 +544,6 @@ parameters:
 			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\HelbitOpenJobsTest\\:\\:getSut\\(\\) has parameter \\$configuration with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/HelbitOpenJobsTest.php
-
-		-
-			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\StructuredDataTest\\:\\:extractJsonLdFromAttachments\\(\\) has parameter \\$attachments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/StructuredDataTest.php
-
-		-
-			message: "#^Method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\StructuredDataTest\\:\\:extractJsonLdFromAttachments\\(\\) is unused\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/StructuredDataTest.php
-
-		-
-			message: "#^Property Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\StructuredDataTest\\:\\:\\$entityVersionMatcher with generic class Prophecy\\\\Prophecy\\\\ObjectProphecy does not specify its types\\: T$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/tests/src/Kernel/StructuredDataTest.php
 
 		-
 			message: "#^Parameter \\#1 \\$nid of method Drupal\\\\Tests\\\\helfi_rekry_content\\\\Kernel\\\\UnpublishWorkerTest\\:\\:assertNodeIsUnpublished\\(\\) expects string, int\\|string\\|null given\\.$#"
