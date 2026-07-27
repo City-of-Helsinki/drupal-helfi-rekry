@@ -100,7 +100,7 @@ $sort-minimum-width: 283px;
 
 // Override HDS-default style.
 fieldset .job-search-form__checkbox {
-  --background-selected: var(--hdbt-color-black);
+  --background-selected: $color-black-90;
 }
 
 fieldset .job-search-form__checkbox:not(:first-of-type) {

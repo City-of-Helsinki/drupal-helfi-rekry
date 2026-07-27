@@ -38,6 +38,7 @@ final class HelbitMigrationDeriver extends DeriverBase implements ContainerDeriv
    * @phpstan-return array<string, mixed>
    */
   public function getDerivativeDefinitions(mixed $base_plugin_definition): array {
+    assert(is_array($base_plugin_definition));
     $langcodes = ['fi', 'sv', 'en'];
 
     foreach ($langcodes as $langcode) {

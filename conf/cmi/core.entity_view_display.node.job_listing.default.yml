@@ -237,6 +237,7 @@ content:
     weight: 10
     region: content
 hidden:
+  ai_summary: true
   field_anonymous: true
   field_jobs: true
   field_last_changed_remote: true
