@@ -15,6 +15,8 @@ final readonly class PlatformConfig {
    * Implements hook_platform_config_grant_permissions().
    *
    * @codeCoverageIgnore
+   *
+   * @phpstan-return array<string, string[]>
    */
   #[Hook('platform_config_grant_permissions')]
   public function permissions(): array {
