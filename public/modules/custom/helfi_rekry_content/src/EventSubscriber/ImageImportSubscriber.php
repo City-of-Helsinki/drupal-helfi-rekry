@@ -53,7 +53,7 @@ final class ImageImportSubscriber implements EventSubscriberInterface {
    */
   public function postRowSave(MigratePostRowSaveEvent $event): void {
     // Return early if not image migration.
-    if (!in_array($event->getMigration()->id(), $this->getImageMigrations())) {
+    if (!$this->isValidMigration($event->getMigration()->id())) {
       return;
     }
 
@@ -90,13 +90,26 @@ final class ImageImportSubscriber implements EventSubscriberInterface {
   }
 
   /**
+   * Checks if the given migration is valid.
+   *
+   * @param string $id
+   *   The migration id.
+   *
+   * @return bool
+   *   TRUE if migration is valid.
+   */
+  private function isValidMigration(string $id): bool {
+    return in_array($id, $this->getImageMigrations());
+  }
+
+  /**
    * Ensure that the directory for job listing images exists.
    *
    * @param \Drupal\migrate\Event\MigrateImportEvent $event
    *   The event object.
    */
   public function preImport(MigrateImportEvent $event): void {
-    if (in_array($event->getMigration()->id(), $this->getImageMigrations()) && !file_exists($this->fileSystem->realpath($this->getImagesDir()))) {
+    if ($this->isValidMigration($event->getMigration()->id()) && !file_exists($this->getImagesDir())) {
       $this->fileSystem->mkdir($this->getImagesDir());
     }
   }

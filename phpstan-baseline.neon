@@ -286,11 +286,6 @@ parameters:
 			path: public/modules/custom/helfi_rekry_content/src/EventSubscriber/ImageImportSubscriber.php
 
 		-
-			message: "#^Parameter \\#1 \\$filename of function file_exists expects string, string\\|false given\\.$#"
-			count: 1
-			path: public/modules/custom/helfi_rekry_content/src/EventSubscriber/ImageImportSubscriber.php
-
-		-
 			message: "#^Method Drupal\\\\helfi_rekry_content\\\\EventSubscriber\\\\JobListingHideMissingSubscriber\\:\\:getJobListingMigrations\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: public/modules/custom/helfi_rekry_content/src/EventSubscriber/JobListingHideMissingSubscriber.php

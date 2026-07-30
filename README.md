@@ -119,7 +119,11 @@ The `job_listing_images` migration requires Azure Blob storage to be configured.
 
 Modify/create `public/sites/default/local.settings.php` file with:
 ```php
-$config['helfi_rekry_content.settings']['helbit_client_id'] = '[ copy value from HELBIT_CLIENT_ID environment variable ]';
+$config['helfi_rekry_content.settings']['helbit_clients'] = [
+  [
+    'client_id' => '[ copy value from HELBIT_CLIENT_ID environment variable ]',
+  ],
+];
 ```
 
 ### Hakuvahti
@@ -143,7 +147,7 @@ feature to users.
 
 To enable Hakuvahti features for local development or usage, you need to:
 
-1. Install [Hakuvahti Node.js server]((https://github.com/City-of-Helsinki/helfi-hakuvahti) locally.
+1. Install [Hakuvahti Node.js server](https://github.com/City-of-Helsinki/helfi-hakuvahti) locally.
 2. Start the server on your local. Instructions are on the [Hakuvahti server README](https://github.com/City-of-Helsinki/helfi-hakuvahti?tab=readme-ov-file#installing-and-running-hakuvahti).
 3. Now clear the caches on your Rekry instance, and you should be able to see the Hakuvahti on the Job search on you
 local site.
