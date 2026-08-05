@@ -13,6 +13,7 @@ dependencies:
     - field.storage.node.field_postal_area
     - field.storage.node.field_postal_code
     - field.storage.node.field_promoted
+    - field.storage.node.field_publication_ends
     - field.storage.node.field_publication_starts
     - field.storage.node.field_recruitment_id
     - field.storage.node.field_recruitment_type
@@ -165,6 +166,14 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_promoted
+  field_publication_ends:
+    label: 'Publication ends'
+    datasource_id: 'entity:node'
+    property_path: field_publication_ends
+    type: date
+    dependencies:
+      config:
+        - field.storage.node.field_publication_ends
   field_publication_starts:
     label: 'Julkaisun alkaminen'
     datasource_id: 'entity:node'
@@ -329,7 +338,6 @@ processor_settings:
   add_url: {  }
   aggregated_field: {  }
   custom_value: {  }
-  entity_status: {  }
   entity_type: {  }
   ignorecase:
     all_fields: false
@@ -339,6 +347,7 @@ processor_settings:
       - field_recruitment_id
       - field_search_id
       - langcode
+  job_listing_entity_status: {  }
   language_field: {  }
   language_with_fallback: {  }
   project_execution_schedule: {  }

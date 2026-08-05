@@ -7,7 +7,6 @@ namespace Drupal\helfi_rekry_content\Helbit;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Utils;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
@@ -99,7 +98,7 @@ class HelbitClient implements LoggerAwareInterface {
 
     $response = $this->client->request('GET', "$baseUrl/portal-api/recruitment/v2.3$endpoint", $options);
 
-    $result = Utils::jsonDecode($response->getBody()->getContents(), TRUE);
+    $result = json_decode($response->getBody()->getContents(), TRUE);
     if (!is_array($result)) {
       throw new HelbitException('Failed retrieving data from Helbit. Response is not valid JSON.');
     }

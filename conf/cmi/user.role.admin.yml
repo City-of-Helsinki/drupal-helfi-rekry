@@ -25,6 +25,7 @@ dependencies:
     - content_translation
     - editoria11y
     - entity_usage
+    - external_entities
     - file
     - filter
     - hdbt_cookie_banner
@@ -178,6 +179,7 @@ permissions:
   - 'translate task_area taxonomy_term'
   - 'update any media'
   - 'update content translations'
+  - 'update linkedevents_event external entity'
   - 'update media'
   - 'use helfi ai title suggestion'
   - 'use helfi ai tone check'
@@ -192,6 +194,8 @@ permissions:
   - 'view editoria11y checker'
   - 'view job_listing revisions'
   - 'view landing_page revisions'
+  - 'view linkedevents_event external entity'
+  - 'view linkedevents_event external entity collection'
   - 'view media'
   - 'view own unpublished content'
   - 'view own unpublished media'
