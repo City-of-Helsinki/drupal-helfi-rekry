@@ -5,6 +5,7 @@ dependencies: {  }
 id: default
 label: Default
 site_id: rekry
+sms_enabled: false
 confirm_success_title: ''
 confirm_success_body: ''
 confirm_failure_title: ''
