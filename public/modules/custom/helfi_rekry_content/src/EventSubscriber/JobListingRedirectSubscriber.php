@@ -18,16 +18,6 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
  */
 class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
 
-  /**
-   * Constructs a new Redirect403Subscriber.
-   *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
-   *   The configuration factory.
-   * @param \Drupal\Core\Session\AccountInterface $currentUser
-   *   The current user.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entity type manager.
-   */
   public function __construct(
     protected ConfigFactoryInterface $configFactory,
     protected AccountInterface $currentUser,
@@ -87,7 +77,7 @@ class JobListingRedirectSubscriber extends HttpExceptionSubscriberBase {
    * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event
    *   The Event to process.
    */
-  public function on404(ExceptionEvent $event) : void {
+  public function on404(ExceptionEvent $event): void {
     $uri = $event->getRequest()->getRequestUri();
     $redirectPaths = [
       'fi' => 'avoimet-tyopaikat/avoimet-tyopaikat/',

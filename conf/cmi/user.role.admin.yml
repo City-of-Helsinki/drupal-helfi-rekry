@@ -25,11 +25,13 @@ dependencies:
     - content_translation
     - editoria11y
     - entity_usage
+    - external_entities
     - file
     - filter
     - hdbt_cookie_banner
     - helfi_ai
     - helfi_api_base
+    - helfi_hakuvahti
     - helfi_recommendations
     - locale
     - media
@@ -159,6 +161,7 @@ permissions:
   - 'revert landing_page revisions'
   - 'revert page revisions'
   - 'schedule publishing of nodes'
+  - 'send hakuvahti broadcast'
   - 'set announcement published on date'
   - 'set landing_page published on date'
   - 'set page published on date'
@@ -178,7 +181,9 @@ permissions:
   - 'translate task_area taxonomy_term'
   - 'update any media'
   - 'update content translations'
+  - 'update linkedevents_event external entity'
   - 'update media'
+  - 'use helfi ai summary'
   - 'use helfi ai title suggestion'
   - 'use helfi ai tone check'
   - 'use menu link attributes'
@@ -192,6 +197,8 @@ permissions:
   - 'view editoria11y checker'
   - 'view job_listing revisions'
   - 'view landing_page revisions'
+  - 'view linkedevents_event external entity'
+  - 'view linkedevents_event external entity collection'
   - 'view media'
   - 'view own unpublished content'
   - 'view own unpublished media'

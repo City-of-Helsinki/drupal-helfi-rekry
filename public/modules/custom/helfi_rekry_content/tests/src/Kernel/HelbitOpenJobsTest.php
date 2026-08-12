@@ -108,6 +108,8 @@ class HelbitOpenJobsTest extends KernelTestBase {
 
   /**
    * Gets service under test.
+   *
+   * @phpstan-param array<string, mixed> $configuration
    */
   private function getSut(HelbitClient $helbit, array $configuration): HelbitOpenJobs {
     $container = new ContainerBuilder();

@@ -67,16 +67,6 @@ $sort-minimum-width: 283px;
   margin-top: 0;
 }
 
-.job-search-form__dropdown--upper {
-  @include breakpoint($breakpoint-l) {
-    width: 50%;
-  }
-
-  .job-search-form__dropdown {
-    // HDS has 420px max-width set for selects. This is OK when the form is limited to 860px width but not here.
-    max-width: unset;
-  }
-}
 
 .job-search-form__filter {
   margin-bottom: $spacing;
@@ -86,6 +76,18 @@ $sort-minimum-width: 283px;
     margin-bottom: $spacing-and-half;
   }
 }
+
+.job-search-form__filter.job-search-form__dropdown--upper {
+  @include breakpoint($breakpoint-l) {
+    width: calc(50% - #{$spacing-and-half});
+  }
+
+  .job-search-form__dropdown {
+    // HDS has 420px max-width set for selects. This is OK when the form is limited to 860px width but not here.
+    max-width: unset;
+  }
+}
+
 
 // Override some fieldset default styles here
 .job-search-form__checkboxes {
@@ -100,7 +102,7 @@ $sort-minimum-width: 283px;
 
 // Override HDS-default style.
 fieldset .job-search-form__checkbox {
-  --background-selected: $color-black-90;
+  --background-selected: #{$color-black-90};
 }
 
 fieldset .job-search-form__checkbox:not(:first-of-type) {

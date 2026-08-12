@@ -5,14 +5,20 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Drush\Commands;
 
 use Drupal\helfi_rekry_content\Service\JobListingCleaner;
-use Drush\Attributes as CLI;
 use Drush\Commands\AutowireTrait;
-use Drush\Commands\DrushCommands;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * A Drush command file.
+ * Command for removing expired job listings.
  */
-final class JobListingCommands extends DrushCommands {
+#[AsCommand(
+  name: 'helfi-rekry-content:clean-expired-listings',
+  description: 'Remove expired job listings.',
+)]
+final class JobListingCommands extends Command {
 
   use AutowireTrait;
 
@@ -26,15 +32,15 @@ final class JobListingCommands extends DrushCommands {
   }
 
   /**
-   * Command for removing expired job listings.
+   * {@inheritdoc}
    */
-  #[CLI\Command(name: 'helfi-rekry-content:clean-expired-listings')]
-  #[CLI\Usage(name: 'helfi-rekry-content:clean-expired-listings', description: 'Remove expired job listings')]
-  public function cleanExpired(): void {
+  protected function execute(InputInterface $input, OutputInterface $output): int {
     $count = $this->jobListingCleaner->deleteExpired();
-    $this->logger()->success(dt('@count job listings cleaned.', [
+    $output->writeln(dt('@count job listings cleaned.', [
       '@count' => $count,
     ]));
+
+    return Command::SUCCESS;
   }
 
 }

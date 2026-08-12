@@ -7,7 +7,7 @@ dependencies:
 id: helfi_rekry_employments
 migration_tags:
   - helfi_rekry_content
-  - helfi_rekry_jobs
+  - helfi_rekry_taxonomies
 migration_group: helfi_rekry_content
 label: 'HELfi Rekry - Employment'
 source:
@@ -22,6 +22,8 @@ source:
       selector: 'jobAdvertisement/employment'
   ids:
     id:
+      type: string
+    langcode:
       type: string
 process:
   tid:
