@@ -33,6 +33,7 @@ dependencies:
     - helfi_api_base
     - helfi_hakuvahti
     - helfi_recommendations
+    - helfi_search
     - locale
     - media
     - menu_link_attributes
@@ -73,6 +74,7 @@ permissions:
   - 'access user profiles'
   - 'administer blocks'
   - 'administer hdbt_cookie_banner'
+  - 'administer helfi_search'
   - 'administer menu'
   - 'administer nodes'
   - 'administer paragraphs library'
