@@ -666,16 +666,16 @@
         },
         {
             "name": "city-of-helsinki/php-resilient-logger",
-            "version": "2.0.2",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/php-resilient-logger.git",
-                "reference": "213d4106f372b3c43ea757e29c88829618ebea59"
+                "reference": "3bd0723bbbaa2360a3128a173e141649c0a95a77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/php-resilient-logger/zipball/213d4106f372b3c43ea757e29c88829618ebea59",
-                "reference": "213d4106f372b3c43ea757e29c88829618ebea59",
+                "url": "https://api.github.com/repos/City-of-Helsinki/php-resilient-logger/zipball/3bd0723bbbaa2360a3128a173e141649c0a95a77",
+                "reference": "3bd0723bbbaa2360a3128a173e141649c0a95a77",
                 "shasum": ""
             },
             "require": {
@@ -688,6 +688,7 @@
                 "behat/mink": "^1.12",
                 "phpspec/prophecy": "^1.20",
                 "phpspec/prophecy-phpunit": "^2.3",
+                "phpstan/phpstan": "^1.12 || ^2.0",
                 "phpunit/phpunit": "^10.5 || ^11.5"
             },
             "type": "library",
@@ -706,10 +707,10 @@
             ],
             "description": "PHP resilient logger for monolog",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/php-resilient-logger/tree/2.0.2",
+                "source": "https://github.com/City-of-Helsinki/php-resilient-logger/tree/2.0.3",
                 "issues": "https://github.com/City-of-Helsinki/php-resilient-logger/issues"
             },
-            "time": "2026-04-29T10:25:15+00:00"
+            "time": "2026-08-26T09:30:23+00:00"
         },
         {
             "name": "codementality/flysystem-stream-wrapper",
@@ -3761,17 +3762,17 @@
         },
         {
             "name": "drupal/entity",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/entity.git",
-                "reference": "8.x-1.7"
+                "reference": "8.x-1.8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/entity-8.x-1.7.zip",
-                "reference": "8.x-1.7",
-                "shasum": "d9c24749beb5bfeb398f503b8a31a676483cd182"
+                "url": "https://ftp.drupal.org/files/projects/entity-8.x-1.8.zip",
+                "reference": "8.x-1.8",
+                "shasum": "61349682d0db8dead9d6b571ac6b4aeae08abb0f"
             },
             "require": {
                 "drupal/core": "^10.1 || ^11"
@@ -3779,8 +3780,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.7",
-                    "datestamp": "1786708365",
+                    "version": "8.x-1.8",
+                    "datestamp": "1787767893",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -4982,16 +4983,16 @@
         },
         {
             "name": "drupal/helfi_platform_config",
-            "version": "5.1.118",
+            "version": "5.1.119",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config.git",
-                "reference": "74890a96c5c25eed9d61f7de7a0411b367b7a1ab"
+                "reference": "37c9d407348046dd1ea4a784622054f8466b754a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/74890a96c5c25eed9d61f7de7a0411b367b7a1ab",
-                "reference": "74890a96c5c25eed9d61f7de7a0411b367b7a1ab",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-helfi-platform-config/zipball/37c9d407348046dd1ea4a784622054f8466b754a",
+                "reference": "37c9d407348046dd1ea4a784622054f8466b754a",
                 "shasum": ""
             },
             "require": {
@@ -5120,10 +5121,10 @@
             ],
             "description": "HELfi platform config",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/5.1.118",
+                "source": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/tree/5.1.119",
                 "issues": "https://github.com/City-of-Helsinki/drupal-helfi-platform-config/issues"
             },
-            "time": "2026-08-25T08:38:27+00:00"
+            "time": "2026-08-27T10:34:36+00:00"
         },
         {
             "name": "drupal/helfi_proxy",
