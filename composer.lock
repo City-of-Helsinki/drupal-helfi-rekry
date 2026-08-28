@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a0663b82d7a9f88279d04b5a5e2041b",
+    "content-hash": "620463aafdeb06305ad4538ba3022cf9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4797,16 +4797,16 @@
         },
         {
             "name": "drupal/helfi_azure_fs",
-            "version": "2.2.5",
+            "version": "dev-UHF-13549",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-azure-fs.git",
-                "reference": "ec18c5f13f032e66eacf4c276d4c92bbae3f6951"
+                "reference": "4e9e27a99216046f9f122627e938d14d631e1ff3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-azure-fs/zipball/ec18c5f13f032e66eacf4c276d4c92bbae3f6951",
-                "reference": "ec18c5f13f032e66eacf4c276d4c92bbae3f6951",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-azure-fs/zipball/4e9e27a99216046f9f122627e938d14d631e1ff3",
+                "reference": "4e9e27a99216046f9f122627e938d14d631e1ff3",
                 "shasum": ""
             },
             "require": {
@@ -4827,10 +4827,10 @@
             ],
             "description": "Helfi - Azure FS",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-azure-fs/tree/2.2.5",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-azure-fs/tree/UHF-13549",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-azure-fs/issues"
             },
-            "time": "2026-08-13T05:39:39+00:00"
+            "time": "2026-08-28T03:57:07+00:00"
         },
         {
             "name": "drupal/helfi_drupal_tools",
@@ -22589,6 +22589,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/helfi_azure_fs": 20,
         "drupal/helfi_drupal_tools": 20
     },
     "prefer-stable": true,
