@@ -123,3 +123,11 @@ fieldset .job-search-form__checkbox:not(:first-of-type) {
 .job-search-form__selections-container {
   list-style-type: none;
 }
+
+.job-search__unpublished-matches {
+  margin-block-start: $spacing-and-half;
+  
+  @include breakpoint($breakpoint-m) {
+    margin-block-start: $spacing-triple;
+  }
+}
