@@ -4618,16 +4618,16 @@
         },
         {
             "name": "drupal/hdbt",
-            "version": "6.18.24",
+            "version": "6.18.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-hdbt.git",
-                "reference": "5be2bf851a60d1ba5910125a5f5459c6cdf38417"
+                "reference": "b984f317618d09224d4eb65ba9ea1508dbf8c96f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/5be2bf851a60d1ba5910125a5f5459c6cdf38417",
-                "reference": "5be2bf851a60d1ba5910125a5f5459c6cdf38417",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-hdbt/zipball/b984f317618d09224d4eb65ba9ea1508dbf8c96f",
+                "reference": "b984f317618d09224d4eb65ba9ea1508dbf8c96f",
                 "shasum": ""
             },
             "require": {
@@ -4646,10 +4646,10 @@
                 "Drupal"
             ],
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.18.24",
+                "source": "https://github.com/City-of-Helsinki/drupal-hdbt/tree/6.18.25",
                 "issues": "https://github.com/City-of-Helsinki/drupal-hdbt/issues"
             },
-            "time": "2026-09-07T11:47:31+00:00"
+            "time": "2026-09-07T14:09:21+00:00"
         },
         {
             "name": "drupal/hdbt_admin",
@@ -4950,16 +4950,16 @@
         },
         {
             "name": "drupal/helfi_navigation",
-            "version": "2.3.6",
+            "version": "2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation.git",
-                "reference": "ace337a2ffa7e84f5dd4e09afe4fc397d7721b5b"
+                "reference": "149db25a2a6d7ab83be7fa49ba6ec2377f9e5093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-navigation/zipball/ace337a2ffa7e84f5dd4e09afe4fc397d7721b5b",
-                "reference": "ace337a2ffa7e84f5dd4e09afe4fc397d7721b5b",
+                "url": "https://api.github.com/repos/City-of-Helsinki/drupal-module-helfi-navigation/zipball/149db25a2a6d7ab83be7fa49ba6ec2377f9e5093",
+                "reference": "149db25a2a6d7ab83be7fa49ba6ec2377f9e5093",
                 "shasum": ""
             },
             "require": {
@@ -4977,10 +4977,10 @@
             ],
             "description": "Helfi - Navigation",
             "support": {
-                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/tree/2.3.6",
+                "source": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/tree/2.3.7",
                 "issues": "https://github.com/City-of-Helsinki/drupal-module-helfi-navigation/issues"
             },
-            "time": "2026-08-10T11:23:47+00:00"
+            "time": "2026-09-07T13:51:10+00:00"
         },
         {
             "name": "drupal/helfi_platform_config",
@@ -9984,16 +9984,16 @@
         },
         {
             "name": "league/html-to-markdown",
-            "version": "5.1.1",
+            "version": "5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/html-to-markdown.git",
-                "reference": "0b4066eede55c48f38bcee4fb8f0aa85654390fd"
+                "reference": "db234ecdb160b9d2b422c1c130db4b01eb3e9e24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/0b4066eede55c48f38bcee4fb8f0aa85654390fd",
-                "reference": "0b4066eede55c48f38bcee4fb8f0aa85654390fd",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/db234ecdb160b9d2b422c1c130db4b01eb3e9e24",
+                "reference": "db234ecdb160b9d2b422c1c130db4b01eb3e9e24",
                 "shasum": ""
             },
             "require": {
@@ -10003,11 +10003,11 @@
             },
             "require-dev": {
                 "mikehaertl/php-shellcommand": "^1.1.0",
-                "phpstan/phpstan": "^1.8.8",
-                "phpunit/phpunit": "^8.5 || ^9.2",
+                "phpstan/phpstan": "^1.8.8 || ^2.0",
+                "phpunit/phpunit": "^8.5 || ^9.2 || ^10.5 || ^11.0 || ^12.0 || ^13.0",
                 "scrutinizer/ocular": "^1.6",
                 "unleashedtech/php-coding-standard": "^2.7 || ^3.0",
-                "vimeo/psalm": "^4.22 || ^5.0"
+                "vimeo/psalm": "^4.22 || ^5.0 || ^6.0"
             },
             "bin": [
                 "bin/html-to-markdown"
@@ -10049,7 +10049,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/html-to-markdown/issues",
-                "source": "https://github.com/thephpleague/html-to-markdown/tree/5.1.1"
+                "source": "https://github.com/thephpleague/html-to-markdown/tree/5.1.2"
             },
             "funding": [
                 {
@@ -10069,7 +10069,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-07-12T21:21:09+00:00"
+            "time": "2026-09-07T13:53:32+00:00"
         },
         {
             "name": "league/mime-type-detection",
