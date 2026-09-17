@@ -19,6 +19,7 @@ dependencies:
     - taxonomy.vocabulary.organization
     - taxonomy.vocabulary.task_area
   module:
+    - ai
     - block
     - config_translation
     - content_lock
@@ -28,7 +29,6 @@ dependencies:
     - external_entities
     - file
     - filter
-    - hdbt_cookie_banner
     - helfi_ai
     - helfi_api_base
     - helfi_hakuvahti
@@ -73,13 +73,13 @@ permissions:
   - 'access toolbar'
   - 'access user profiles'
   - 'administer blocks'
-  - 'administer hdbt_cookie_banner'
   - 'administer helfi_search'
   - 'administer menu'
   - 'administer nodes'
   - 'administer paragraphs library'
   - 'administer pathauto'
   - 'administer redirects'
+  - 'administer site configuration'
   - 'administer sitemap settings'
   - 'administer url aliases'
   - 'administer users'
@@ -155,6 +155,7 @@ permissions:
   - 'edit terms in keywords'
   - 'edit terms in organization'
   - 'edit terms in task_area'
+  - 'manage ai prompts'
   - 'mark as hidden in editoria11y'
   - 'rebuild node access permissions'
   - 'revert all revisions'
