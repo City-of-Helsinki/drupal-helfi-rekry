@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace Drupal\helfi_google_api\Drush\Commands;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Routing\UrlGeneratorInterface;
 use Drupal\helfi_google_api\JobIndexingService;
 use Drupal\helfi_google_api\Response;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\node\Entity\Node;
-use Drupal\path_alias\AliasManagerInterface;
 use Drush\Attributes\Command;
 use Drush\Commands\AutowireTrait;
 use Drush\Commands\DrushCommands;
@@ -25,10 +21,6 @@ final class GoogleIndexingApiCommands extends DrushCommands {
 
   public function __construct(
     private readonly JobIndexingService $jobIndexingService,
-    private readonly EntityTypeManagerInterface $entityTypeManager,
-    private readonly LanguageManagerInterface $languageManager,
-    private readonly AliasManagerInterface $aliasManager,
-    private readonly UrlGeneratorInterface $urlGenerator,
   ) {
     parent::__construct();
   }

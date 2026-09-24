@@ -15,14 +15,14 @@ use Drupal\path_alias\AliasManagerInterface;
 use Drupal\redirect\Entity\Redirect;
 use Drupal\Tests\helfi_api_base\Functional\ExistingSiteTestBase;
 use Google\Service\Indexing;
+use PHPUnit\Framework\Attributes\Group;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * Tests file name transliteration.
- *
- * @group helfi_google_api
  */
+#[Group('helfi_google_api')]
 class IndexingTest extends ExistingSiteTestBase {
   use ProphecyTrait;
 
