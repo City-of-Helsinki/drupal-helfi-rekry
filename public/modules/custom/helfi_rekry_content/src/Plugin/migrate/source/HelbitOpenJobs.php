@@ -22,7 +22,7 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
   /**
    * Helbit client.
    */
-  private HelbitClient $helbit;
+  protected HelbitClient $helbit;
 
   /**
    * {@inheritdoc}
