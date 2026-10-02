@@ -139,7 +139,7 @@ class HakuvahtiTracker {
 
       // Add new rows to csv.
       foreach ($rows as $row) {
-        fputcsv($handle, (array) $row, $delimiter);
+        fputcsv($handle, (array) $row, $delimiter, escape: '');
       }
 
       rewind($handle);

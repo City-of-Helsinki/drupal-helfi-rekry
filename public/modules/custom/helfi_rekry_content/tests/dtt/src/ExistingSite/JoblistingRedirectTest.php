@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Drupal\helfi_rekry_content\Tests\dtt\src\ExistingSite;
 
 use Drupal\Tests\helfi_api_base\Functional\ExistingSiteTestBase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Test job listing redirect.
- *
- * @group dtt
  */
+#[Group('dtt')]
 class JoblistingRedirectTest extends ExistingSiteTestBase {
 
   /**

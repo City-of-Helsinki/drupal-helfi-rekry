@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\helfi_rekry_content\Kernel;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
@@ -21,9 +22,8 @@ class FilenameTest extends RekryKernelTestBase {
 
   /**
    * Tests the file name transliteration.
-   *
-   * @dataProvider filenameData
    */
+  #[DataProvider('filenameData')]
   public function testFileName(?string $expectedFilename, ?string $filename) : void {
     $this->assertEquals($expectedFilename, _helfi_rekry_content_filename($filename));
   }
