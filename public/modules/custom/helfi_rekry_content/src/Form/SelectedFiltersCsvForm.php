@@ -27,7 +27,7 @@ final class SelectedFiltersCsvForm extends FormBase {
    *   The hakuvahti tracker.
    */
   public function __construct(
-    private readonly HakuvahtiTracker $tracker,
+    protected readonly HakuvahtiTracker $tracker,
   ) {
   }
 
