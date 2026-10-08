@@ -56,7 +56,7 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
       // Processing empty array would cause all the existing job listings
       // to be unpublished by JobListingHideMissingSubscriber.
       if (count($jobListings) === 0) {
-        Throw new \Exception('Api returned no job listings.');
+        throw new \Exception('Api returned no job listings.');
       }
 
       foreach ($jobListings as $row) {
