@@ -77,10 +77,13 @@ final class JobListingCleaner implements LoggerAwareInterface {
     }
 
     // It's not safe to delete job listings if the API return no job listings.
+    $skipLanguage = [];
     foreach (['fi', 'en', 'sv'] as $langcode) {
-      if (!self::$jobListingCache[$langcode] || empty($jobListings[$langcode])) {
-        $this->logger->alert("Helbit returned no job listings for language $langcode. Skipping the cleanup.");
-        return 0;
+      if (!isset(self::$jobListingCache[$langcode]) || empty(self::$jobListingCache[$langcode])) {
+        $this->logger->alert("Helbit returned no job listings for language $langcode. Skipping the $langcode cleanup.");
+        if (!in_array($langcode, $skipLanguage)) {
+          $skipLanguage[] =  $langcode;
+        }
       }
     }
 
@@ -88,6 +91,10 @@ final class JobListingCleaner implements LoggerAwareInterface {
       assert($jobListing instanceof JobListing);
       $recruitmentId = $jobListing->getRecruitmentId();
       $langcode = $jobListing->language()->getId();
+
+      if (in_array($langcode, $skipLanguage)) {
+        continue;
+      }
 
       // The job listing should be deleted if it is not present in the API.
       if (!isset(self::$jobListingCache[$langcode][$recruitmentId])) {
