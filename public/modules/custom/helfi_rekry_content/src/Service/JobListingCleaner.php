@@ -82,7 +82,7 @@ final class JobListingCleaner implements LoggerAwareInterface {
       if (!isset(self::$jobListingCache[$langcode]) || empty(self::$jobListingCache[$langcode])) {
         $this->logger->alert("Helbit returned no job listings for language $langcode. Skipping the $langcode cleanup.");
         if (!in_array($langcode, $skipLanguage)) {
-          $skipLanguage[] =  $langcode;
+          $skipLanguage[] = $langcode;
         }
       }
     }
