@@ -51,7 +51,15 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
     $query = [];
 
     foreach ($langcodes as $langcode) {
-      foreach ($this->helbit->getJobListings($langcode, $query) as $row) {
+      $jobListings = $this->helbit->getJobListings($langcode, $query);
+
+      // Processing empty array would cause all the existing job listings
+      // to be unpublished by JobListingHideMissingSubscriber.
+      if (count($jobListings) === 0) {
+        Throw new \Exception('Api returned no job listings.');
+      }
+
+      foreach ($jobListings as $row) {
         $fields = $this->getFieldsFromRow($row) + [
           'langcode' => $langcode,
         ];

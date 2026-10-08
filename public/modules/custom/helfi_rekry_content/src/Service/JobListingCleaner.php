@@ -158,7 +158,7 @@ final class JobListingCleaner implements LoggerAwareInterface {
   private function fetchHelbitJobListings(): void {
     foreach (['fi', 'en', 'sv'] as $langcode) {
       $results = $this->client->getJobListings($langcode);
-      if (!$results) {
+      if (count($results) === 0) {
         continue;
       }
 
