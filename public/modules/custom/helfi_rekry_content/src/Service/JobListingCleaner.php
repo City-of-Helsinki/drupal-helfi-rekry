@@ -6,18 +6,22 @@ namespace Drupal\helfi_rekry_content\Service;
 
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Utility\Error;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\helfi_rekry_content\Entity\JobListing;
 use Drupal\helfi_rekry_content\Helbit\HelbitClient;
-use Drupal\helfi_rekry_content\Helbit\HelbitException;
 use Drupal\migrate\Plugin\MigrateIdMapInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Service for removing expired job listings.
  */
-final class JobListingCleaner {
+final class JobListingCleaner implements LoggerAwareInterface {
+
+  use LoggerAwareTrait;
 
   /**
    * Value used to determined if a listing is considered expired.
@@ -41,9 +45,6 @@ final class JobListingCleaner {
    */
   private static array $jobListingCache = [];
 
-  /**
-   * Constructs a JobListingCleaner object.
-   */
   public function __construct(
     private readonly HelbitClient $client,
     private readonly MigrationPluginManagerInterface $migrationPluginManager,
@@ -66,20 +67,43 @@ final class JobListingCleaner {
 
     $idMap = $this->getMigrationIdMap();
 
+    try {
+      $this->fetchHelbitJobListings();
+    }
+    catch (\Exception $e) {
+      // Stop if the job fetching fails.
+      Error::logException($this->logger, $e);
+      return 0;
+    }
+
+    // It's not safe to delete job listings if the API return no job listings.
+    $skipLanguage = [];
+    foreach (['fi', 'en', 'sv'] as $langcode) {
+      if (!isset(self::$jobListingCache[$langcode]) || empty(self::$jobListingCache[$langcode])) {
+        $this->logger->alert("Helbit returned no job listings for language $langcode. Skipping the $langcode cleanup.");
+        if (!in_array($langcode, $skipLanguage)) {
+          $skipLanguage[] = $langcode;
+        }
+      }
+    }
+
     foreach ($jobListings as $jobListing) {
       assert($jobListing instanceof JobListing);
+      $recruitmentId = $jobListing->getRecruitmentId();
+      $langcode = $jobListing->language()->getId();
+
+      if (in_array($langcode, $skipLanguage)) {
+        continue;
+      }
 
       // The job listing should be deleted if it is not present in the API.
-      if ($this->isJobListingRemovedFromHelbit($jobListing)) {
-        $recruitmentId = $jobListing->getRecruitmentId();
-
+      if (!isset(self::$jobListingCache[$langcode][$recruitmentId])) {
         foreach ($jobListing->getTranslationLanguages() as $language) {
           // Clean up the migration map entry.
           $idMap?->delete([$recruitmentId, $language->getId()]);
         }
 
         $jobListing->delete();
-
         $count += 1;
       }
     }
@@ -102,43 +126,6 @@ final class JobListingCleaner {
     catch (\Exception) {
       return NULL;
     }
-  }
-
-  /**
-   * Check if the given job listing has been removed from Helbit.
-   *
-   * @param \Drupal\helfi_rekry_content\Entity\JobListing $jobListing
-   *   Job listing entity.
-   *
-   * @return bool
-   *   TRUE if the job listing is no longer present in the Helbit API.
-   */
-  private function isJobListingRemovedFromHelbit(JobListing $jobListing): bool {
-    $language = $jobListing->language();
-    $langcode = $language->getId();
-
-    if (empty(self::$jobListingCache[$langcode])) {
-      try {
-        if (empty($results = $this->client->getJobListings($langcode))) {
-          // Empty response, we don't know if this entity is deleted.
-          return FALSE;
-        }
-      }
-      catch (HelbitException) {
-        // API error, we don't know if this entity is deleted.
-        return FALSE;
-      }
-
-      // Collect job listing ids into static variable.
-      foreach ($results as $result) {
-        if ($id = $result['jobAdvertisement']['id'] ?? FALSE) {
-          self::$jobListingCache[$langcode][$id] = TRUE;
-        }
-      }
-    }
-
-    // The listing is removed when the API did not return its recruitment id.
-    return !isset(self::$jobListingCache[$langcode][$jobListing->getRecruitmentId()]);
   }
 
   /**
@@ -170,6 +157,22 @@ final class JobListingCleaner {
       ->range(0, JobListingCleaner::BATCH_SIZE)
       ->sort('field_publication_ends', 'ASC')
       ->execute();
+  }
+
+  /**
+   * Fetch and cache existing job listings by language.
+   */
+  private function fetchHelbitJobListings(): void {
+    foreach (['fi', 'en', 'sv'] as $langcode) {
+      $results = $this->client->getJobListings($langcode);
+
+      foreach ($results as $result) {
+        $id = $result['jobAdvertisement']['id'];
+        if ($id) {
+          self::$jobListingCache[$langcode][$id] = TRUE;
+        }
+      }
+    }
   }
 
   /**

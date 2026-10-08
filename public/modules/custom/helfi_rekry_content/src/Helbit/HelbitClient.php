@@ -42,6 +42,7 @@ class HelbitClient implements LoggerAwareInterface {
   public function getJobListings(string $language, array $query = []): array {
     $jobListings = [];
 
+    // Only testing and local has multiple clients.
     foreach ($this->config->clients as $environment) {
       try {
         $response = $this->makeRequest($environment, '/open-jobs', [
