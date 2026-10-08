@@ -96,7 +96,12 @@ class HelbitClient implements LoggerAwareInterface {
     $options['query']['client'] = $environment->clientId;
     $baseUrl = $environment->baseUrl;
 
-    $response = $this->client->request('GET', "$baseUrl/portal-api/recruitment/v2.3$endpoint", $options);
+    try {
+      $response = $this->client->request('GET', "$baseUrl/portal-api/recruitment/v2.3$endpoint", $options);
+    }
+    catch (\Exception $e) {
+      throw new HelbitException($e->getMessage());
+    }
 
     $result = json_decode($response->getBody()->getContents(), TRUE);
     if (!is_array($result)) {
