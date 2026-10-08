@@ -156,13 +156,13 @@ final class JobListingCleaner implements LoggerAwareInterface {
    * Fetch and cache existing job listings by language.
    */
   private function fetchHelbitJobListings(): void {
-    foreach(['fi', 'en', 'sv'] as $langcode) {
+    foreach (['fi', 'en', 'sv'] as $langcode) {
       $results = $this->client->getJobListings($langcode);
       if (!$results) {
         continue;
       }
 
-      foreach($results as $result) {
+      foreach ($results as $result) {
         $id = $result['jobAdvertisement']['id'];
         if ($id) {
           self::$jobListingCache[$langcode][$id] = TRUE;
