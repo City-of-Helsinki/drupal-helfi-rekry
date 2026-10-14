@@ -78,7 +78,7 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
       throw new \Exception('Stopping the migration. No finnish job listings found.');
     }
 
-    foreach($langcodes as $langcode) {
+    foreach ($langcodes as $langcode) {
       if (isset($fieldsArray[$langcode])) {
         yield from $fieldsArray[$langcode];
       }
