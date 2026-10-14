@@ -38,13 +38,6 @@ final class JobListingCleaner implements LoggerAwareInterface {
    */
   private const string MIGRATION_ID = 'helfi_rekry_jobs';
 
-  /**
-   * Known job listings.
-   *
-   * @var array<string, array<string, bool>>
-   */
-  private static array $jobListingCache = [];
-
   public function __construct(
     private readonly HelbitClient $client,
     private readonly MigrationPluginManagerInterface $migrationPluginManager,
@@ -68,7 +61,7 @@ final class JobListingCleaner implements LoggerAwareInterface {
     $idMap = $this->getMigrationIdMap();
 
     try {
-      $this->fetchHelbitJobListings();
+      $fetchedJobListings = $this->fetchHelbitJobListings();
     }
     catch (\Exception $e) {
       // Stop if the job fetching fails.
@@ -79,7 +72,7 @@ final class JobListingCleaner implements LoggerAwareInterface {
     // It's not safe to delete job listings if the API return no job listings.
     $skipLanguage = [];
     foreach (['fi', 'en', 'sv'] as $langcode) {
-      if (!isset(self::$jobListingCache[$langcode]) || empty(self::$jobListingCache[$langcode])) {
+      if (empty($fetchedJobListings[$langcode])) {
         $this->logger->alert("Helbit returned no job listings for language $langcode. Skipping the $langcode cleanup.");
         if (!in_array($langcode, $skipLanguage)) {
           $skipLanguage[] = $langcode;
@@ -97,7 +90,7 @@ final class JobListingCleaner implements LoggerAwareInterface {
       }
 
       // The job listing should be deleted if it is not present in the API.
-      if (!isset(self::$jobListingCache[$langcode][$recruitmentId])) {
+      if (!isset($fetchedJobListings[$langcode][$recruitmentId])) {
         foreach ($jobListing->getTranslationLanguages() as $language) {
           // Clean up the migration map entry.
           $idMap?->delete([$recruitmentId, $language->getId()]);
@@ -162,17 +155,20 @@ final class JobListingCleaner implements LoggerAwareInterface {
   /**
    * Fetch and cache existing job listings by language.
    */
-  private function fetchHelbitJobListings(): void {
+  private function fetchHelbitJobListings(): array {
+    $jobListings = [];
     foreach (['fi', 'en', 'sv'] as $langcode) {
       $results = $this->client->getJobListings($langcode);
 
       foreach ($results as $result) {
         $id = $result['jobAdvertisement']['id'];
         if ($id) {
-          self::$jobListingCache[$langcode][$id] = TRUE;
+         $jobListingCache[$langcode][$id] = TRUE;
         }
       }
     }
+
+    return $jobListings;
   }
 
   /**
