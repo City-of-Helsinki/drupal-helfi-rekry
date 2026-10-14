@@ -163,7 +163,7 @@ final class JobListingCleaner implements LoggerAwareInterface {
       foreach ($results as $result) {
         $id = $result['jobAdvertisement']['id'];
         if ($id) {
-         $jobListingCache[$langcode][$id] = TRUE;
+          $jobListings[$langcode][$id] = TRUE;
         }
       }
     }
