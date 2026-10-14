@@ -50,20 +50,20 @@ class HelbitClient implements LoggerAwareInterface {
             'lang' => $this->getHelbitLangcode($language),
           ],
         ]);
+        if (
+          !isset($response['status']) ||
+          $response['status'] !== 'OK'
+        ) {
+          throw new HelbitException('Failed retrieving data from Helbit. Response status missing or not OK. Status:' . $response['status'] ?? '-');
+        }
 
-        if ($response['status'] === 'OK') {
-          // Insert current environment URL into each application.
-          if (isset($response['jobAdvertisements'])) {
-            foreach ($response['jobAdvertisements'] as &$job) {
-              $job['baseUrl'] = $environment->baseUrl;
-            }
+        // Insert current environment URL into each application.
+        if (isset($response['jobAdvertisements'])) {
+          foreach ($response['jobAdvertisements'] as &$job) {
+            $job['baseUrl'] = $environment->baseUrl;
           }
-
-          $jobListings = array_merge($jobListings, $response['jobAdvertisements'] ?? []);
         }
-        else {
-          throw new HelbitException('Failed retrieving data from Helbit. Request failed with code: ' . ($response['status'] ?? ''));
-        }
+        $jobListings = array_merge($jobListings, $response['jobAdvertisements'] ?? []);
       }
       catch (RequestException | GuzzleException $e) {
         throw new HelbitException('Failed retrieving data from Helbit. Request failed with code: ' . $e->getCode(), previous: $e);
