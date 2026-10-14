@@ -139,6 +139,9 @@ final class JobListingCleaner implements LoggerAwareInterface {
 
   /**
    * Fetch and cache existing job listings by language.
+   *
+   * @return array<mixed>
+   *   The job listings.
    */
   private function fetchHelbitJobListings(): array {
     $jobListings = [];
