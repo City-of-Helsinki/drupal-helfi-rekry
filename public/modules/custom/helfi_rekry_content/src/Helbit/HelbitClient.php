@@ -54,7 +54,7 @@ class HelbitClient implements LoggerAwareInterface {
           !isset($response['status']) ||
           $response['status'] !== 'OK'
         ) {
-          $status = isset($response['status']) ? $response['status'] : '-';
+          $status = $response['status'] ?? '-';
           throw new HelbitException('Failed retrieving data from Helbit. Response status missing or not OK. Status:' . $status);
         }
 
