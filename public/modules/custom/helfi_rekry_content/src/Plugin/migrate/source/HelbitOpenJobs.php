@@ -49,9 +49,11 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
     $langcodes = $this->configuration['langcodes'] ?? ['fi', 'sv', 'en'];
 
     $query = [];
-
+    $fieldsArray = [];
     foreach ($langcodes as $langcode) {
-      foreach ($this->helbit->getJobListings($langcode, $query) as $row) {
+      $jobListings = $this->helbit->getJobListings($langcode, $query);
+
+      foreach ($jobListings as $row) {
         $fields = $this->getFieldsFromRow($row) + [
           'langcode' => $langcode,
         ];
@@ -65,7 +67,20 @@ final class HelbitOpenJobs extends SourcePluginBase implements ContainerFactoryP
           }
         }
 
-        yield $fields;
+        $fieldsArray[$langcode][] = $fields;
+      }
+    }
+
+    // Stop the migration if finnish result set is empty. Empty result set
+    // would mean that the existing job listings would be unpublished by
+    // the HideMissingSubscriber.
+    if (empty($fieldsArray['fi'])) {
+      throw new \Exception('Stopping the migration. No finnish job listings found.');
+    }
+
+    foreach ($langcodes as $langcode) {
+      if (isset($fieldsArray[$langcode])) {
+        yield from $fieldsArray[$langcode];
       }
     }
   }
