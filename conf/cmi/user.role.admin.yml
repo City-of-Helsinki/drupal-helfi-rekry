@@ -19,7 +19,6 @@ dependencies:
     - taxonomy.vocabulary.organization
     - taxonomy.vocabulary.task_area
   module:
-    - ai
     - block
     - config_translation
     - content_lock
@@ -34,6 +33,7 @@ dependencies:
     - helfi_hakuvahti
     - helfi_recommendations
     - helfi_search
+    - helfi_users
     - locale
     - media
     - menu_link_attributes
@@ -158,7 +158,6 @@ permissions:
   - 'edit terms in keywords'
   - 'edit terms in organization'
   - 'edit terms in task_area'
-  - 'manage ai prompts'
   - 'mark as hidden in editoria11y'
   - 'rebuild node access permissions'
   - 'revert all revisions'
@@ -189,6 +188,7 @@ permissions:
   - 'update content translations'
   - 'update linkedevents_event external entity'
   - 'update media'
+  - 'use favorites'
   - 'use helfi ai summary'
   - 'use helfi ai title suggestion'
   - 'use helfi ai tone check'
