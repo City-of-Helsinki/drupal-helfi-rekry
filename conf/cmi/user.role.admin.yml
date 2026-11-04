@@ -19,7 +19,6 @@ dependencies:
     - taxonomy.vocabulary.organization
     - taxonomy.vocabulary.task_area
   module:
-    - ai
     - block
     - config_translation
     - content_lock
@@ -159,7 +158,6 @@ permissions:
   - 'edit terms in keywords'
   - 'edit terms in organization'
   - 'edit terms in task_area'
-  - 'manage ai prompts'
   - 'mark as hidden in editoria11y'
   - 'rebuild node access permissions'
   - 'revert all revisions'
