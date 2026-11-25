@@ -64,8 +64,7 @@ class HakuvahtiEventSubscriberTest extends RekryKernelTestBase {
       'siteId' => 'rekry',
       'query' => '?query=123&parameters=4567',
       'elasticQuery' => 'this-is_the_base64_encoded_elasticsearch_query',
-      'searchDescription' => 'Original description',
-    ]));
+    ], 'Original description'));
 
     $dispatcher = $this->container->get(EventDispatcherInterface::class);
     $dispatcher->dispatch($event);

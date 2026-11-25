@@ -7,7 +7,6 @@ namespace Drupal\helfi_rekry_content\EventSubscriber;
 use Drupal\Component\Utility\Unicode;
 use Drupal\helfi_hakuvahti\Event\SubscriptionAlterEvent;
 use Drupal\helfi_hakuvahti\Event\SubscriptionEvent;
-use Drupal\helfi_hakuvahti\HakuvahtiRequest;
 use Drupal\helfi_rekry_content\Service\HakuvahtiTracker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -57,9 +56,7 @@ readonly class HakuvahtiSubscriptionSubscriber implements EventSubscriberInterfa
       }
     }
 
-    $event->setHakuvahtiRequest(new HakuvahtiRequest(array_merge((array) $request, [
-      'searchDescription' => implode(', ', array_filter($parts)),
-    ])));
+    $event->setHakuvahtiRequest($request->withSearchDescription(implode(', ', array_filter($parts))));
   }
 
   /**
