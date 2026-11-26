@@ -13,14 +13,6 @@ $config['helfi_rekry_content.settings']['helbit_clients'] = [
   ],
 ];
 
-// Enable helbit test environment if HELBIT_TEST_CLIENT_ID is set.
-if (getenv('HELBIT_TEST_CLIENT_ID')) {
-  $config['helfi_rekry_content.settings']['helbit_clients'][] = [
-    'client_id' => getenv('HELBIT_TEST_CLIENT_ID'),
-    'base_url' => 'https://testhelbit.fi',
-  ];
-}
-
 // Elastic proxy URL.
 $config['elastic_proxy.settings']['elastic_proxy_url'] = getenv('ELASTIC_PROXY_URL');
 
